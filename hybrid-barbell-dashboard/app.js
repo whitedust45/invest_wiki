@@ -119,6 +119,11 @@ let dailyHistorySyncing = false;
 const ledgerFilters = {};
 let ledgerMirrorTimer = null;
 let pendingLedgerMirror = null;
+let ledgerBackupState = {
+  status: "idle",
+  backups: [],
+  message: "尚未读取 SQLite 备份状态"
+};
 let localServiceGuideVisible = window.location.protocol === "file:";
 let localServiceGuideReason = window.location.protocol === "file:" ? "file" : "";
 let localServiceGuideDismissed = false;
@@ -486,16 +491,29 @@ function scheduleLedgerMirror(ledger) {
   }, 300);
 }
 
+async function postLedgerSnapshot(ledger, timeoutMs = 1800) {
+  const response = await fetchWithTimeout(ledgerApiPath, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(normalizeLedgerForStorage(ledger)),
+    keepalive: true
+  }, timeoutMs);
+  if (!response.ok) throw new Error(`HTTP ${response.status}`);
+  return response.json();
+}
+
 async function mirrorLedgerSnapshot(ledger) {
   if (!ledgerServiceAvailable() || !ledger) return;
   try {
-    const response = await fetchWithTimeout(ledgerApiPath, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(normalizeLedgerForStorage(ledger)),
-      keepalive: true
-    }, 1800);
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    const payload = await postLedgerSnapshot(ledger);
+    if (payload && payload.snapshot) {
+      ledgerBackupState = {
+        ...ledgerBackupState,
+        status: "ready",
+        message: `刚刚已自动镜像 #${payload.snapshot.id}`
+      };
+      renderLedgerBackupPanel();
+    }
   } catch {
     // SQLite is only a best-effort local mirror; localStorage remains primary.
   }
@@ -530,6 +548,171 @@ async function offerLedgerBackupRestore() {
   saveLedger(ledger);
   render();
   showToast(`已从 SQLite 备份恢复 ${count} 笔流水`, "success");
+}
+
+async function fetchLedgerBackups(limit = 8) {
+  if (!ledgerServiceAvailable()) throw new Error("local service unavailable");
+  const response = await fetchWithTimeout(`/api/ledger/backups?limit=${limit}&ts=${Date.now()}`, { cache: "no-store" }, 1800);
+  if (!response.ok) throw new Error(`HTTP ${response.status}`);
+  const payload = await response.json();
+  if (!payload || payload.ok !== true || !Array.isArray(payload.backups)) throw new Error("invalid backup payload");
+  return payload.backups;
+}
+
+async function fetchLedgerSnapshotById(snapshotId) {
+  const response = await fetchWithTimeout(`${ledgerApiPath}?id=${encodeURIComponent(snapshotId)}&ts=${Date.now()}`, { cache: "no-store" }, 1800);
+  if (!response.ok) throw new Error(`HTTP ${response.status}`);
+  const payload = await response.json();
+  if (!payload || payload.empty || !payload.snapshot || !payload.snapshot.ledger) throw new Error("snapshot unavailable");
+  return payload.snapshot;
+}
+
+function latestBackupLabel() {
+  const latest = ledgerBackupState.backups[0];
+  if (!latest) return "暂无快照";
+  return `#${latest.id} · ${displayDateTime(latest.created_at)}`;
+}
+
+function ledgerBackupRows() {
+  if (ledgerBackupState.status === "loading") return `<p class="notice">正在读取 SQLite 快照...</p>`;
+  if (ledgerBackupState.status === "error") return `<p class="notice">${escapeHtml(ledgerBackupState.message)}</p>`;
+  if (!ledgerBackupState.backups.length) return `<p class="notice">还没有 SQLite 快照。通过本地服务打开页面后，保存账本会自动生成。</p>`;
+  return `
+    <div class="backup-list">
+      ${ledgerBackupState.backups.map((backup) => `
+        <div class="backup-row">
+          <div>
+            <strong>#${escapeHtml(backup.id)}</strong>
+            <span>${escapeHtml(displayDateTime(backup.created_at))} · ${escapeHtml(String(backup.entries_count || 0))} 笔流水</span>
+          </div>
+          <button class="small-action" type="button" data-action="restore-ledger-backup" data-backup-id="${escapeHtml(backup.id)}">恢复</button>
+        </div>
+      `).join("")}
+    </div>
+  `;
+}
+
+function ledgerBackupPanel(ledger) {
+  const serviceReady = ledgerServiceAvailable();
+  const mirrorText = serviceReady ? latestBackupLabel() : "未连接";
+  const message = serviceReady
+    ? ledgerBackupState.message
+    : "当前不是本地服务入口；双击 HTML 或普通静态服务不会写入 SQLite。";
+  return `
+    <section class="backup-panel" id="ledgerBackupPanel">
+      <div class="section-head">
+        <h2>本地备份</h2>
+        <span>localStorage 主存 / SQLite 镜像</span>
+      </div>
+      <div class="backup-summary">
+        <article>
+          <span>浏览器账本</span>
+          <strong>${escapeHtml(String(ledger.entries.length))} 笔</strong>
+          <small>当前浏览器 localStorage</small>
+        </article>
+        <article>
+          <span>SQLite 镜像</span>
+          <strong>${escapeHtml(mirrorText)}</strong>
+          <small>${escapeHtml(message)}</small>
+        </article>
+      </div>
+      <div class="inline-actions backup-actions">
+        <button type="button" data-action="manual-ledger-backup">立即镜像备份</button>
+        <button type="button" data-action="refresh-ledger-backups">刷新备份列表</button>
+        <button type="button" data-action="open-service-url">打开本地服务入口</button>
+      </div>
+      ${ledgerBackupRows()}
+      <p class="notice">推荐从 <code>${escapeHtml(dashboardServiceUrl())}</code> 打开页面。无服务时仍可正常记账，但不会更新 SQLite 镜像。</p>
+    </section>
+  `;
+}
+
+function renderLedgerBackupPanel() {
+  const panel = document.querySelector("#ledgerBackupPanel");
+  if (!panel) return;
+  panel.outerHTML = ledgerBackupPanel(loadLedger());
+}
+
+async function refreshLedgerBackups(options = {}) {
+  if (!ledgerServiceAvailable()) {
+    ledgerBackupState = {
+      status: "error",
+      backups: [],
+      message: "未连接本地服务；请先运行启动命令并从本地服务入口打开。"
+    };
+    renderLedgerBackupPanel();
+    return;
+  }
+  ledgerBackupState = { ...ledgerBackupState, status: "loading", message: "正在读取 SQLite 快照..." };
+  renderLedgerBackupPanel();
+  try {
+    const backups = await fetchLedgerBackups();
+    ledgerBackupState = {
+      status: "ready",
+      backups,
+      message: backups.length ? `已读取 ${backups.length} 个最近快照` : "SQLite 已连接，但暂无快照"
+    };
+    renderLedgerBackupPanel();
+    if (!options.silent) showToast("已刷新 SQLite 备份列表", "success");
+  } catch {
+    ledgerBackupState = {
+      status: "error",
+      backups: [],
+      message: "读取 SQLite 备份失败；请确认使用 python3 scripts/serve_dashboard.py 启动。"
+    };
+    renderLedgerBackupPanel();
+    if (!options.silent) {
+      showLocalServiceGuide("ledger");
+      showToast("读取 SQLite 备份失败", "error");
+    }
+  }
+}
+
+async function manualLedgerBackup() {
+  if (!ledgerServiceAvailable()) {
+    showLocalServiceGuide("ledger");
+    ledgerBackupState = {
+      status: "error",
+      backups: [],
+      message: "未连接本地服务，无法写入 SQLite。"
+    };
+    renderLedgerBackupPanel();
+    showToast("请先启动本地服务再手动备份", "error");
+    return;
+  }
+  ledgerBackupState = { ...ledgerBackupState, status: "loading", message: "正在写入 SQLite 快照..." };
+  renderLedgerBackupPanel();
+  try {
+    await postLedgerSnapshot(loadLedger(), 3500);
+    showToast("已写入 SQLite 快照", "success");
+    await refreshLedgerBackups({ silent: true });
+  } catch {
+    ledgerBackupState = {
+      status: "error",
+      backups: ledgerBackupState.backups,
+      message: "写入 SQLite 失败；请确认本地服务仍在运行。"
+    };
+    renderLedgerBackupPanel();
+    showLocalServiceGuide("ledger");
+    showToast("SQLite 手动备份失败", "error");
+  }
+}
+
+async function restoreLedgerBackup(snapshotId) {
+  if (!snapshotId) return;
+  let snapshot;
+  try {
+    snapshot = await fetchLedgerSnapshotById(snapshotId);
+  } catch {
+    showToast("读取该 SQLite 快照失败", "error");
+    return;
+  }
+  const ledger = normalizeLedgerForStorage(snapshot.ledger);
+  if (!confirmDanger(`确认用 SQLite 快照 #${snapshot.id} 覆盖当前浏览器账本？当前 localStorage 会被替换，SQLite 历史仍保留。`)) return;
+  saveLedger(ledger);
+  render();
+  await refreshLedgerBackups({ silent: true });
+  showToast(`已恢复快照 #${snapshot.id}，共 ${ledger.entries.length} 笔流水`, "success");
 }
 
 function saveSettings(partial) {
@@ -1362,6 +1545,7 @@ function renderOverview(subpage = "full") {
         <span id="saveState">本地保存</span>
       </div>
       ${settingsForm(ledger.settings)}
+      ${ledgerBackupPanel(ledger)}
     </section>
 
     ${targetProgressPanel(data, calc)}
@@ -3713,6 +3897,18 @@ document.addEventListener("click", (event) => {
       showToast("已收起本地服务引导", "info");
       return;
     }
+    if (action.dataset.action === "refresh-ledger-backups") {
+      refreshLedgerBackups();
+      return;
+    }
+    if (action.dataset.action === "manual-ledger-backup") {
+      manualLedgerBackup();
+      return;
+    }
+    if (action.dataset.action === "restore-ledger-backup") {
+      restoreLedgerBackup(action.dataset.backupId);
+      return;
+    }
     if (action.dataset.action === "adopt-pb") {
       const value = Number(action.dataset.pbValue);
       if (!Number.isFinite(value)) return;
@@ -3888,6 +4084,7 @@ window.addEventListener("resize", () => {
 async function bootstrap() {
   render();
   await offerLedgerBackupRestore();
+  refreshLedgerBackups({ silent: true });
   loadValuationJson({ silent: true, render: true });
   syncDailyHistory({ render: true });
 }

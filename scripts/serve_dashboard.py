@@ -73,6 +73,19 @@ def read_latest_ledger_snapshot() -> dict | None:
         row = conn.execute(
             "SELECT id, created_at, payload_json FROM snapshots ORDER BY id DESC LIMIT 1"
         ).fetchone()
+    return ledger_snapshot_from_row(row)
+
+
+def read_ledger_snapshot(snapshot_id: int) -> dict | None:
+    with connect_ledger_db() as conn:
+        row = conn.execute(
+            "SELECT id, created_at, payload_json FROM snapshots WHERE id = ?",
+            (snapshot_id,),
+        ).fetchone()
+    return ledger_snapshot_from_row(row)
+
+
+def ledger_snapshot_from_row(row: tuple | None) -> dict | None:
     if row is None:
         return None
     return {
@@ -195,8 +208,14 @@ class DashboardHandler(SimpleHTTPRequestHandler):
         return json.loads(raw_body.decode("utf-8"))
 
     def handle_get_ledger(self) -> None:
+        query = parse_qs(urlsplit(self.path).query)
         try:
-            snapshot = read_latest_ledger_snapshot()
+            snapshot_id = int(query["id"][0]) if "id" in query else None
+        except (TypeError, ValueError):
+            self.send_json(HTTPStatus.BAD_REQUEST, {"ok": False, "error": "invalid snapshot id"})
+            return
+        try:
+            snapshot = read_ledger_snapshot(snapshot_id) if snapshot_id is not None else read_latest_ledger_snapshot()
         except (OSError, sqlite3.Error, json.JSONDecodeError) as error:
             self.send_json(HTTPStatus.INTERNAL_SERVER_ERROR, {"ok": False, "error": str(error)})
             return

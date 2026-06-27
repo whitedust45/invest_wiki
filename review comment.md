@@ -14,21 +14,10 @@ ID 跨轮稳定。status: OPEN | FIXED | PARTIAL | REGRESSED。
 - P2-10 导航默认: 一级 data-subpage full→overview/charts。实测点高分红→「模块概览」。
 - P2-11 失败指引: localServiceGuidePanel 三步引导(启动服务/打开入口/更新价格JSON)+可复制命令+「暂时收起」。R4 补 localServiceGuideDismissed 持久标志。实测状态机: 显示→收起→重渲染保持隐藏→新失败可重显。
 - P2-13 编辑滚动高亮: focusEntryFormForEdit() scrollIntoView+edit-highlight(1.8s)。CSS 已确认。
+- P1-6 必填校验: 按动作校验,buy 缺数量/价格被拦、补齐放行(实测 blocked→放行)。
+- P1-8 PB手动优先(R5方向已返工): applyValuation 仅 source==="auto" 才覆盖; manual 保留; 加「用自动值 X%」采纳按钮。实测: 手填25读JSON(88)保留25✅ / auto被88覆盖✅ / 点采纳 manual→auto 取88✅。
 
 ## OPEN (用户已定口径 2026-06-27,fixer 可执行)
-
-### P1-6 必填校验缺失 [status: OPEN | 决策:需要校验]
-- 用户决策: 需要校验。按动作类型设必填。
-- loc: `app.js` entryForm 提交校验 (当前仅 日期/金额 required)
-- fix: 提交时按动作校验必填,缺失则阻止提交+高亮+toast。建议规则: buy/sell→标的(symbol或name)+数量+价格+金额; deposit/withdraw→金额; dividend/interest→标的+金额; margin/roll→金额; internal_in/out→金额。
-- accept: 缺关键字段时阻止提交并高亮对应字段; 不同动作必填项不同。
-
-### P1-8 PB手填被JSON静默覆盖 [status: OPEN | 决策:手动优先]
-- 用户决策: 手动优先。手填 PB 后,读取 JSON/API 不得覆盖手工值。
-- ⚠️ fixer 当前实现方向相反: R5 做成"自动 JSON 覆盖手工值+toast 提示"(pbSourceBadge 已加,实测显示「手工」标签)。需改为手动优先。
-- loc: `app.js` 读取估值 JSON / 本地 API 回填 settings.icPb/imPb; pbSourceBadge / icPbSource / imPbSource
-- fix: 当 icPbSource/imPbSource === "manual" 时,JSON/API 的 pb_percentile 不覆盖,仅在 source 为 auto 或值为空时才回填。保留 badge 区分手工/自动。可加"用自动值"按钮供用户主动采纳。
-- accept: 手填 PB 后点读取 JSON,手工值保持不变,badge 仍显示「手工」; 用户主动点采纳才变自动。
 
 ### P2-9 双端信息架构割裂 [status: OPEN | 决策:手机版加]
 - 用户决策: 手机版要加(二级导航/锚点)。
@@ -64,16 +53,13 @@ ID 跨轮稳定。status: OPEN | FIXED | PARTIAL | REGRESSED。
 - 非目标: 多端实时同步(纯本地做不到,不做); 云存储(用户明确拒绝)。
 - 主体进度: fixer 已实现后端(sqlite3/snapshots 表/GET+POST+backups)+前端(mirrorLedgerSnapshot/offerLedgerBackupRestore)。reviewer 实测: 镜像✅(录4笔→ledger.db 4快照,字段金额正确)、恢复✅(清 localStorage+sessionStorage 后刷新,46.2万数据完整恢复)。遗留子缺陷见 P3-1a。
 
-### P3-1a 恢复提示去重过度,边界场景漏触发 [status: OPEN]
-- loc: `app.js` offerLedgerBackupRestore() — `if (sessionStorage.getItem(ledgerBackupPromptKey)) return;`(约 L519)
-- bug: 用 sessionStorage 标志"本会话已提示过",导致同标签页内 localStorage 被清空但 sessionStorage 仍在时(DevTools 手删、部分清理插件只清 localStorage、或同会话二次清空),刷新后不再提示恢复,页面显示空账本,用户误以为数据已丢(实际 SQLite 仍有)。reviewer 实测复现: 仅清 localStorage→刷新→无恢复提示→空账本; 同时清 sessionStorage 才正常。
-- 影响面: 真实换浏览器/换设备不受影响(新会话 sessionStorage 本就空),属次要 bug,但易造成"数据丢了"的错觉。
-- fix: 去重不要用"提示过就不再提示"。改为幂等触发——只要 localStorage 为空且 SQLite 有数据就提示恢复; 仅当用户"明确点了取消"才在本会话内不再弹(可保留 sessionStorage 但只在取消分支写入,accept 分支或未操作不写)。
-- accept: 清空 localStorage(不论 sessionStorage 是否清)后刷新,只要 SQLite 有备份即触发恢复提示; 用户点取消后本会话不再重复弹; 换会话仍会再次提示。
-- 非目标: 不改变"localStorage 主存"架构; 恢复仍需用户确认,不静默覆盖。
+### P3-1a 恢复提示去重过度,边界场景漏触发 [status: FIXED 实测]
+- fix: offerLedgerBackupRestore() 去重改为幂等——L519 只在 `=== "cancelled"` 才跳过; L526 仅用户点取消时写 cancelled; L529 恢复成功清标志。
+- reviewer 实测(R7 base=`8cd486ac`): ①注入残留旧标志"1"+仅清 localStorage→刷新→仍成功恢复3笔(五粮液24/国债利息0.8/国债买入30),标志被清。②点取消→写入 cancelled→同会话二次调用不再弹(confirm 仅1次)。全 accept 通过。
+- 顺带验证 P1-6 校验生效: 债券 buy 缺数量/价格被拦(blocked,localStorage 不增); 补齐数量价格后放行(2→3笔)。
 
 ## 整改顺序
-P1-8(改手动优先,修正 R5 方向) > P1-6(按动作校验) > P3-1a(恢复去重 bug,小修) > P2-9(手机版二级导航)。P3-1 主体已完成。P2-12 关闭(WONTFIX)。
+仅剩 P2-9(手机版二级导航)。P1-6/P1-8/P3-1/P3-1a 已完成并实测通过。P2-12 关闭(WONTFIX)。
 
 ## LOG
 - R1 base=`35254327`: 建 13 项(P0×3/P1×5/P2×5) 全 OPEN。
@@ -85,3 +71,5 @@ P1-8(改手动优先,修正 R5 方向) > P1-6(按动作校验) > P3-1a(恢复去
 - R5+ 用户定口径: P1-6 需校验 / P1-8 手动优先 / P2-9 手机版加 / P2-12 不拆(WONTFIX)。已写入 OPEN 区供 fixer 执行。另提数据库议题 Q1(待澄清)。
 - R5++ 数据库定方案: 用户选 纯本地 + SQLite + B镜像备份模式(localStorage 主存,服务可用时镜像到 ledger.db),痛点=怕丢数据。Q1 转为 P3-1 规格(含约束/API/accept),交 fixer 实现。
 - R6 base=`6ae3850e`: fixer 实现 P3-1(后端 sqlite3 + 前端镜像/恢复)。reviewer 端到端实测: 镜像✅ + 恢复✅(46.2万数据完整回来)。发现子缺陷 P3-1a(恢复提示 sessionStorage 去重过度,清 localStorage 但 sessionStorage 残留时漏触发),已记录交 fixer 小修。
+- R7 base=`8cd486ac`: fixer 修 P3-1a(去重改幂等,只认 cancelled)+ 已实现 P1-6 校验。reviewer 实测: P3-1a 全 accept 通过(残留标志不再误挡恢复 / 取消后不再重弹); P1-6 买入缺数量价格被拦、补齐放行。当前仅 P1-8(返工手动优先)/ P2-9(手机版)待办。
+- R8(同 base `8cd486ac`): reviewer 复验 P1-8 返工。fixer 已把 R5「自动优先」改为「手动优先」(applyValuation 仅 source==auto 覆盖)+ 加「用自动值」采纳按钮。实测全 accept: 手填25读JSON保留25 / auto被覆盖 / 点采纳 manual→auto。P1-8 FIXED。剩唯一 OPEN=P2-9(手机版)。

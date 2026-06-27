@@ -826,6 +826,67 @@ select:focus {
   gap: 8px;
 }
 
+.backup-panel {
+  display: grid;
+  gap: 12px;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(222, 216, 207, 0.82);
+}
+
+.backup-summary {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.backup-summary article,
+.backup-row {
+  padding: 11px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: #fffdfa;
+}
+
+.backup-summary article {
+  display: grid;
+  gap: 4px;
+}
+
+.backup-summary span,
+.backup-summary small,
+.backup-row span {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.backup-summary strong {
+  color: var(--ink);
+  font-size: 16px;
+}
+
+.backup-actions {
+  justify-content: flex-start;
+}
+
+.backup-list {
+  display: grid;
+  gap: 8px;
+}
+
+.backup-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: center;
+}
+
+.backup-row > div {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+
 .ledger-tools {
   display: grid;
   grid-template-columns: minmax(180px, 1.2fr) minmax(130px, 0.7fr) minmax(130px, 0.7fr) auto;
@@ -2020,6 +2081,15 @@ li {
   .data-card-grid,
   .service-guide-grid {
     grid-template-columns: 1fr;
+  }
+
+  .backup-summary,
+  .backup-row {
+    grid-template-columns: 1fr;
+  }
+
+  .backup-row button {
+    justify-self: start;
   }
 
   .settings-grid,
