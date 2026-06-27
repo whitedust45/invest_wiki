@@ -1,0 +1,57 @@
+{
+  "generated_at": "2026-06-26T06:52:51.105062+00:00",
+  "source": {
+    "name": "Ashare-compatible",
+    "primary": "Sina hq.sinajs.cn",
+    "fallback": "Tencent qt.gtimg.cn",
+    "us": "Yahoo finance chart, converted by USD/CNY",
+    "reference": "https://github.com/mpquant/Ashare"
+  },
+  "quotes": {
+    "000568": {
+      "symbol": "000568",
+      "name": "泸州老窖",
+      "price": 75.36,
+      "source": "新浪A股",
+      "trade_time": "2026-06-26 14:52:45"
+    },
+    "000858": {
+      "symbol": "000858",
+      "name": "五 粮 液",
+      "price": 73.27,
+      "source": "新浪A股",
+      "trade_time": "2026-06-26 14:52:48"
+    },
+    "QQQ": {
+      "symbol": "QQQ",
+      "name": "Invesco QQQ Trust, Series 1",
+      "price": 4862.8589,
+      "raw_price": 716.3800048828125,
+      "raw_currency": "USD",
+      "usd_cny": 6.788099765777588,
+      "source": "Yahoo美股人民币折算",
+      "trade_time": "2026-06-25"
+    },
+    "QLD": {
+      "symbol": "QLD",
+      "name": "ProShares Ultra QQQ",
+      "price": 622.9439,
+      "raw_price": 91.7699966430664,
+      "raw_currency": "USD",
+      "usd_cny": 6.788099765777588,
+      "source": "Yahoo美股人民币折算",
+      "trade_time": "2026-06-25"
+    },
+    "SPY": {
+      "symbol": "SPY",
+      "name": "State Street SPDR S&P 500 ETF T",
+      "price": 4984.5016,
+      "raw_price": 734.2999877929688,
+      "raw_currency": "USD",
+      "usd_cny": 6.788099765777588,
+      "source": "Yahoo美股人民币折算",
+      "trade_time": "2026-06-25"
+    }
+  },
+  "errors": {}
+}

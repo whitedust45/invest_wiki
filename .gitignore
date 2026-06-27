@@ -1,0 +1,13 @@
+# 账本数据库(localStorage 镜像,二进制不入库)
+hybrid-barbell-dashboard/data/ledger.db
+hybrid-barbell-dashboard/data/ledger.db-*
+
+# macOS 系统文件
+.DS_Store
+**/.DS_Store
+
+# Obsidian 本地配置与插件
+.obsidian/
+
+# IDE 配置
+.idea/

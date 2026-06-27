@@ -1,0 +1,653 @@
+:root {
+  color-scheme: light;
+}
+
+body.desktop-browser {
+  background:
+    radial-gradient(circle at top left, rgba(255, 255, 255, 0.75), transparent 28%),
+    linear-gradient(180deg, #faf7f1 0%, #f6f3ed 100%);
+}
+
+.desktop-browser .app-shell {
+  display: grid;
+  grid-template-columns: 292px minmax(0, 1fr);
+  min-height: 100vh;
+  padding-bottom: 0;
+}
+
+.desktop-sidebar {
+  position: sticky;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  height: 100vh;
+  padding: 22px 18px;
+  border-right: 1px solid rgba(222, 216, 207, 0.9);
+  background: linear-gradient(180deg, rgba(255, 253, 248, 0.98) 0%, rgba(242, 237, 230, 0.95) 100%);
+}
+
+.desktop-brand {
+  display: grid;
+  gap: 6px;
+  padding: 4px 10px 8px;
+}
+
+.desktop-brand strong {
+  font-size: 24px;
+  font-weight: 780;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.desktop-brand small {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.desktop-nav {
+  display: grid;
+  flex: 1 1 auto;
+  gap: 8px;
+  min-height: 0;
+  overflow-y: auto;
+  padding-right: 3px;
+}
+
+.desktop-nav-group {
+  display: grid;
+  gap: 6px;
+}
+
+.desktop-nav .nav-item {
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr) auto;
+  align-items: center;
+  justify-items: start;
+  gap: 12px;
+  min-height: 48px;
+  padding: 0 14px;
+  border: 1px solid transparent;
+  border-radius: 14px;
+  color: #726e67;
+  box-shadow: none;
+  font-size: 14px;
+}
+
+.desktop-nav .nav-item:hover {
+  border-color: rgba(15, 106, 122, 0.18);
+  background: rgba(255, 255, 255, 0.78);
+}
+
+.desktop-nav .nav-item > span:nth-child(2) {
+  font-size: 14px;
+  font-weight: 640;
+  white-space: nowrap;
+}
+
+.desktop-nav .nav-item.is-active {
+  border-color: rgba(22, 27, 31, 0.08);
+  background: #fffdfa;
+  color: var(--ink);
+  box-shadow: 0 16px 36px rgba(41, 35, 27, 0.08);
+}
+
+.desktop-nav .nav-item.is-active .nav-icon {
+  border-radius: 10px;
+  background: rgba(15, 106, 122, 0.08);
+}
+
+.desktop-nav-chevron {
+  color: var(--muted);
+  font-size: 18px;
+  line-height: 1;
+  transition: transform 160ms ease;
+}
+
+.desktop-nav-group.is-open .desktop-nav-chevron {
+  transform: rotate(90deg);
+}
+
+.desktop-subnav {
+  display: none;
+  gap: 3px;
+  margin-left: 36px;
+  padding-left: 12px;
+  border-left: 1px solid rgba(222, 216, 207, 0.95);
+}
+
+.desktop-nav-group.is-open .desktop-subnav {
+  display: grid;
+}
+
+.desktop-subitem {
+  display: block;
+  width: 100%;
+  min-height: 30px;
+  padding: 0 10px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--muted);
+  box-shadow: none;
+  text-align: left;
+  font-size: 13px;
+}
+
+.desktop-subitem:hover {
+  background: rgba(255, 255, 255, 0.78);
+  color: var(--ink);
+}
+
+.desktop-subitem.is-active {
+  background: rgba(15, 106, 122, 0.10);
+  color: var(--accent);
+  font-weight: 740;
+}
+
+.desktop-main-shell {
+  min-width: 0;
+  min-height: 100vh;
+}
+
+.desktop-browser .bottom-nav {
+  display: none;
+}
+
+.desktop-browser .app-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  align-items: center;
+  padding: 22px 28px 18px;
+  background: rgba(246, 243, 237, 0.86);
+  backdrop-filter: blur(18px);
+}
+
+.desktop-browser h1 {
+  font-size: 30px;
+  letter-spacing: -0.03em;
+}
+
+.desktop-browser .header-actions {
+  gap: 10px;
+  flex-wrap: nowrap;
+}
+
+.desktop-browser .header-actions button {
+  min-height: 42px;
+  padding: 0 16px;
+  border-radius: 10px;
+}
+
+.desktop-browser .app-main {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 24px 28px 34px;
+  gap: 18px;
+}
+
+.desktop-browser .overview-layout {
+  grid-template-columns: minmax(0, 1.12fr) minmax(320px, 0.88fr);
+  align-items: start;
+}
+
+.desktop-browser .overview-layout .wealth-hero,
+.desktop-browser .overview-layout .overview-onboarding:not(:empty),
+.desktop-browser .overview-layout .metrics-grid,
+.desktop-browser .overview-layout .strategy-grid,
+.desktop-browser .overview-layout .valuation-band,
+.desktop-browser .overview-layout .chart-grid {
+  grid-column: 1 / -1;
+}
+
+.desktop-browser .overview-onboarding:empty {
+  display: none;
+}
+
+.desktop-browser .overview-layout .dashboard-split,
+.desktop-browser .overview-layout .work-grid {
+  grid-column: 1;
+}
+
+.desktop-browser .overview-layout .overview-settings,
+.desktop-browser .overview-layout .target-panel,
+.desktop-browser .overview-layout .decision-panel {
+  grid-column: 2;
+}
+
+.desktop-browser .overview-layout .dashboard-split,
+.desktop-browser .overview-layout .work-grid {
+  grid-template-columns: 1fr;
+}
+
+.desktop-browser .onboarding-steps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.desktop-browser .onboarding-steps article {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #fffdfa;
+}
+
+.desktop-browser .onboarding-steps p {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.desktop-browser .module-overview-layout {
+  gap: 20px;
+}
+
+.desktop-browser .module-overview-layout > .module-hero,
+.desktop-browser .module-overview-layout > .module-dashboard,
+.desktop-browser .module-overview-layout > .module-workbench {
+  min-width: 0;
+}
+
+.desktop-browser .module-overview-layout > .module-dashboard {
+  grid-template-columns: minmax(320px, 1.08fr) repeat(3, minmax(150px, 0.74fr));
+}
+
+.desktop-browser .module-overview-layout > .module-workbench {
+  grid-template-columns: minmax(0, 0.95fr) minmax(480px, 1.05fr);
+  align-items: start;
+}
+
+.desktop-browser .module-overview-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: 18px;
+  align-items: start;
+}
+
+.desktop-browser .module-overview-stack {
+  display: grid;
+  gap: 18px;
+  min-width: 0;
+}
+
+.desktop-browser .overview-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.desktop-browser .overview-actions button:first-child {
+  background: #fffaf1;
+  color: var(--ink);
+}
+
+.desktop-browser .overview-actions button:last-child {
+  border-color: rgba(255, 255, 255, 0.24);
+  background: rgba(255, 255, 255, 0.08);
+  color: #fffaf1;
+}
+
+.desktop-browser .overview-mini-table {
+  min-width: 520px;
+}
+
+.desktop-browser .overview-mini-table td small {
+  display: block;
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.desktop-browser .module-overview-layout .module-side {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  gap: 18px;
+  min-width: 0;
+}
+
+.desktop-browser .module-overview-layout .position-panel {
+  grid-column: 1 / -1;
+}
+
+.desktop-browser .module-overview-layout .module-ledger-panel {
+  min-width: 0;
+}
+
+.desktop-browser .report-overview-layout {
+  gap: 20px;
+}
+
+.desktop-browser .report-overview-layout .report-layout {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.desktop-browser .report-overview-layout .report-chart-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.desktop-browser .report-overview-layout .report-main,
+.desktop-browser .report-overview-layout .report-side {
+  min-width: 0;
+}
+
+.desktop-browser .report-overview-layout .report-side {
+  display: none;
+}
+
+.desktop-browser .panel,
+.desktop-browser .chart-panel,
+.desktop-browser .strategy-card,
+.desktop-browser .focus-card,
+.desktop-browser .visual-card,
+.desktop-browser .account-row,
+.desktop-browser .target-row,
+.desktop-browser .bucket-row,
+.desktop-browser .risk-item,
+.desktop-browser .wealth-hero,
+.desktop-browser .module-hero,
+.desktop-browser table {
+  border-radius: 14px;
+}
+
+.desktop-browser .panel,
+.desktop-browser .chart-panel,
+.desktop-browser .strategy-card,
+.desktop-browser .focus-card,
+.desktop-browser .visual-card,
+.desktop-browser .wealth-hero,
+.desktop-browser .module-hero {
+  box-shadow: 0 18px 38px rgba(41, 35, 27, 0.08);
+}
+
+.desktop-browser .wealth-hero,
+.desktop-browser .module-hero {
+  gap: 24px;
+  padding: 24px 26px;
+}
+
+.desktop-browser .wealth-hero {
+  grid-template-columns: minmax(360px, 0.9fr) minmax(520px, 1.1fr);
+}
+
+.desktop-browser .wealth-hero-main {
+  gap: 14px;
+}
+
+.desktop-browser .wealth-hero-main strong {
+  font-size: clamp(44px, 4vw, 64px);
+}
+
+.desktop-browser .wealth-hero-main p {
+  max-width: 760px;
+}
+
+.desktop-browser .wealth-actions {
+  margin-top: 6px;
+}
+
+.desktop-browser .wealth-actions button {
+  min-height: 42px;
+  padding: 0 16px;
+  border-radius: 10px;
+}
+
+.desktop-browser .wealth-kpis {
+  grid-template-columns: repeat(3, minmax(150px, 1fr));
+  gap: 12px;
+}
+
+.desktop-browser .wealth-kpis > div {
+  padding: 12px 14px;
+  border-radius: 12px;
+}
+
+.desktop-browser .wealth-kpis strong {
+  font-size: 20px;
+}
+
+.desktop-browser .dashboard-split {
+  grid-template-columns: minmax(480px, 1.04fr) minmax(380px, 0.96fr);
+  gap: 18px;
+}
+
+.desktop-browser .report-layout {
+  grid-template-columns: minmax(0, 1.18fr) minmax(360px, 0.82fr);
+  gap: 18px;
+}
+
+.desktop-browser .module-workbench {
+  grid-template-columns: minmax(380px, 0.8fr) minmax(640px, 1.2fr);
+  gap: 18px;
+}
+
+.desktop-browser .settings-grid {
+  grid-template-columns: repeat(5, minmax(150px, 1fr));
+}
+
+.desktop-browser .entry-form {
+  grid-template-columns: repeat(4, minmax(170px, 1fr));
+}
+
+.desktop-browser .metrics-grid {
+  grid-template-columns: repeat(4, minmax(170px, 1fr));
+}
+
+.desktop-browser .strategy-grid {
+  grid-template-columns: repeat(4, minmax(200px, 1fr));
+}
+
+.desktop-browser .module-dashboard {
+  grid-template-columns: minmax(260px, 1.15fr) repeat(3, minmax(170px, 0.85fr));
+}
+
+.desktop-browser .visual-card,
+.desktop-browser .focus-wide {
+  grid-column: span 2;
+}
+
+.desktop-browser .chart-grid,
+.desktop-browser .work-grid {
+  grid-template-columns: minmax(360px, 0.82fr) minmax(540px, 1.18fr);
+  gap: 18px;
+}
+
+.desktop-browser .report-chart-grid {
+  grid-template-columns: minmax(360px, 0.9fr) minmax(440px, 1.1fr);
+}
+
+.desktop-browser .section-head {
+  margin-bottom: 16px;
+}
+
+.desktop-browser .section-head span,
+.desktop-browser .valuation-tools,
+.desktop-browser .chart-title span {
+  font-size: 12px;
+}
+
+.desktop-browser .chart-title {
+  margin-bottom: 14px;
+}
+
+.desktop-browser .chart-panel canvas {
+  height: 340px;
+}
+
+.desktop-browser .chart-panel-wide canvas {
+  height: 360px;
+}
+
+.desktop-browser .strategy-card,
+.desktop-browser .focus-card,
+.desktop-browser .visual-card {
+  padding: 18px;
+}
+
+.desktop-browser .hero-grid {
+  gap: 14px;
+}
+
+.desktop-browser .hero-grid > div {
+  padding-left: 16px;
+}
+
+.desktop-browser .account-row,
+.desktop-browser .target-row,
+.desktop-browser .bucket-row,
+.desktop-browser .risk-item {
+  padding: 14px;
+}
+
+.desktop-browser .ledger-tools {
+  grid-template-columns: minmax(220px, 1.3fr) repeat(2, minmax(150px, 0.8fr)) auto;
+  gap: 12px;
+}
+
+.desktop-browser .ledger-table {
+  min-width: 1040px;
+}
+
+.desktop-browser .table-wrap,
+.desktop-browser .position-table-wrap,
+.desktop-browser .basis-table-wrap {
+  max-width: 100%;
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
+.desktop-browser input,
+.desktop-browser select,
+.desktop-browser button {
+  transition:
+    border-color 160ms ease,
+    background-color 160ms ease,
+    box-shadow 160ms ease,
+    transform 160ms ease;
+}
+
+.desktop-browser button:hover {
+  transform: translateY(-1px);
+}
+
+.desktop-browser .toast-host {
+  bottom: 18px;
+}
+
+@media (max-width: 1120px) {
+  .desktop-browser .wealth-hero,
+  .desktop-browser .module-hero,
+  .desktop-browser .report-layout,
+  .desktop-browser .module-workbench,
+  .desktop-browser .chart-grid,
+  .desktop-browser .report-chart-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .desktop-browser .overview-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .desktop-browser .overview-layout > * {
+    grid-column: 1 / -1 !important;
+    grid-row: auto !important;
+  }
+
+  .desktop-browser .overview-layout .dashboard-split,
+  .desktop-browser .overview-layout .work-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .desktop-browser .module-overview-layout > .module-dashboard,
+  .desktop-browser .module-overview-layout > .module-workbench,
+  .desktop-browser .module-overview-grid,
+  .desktop-browser .module-overview-layout .module-side,
+  .desktop-browser .report-overview-layout .report-layout,
+  .desktop-browser .report-overview-layout .report-chart-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .desktop-browser .settings-grid,
+  .desktop-browser .entry-form,
+  .desktop-browser .metrics-grid,
+  .desktop-browser .strategy-grid,
+  .desktop-browser .module-dashboard {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 1180px) {
+  .desktop-browser .app-shell {
+    grid-template-columns: 248px minmax(0, 1fr);
+  }
+
+  .desktop-sidebar {
+    position: sticky;
+    height: 100vh;
+    padding: 18px 12px;
+    border-right: 1px solid rgba(222, 216, 207, 0.9);
+    border-bottom: 0;
+  }
+
+  .desktop-brand strong {
+    font-size: 21px;
+  }
+
+  .desktop-nav {
+    grid-template-columns: 1fr;
+  }
+
+  .desktop-nav .nav-item {
+    grid-template-columns: 24px minmax(0, 1fr) auto;
+    justify-items: start;
+    gap: 10px;
+    min-height: 46px;
+    padding: 0 10px;
+  }
+
+  .desktop-nav .nav-item > span:nth-child(2) {
+    font-size: 12px;
+  }
+
+  .desktop-subnav {
+    margin-left: 30px;
+    padding-left: 10px;
+  }
+}
+
+@media (max-width: 900px) {
+  .desktop-browser .app-header {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .desktop-browser .header-actions {
+    flex-wrap: wrap;
+  }
+
+  .desktop-browser .app-shell {
+    grid-template-columns: 232px minmax(0, 1fr);
+  }
+
+  .desktop-browser .app-main {
+    padding: 18px 14px 24px;
+  }
+
+  .desktop-browser .overview-layout .dashboard-split,
+  .desktop-browser .overview-layout .work-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .desktop-browser .visual-card,
+  .desktop-browser .focus-wide {
+    grid-column: span 1;
+  }
+}
