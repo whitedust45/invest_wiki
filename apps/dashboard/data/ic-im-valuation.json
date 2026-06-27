@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-06-27T17:08:03.025686+00:00",
+  "generated_at": "2026-06-27T17:21:08.055317+00:00",
   "source": {
     "current_valuation": "中证指数官网 /csindex-home/data-service/indexValuation",
     "current_pb_fallback": "东方财富 push2 quote fields f167/f152; best-effort only",

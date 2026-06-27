@@ -67,6 +67,7 @@ const functions = [
   "entryBalanceImpact",
   "entryCashImpact",
   "entryMarginImpact",
+  "entryFuturesNotionalImpact",
   "isCashPoolEntry",
   "isPositionEntry",
   "entryIncomeImpact",
@@ -190,6 +191,9 @@ const futuresSummary = core.summarizeLedger({
 });
 assert.equal(futuresSummary.usedMargin, 20.64, "IC/IM entry margin feeds used margin summary");
 assert.equal(futuresSummary.futuresNotional, 172, "IC/IM notional comes from entry amount");
+assert.equal(Number(futuresSummary.cashBalance.toFixed(2)), -16.2, "IC/IM notional does not consume cash as purchase principal");
+assert.equal(Number(futuresSummary.totalAssets.toFixed(2)), 6.8, "IC/IM notional does not enter total assets");
+assert.equal(futuresSummary.moduleTotals.ic, 0, "IC/IM notional stays out of asset distribution");
 
 const calc = core.calculate(summary);
 assert.equal(calc.marginRisk, Infinity, "margin risk is extreme when used margin exists and equity is zero");

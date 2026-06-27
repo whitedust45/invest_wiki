@@ -843,6 +843,7 @@ function quantityImpact(entry) {
 function entryBalanceImpact(entry) {
   const amount = safeAmount(entry.amount);
   const fee = safeAmount(entry.fee);
+  if (entry.module === "ic" && (entry.action === "buy" || entry.action === "sell")) return fee;
   if (entry.action === "buy") return amount + fee;
   if (entry.action === "sell") return -amount;
   if (entry.action === "dividend") return -amount;
@@ -857,6 +858,7 @@ function entryCashImpact(entry) {
   const fee = safeAmount(entry.fee);
   if (entry.action === "deposit") return amount;
   if (entry.action === "withdraw") return -amount;
+  if (entry.module === "ic" && (entry.action === "buy" || entry.action === "sell")) return -fee;
   if (entry.action === "buy") return -(amount + fee);
   if (entry.action === "sell") return amount - fee;
   if (entry.action === "dividend" || entry.action === "interest") return amount;
@@ -870,12 +872,20 @@ function entryMarginImpact(entry) {
   return safeAmount(entry.margin);
 }
 
+function entryFuturesNotionalImpact(entry) {
+  if (entry.module !== "ic") return 0;
+  if (entry.action === "buy") return safeAmount(entry.amount);
+  if (entry.action === "sell") return -safeAmount(entry.amount);
+  return 0;
+}
+
 function isCashPoolEntry(entry) {
   return entry.module === "cash" || entry.action === "deposit" || entry.action === "withdraw";
 }
 
 function isPositionEntry(entry) {
   if (isCashPoolEntry(entry)) return false;
+  if (entry.module === "ic" && (entry.action === "buy" || entry.action === "sell")) return false;
   if (entry.action === "margin" || entry.action === "roll" || entry.action === "fee") return false;
   return true;
 }
@@ -1000,7 +1010,7 @@ function summarizeLedger(ledger = loadLedger()) {
   const qqq = (buckets["QQQ"] || 0) + (buckets["QLD"] || 0);
   const spyPutBudget = buckets["SPY put"] || 0;
   const futuresPool = buckets["IC/IM资金池"] || 0;
-  const futuresExposure = (buckets["IC"] || 0) + (buckets["IM"] || 0);
+  const futuresExposure = Math.max(0, ledger.entries.reduce((sum, entry) => sum + entryFuturesNotionalImpact(entry), 0));
   const entryUsedMargin = ledger.entries.reduce((sum, entry) => sum + entryMarginImpact(entry), 0);
   const derivedTotal = cashBalance + Object.values(buckets).reduce((sum, value) => sum + value, 0);
   const totalAssets = derivedTotal > 0 ? derivedTotal : settings.manualTotalAssets;
@@ -1021,7 +1031,7 @@ function summarizeLedger(ledger = loadLedger()) {
     futuresPool,
     futuresEquity: settings.futuresEquity,
     usedMargin: entryUsedMargin > 0 ? entryUsedMargin : settings.usedMargin,
-    futuresNotional: settings.futuresNotional || futuresExposure,
+    futuresNotional: futuresExposure || settings.futuresNotional,
     spyPutBudget,
     whiteLiquor,
     otherAHighDividend,
