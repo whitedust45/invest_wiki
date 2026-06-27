@@ -163,6 +163,15 @@ updated: 2026-06-26
 - 更新 [[ic-im-roll-discount-strategy]]：补充华泰 IC 指增白皮书对贴水本质、展期、近远月选择、资产阶段和跨品种迁移的外部参照
 - 更新 `wiki/index.md`：收录新增来源页
 
+## [2026-06-27] ingest | IC/IM 合约规则与仪表盘口径
+
+- 新增概念页：[[stock-index-futures]]、[[stock-index-futures-contract-rules]]
+  - 记录中金所 IC/IM 合约乘数、合约月份、最后交易日、交割日、保证金和现金交割规则
+  - 明确仪表盘名义敞口、杠杆比例、风险度、保证金率和移仓提醒的计算口径
+- 更新 `schema/glossary.md`：新增术语 `stock-index-futures`
+- 更新 `wiki/index.md`：收录新增概念页并刷新 updated 日期
+- 规则来源：中金所 IC 合约表与 IM 合约表，抓取时间 2026-06-27
+
 ## [2026-06-23] update | 拆分超长文档与新增策略仪表盘网页
 
 - 拆分 [[personal-hybrid-barbell-matrix]] 的执行层内容到 [[personal-hybrid-barbell-execution-dashboard]]

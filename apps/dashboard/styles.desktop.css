@@ -196,6 +196,7 @@ body.desktop-browser {
 
 .desktop-browser .overview-layout .wealth-hero,
 .desktop-browser .overview-layout .overview-onboarding:not(:empty),
+.desktop-browser .overview-layout .cash-pool-panel,
 .desktop-browser .overview-layout .metrics-grid,
 .desktop-browser .overview-layout .strategy-grid,
 .desktop-browser .overview-layout .valuation-band,
@@ -434,7 +435,7 @@ body.desktop-browser {
 }
 
 .desktop-browser .entry-form {
-  grid-template-columns: repeat(4, minmax(170px, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
 .desktop-browser .metrics-grid {
@@ -587,6 +588,7 @@ body.desktop-browser {
 
   .desktop-browser .settings-grid,
   .desktop-browser .entry-form,
+  .desktop-browser .cash-transfer-form,
   .desktop-browser .metrics-grid,
   .desktop-browser .strategy-grid,
   .desktop-browser .module-dashboard {

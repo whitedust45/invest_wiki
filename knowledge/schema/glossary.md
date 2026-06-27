@@ -158,6 +158,14 @@
 
 **相关页**：[[rebalance]]（已建）
 
+### stock-index-futures — 股指期货 / Stock Index Futures
+
+**同义词**：股指期货、指数期货、IC、IM、中证500股指期货、中证1000股指期货、Stock Index Futures
+
+**定义**：以股票指数为标的、按合约乘数放大名义敞口并采用保证金交易的期货合约
+
+**相关页**：[[stock-index-futures]]（已建）
+
 ### kelly-criterion — 凯利公式 / Kelly Criterion
 
 **同义词**：Kelly、凯利准则

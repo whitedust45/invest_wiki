@@ -20,6 +20,9 @@ const moduleConfigs = {
   reports: {
     title: "报表"
   },
+  cash: {
+    title: "现金池"
+  },
   dividend: {
     title: "高分红",
     module: "dividend",
@@ -81,11 +84,34 @@ const actionLabels = {
   interest: "利息",
   deposit: "转入",
   withdraw: "转出",
+  futures_deposit: "入金/补资",
+  expire: "到期归零",
   internal_in: "内部划入",
   internal_out: "内部划出",
   fee: "费用",
   margin: "保证金",
   roll: "移仓"
+};
+
+const moduleActions = {
+  dividend: ["buy", "sell", "dividend", "interest"],
+  qqq: ["buy", "sell", "dividend"],
+  put: ["buy", "sell", "expire"],
+  ic: ["futures_deposit", "buy", "sell", "margin", "roll"]
+};
+
+const moduleActionLabels = {
+  ic: {
+    buy: "开仓/加仓",
+    sell: "平仓/减仓",
+    futures_deposit: "入金/补资",
+    margin: "保证金调整",
+    roll: "移仓"
+  },
+  put: {
+    sell: "卖出/平仓",
+    expire: "到期归零"
+  }
 };
 
 const balanceActions = {
@@ -97,10 +123,14 @@ const balanceActions = {
   withdraw: -1,
   internal_out: -1,
   fee: -1,
+  expire: -1,
+  futures_deposit: 1,
   dividend: 0,
   interest: 0,
   roll: 0
 };
+
+const defaultFuturesMultiplier = 200;
 
 const defaultSettings = {
   annualExpense: 12,
@@ -152,6 +182,7 @@ const subpageLabels = {
   overview: {
     full: "全部总览",
     snapshot: "净值快照",
+    cash: "现金池",
     risk: "账户风险",
     settings: "核心参数",
     charts: "图表追踪",
@@ -223,6 +254,24 @@ function makeId() {
 function yuan(value) {
   if (!Number.isFinite(value)) return "-";
   return `${format(value)} 万`;
+}
+
+function wanFromYuan(value) {
+  const num = Number(value);
+  return Number.isFinite(num) ? num / 10000 : 0;
+}
+
+function yuanFromWan(value) {
+  return safeAmount(value) * 10000;
+}
+
+function yuanText(value) {
+  if (!Number.isFinite(value)) return "-";
+  return `${chartValue(value)} 元`;
+}
+
+function yuanTextFromWan(value) {
+  return yuanText(yuanFromWan(value));
 }
 
 function pct(value) {
@@ -786,14 +835,49 @@ function positionKey(module, symbol, name) {
 
 function quantityImpact(entry) {
   const quantity = safeAmount(entry.quantity);
-  if (entry.action === "buy" || entry.action === "deposit" || entry.action === "internal_in" || entry.action === "margin") return quantity;
-  if (entry.action === "sell" || entry.action === "withdraw" || entry.action === "internal_out") return -quantity;
+  if (entry.action === "buy") return quantity;
+  if (entry.action === "sell" || entry.action === "expire") return -quantity;
   return 0;
 }
 
 function entryBalanceImpact(entry) {
+  const amount = safeAmount(entry.amount);
+  const fee = safeAmount(entry.fee);
+  if (entry.action === "buy") return amount + fee;
+  if (entry.action === "sell") return -amount;
+  if (entry.action === "dividend") return -amount;
+  if (entry.action === "expire") return -amount;
+  if (entry.action === "roll") return fee > 0 ? fee : 0;
   const sign = balanceActions[entry.action] ?? 0;
-  return sign * safeAmount(entry.amount);
+  return sign * amount;
+}
+
+function entryCashImpact(entry) {
+  const amount = safeAmount(entry.amount);
+  const fee = safeAmount(entry.fee);
+  if (entry.action === "deposit") return amount;
+  if (entry.action === "withdraw") return -amount;
+  if (entry.action === "buy") return -(amount + fee);
+  if (entry.action === "sell") return amount - fee;
+  if (entry.action === "dividend" || entry.action === "interest") return amount;
+  if (entry.action === "futures_deposit") return -(amount + fee);
+  if (entry.action === "roll") return -fee;
+  return 0;
+}
+
+function entryMarginImpact(entry) {
+  if (entry.module !== "ic") return 0;
+  return safeAmount(entry.margin);
+}
+
+function isCashPoolEntry(entry) {
+  return entry.module === "cash" || entry.action === "deposit" || entry.action === "withdraw";
+}
+
+function isPositionEntry(entry) {
+  if (isCashPoolEntry(entry)) return false;
+  if (entry.action === "margin" || entry.action === "roll" || entry.action === "fee") return false;
+  return true;
 }
 
 function entryIncomeImpact(entry) {
@@ -807,10 +891,11 @@ function entryIncomeImpact(entry) {
 function buildPositionsFromEntries(entries, valuations = loadPositionValuations(), enrich = enrichPosition) {
   const byKey = new Map();
   entries.forEach((entry) => {
+    if (!isPositionEntry(entry)) return;
     const symbol = String(entry.symbol || "").trim();
     const name = String(entry.name || "").trim();
     const key = positionKey(entry.module, symbol, name);
-    const isIncomeOnly = entry.action === "dividend" || entry.action === "interest";
+    const isIncomeOnly = entry.action === "interest";
     const existing = byKey.get(key) || {
       key,
       module: entry.module || "",
@@ -828,7 +913,6 @@ function buildPositionsFromEntries(entries, valuations = loadPositionValuations(
       if (name) existing.name = name;
       existing.quantity += quantityImpact(entry);
       existing.netInvestment += entryBalanceImpact(entry);
-      if (entry.action === "buy") existing.netInvestment += safeAmount(entry.fee);
       existing.entryCount += 1;
     }
     if (String(entry.date || "") > String(existing.latestDate || "")) existing.latestDate = entry.date || "";
@@ -901,7 +985,8 @@ function summarizeLedger(ledger = loadLedger()) {
   const buckets = sumPositionsBy(positions, "bucket");
   const moduleTotals = sumPositionsBy(positions, "module");
   const settings = { ...defaultSettings, ...ledger.settings };
-  const hardCash = (buckets["现金"] || 0) + (buckets["硬现金"] || 0);
+  const cashBalance = ledger.entries.reduce((sum, entry) => sum + entryCashImpact(entry), 0);
+  const hardCash = cashBalance + (buckets["现金"] || 0) + (buckets["硬现金"] || 0);
   const reverseRepo = (buckets["类现金"] || 0) + (buckets["国债逆回购"] || 0);
   const whiteLiquor = 0;
   const highDividend =
@@ -916,7 +1001,8 @@ function summarizeLedger(ledger = loadLedger()) {
   const spyPutBudget = buckets["SPY put"] || 0;
   const futuresPool = buckets["IC/IM资金池"] || 0;
   const futuresExposure = (buckets["IC"] || 0) + (buckets["IM"] || 0);
-  const derivedTotal = Object.values(buckets).reduce((sum, value) => sum + value, 0);
+  const entryUsedMargin = ledger.entries.reduce((sum, entry) => sum + entryMarginImpact(entry), 0);
+  const derivedTotal = cashBalance + Object.values(buckets).reduce((sum, value) => sum + value, 0);
   const totalAssets = derivedTotal > 0 ? derivedTotal : settings.manualTotalAssets;
   const annualDividend = ledger.entries.reduce((sum, entry) => sum + entryIncomeImpact(entry), 0);
   const investedCost = positions.reduce((sum, position) => sum + position.netInvestment, 0);
@@ -924,6 +1010,7 @@ function summarizeLedger(ledger = loadLedger()) {
 
   return {
     totalAssets,
+    cashBalance,
     annualExpense: settings.annualExpense,
     hardCash,
     reverseRepo,
@@ -933,7 +1020,7 @@ function summarizeLedger(ledger = loadLedger()) {
     newMoney: settings.newMoney,
     futuresPool,
     futuresEquity: settings.futuresEquity,
-    usedMargin: settings.usedMargin,
+    usedMargin: entryUsedMargin > 0 ? entryUsedMargin : settings.usedMargin,
     futuresNotional: settings.futuresNotional || futuresExposure,
     spyPutBudget,
     whiteLiquor,
@@ -1003,6 +1090,8 @@ function calculate(data) {
   const sameSourcePct = ratio(data.whiteLiquor + data.otherAHighDividend + data.futuresNotional, data.totalAssets);
   const marginRiskInvalid = data.usedMargin > 0 && data.futuresEquity <= 0;
   const marginRisk = marginRiskInvalid ? Infinity : ratio(data.usedMargin, data.futuresEquity);
+  const futuresLeverage = data.futuresEquity > 0 ? data.futuresNotional / data.futuresEquity : 0;
+  const futuresMarginRate = ratio(data.usedMargin, data.futuresNotional);
   const cashGap6 = gap(monthlyExpense * 6, data.hardCash);
   const liquidGap12 = gap(data.annualExpense, liquidAssets);
   const divGap = gap(data.annualExpense * 1.2, data.annualDividend);
@@ -1024,6 +1113,8 @@ function calculate(data) {
     sameSourcePct,
     marginRisk,
     marginRiskInvalid,
+    futuresLeverage,
+    futuresMarginRate,
     cashGap6,
     liquidGap12,
     divGap,
@@ -1241,6 +1332,7 @@ function mobileSectionNav(tab) {
   if (isDesktopMode()) return "";
   const itemsByGroup = {
     overview: [
+      ["现金", ".cash-pool-panel"],
       ["风险", ".dashboard-split"],
       ["参数", ".overview-settings"],
       ["估值", ".valuation-band"],
@@ -1446,6 +1538,51 @@ function riskChecklist(data, calc) {
   `;
 }
 
+function cashPoolPanel(ledger, data) {
+  const cashEntries = ledger.entries
+    .filter((entry) => isCashPoolEntry(entry))
+    .slice()
+    .sort((a, b) => String(b.date || "").localeCompare(String(a.date || "")))
+    .slice(0, 5);
+  const rows = cashEntries.map((entry) => `
+    <tr>
+      <td>${escapeHtml(entry.date || "-")}</td>
+      <td>${escapeHtml(actionLabels[entry.action] || entry.action || "-")}</td>
+      <td>${escapeHtml(yuanTextFromWan(safeAmount(entry.amount)))}</td>
+      <td>${escapeHtml(entry.note || "-")}</td>
+    </tr>
+  `).join("");
+  return `
+    <section class="panel cash-pool-panel">
+      <div class="section-head">
+        <h2>全局现金池</h2>
+        <span>统一转账入口</span>
+      </div>
+      <div class="cash-pool-grid">
+        <article>
+          <span>当前现金池</span>
+          <strong>${escapeHtml(yuan(data.cashBalance))}</strong>
+          <small>${escapeHtml(yuanTextFromWan(data.cashBalance))}</small>
+        </article>
+        <article>
+          <span>记账规则</span>
+          <strong>买入自动扣款</strong>
+          <small>转入/转出只在这里登记；模块买入会自动划走现金。</small>
+        </article>
+      </div>
+      <form id="cashTransferForm" class="cash-transfer-form" novalidate>
+        <label>日期<input type="date" name="date" value="${escapeHtml(today())}" required /></label>
+        <label>动作<select name="action"><option value="deposit">转入</option><option value="withdraw">转出</option></select></label>
+        <label>金额（元）<input type="number" name="amountYuan" min="0" step="0.01" required /></label>
+        <label class="entry-note">备注<input name="note" placeholder="工资、补资、取出等" /></label>
+        <div class="form-error" data-entry-errors hidden></div>
+        <div class="form-actions"><button type="submit">记录转账</button></div>
+      </form>
+      ${rows ? `<div class="table-wrap cash-transfer-history"><table><thead><tr><th>日期</th><th>动作</th><th>金额</th><th>备注</th></tr></thead><tbody>${rows}</tbody></table></div>` : `<p class="notice">还没有全局转账记录。</p>`}
+    </section>
+  `;
+}
+
 function recentActivity(entries, limit = 8) {
   const rows = entries
     .slice()
@@ -1478,9 +1615,10 @@ function keepAppChildren(nodes) {
 function pruneOverviewSubpage(subpage) {
   if (subpage === "full") return;
   const children = Array.from(appRoot.children);
-  const [hero, onboarding, split, settings, target, metrics, strategy, valuation, charts, work, decision] = children;
+  const [hero, onboarding, cash, split, settings, target, metrics, strategy, valuation, charts, work, decision] = children;
   const keepMap = {
     snapshot: [hero, metrics, strategy],
+    cash: [cash],
     risk: [split, target],
     settings: [settings],
     charts: [valuation, charts],
@@ -1590,6 +1728,8 @@ function renderOverview(subpage = "full") {
 
     <div class="overview-onboarding">${onboardingPanel(ledger, data)}</div>
 
+    ${cashPoolPanel(ledger, data)}
+
     <section class="dashboard-split">
       ${assetAccountTree(data, calc)}
       ${riskChecklist(data, calc)}
@@ -1649,7 +1789,7 @@ function renderOverview(subpage = "full") {
           ${historyPeriodControls()}
         </div>
         <canvas id="historyLine" width="1120" height="320"></canvas>
-        <p class="notice">净值收益率只剔除“转入 / 转出”外部现金流；若同时维护现金余额，买入资产时用“内部划出”扣减现金，卖出资产后用“内部划入”增加现金。</p>
+        <p class="notice">净值收益率只剔除全局现金池的外部转入 / 转出；买入、卖出、分红和费用会自动影响现金池。</p>
       </article>
     </section>
 
@@ -2020,7 +2160,7 @@ function ledgerFilterControls(config, entries, filteredEntries) {
       <label>搜索<input id="ledgerSearch" name="search" value="${escapeHtml(filter.search)}" placeholder="代码 / 名称 / 备注" autocomplete="off" /></label>
       <label>动作<select id="ledgerActionFilter" name="action">
         <option value="">全部动作</option>
-        ${actions.map((action) => `<option value="${escapeHtml(action)}" ${filter.action === action ? "selected" : ""}>${escapeHtml(actionLabels[action] || action)}</option>`).join("")}
+        ${actions.map((action) => `<option value="${escapeHtml(action)}" ${filter.action === action ? "selected" : ""}>${escapeHtml(entryActionLabel(config.module, action))}</option>`).join("")}
       </select></label>
       <label>分类<select id="ledgerBucketFilter" name="bucket">
         <option value="">全部分类</option>
@@ -2402,8 +2542,11 @@ function moduleFocusPanel(config, data, calc, entries, totals) {
       <section class="module-dashboard ic-dashboard">
         ${moduleVisual("ic", data, calc)}
         ${metric("资金池", yuan(data.futuresPool), "100 万起步线", data.futuresPool >= 100 ? "status-good" : "status-warn")}
-        ${metric("IC PB 分位", pct(data.icPb), "低于 30 才进入执行区", classify(data.icPb, 30, 50, true))}
+        ${metric("名义敞口", yuan(data.futuresNotional), "指数点位 × 乘数 × 手数", data.futuresNotional > 0 ? "status-good" : "status-warn")}
+        ${metric("杠杆比例", `${format(calc.futuresLeverage)}x`, "名义敞口 / 期货账户权益", calc.futuresLeverage <= 2 ? "status-good" : calc.futuresLeverage <= 4 ? "status-warn" : "status-danger")}
         ${metric("期货风险度", marginRiskText(calc), marginRiskHint(calc), classify(calc.marginRisk, 50, 70, true))}
+        ${metric("保证金率", pct(calc.futuresMarginRate), "占用保证金 / 名义敞口", calc.futuresMarginRate <= 20 ? "status-good" : "status-warn")}
+        ${metric("IC PB 分位", pct(data.icPb), "低于 30 才进入执行区", classify(data.icPb, 30, 50, true))}
         <article class="focus-card">
           <h3>开仓前置条件</h3>
           <ol>${focusItems}</ol>
@@ -2693,7 +2836,88 @@ function findInstrumentMemory(value, field, module = "") {
   }) || null;
 }
 
+function entryActionLabel(module, action) {
+  return (moduleActionLabels[module] && moduleActionLabels[module][action]) || actionLabels[action] || action;
+}
+
+function entryActionOptions(module, currentAction = "") {
+  const actions = moduleActions[module] || Object.keys(actionLabels);
+  const merged = actions.includes(currentAction) || !currentAction ? actions : [currentAction, ...actions];
+  return merged.map((action) => [action, entryActionLabel(module, action)]);
+}
+
+function thirdFriday(year, month) {
+  const date = new Date(year, month - 1, 1);
+  let fridayCount = 0;
+  while (date.getMonth() === month - 1) {
+    if (date.getDay() === 5) {
+      fridayCount += 1;
+      if (fridayCount === 3) return new Date(date);
+    }
+    date.setDate(date.getDate() + 1);
+  }
+  return null;
+}
+
+function parseFuturesContract(symbol) {
+  const match = String(symbol || "").trim().toUpperCase().match(/^(IC|IM)(\d{2})(\d{2})$/);
+  if (!match) return null;
+  const year = 2000 + Number(match[2]);
+  const month = Number(match[3]);
+  if (month < 1 || month > 12) return null;
+  const delivery = thirdFriday(year, month);
+  if (!delivery) return null;
+  return {
+    product: match[1],
+    year,
+    month,
+    deliveryDate: formatDate(delivery)
+  };
+}
+
+function daysUntil(dateText) {
+  const date = parseDate(dateText);
+  const now = parseDate(today());
+  if (!date || !now) return null;
+  return Math.ceil((date.getTime() - now.getTime()) / 86400000);
+}
+
+function futuresContractHint(symbol) {
+  const parsed = parseFuturesContract(symbol);
+  if (!parsed) return "填 IC2607 / IM2607 后自动推算理论交割日";
+  const left = daysUntil(parsed.deliveryDate);
+  const leftText = left === null ? "" : `，距今 ${left} 天`;
+  return `${parsed.product} ${parsed.year}年${String(parsed.month).padStart(2, "0")}月合约，理论交割日 ${parsed.deliveryDate}${leftText}；法定假日顺延需复核`;
+}
+
+function futuresContractName(symbol) {
+  const parsed = parseFuturesContract(symbol);
+  if (!parsed) return "";
+  return parsed.product === "IC" ? "中证500股指期货" : "中证1000股指期货";
+}
+
+function amountWanFromEntryForm(form) {
+  if (form.elements.amountYuan) return wanFromYuan(form.elements.amountYuan.value);
+  return numberFromForm(form, "amount");
+}
+
+function feeWanFromEntryForm(form) {
+  if (form.elements.feeYuan) return wanFromYuan(form.elements.feeYuan.value);
+  return numberFromForm(form, "fee");
+}
+
+function marginWanFromEntryForm(form) {
+  if (form.elements.marginYuan) return wanFromYuan(form.elements.marginYuan.value);
+  return numberFromForm(form, "margin");
+}
+
+function marginRatioText(amount, margin) {
+  if (safeAmount(amount) <= 0 || safeAmount(margin) <= 0) return "填保证金后自动计算保证金比例";
+  return `保证金比例 ${pct(ratio(safeAmount(margin), safeAmount(amount)))}`;
+}
+
 function entryForm(config, entry = null) {
+  const isFutures = config.module === "ic";
   const data = entry || {
     id: "",
     date: today(),
@@ -2705,19 +2929,34 @@ function entryForm(config, entry = null) {
     price: "",
     amount: "",
     fee: "",
+    margin: "",
+    multiplier: isFutures ? defaultFuturesMultiplier : "",
     note: ""
   };
+  const derivedName = isFutures ? futuresContractName(data.symbol) : "";
+  const displayName = data.name || derivedName;
+  const autoName = Boolean(isFutures && derivedName && !data.name);
+  const actionOptions = entryActionOptions(config.module, data.action);
+  const amountYuan = data.amount ? chartValue(yuanFromWan(data.amount)) : "";
+  const feeYuan = data.fee ? chartValue(yuanFromWan(data.fee)) : "";
+  const marginYuan = data.margin ? chartValue(yuanFromWan(data.margin)) : "";
+  const quantityLabel = isFutures ? "手数" : "数量（股/份）";
+  const priceLabel = isFutures ? "指数点位" : "价格（元）";
+  const amountHint = data.amount ? `${escapeHtml(yuan(data.amount))}` : "买卖按数量 × 价格自动计算；分红/利息手填";
+  const contractHint = isFutures ? futuresContractHint(data.symbol || "") : "";
   return `
     <form id="entryForm" class="entry-form" data-module="${escapeHtml(config.module)}" data-id="${escapeHtml(data.id || "")}" novalidate>
       <label>日期<input type="date" name="date" value="${escapeHtml(data.date || today())}" required /></label>
       <label>分类<select name="bucket">${config.buckets.map((bucket) => `<option value="${escapeHtml(bucket)}" ${bucket === data.bucket ? "selected" : ""}>${escapeHtml(bucket)}</option>`).join("")}</select></label>
-      <label>动作 ${termHelp("内部划入/划出")}<select name="action">${Object.entries(actionLabels).map(([value, label]) => `<option value="${value}" ${value === data.action ? "selected" : ""}>${escapeHtml(label)}</option>`).join("")}</select></label>
+      <label>动作<select name="action">${actionOptions.map(([value, label]) => `<option value="${escapeHtml(value)}" ${value === data.action ? "selected" : ""}>${escapeHtml(label)}</option>`).join("")}</select></label>
       <label>标的代码<input name="symbol" list="instrumentSymbolMemory" value="${escapeHtml(data.symbol || "")}" placeholder="${escapeHtml(config.symbolPlaceholder || "如 QQQ / IC2609")}" autocomplete="off" /></label>
-      <label>标的名称<input name="name" list="instrumentNameMemory" value="${escapeHtml(data.name || "")}" placeholder="可选" autocomplete="off" /></label>
-      <label>数量（股/份）<input type="number" name="quantity" step="0.0001" value="${escapeHtml(data.quantity || "")}" /></label>
-      <label>价格（元）<input type="number" name="price" step="0.0001" value="${escapeHtml(data.price || "")}" /></label>
-      <label>金额（万元）<input type="number" name="amount" step="0.0001" value="${escapeHtml(data.amount || "")}" required /><small class="field-hint" data-amount-preview>${data.amount ? `≈ ${escapeHtml(chartValue(safeAmount(data.amount) * 10000))} 元` : "填数量和价格后自动计算，可手工覆盖"}</small></label>
-      <label>费用（万元）<input type="number" name="fee" step="0.0001" value="${escapeHtml(data.fee || "")}" /></label>
+      <label>标的名称<input name="name" list="instrumentNameMemory" value="${escapeHtml(displayName)}" data-auto-name="${autoName ? "true" : "false"}" placeholder="可选" autocomplete="off" /></label>
+      <label>${quantityLabel}<input type="number" name="quantity" step="0.0001" value="${escapeHtml(data.quantity || "")}" /></label>
+      <label>${priceLabel}<input type="number" name="price" step="0.01" value="${escapeHtml(data.price || "")}" /></label>
+      ${isFutures ? `<label>乘数（元/点）<input type="number" name="multiplier" min="1" step="1" value="${escapeHtml(data.multiplier || defaultFuturesMultiplier)}" /><small class="field-hint" data-contract-hint>${escapeHtml(contractHint)}</small></label>` : ""}
+      <label>金额（元）<input type="number" name="amountYuan" step="0.01" value="${escapeHtml(amountYuan)}" required /><small class="field-hint" data-amount-preview>${amountHint}</small></label>
+      ${isFutures ? `<label>保证金（元）<input type="number" name="marginYuan" min="0" step="0.01" value="${escapeHtml(marginYuan)}" /><small class="field-hint" data-margin-preview>${escapeHtml(marginRatioText(data.amount, data.margin))}</small></label>` : ""}
+      <label>费用（元）<input type="number" name="feeYuan" step="0.01" value="${escapeHtml(feeYuan)}" /></label>
       <label class="entry-note">备注<input name="note" value="${escapeHtml(data.note || "")}" placeholder="${escapeHtml(config.notePlaceholder || "买入理由、移仓说明、分红记录")}" /></label>
       ${instrumentMemoryDatalists(config.module)}
       <div class="form-error" data-entry-errors hidden></div>
@@ -2733,7 +2972,7 @@ function ledgerTable(entries) {
     <div class="table-wrap">
       <table class="ledger-table">
         <thead>
-          <tr><th>日期</th><th>分类</th><th>动作</th><th>标的</th><th>数量</th><th>价格</th><th>金额</th><th>费用</th><th>备注</th><th>操作</th></tr>
+          <tr><th>日期</th><th>分类</th><th>动作</th><th>标的</th><th>数量</th><th>价格</th><th>金额</th><th>保证金</th><th>保证金率</th><th>费用</th><th>备注</th><th>操作</th></tr>
         </thead>
         <tbody>
           ${entries.map((entry) => `
@@ -2743,9 +2982,11 @@ function ledgerTable(entries) {
               <td>${escapeHtml(actionLabels[entry.action] || entry.action || "-")}</td>
               <td>${escapeHtml(entry.symbol || entry.name || "-")}</td>
               <td>${escapeHtml(entry.quantity || "-")}</td>
-              <td>${escapeHtml(entry.price || "-")}</td>
+              <td>${escapeHtml(entry.price ? chartValue(Number(entry.price)) : "-")}</td>
               <td>${escapeHtml(yuan(safeAmount(entry.amount)))}</td>
-              <td>${escapeHtml(entry.fee ? yuan(safeAmount(entry.fee)) : "-")}</td>
+              <td>${escapeHtml(entry.margin ? yuanTextFromWan(safeAmount(entry.margin)) : "-")}</td>
+              <td>${escapeHtml(entry.margin && entry.amount ? pct(ratio(safeAmount(entry.margin), safeAmount(entry.amount))) : "-")}</td>
+              <td>${escapeHtml(entry.fee ? yuanTextFromWan(safeAmount(entry.fee)) : "-")}</td>
               <td>${escapeHtml(entry.note || "-")}</td>
               <td class="row-actions">
                 <button type="button" data-action="edit-entry" data-id="${escapeHtml(entry.id)}">编辑</button>
@@ -3431,11 +3672,12 @@ function displaySigned(value) {
   return `${num > 0 ? "+" : ""}${chartValue(num)}`;
 }
 
-function amountFromQuantityPrice(quantity, price) {
+function amountFromQuantityPrice(quantity, price, multiplier = 1) {
   const q = Number(quantity);
   const p = Number(price);
-  if (!Number.isFinite(q) || !Number.isFinite(p) || q <= 0 || p <= 0) return null;
-  return (q * p) / 10000;
+  const m = Number(multiplier || 1);
+  if (!Number.isFinite(q) || !Number.isFinite(p) || !Number.isFinite(m) || q <= 0 || p <= 0 || m <= 0) return null;
+  return (q * p * m) / 10000;
 }
 
 function handleSettingsInput(event) {
@@ -3483,21 +3725,30 @@ function validateEntryForm(form) {
   const errors = [];
   const action = form.elements.action ? form.elements.action.value : "";
   const hasInstrument = Boolean(String(form.elements.symbol.value || "").trim() || String(form.elements.name.value || "").trim());
-  const amount = numberFromForm(form, "amount");
+  const amount = amountWanFromEntryForm(form);
   const quantity = numberFromForm(form, "quantity");
   const price = numberFromForm(form, "price");
+  const multiplier = form.elements.multiplier ? numberFromForm(form, "multiplier") : 1;
+  const margin = marginWanFromEntryForm(form);
+  const amountField = form.elements.amountYuan ? "amountYuan" : "amount";
 
   if (!form.elements.date.value) addEntryValidationError(form, "date", "日期必填", errors);
   if (!form.elements.bucket.value) addEntryValidationError(form, "bucket", "分类必填", errors);
   if (!action) addEntryValidationError(form, "action", "动作必填", errors);
-  if (amount <= 0) addEntryValidationError(form, "amount", "金额必须大于 0", errors);
 
   if (action === "buy" || action === "sell") {
-    if (!hasInstrument) addEntryValidationError(form, "symbol", `${actionLabels[action]}必须填写标的代码或名称`, errors);
-    if (quantity <= 0) addEntryValidationError(form, "quantity", `${actionLabels[action]}必须填写数量`, errors);
-    if (price <= 0) addEntryValidationError(form, "price", `${actionLabels[action]}必须填写价格`, errors);
+    const label = entryActionLabel(form.dataset.module, action);
+    if (!hasInstrument) addEntryValidationError(form, "symbol", `${label}必须填写标的代码或名称`, errors);
+    if (quantity <= 0) addEntryValidationError(form, "quantity", `${label}必须填写数量/手数`, errors);
+    if (price <= 0) addEntryValidationError(form, "price", `${label}必须填写价格/指数点位`, errors);
+    if (multiplier <= 0) addEntryValidationError(form, "multiplier", "乘数必须大于 0", errors);
+    if (amountFromQuantityPrice(quantity, price, multiplier) === null) addEntryValidationError(form, amountField, "金额无法自动计算", errors);
+    if (form.dataset.module === "ic" && margin < 0) addEntryValidationError(form, "marginYuan", "保证金不能为负", errors);
   } else if (action === "dividend" || action === "interest") {
     if (!hasInstrument) addEntryValidationError(form, "symbol", `${actionLabels[action]}必须填写标的代码或名称`, errors);
+    if (amount <= 0) addEntryValidationError(form, amountField, "金额必须大于 0", errors);
+  } else if (action === "futures_deposit" || action === "expire") {
+    if (amount <= 0) addEntryValidationError(form, amountField, "金额必须大于 0", errors);
   }
 
   const uniqueErrors = Array.from(new Set(errors));
@@ -3515,7 +3766,47 @@ function validateEntryForm(form) {
   return true;
 }
 
+function handleCashTransferSubmit(event) {
+  const form = event.target.closest("#cashTransferForm");
+  if (!form) return false;
+  event.preventDefault();
+  clearEntryValidation(form);
+  const errors = [];
+  const amountYuan = numberFromForm(form, "amountYuan");
+  if (!form.elements.date.value) addEntryValidationError(form, "date", "日期必填", errors);
+  if (amountYuan <= 0) addEntryValidationError(form, "amountYuan", "转账金额必须大于 0", errors);
+  if (errors.length) {
+    const errorBox = form.querySelector("[data-entry-errors]");
+    if (errorBox) {
+      errorBox.hidden = false;
+      errorBox.textContent = Array.from(new Set(errors)).join("；");
+    }
+    showToast(errors[0], "error");
+    return true;
+  }
+  const ledger = loadLedger();
+  ledger.entries.push({
+    id: makeId(),
+    module: "cash",
+    date: form.elements.date.value || today(),
+    bucket: "现金池",
+    action: form.elements.action.value === "withdraw" ? "withdraw" : "deposit",
+    symbol: "",
+    name: "全局现金池",
+    quantity: "",
+    price: "",
+    amount: wanFromYuan(amountYuan),
+    fee: 0,
+    note: form.elements.note.value.trim()
+  });
+  if (!saveLedger(ledger)) return true;
+  render();
+  showToast("已记录全局现金池转账", "success");
+  return true;
+}
+
 function handleEntrySubmit(event) {
+  if (handleCashTransferSubmit(event)) return;
   const form = event.target.closest("#entryForm");
   if (!form) return;
   event.preventDefault();
@@ -3532,8 +3823,11 @@ function handleEntrySubmit(event) {
     name: form.elements.name.value.trim(),
     quantity: form.elements.quantity.value,
     price: form.elements.price.value,
-    amount: numberFromForm(form, "amount"),
-    fee: numberFromForm(form, "fee"),
+    multiplier: form.elements.multiplier ? numberFromForm(form, "multiplier") || defaultFuturesMultiplier : "",
+    deliveryDate: form.elements.symbol ? (parseFuturesContract(form.elements.symbol.value) || {}).deliveryDate || "" : "",
+    amount: amountWanFromEntryForm(form),
+    margin: marginWanFromEntryForm(form),
+    fee: feeWanFromEntryForm(form),
     note: form.elements.note.value.trim()
   };
   const index = ledger.entries.findIndex((item) => item.id === id);
@@ -3546,39 +3840,54 @@ function handleEntrySubmit(event) {
 }
 
 function updateAmountPreview(form) {
-  const amount = numberFromForm(form, "amount");
+  const amount = amountWanFromEntryForm(form);
   const hint = form.querySelector("[data-amount-preview]");
   if (!hint) return;
-  hint.textContent = amount > 0 ? `≈ ${chartValue(amount * 10000)} 元` : "填数量和价格后自动计算，可手工覆盖";
+  hint.textContent = amount > 0 ? `${yuan(amount)} / ${yuanTextFromWan(amount)}` : "买卖按数量 × 价格自动计算；分红/利息手填";
+}
+
+function updateMarginPreview(form) {
+  const hint = form.querySelector("[data-margin-preview]");
+  if (!hint) return;
+  hint.textContent = marginRatioText(amountWanFromEntryForm(form), marginWanFromEntryForm(form));
 }
 
 function handleEntryAmountAutoCalc(event) {
   const form = event.target.closest("#entryForm");
   if (!form) return;
   const targetName = event.target.name;
-  if (targetName === "amount") {
+  if (targetName === "marginYuan" || targetName === "margin") {
+    updateMarginPreview(form);
+    return;
+  }
+  if (targetName === "amountYuan" || targetName === "amount") {
     form.dataset.amountManual = "true";
     form.dataset.amountAuto = "false";
     updateAmountPreview(form);
+    updateMarginPreview(form);
     return;
   }
-  if (targetName !== "quantity" && targetName !== "price") return;
+  if (targetName !== "quantity" && targetName !== "price" && targetName !== "multiplier") return;
   const quantity = Number(form.elements.quantity ? form.elements.quantity.value : "");
   const price = Number(form.elements.price ? form.elements.price.value : "");
-  const amountInput = form.elements.amount;
-  const amount = amountFromQuantityPrice(quantity, price);
+  const multiplier = form.elements.multiplier ? Number(form.elements.multiplier.value || defaultFuturesMultiplier) : 1;
+  const amountInput = form.elements.amountYuan || form.elements.amount;
+  const amount = amountFromQuantityPrice(quantity, price, multiplier);
   if (!amountInput || amount === null) {
     updateAmountPreview(form);
+    updateMarginPreview(form);
     return;
   }
   const canAutoFill = form.dataset.amountManual !== "true" || form.dataset.amountAuto === "true" || amountInput.value === "";
   if (!canAutoFill) {
     updateAmountPreview(form);
+    updateMarginPreview(form);
     return;
   }
-  amountInput.value = chartValue(amount);
+  amountInput.value = chartValue(yuanFromWan(amount));
   form.dataset.amountAuto = "true";
   updateAmountPreview(form);
+  updateMarginPreview(form);
 }
 
 function handleInstrumentMemoryInput(event) {
@@ -3588,10 +3897,24 @@ function handleInstrumentMemoryInput(event) {
   const symbolInput = form.elements.symbol;
   const nameInput = form.elements.name;
   if (!symbolInput || !nameInput) return;
+  const contractHint = form.querySelector("[data-contract-hint]");
+  if (contractHint) contractHint.textContent = futuresContractHint(symbolInput.value);
+
+  const derivedName = module === "ic" ? futuresContractName(symbolInput.value) : "";
+  if (module === "ic" && event.target.name === "symbol") {
+    if (derivedName && (!nameInput.value.trim() || nameInput.dataset.autoName === "true")) {
+      nameInput.value = derivedName;
+      nameInput.dataset.autoName = "true";
+    }
+  }
+
+  if (module === "ic" && event.target.name === "name") {
+    nameInput.dataset.autoName = "false";
+  }
 
   if (event.target.name === "symbol") {
     const match = findInstrumentMemory(symbolInput.value, "symbol", module);
-    if (match && match.name) nameInput.value = match.name;
+    if (match && match.name && !derivedName) nameInput.value = match.name;
     return;
   }
 
@@ -3887,18 +4210,20 @@ function exportEntries(module, format) {
     downloadText(`${fileBase}.json`, JSON.stringify({ module, title: config.title, exported_at: new Date().toISOString(), entries }, null, 2), "application/json");
     return;
   }
-  const headers = ["日期", "模块", "分类", "动作", "代码", "名称", "数量", "价格", "金额万元", "费用万元", "备注"];
+  const headers = ["日期", "模块", "分类", "动作", "代码", "名称", "数量", "价格", "金额元", "保证金元", "保证金率", "费用元", "备注"];
   const rows = entries.map((entry) => [
     entry.date || "",
     config.title,
     entry.bucket || "",
-    actionLabels[entry.action] || entry.action || "",
+    entryActionLabel(module, entry.action) || "",
     entry.symbol || "",
     entry.name || "",
     entry.quantity || "",
     entry.price || "",
-    entry.amount || 0,
-    entry.fee || 0,
+    yuanFromWan(entry.amount || 0),
+    yuanFromWan(entry.margin || 0),
+    entry.margin && entry.amount ? pct(ratio(safeAmount(entry.margin), safeAmount(entry.amount))) : "",
+    yuanFromWan(entry.fee || 0),
     entry.note || ""
   ]);
   const csv = [headers, ...rows].map((rowData) => rowData.map(csvCell).join(",")).join("\n");
@@ -4076,7 +4401,7 @@ function renderRemoteSyncPanel() {
     host.id = "remoteSyncHost";
     document.body.appendChild(host);
   }
-  if (remoteSyncState.status === "idle") {
+  if (remoteSyncState.status !== "conflict") {
     host.innerHTML = "";
     return;
   }
@@ -4110,11 +4435,11 @@ async function checkRemoteDashboardState(options = {}) {
       sha: null,
       checkedAt: null
     };
-    renderRemoteSyncPanel();
+    if (!options.silent) renderRemoteSyncPanel();
     return;
   }
   remoteSyncState = { ...remoteSyncState, status: "loading", message: "正在检查 Gitee 远端数据..." };
-  renderRemoteSyncPanel();
+  if (!options.silent) renderRemoteSyncPanel();
   try {
     const remote = await fetchRemoteDashboardState({ prompt: options.prompt });
     const remotePayload = remote.data;
@@ -4133,7 +4458,7 @@ async function checkRemoteDashboardState(options = {}) {
       sha: remote.sha,
       checkedAt: new Date().toISOString()
     };
-    renderRemoteSyncPanel();
+    if (!options.silent || !same) renderRemoteSyncPanel();
     if (!options.silent) showToast("云同步检查完成", "success");
   } catch (error) {
     remoteSyncState = {
@@ -4143,7 +4468,7 @@ async function checkRemoteDashboardState(options = {}) {
       sha: null,
       checkedAt: new Date().toISOString()
     };
-    renderRemoteSyncPanel();
+    if (!options.silent) renderRemoteSyncPanel();
     if (!options.silent) showToast("云同步检查失败", "error");
   }
 }
@@ -4318,49 +4643,60 @@ function downloadText(filename, content, type) {
 
 function createSampleLedger() {
   const entries = [
-    ["dividend", "现金", "deposit", "现金", "生活现金", 6, "6个月底线"],
-    ["dividend", "类现金", "buy", "GC001", "逆回购", 8, "流动缓冲"],
-    ["dividend", "高分红股票", "buy", "000568", "泸州老窖", 18, "高分红股票仓"],
-    ["dividend", "高分红股票", "buy", "000858", "五粮液", 14, "高分红股票仓"],
-    ["dividend", "高分红股票", "buy", "红利组合", "红利组合", 38, "现金流底座"],
-    ["dividend", "债券", "buy", "债券基金", "债券", 6, "波动缓冲"],
-    ["dividend", "高分红股票", "dividend", "红利组合", "税后分红", 3.8, "过去12个月分红"],
-    ["qqq", "QQQ", "buy", "QQQ", "纳指100", 6, "右尾底仓"],
-    ["qqq", "QLD", "buy", "QLD", "120日线策略", 2, "站上120日线后买入"],
-    ["put", "SPY put", "buy", "SPY 2027P300", "深度虚值保险", 1.2, "Delta约-0.08，年度保险预算"],
-    ["put", "保险预算", "deposit", "保险预算池", "保费预留", 0.8, "只用于极端黑天鹅保护"],
-    ["ic", "IC/IM资金池", "deposit", "期货资金池", "专项资金", 10, "等待低估"],
-    ["ic", "IC", "roll", "IC2607", "换月观察", 0, "记录移仓动作"]
+    { module: "cash", bucket: "现金池", action: "deposit", symbol: "", name: "全局现金池", amount: 100, note: "示例：初始资金转入 100 万" },
+    { module: "cash", bucket: "现金池", action: "withdraw", symbol: "", name: "全局现金池", amount: 2, note: "示例：生活支出取出" },
+    { module: "dividend", bucket: "类现金", action: "buy", symbol: "GC001", name: "国债逆回购", amount: 8, note: "流动缓冲" },
+    { module: "dividend", bucket: "高分红股票", action: "buy", symbol: "000568", name: "泸州老窖", amount: 18, fee: 0.0025, note: "示例高分红股票仓" },
+    { module: "dividend", bucket: "高分红股票", action: "buy", symbol: "000858", name: "五粮液", amount: 14, fee: 0.0022, note: "示例高分红股票仓" },
+    { module: "dividend", bucket: "高分红股票", action: "buy", symbol: "600519", name: "贵州茅台", amount: 10, fee: 0.0018, note: "示例高质量白酒观察仓" },
+    { module: "dividend", bucket: "债券", action: "buy", symbol: "511010", name: "国债ETF", amount: 6, fee: 0.001, note: "波动缓冲" },
+    { module: "dividend", bucket: "高分红股票", action: "dividend", symbol: "000568", name: "泸州老窖", amount: 0.45, note: "模拟 A 股分红，冲减成本并进入现金池" },
+    { module: "dividend", bucket: "高分红股票", action: "dividend", symbol: "000858", name: "五粮液", amount: 0.35, note: "模拟 A 股分红，冲减成本并进入现金池" },
+    { module: "dividend", bucket: "类现金", action: "interest", symbol: "GC001", name: "国债逆回购", amount: 0.05, note: "模拟逆回购利息" },
+    { module: "qqq", bucket: "QQQ", action: "buy", symbol: "QQQ", name: "纳指100ETF", amount: 6, fee: 0.003, note: "右尾底仓" },
+    { module: "qqq", bucket: "QLD", action: "buy", symbol: "QLD", name: "二倍纳指ETF", amount: 2, fee: 0.002, note: "站上120日线后买入" },
+    { module: "qqq", bucket: "QQQ", action: "dividend", symbol: "QQQ", name: "纳指100ETF", amount: 0.06, note: "模拟 QQQ 分红" },
+    { module: "put", bucket: "SPY put", action: "buy", symbol: "SPY 2027P300", name: "深度虚值保险", amount: 1.2, fee: 0.01, note: "Delta约-0.08，年度保险预算" },
+    { module: "put", bucket: "保险预算", action: "expire", symbol: "SPY 2026P300", name: "到期归零示例", amount: 0.3, note: "模拟保险成本归零" },
+    { module: "ic", bucket: "IC/IM资金池", action: "futures_deposit", symbol: "期货资金池", name: "专项资金", amount: 10, note: "等待低估" },
+    { module: "ic", bucket: "IC", action: "buy", symbol: "IC2607", name: "中证500股指期货", amount: 172, margin: 20.64, quantity: "1", price: "8600", multiplier: 200, note: "示例：1手 IC，保证金率约12%" },
+    { module: "ic", bucket: "移仓", action: "roll", symbol: "IC2607", name: "中证500股指期货", amount: 0, fee: 0.005, note: "记录移仓动作" }
   ];
   return {
-    settings: { ...defaultSettings, annualExpense: 12, newMoney: 2, icPb: 35, imPb: 22 },
-    entries: entries.map(([module, bucket, action, symbol, name, amount, note], index) => {
+    settings: { ...defaultSettings, annualExpense: 12, newMoney: 2, icPb: 35, imPb: 22, futuresEquity: 55 },
+    entries: entries.map((item, index) => {
       const quantityMap = {
         "000568": "1500",
         "000858": "1400",
+        "600519": "6",
+        "511010": "6000",
         QQQ: "18",
         QLD: "10"
       };
       const priceMap = {
         "000568": "120",
         "000858": "100",
+        "600519": "1666.67",
+        "511010": "10",
         QQQ: "3333.3333",
         QLD: "2000"
       };
       return {
-      id: makeId(),
-      module,
-      bucket,
-      action,
-      symbol,
-      name,
-      amount,
-      quantity: action === "buy" ? (quantityMap[symbol] || "") : "",
-      price: action === "buy" ? (priceMap[symbol] || "") : "",
-      fee: 0,
-      note,
-      date: new Date(Date.now() - index * 86400000).toISOString().slice(0, 10)
-    };
+        id: makeId(),
+        module: item.module,
+        bucket: item.bucket,
+        action: item.action,
+        symbol: item.symbol,
+        name: item.name,
+        amount: item.amount,
+        margin: item.margin || 0,
+        quantity: item.quantity || (item.action === "buy" ? (quantityMap[item.symbol] || "") : ""),
+        price: item.price || (item.action === "buy" ? (priceMap[item.symbol] || "") : ""),
+        multiplier: item.multiplier || "",
+        fee: item.fee || 0,
+        note: item.note,
+        date: new Date(Date.now() - index * 86400000).toISOString().slice(0, 10)
+      };
     })
   };
 }

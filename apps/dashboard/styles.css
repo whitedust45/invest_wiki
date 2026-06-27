@@ -502,15 +502,18 @@ h3 {
 }
 
 .settings-grid,
-.entry-form {
+.entry-form,
+.cash-transfer-form {
   display: grid;
-  grid-template-columns: repeat(4, minmax(160px, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 12px;
 }
 
 label {
   display: grid;
+  align-content: start;
   gap: 6px;
+  min-width: 0;
   color: var(--muted);
   font-size: 13px;
 }
@@ -627,7 +630,7 @@ label {
   display: none;
   left: 0;
   bottom: calc(100% + 8px);
-  z-index: 50;
+  z-index: 500;
   width: max-content;
   max-width: min(280px, calc(100vw - 36px));
   padding: 9px 10px;
@@ -667,10 +670,25 @@ label {
   transform: translateY(0);
 }
 
+.table-wrap th .term-tip,
+.position-table-wrap th .term-tip {
+  top: calc(100% + 8px);
+  bottom: auto;
+}
+
+.table-wrap th .term-tip::after,
+.position-table-wrap th .term-tip::after {
+  top: auto;
+  bottom: 100%;
+  border-top-color: transparent;
+  border-bottom-color: rgba(35, 32, 28, 0.97);
+}
+
 input,
 select {
   width: 100%;
   min-height: 38px;
+  align-self: start;
   padding: 7px 9px;
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -718,6 +736,10 @@ select:focus {
 .form-actions {
   display: flex;
   align-items: end;
+}
+
+.form-actions button {
+  width: 100%;
 }
 
 .form-actions button,
@@ -937,6 +959,49 @@ select:focus {
   display: grid;
   gap: 3px;
   min-width: 0;
+}
+
+.cash-pool-panel {
+  display: grid;
+  gap: 12px;
+  min-width: 0;
+}
+
+.cash-pool-panel > * {
+  min-width: 0;
+}
+
+.cash-pool-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.cash-pool-grid article {
+  display: grid;
+  gap: 5px;
+  min-width: 0;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: #fffdfa;
+}
+
+.cash-pool-grid span,
+.cash-pool-grid small {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.cash-pool-grid strong {
+  color: var(--ink);
+  font-size: 18px;
+  overflow-wrap: anywhere;
+}
+
+.cash-transfer-history {
+  margin-top: 4px;
 }
 
 .settings-summary {
@@ -2185,6 +2250,7 @@ li {
 
   .settings-grid,
   .entry-form,
+  .cash-transfer-form,
   .metrics-grid,
   .bucket-grid,
   .strategy-grid,
@@ -2254,6 +2320,7 @@ li {
 
   .settings-grid,
   .entry-form,
+  .cash-transfer-form,
   .metrics-grid,
   .bucket-grid,
   .strategy-grid,

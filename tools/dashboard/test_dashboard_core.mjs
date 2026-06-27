@@ -65,6 +65,10 @@ const functions = [
   "classify",
   "quantityImpact",
   "entryBalanceImpact",
+  "entryCashImpact",
+  "entryMarginImpact",
+  "isCashPoolEntry",
+  "isPositionEntry",
   "entryIncomeImpact",
   "positionKey",
   "optionalNumber",
@@ -105,6 +109,8 @@ const balanceActions = {
   withdraw: -1,
   internal_out: -1,
   fee: -1,
+  expire: -1,
+  futures_deposit: 1,
   dividend: 0,
   interest: 0,
   roll: 0
@@ -145,6 +151,7 @@ return {
 assert.equal(core.ratio(5, 0), 0, "ratio keeps zero denominator stable");
 assert.equal(core.gap(10, 12), 0, "gap floors at zero");
 assert.equal(core.amountFromQuantityPrice(1000, 50), 5, "amount = quantity * price / 10000");
+assert.equal(core.amountFromQuantityPrice(1, 8600, 200), 172, "futures notional includes multiplier");
 assert.equal(core.amountFromQuantityPrice(0, 50), null, "invalid amount input returns null");
 assert.equal(core.writeLocalStorage("ok", "1", "测试数据"), true, "writeLocalStorage returns true on success");
 core.setLocalStorage({ setItem() { throw new Error("quota"); } });
@@ -162,15 +169,27 @@ assert.match(storageToasts.at(-1).message, /写入失败/, "write failure explai
 const ledger = {
   settings: { annualExpense: 12, futuresEquity: 0, usedMargin: 10, icPb: 25, imPb: 18, hasIc: true },
   entries: [
-    { module: "dividend", bucket: "现金", action: "deposit", symbol: "现金", amount: 6, date: "2026-06-27" },
+    { module: "cash", bucket: "现金池", action: "deposit", symbol: "", amount: 6, date: "2026-06-27" },
     { module: "dividend", bucket: "高分红股票", action: "buy", symbol: "000858", name: "五粮液", quantity: 1500, price: 160, amount: 24, fee: 0, date: "2026-06-27" },
+    { module: "dividend", bucket: "高分红股票", action: "dividend", symbol: "000858", name: "五粮液", amount: 1, fee: 0, date: "2026-06-27" },
     { module: "dividend", bucket: "债券", action: "interest", symbol: "019547", amount: 0.8, date: "2026-06-27" }
   ]
 };
 const summary = core.summarizeLedger(ledger);
-assert.equal(summary.totalAssets, 30, "summarizeLedger totals market values by bucket");
-assert.equal(summary.moduleTotals.dividend, 30, "summarizeLedger totals by module");
+assert.equal(summary.cashBalance, -16.2, "cash pool reflects deposit, buy, dividend, and interest cash movements");
+assert.equal(Number(summary.totalAssets.toFixed(2)), 6.8, "summarizeLedger includes global cash and ex-dividend cost basis");
+assert.equal(summary.moduleTotals.dividend, 23, "dividend reduces position cost basis");
 assert.equal(summary.usedMargin, 10, "settings are preserved in summary");
+
+const futuresSummary = core.summarizeLedger({
+  settings: { ...ledger.settings, futuresEquity: 55, usedMargin: 0 },
+  entries: [
+    ...ledger.entries,
+    { module: "ic", bucket: "IC", action: "buy", symbol: "IC2607", name: "中证500股指期货", quantity: 1, price: 8600, multiplier: 200, amount: 172, margin: 20.64, fee: 0, date: "2026-06-27" }
+  ]
+});
+assert.equal(futuresSummary.usedMargin, 20.64, "IC/IM entry margin feeds used margin summary");
+assert.equal(futuresSummary.futuresNotional, 172, "IC/IM notional comes from entry amount");
 
 const calc = core.calculate(summary);
 assert.equal(calc.marginRisk, Infinity, "margin risk is extreme when used margin exists and equity is zero");

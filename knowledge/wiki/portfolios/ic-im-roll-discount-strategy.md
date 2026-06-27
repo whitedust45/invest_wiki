@@ -10,7 +10,7 @@ version: 2026-06-23
 effective_date: 2026-06-23
 supersedes: []
 superseded_by: []
-see_also: [value-investing, margin-of-safety, position-sizing, drawdown, rebalance, mean-reversion, asset-allocation, carry, factor-investing, cross-asset-carry-momentum, overview, personal-hybrid-barbell-matrix, personal-hybrid-barbell-execution-dashboard, ic-im-roll-discount-operations-manual, 2022-06-22-huatai-ic-index-enhancement-whitepaper-part-1, 2022-07-06-huatai-ic-index-enhancement-whitepaper-part-2]
+see_also: [value-investing, margin-of-safety, position-sizing, drawdown, rebalance, mean-reversion, asset-allocation, carry, factor-investing, cross-asset-carry-momentum, overview, personal-hybrid-barbell-matrix, personal-hybrid-barbell-execution-dashboard, ic-im-roll-discount-operations-manual, stock-index-futures, stock-index-futures-contract-rules, 2022-06-22-huatai-ic-index-enhancement-whitepaper-part-1, 2022-07-06-huatai-ic-index-enhancement-whitepaper-part-2]
 sources:
   - type: dialogue
     context: A 股股指期货 IC/IM 滚贴水长期持有框架讨论
@@ -59,6 +59,8 @@ summary: 以不爆仓为第一原则，用 IC 做底仓、极低估时单次加 
 2. **工具选择原因**：用期货代替融资放大敞口，避免显性借贷利息。  
 3. **贴水的角色**：比较“净年化贴水”来优化合约选择，但它只是增强项，不是上杠杆的主理由。  
 4. **最重要的约束**：不能爆仓，不能在大跌中被迫离场，必须优先保护“继续持有”的资格。  
+
+合约本身的乘数、交割日和保证金基础规则见 [[stock-index-futures|股指期货]] 与 [[stock-index-futures-contract-rules]]。
 
 ## 结构设计
 ### 1. 底仓与弹性仓
