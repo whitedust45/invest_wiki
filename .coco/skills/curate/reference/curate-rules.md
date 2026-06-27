@@ -7,7 +7,7 @@
 - `version` 必须更新为操作当天日期
 - 任何修改正文的操作都必须在变更点留 `[YYYY-MM-DD 类型：原因]` 标注
 - 至少 1 条 `[[wikilink]]` 指向新来源、继任页或上下文
-- 写完后追加 `wiki/log.md`：`## [YYYY-MM-DD] curate | {一句话摘要}`
+- 写完后追加 `knowledge/wiki/log.md`：`## [YYYY-MM-DD] curate | {一句话摘要}`
 
 ---
 
@@ -56,7 +56,7 @@ sources:                     # 在数组末尾追加新来源，旧来源保留
 | 正文 wikilink 但仅描述性提及（不含数字/事实） | ❌ 不动 | 例："详见 [[X]]"、"另一种思路见 [[X]]" |
 | 正文复述了被修正的具体数字/事实 | ✅ 必须同步 | 在反向引用页同样位置加 `[YYYY-MM-DD 同步修正]` 标注 |
 | 反向引用页处于 `supersedes` 链上游 | ✅ 同步更新 | 链上节点都需对照检查是否仍成立 |
-| 引用方是 `wiki/index.md` 的 summary | ⚠️ 视情况 | 若 summary 含具体数字则同步；仅描述则不动 |
+| 引用方是 `knowledge/wiki/index.md` 的 summary | ⚠️ 视情况 | 若 summary 含具体数字则同步；仅描述则不动 |
 
 **操作要求**：
 - 联动修正必须保持术语和日期标注一致
@@ -102,7 +102,7 @@ supersedes: [old-page-id]       # 双向对称
 
 ### 索引同步
 
-`wiki/index.md` 中：
+`knowledge/wiki/index.md` 中：
 - 旧条目加 `[deprecated → [[new-page-id]]]` 后缀
 - 或迁移到「归档」区（如 index 有该结构）
 
@@ -204,20 +204,20 @@ version: 2026-05-30
 > 不删除文件以保留 git 历史，但已从索引移除。
 ```
 
-`wiki/index.md` 中移除该条目。
+`knowledge/wiki/index.md` 中移除该条目。
 
 ### §4.3 硬删除
 
 **前置全部满足才允许**：
 1. 用户明确说"删文件"/"硬删"/"彻底删除"/"rm 掉"
 2. 通过 grep 确认该页 id 未被任何页面 `see_also` / `supersedes` / `[[wikilink]]` 引用
-3. 该页未在 `schema/glossary.md` 被引用
+3. 该页未在 `knowledge/schema/glossary.md` 被引用
 
 执行前先列清单给用户：
 
 ```
 即将硬删除以下文件：
-- wiki/concepts/old-page.md（id: old-page）
+- knowledge/wiki/concepts/old-page.md（id: old-page）
 
 确认无反向引用：✅
 git 历史保留：✅
@@ -230,7 +230,7 @@ git 历史保留：✅
 ```markdown
 ## [2026-05-30] curate | 硬删除 old-page
 
-- 删除文件：wiki/concepts/old-page.md
+- 删除文件：knowledge/wiki/concepts/old-page.md
 - 删除原因：{}
 - 反向引用确认：无
 - git commit hash：{若已提交}

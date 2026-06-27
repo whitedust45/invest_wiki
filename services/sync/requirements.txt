@@ -1,0 +1,2 @@
+# Keep this empty until the sync service implementation starts.
+# Prefer Python standard library for the local prototype where practical.

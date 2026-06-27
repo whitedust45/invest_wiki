@@ -88,7 +88,7 @@ description: |
 
 | 当前上下文 | 用户说"记一下"时归属 |
 |-----------|---------------------|
-| 在回答事实型问题（查 PE / 查数据） | `/query` 归档机制（写入 `wiki/analyses/`） |
+| 在回答事实型问题（查 PE / 查数据） | `/query` 归档机制（写入 `knowledge/wiki/analyses/`） |
 | 在自由讨论想法、推理或判断 | `/think` 沉淀（本流程） |
 
 ### 阶段 1：苏格拉底追问（深度模式）
@@ -180,7 +180,7 @@ sources:
 
 #### 写入规则
 
-- 新建页面：按 `schema/frontmatter.md` 填完整 frontmatter
+- 新建页面：按 `knowledge/schema/frontmatter.md` 填完整 frontmatter
 - 追加到已有页面：按 `.coco/skills/ingest/reference/update-rules.md` 操作
 - `status` 默认 `active`（论点清晰）或 `draft`（用户说"还没想透"）
 - 必须至少 1 条 `[[wikilink]]` 指向相关页面
@@ -188,9 +188,9 @@ sources:
 
 ### 步骤 4：后续维护
 
-- 更新 `wiki/index.md`（如新建页面）
-- 追加 `wiki/log.md`：`## [YYYY-MM-DD] think | {主题简述}`
-- 检查是否需要更新 `schema/glossary.md`
+- 更新 `knowledge/wiki/index.md`（如新建页面）
+- 追加 `knowledge/wiki/log.md`：`## [YYYY-MM-DD] think | {主题简述}`
+- 检查是否需要更新 `knowledge/schema/glossary.md`
 
 ### 步骤 5：输出摘要
 

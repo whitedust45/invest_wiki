@@ -15,12 +15,12 @@ description: 知识库查询 — 三层定位 + 交叉验证 + 结构化输出 +
 
 - 识别领域：宏观 / 行业 / 个股 / 方法论 / 心理 / 策略
 - 抽取 3-5 核心关键词
-- 用 `schema/glossary.md` 扩展同义词（如"护城河"→ moat, competitive advantage, 竞争优势）
+- 用 `knowledge/schema/glossary.md` 扩展同义词（如"护城河"→ moat, competitive advantage, 竞争优势）
 - 判断问题类型：事实型 / 对比型 / 观点型 / 时效型
 
 ### 2. 定位（L1 + L2 + L3 全跑，不是 fallback 关系）
 
-- **L1（索引扫描）**：读 `wiki/index.md`，按 summary 和 domain 列筛选 → 候选集 A
+- **L1（索引扫描）**：读 `knowledge/wiki/index.md`，按 summary 和 domain 列筛选 → 候选集 A
 - **L2（topic 匹配）**：执行 `scripts/search.sh topic {keyword}` → 候选集 B
 - **L3（全文搜索）**：执行 `scripts/search.sh fulltext {keyword}` → 候选集 C
 - 合并 A ∪ B ∪ C 去重 → 原始候选池
@@ -48,7 +48,7 @@ description: 知识库查询 — 三层定位 + 交叉验证 + 结构化输出 +
 - 沿 `see_also` 递归扩展 **≤ 2 跳**（每跳最多追 3 个最相关的）
 - `status: deprecated` → 追 `superseded_by` 找新版，**不读旧版正文**
 - `status: conflict` → 读全部分支，不择一
-- 必要时回溯 `raw/` 层原文补充细节（优先读 sources 指向的段落）
+- 必要时回溯 `knowledge/raw/` 层原文补充细节（优先读 sources 指向的段落）
 
 ### 5. 交叉验证
 
@@ -90,10 +90,10 @@ high / medium / low（说明原因）
 | 时效性分析 | 涉及时间敏感的市场判断，值得作为时间快照 |
 
 归档时：
-- 存入 `wiki/analyses/`
-- 按 `schema/frontmatter.md` 填写完整 frontmatter
-- 更新 `wiki/index.md`
-- 追加 `wiki/log.md`：`## [YYYY-MM-DD] query | {归档页面标题}`
+- 存入 `knowledge/wiki/analyses/`
+- 按 `knowledge/schema/frontmatter.md` 填写完整 frontmatter
+- 更新 `knowledge/wiki/index.md`
+- 追加 `knowledge/wiki/log.md`：`## [YYYY-MM-DD] query | {归档页面标题}`
 
 ## 未命中处理
 

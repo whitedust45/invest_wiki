@@ -96,12 +96,12 @@ bash .coco/skills/lint/scripts/lint-all.sh
 
 Agent 执行自动修复时：
 
-1. 先运行 `scripts/lint-all.sh` 获取完整报告
+1. 先运行对应技能目录下的 `scripts/lint-all.sh` 获取完整报告
 2. 列出所有可自动修复的项（标 ✅ 的检查项）
 3. **展示变更清单给用户**
 4. 用户确认后批量执行
 5. 再次运行 lint 验证修复结果
-6. 追加 `wiki/log.md`：`[日期] lint | 自动修复 X 项`
+6. 追加 `knowledge/wiki/log.md`：`[日期] lint | 自动修复 X 项`
 
 ## 不自动修复的情况
 

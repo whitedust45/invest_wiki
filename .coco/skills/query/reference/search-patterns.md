@@ -67,7 +67,7 @@ L3: fulltext grep "利率" + "科技" + "估值"
 
 ## 同义词扩展速查
 
-Agent 做同义词扩展时，先查 `schema/glossary.md` 的"同义词"字段。常见扩展模式：
+Agent 做同义词扩展时，先查 `knowledge/schema/glossary.md` 的"同义词"字段。常见扩展模式：
 
 | 用户可能说 | 扩展为 |
 |-----------|--------|

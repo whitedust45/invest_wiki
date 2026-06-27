@@ -18,55 +18,38 @@
 
 所有维护规则的单一真源：
 
-- `schema/frontmatter.md` — wiki 层 frontmatter 字段定义
-- `schema/naming.md` — 文件命名 + id 构造
-- `schema/linking.md` — `[[wikilink]]` / see_also / supersedes 约定
-- `schema/glossary.md` — 受控术语表（投资领域核心术语）
+- `knowledge/schema/frontmatter.md` — wiki 层 frontmatter 字段定义
+- `knowledge/schema/naming.md` — 文件命名 + id 构造
+- `knowledge/schema/linking.md` — `[[wikilink]]` / see_also / supersedes 约定
+- `knowledge/schema/glossary.md` — 受控术语表（投资领域核心术语）
 
 ### 路径规则
 
 - 文档、脚本说明、命令示例里，只要目标文件位于本仓库内，一律优先写**相对路径**。
-- 例如在项目根目录执行脚本时，应写 `python3 scripts/ic_im_roll_discount_stress.py`，而不是机器本地绝对路径。
+- 例如在项目根目录执行脚本时，应写 `python3 tools/investing/ic_im_roll_discount_stress.py`，而不是机器本地绝对路径。
 - 只有在记录仓库外原始素材来源（如下载目录、外部挂载盘）时，才允许保留绝对路径。
 
 ## 目录结构
 
 ```
 wiki实践/
-├── CLAUDE.md              # 本文件 — Agent 冷启动指引
-├── schema/                # 规范定义层（唯一真源）
-│   ├── frontmatter.md
-│   ├── naming.md
-│   ├── linking.md
-│   └── glossary.md
-├── raw/                   # 原始素材（不可变，Agent 只读；命名规则见 .claude/skills/ingest/SKILL.md）
-│   ├── assets/            # 图片、PDF 附件
-│   └── *.md              # 剪藏的文章、研报、笔记
-├── wiki/                  # Agent 生成和维护的 Wiki 页面
-│   ├── index.md           # 内容索引（按类别+表格组织，含 summary）
-│   ├── log.md             # 操作日志（按时间倒序）
-│   ├── overview.md        # 投资理念全局概览
-│   ├── entities/          # 实体页（公司、基金、人物等）
-│   ├── concepts/          # 概念页（投资方法论、估值模型、心理偏误等）
-│   ├── sources/           # 来源摘要页（每份素材一页）
-│   ├── analyses/          # 分析页（行业对比、估值分析、决策复盘等）
-│   └── portfolios/        # 组合与策略页（持仓逻辑、配置策略等）
-└── .claude/skills/        # Agent 技能定义
-    ├── query/
-    │   ├── SKILL.md           # 查询工作流定义
-    │   ├── scripts/search.sh  # 搜索辅助脚本（topic/fulltext/domain/stale）
-    │   └── reference/search-patterns.md  # 查询模式速查
-    ├── ingest/
-    │   ├── SKILL.md           # 摄入工作流定义
-    │   ├── scripts/save-raw.sh  # raw 文件保存脚本
-    │   └── reference/update-rules.md  # 已有页面更新规范
-    ├── lint/
-    │   ├── SKILL.md           # 健康检查定义
-    │   ├── scripts/lint-all.sh  # 一键全量检查脚本
-    │   └── reference/severity-guide.md  # 检查项判定标准
-    └── think/
-        ├── SKILL.md           # 对话思考沉淀 + 被动感知定义
-        └── reference/dialogue-source-spec.md  # dialogue 来源类型说明
+├── HOME.md                 # Obsidian 根入口
+├── CLAUDE.md               # 本文件 — Agent 冷启动指引
+├── knowledge/              # 投资知识库
+│   ├── schema/             # 规范定义层（唯一真源）
+│   ├── raw/                # 原始素材（不可变，Agent 只读）
+│   └── wiki/               # Agent 生成和维护的 Wiki 页面
+├── apps/
+│   └── dashboard/          # 个人混合杠铃投资账本前端
+├── services/
+│   └── sync/               # 后续 Gitee 私库同步服务
+├── tools/
+│   ├── dashboard/          # 仪表盘估值/行情/测试工具
+│   └── investing/          # 投资策略计算器
+├── docs/
+│   ├── reviews/            # 产品/代码评审记录
+│   └── designs/            # 设计文档
+└── .claude/skills/         # Agent 技能定义
 ```
 
 ## Agent 始终在线行为
@@ -94,10 +77,10 @@ Agent 在所有对话中持续感知以下高价值信号：
 1. 问题归类
    - 识别领域（宏观/行业/个股/策略/心理/方法论）
    - 抽取 3-5 核心关键词
-   - 用 schema/glossary.md 扩展同义词（如"护城河"→ moat, competitive advantage）
+   - 用 knowledge/schema/glossary.md 扩展同义词（如"护城河"→ moat, competitive advantage）
 
 2. 定位（L1 + L2 + L3 全跑，不是 fallback 关系）
-   - L1: 读 wiki/index.md → 按 summary 和 domain 筛选 → 候选集 A
+   - L1: 读 knowledge/wiki/index.md → 按 summary 和 domain 筛选 → 候选集 A
    - L2: 按 frontmatter topic 字段匹配 glossary 术语 → 候选集 B
    - L3: 全文 grep 关键词查漏 → 候选集 C
    - 合并 A ∪ B ∪ C 去重 → 候选池（宁多勿漏）
@@ -107,7 +90,7 @@ Agent 在所有对话中持续感知以下高价值信号：
    - 沿 see_also 递归扩展 ≤ 2 跳（每跳最多追 3 个最相关的）
    - status=deprecated → 追 superseded_by 找新版
    - status=conflict → 读全部分支，不择一
-   - 必要时回溯 raw/ 层原文补充细节
+   - 必要时回溯 knowledge/raw/ 层原文补充细节
 
 4. 交叉验证（核心）
    每个硬事实（数字/日期/比例/排名）：
@@ -125,11 +108,11 @@ Agent 在所有对话中持续感知以下高价值信号：
 
 | 类别 | 路径 | 内容说明 | id 示例 |
 |------|------|----------|---------|
-| 实体 | `wiki/entities/` | 公司/基金/投资人物专页 | `berkshire-hathaway` |
-| 概念 | `wiki/concepts/` | 方法论、估值模型、行为金融 | `margin-of-safety` |
-| 来源 | `wiki/sources/` | 每份素材的摘要 | `2026-05-13-intelligent-investor-ch20` |
-| 分析 | `wiki/analyses/` | 对比、估值推演、复盘 | `china-internet-valuation-202605` |
-| 组合 | `wiki/portfolios/` | 持仓逻辑、配置策略 | `core-value-holdings` |
+| 实体 | `knowledge/wiki/entities/` | 公司/基金/投资人物专页 | `berkshire-hathaway` |
+| 概念 | `knowledge/wiki/concepts/` | 方法论、估值模型、行为金融 | `margin-of-safety` |
+| 来源 | `knowledge/wiki/sources/` | 每份素材的摘要 | `2026-05-13-intelligent-investor-ch20` |
+| 分析 | `knowledge/wiki/analyses/` | 对比、估值推演、复盘 | `china-internet-valuation-202605` |
+| 组合 | `knowledge/wiki/portfolios/` | 持仓逻辑、配置策略 | `core-value-holdings` |
 
 ## 操作指令
 
@@ -142,10 +125,10 @@ Agent 在所有对话中持续感知以下高价值信号：
 
 ### 策略脚本主动调用规则
 
-- 当对话明显进入 `IC / IM / PB 百分位 / 加仓 / 补保证金 / 不爆仓 / 滚贴水` 这类主题时，Agent 应优先把 `scripts/ic_im_roll_discount_stress.py` 当作后台计算器使用。
+- 当对话明显进入 `IC / IM / PB 百分位 / 加仓 / 补保证金 / 不爆仓 / 滚贴水` 这类主题时，Agent 应优先把 `tools/investing/ic_im_roll_discount_stress.py` 当作后台计算器使用。
 - 若用户明确表示“还没建仓”，Agent 应优先调用**未建仓信号模式**，先判断等待区 / 观察区 / 执行区，而不是直接进入加仓测算。
 - 若用户直接在自然语言里给出参数（如“IC 8536、IM 8683、PB 89，还没建仓”），Agent 默认优先尝试 `--auto-brief-mode`，把自然语言参数映射成脚本参数，再返回简洁结论。
-- 脚本的默认阈值优先从 `wiki/portfolios/personal-position-sizing-framework.md` 读取；若用户临时指定了阈值参数，再以用户当次输入覆盖。
+- 脚本的默认阈值优先从 `knowledge/wiki/portfolios/personal-position-sizing-framework.md` 读取；若用户临时指定了阈值参数，再以用户当次输入覆盖。
 - 若缺少运行所需的最小参数，Agent 先追问最少量信息，再自行调用脚本，不把“你去运行脚本”当作默认交互方式。
 - 面向用户的最终输出应是结论、条件和建议补资金额，而不是命令本身；命令仅作为可选补充。
 

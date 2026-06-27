@@ -82,7 +82,7 @@ tags: [原有, 新标签]           # 如有新的自由标签
 
 同时：
 - 将 `status` 改为 `conflict`（如冲突严重）
-- 在 `wiki/log.md` 记录冲突
+- 在 `knowledge/wiki/log.md` 记录冲突
 
 ## 禁止操作
 

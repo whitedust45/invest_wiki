@@ -97,7 +97,7 @@ if A.superseded_by contains B:
 
 ### #8 index 未收录
 
-**判定**：`wiki/` 下存在有 `id` 字段的 .md 文件，但 `index.md` 中不包含该 id
+**判定**：`knowledge/wiki/` 下存在有 `id` 字段的 .md 文件，但 `index.md` 中不包含该 id
 
 **豁免**：stub 文件
 
@@ -133,7 +133,7 @@ if A.superseded_by contains B:
 
 ### #11 术语未链接
 
-**判定**：正文中出现了 `schema/glossary.md` 中注册的术语 id（或其同义词），但该处未用 `[[wikilink]]` 包裹
+**判定**：正文中出现了 `knowledge/schema/glossary.md` 中注册的术语 id（或其同义词），但该处未用 `[[wikilink]]` 包裹
 
 **注意**：
 - 只检查**首次出现**的位置（一篇文中同一术语只需链接一次）

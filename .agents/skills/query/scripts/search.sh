@@ -10,7 +10,7 @@
 # 所有命令需在项目根目录（wiki实践/）下执行
 
 set -euo pipefail
-WIKI_DIR="wiki"
+WIKI_DIR="knowledge/wiki"
 
 usage() {
   echo "Usage: $0 {topic|fulltext|domain|stale|broken-refs} [args...]"
