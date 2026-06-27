@@ -1,5 +1,5 @@
 #!/bin/bash
-# save-raw.sh — 保存原始素材到 raw/ 目录
+# save-raw.sh — 保存原始素材到 knowledge/raw/ 目录
 # 用法：
 #   ./save-raw.sh paste "<title>" < content.txt    — 从 stdin 读取粘贴文本
 #   ./save-raw.sh url "<url>" "<title>"            — 生成规范文件名（不下载，需 Agent 配合抓取）
@@ -8,7 +8,7 @@
 # 在项目根目录（wiki实践/）下执行
 
 set -euo pipefail
-RAW_DIR="raw"
+RAW_DIR="knowledge/raw"
 
 TODAY=$(date +%Y-%m-%d)
 
@@ -88,7 +88,7 @@ case "${1:-}" in
     echo "Usage: $0 {paste|url|check} [args...]"
     echo ""
     echo "Commands:"
-    echo "  paste <title>          Save stdin to raw/ as dated markdown"
+    echo "  paste <title>          Save stdin to knowledge/raw/ as dated markdown"
     echo "  url <url> [title]      Generate filename for URL-sourced content"
     echo "  check <filename>       Validate filename against naming convention"
     exit 1

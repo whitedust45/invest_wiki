@@ -6,8 +6,8 @@
 # Agent 解析此输出生成结构化报告
 
 set -uo pipefail
-WIKI_DIR="wiki"
-SCHEMA_DIR="schema"
+WIKI_DIR="knowledge/wiki"
+SCHEMA_DIR="knowledge/schema"
 GLOSSARY="$SCHEMA_DIR/glossary.md"
 
 # 颜色（终端显示用，不影响 Agent 解析）

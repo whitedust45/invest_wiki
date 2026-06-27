@@ -94,7 +94,7 @@ description: 对话式思考沉淀 — 主动追问 + 被动感知 + 知识库�
 - 用户说"记一下"、"沉淀一下"
 - 用户对某个问题想深入讨论（不只是要个答案）
 
-**与 `/query` 归档的优先级**：当用户在查询过程中说"这个记下来"，由 `/query` 的归档机制处理（写入 `wiki/analyses/`）。当用户在自由讨论中说"记一下"，由 `/think` 处理。判断标准：当前上下文是在回答事实型问题（→ query 归档）还是在讨论想法（→ think 沉淀）。
+**与 `/query` 归档的优先级**：当用户在查询过程中说"这个记下来"，由 `/query` 的归档机制处理（写入 `knowledge/wiki/analyses/`）。当用户在自由讨论中说"记一下"，由 `/think` 处理。判断标准：当前上下文是在回答事实型问题（→ query 归档）还是在讨论想法（→ think 沉淀）。
 
 ### 子模式
 
@@ -195,7 +195,7 @@ sources:
 
 #### 写入规则
 
-- 新建页面：按 `schema/frontmatter.md` 填完整 frontmatter
+- 新建页面：按 `knowledge/schema/frontmatter.md` 填完整 frontmatter
 - 追加到已有页面：按 `.Codex/skills/ingest/reference/update-rules.md` 操作
 - `status` 默认 `active`（论点清晰）或 `draft`（用户说"还没想透"）
 - 必须至少 1 条 `[[wikilink]]` 指向相关页面
@@ -203,9 +203,9 @@ sources:
 
 ### 步骤 4：后续维护
 
-- 更新 `wiki/index.md`（如新建页面）
-- 追加 `wiki/log.md`：`## [YYYY-MM-DD] think | {主题简述}`
-- 检查是否需要更新 `schema/glossary.md`
+- 更新 `knowledge/wiki/index.md`（如新建页面）
+- 追加 `knowledge/wiki/log.md`：`## [YYYY-MM-DD] think | {主题简述}`
+- 检查是否需要更新 `knowledge/schema/glossary.md`
 
 ### 步骤 5：输出摘要
 

@@ -16,7 +16,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT_DIR="$(cd "$SCRIPT_DIR/../../../.." && pwd)"
 cd "$ROOT_DIR"
 
-WIKI_DIR="wiki"
+WIKI_DIR="knowledge/wiki"
 
 usage() {
   echo "Usage: $0 {topic|fulltext|domain|stale|broken-refs} [args...]"

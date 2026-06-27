@@ -36,7 +36,7 @@ description: |
 
 1. **保留可追溯性**：默认软删除，原内容用删除线 + `[{date} 更正]` 标注，留 git 兜底
 2. **来源优先**：任何修正必须给出新来源（如无新来源，标 `status: draft` 或 `conflict`）
-3. **变更必登记**：所有 curate 操作都进 `wiki/log.md`，类型为 `curate`
+3. **变更必登记**：所有 curate 操作都进 `knowledge/wiki/log.md`，类型为 `curate`
 4. **不替用户决断**：冲突解决、deprecated 与否、是否硬删除，最终由用户拍板
 5. **维持双向一致**：`supersedes`/`superseded_by`、`see_also`、index 三者必须同步
 
@@ -54,7 +54,7 @@ description: |
 定位后必须读取**完整 frontmatter**，确认：
 - 当前 `status`、`version`、`supersedes`/`superseded_by` 链
 - 该页被哪些页面 `see_also` 引用（决定改名/退役时的连锁影响）
-- 是否在 `wiki/index.md` 收录
+- 是否在 `knowledge/wiki/index.md` 收录
 
 ### 阶段 2：与用户确认操作方案
 
@@ -95,11 +95,11 @@ description: |
 
 | 检查项 | 操作 |
 |------|------|
-| `wiki/index.md` 中的条目 | 更新 summary（如变化）/ 加 `[deprecated]` 标签 / 改 status |
+| `knowledge/wiki/index.md` 中的条目 | 更新 summary（如变化）/ 加 `[deprecated]` 标签 / 改 status |
 | 反向 `see_also` 引用 | 被改名/退役的页面，所有引用方都要同步 |
 | `supersedes` ↔ `superseded_by` 对称性 | 若改 supersedes 链，对应另一端必须同步 |
-| `wiki/log.md` | 追加 `## [YYYY-MM-DD] curate \| {操作摘要}` |
-| `schema/glossary.md` | 若术语改名/废弃，同步 glossary 条目 |
+| `knowledge/wiki/log.md` | 追加 `## [YYYY-MM-DD] curate \| {操作摘要}` |
+| `knowledge/schema/glossary.md` | 若术语改名/废弃，同步 glossary 条目 |
 
 ### 阶段 5：自检与摘要
 
