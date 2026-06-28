@@ -8,7 +8,10 @@
     "reference": "https://github.com/mpquant/Ashare",
     "watchlist_snapshot": "watchlist-data/20260626/watchlist-quotes.json",
     "watchlist_snapshot_time": "2026-06-26T15:00:00+08:00",
-    "watchlist_source": "watchlist-quotes"
+    "watchlist_source": "watchlist-quotes",
+    "dividend_watchlist_defaults": "Kimi_Agent_金融数据拉取.zip",
+    "dividend_watchlist_defaults_time": "2026-06-28T11:55:00+08:00",
+    "dividend_watchlist_defaults_note": "仅补充缺失的 159569；已有 2026-06-26 关注列表报价不覆盖。"
   },
   "quotes": {
     "159117": {
@@ -313,6 +316,19 @@
       "source": "iFinD关注列表快照",
       "trade_time": "2026-06-26 15:00:00",
       "snapshot_file": "watchlist-data/20260626/watchlist-quotes.json"
+    },
+    "159569": {
+      "symbol": "159569",
+      "name": "港股通红利低波",
+      "ts_code": "159569.SZ",
+      "price": 1.2519999743,
+      "prev_close": 1.2640000582,
+      "change_pct": -0.95,
+      "volume": 61382100,
+      "amount": null,
+      "source": "Yahoo默认日线",
+      "trade_time": "2026-06-26 15:00:00",
+      "snapshot_file": "Kimi_Agent_金融数据拉取.zip/watchlist-data/ggt_hldj_etf_yahoo_price.csv"
     }
   },
   "errors": {}

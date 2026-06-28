@@ -105,6 +105,7 @@ const functions = [
   "allocationPlanForAmount",
   "allocationPlan",
   "amountFromQuantityPrice",
+  "marketCodeForAshare",
   "externalFlowOnDate",
   "buildDailySnapshot",
   "normalizeDividendBucket",
@@ -197,6 +198,7 @@ return {
   futuresAddLotCandidates,
   allocationPlanForAmount,
   amountFromQuantityPrice,
+  marketCodeForAshare,
   externalFlowOnDate,
   buildDailySnapshot,
   validateFullBackupPayload,
@@ -217,6 +219,10 @@ assert.equal(core.targetProgressMeta(4, 6, "max").label, "安全", "target marke
 assert.equal(core.amountFromQuantityPrice(1000, 50), 5, "amount = quantity * price / 10000");
 assert.equal(core.amountFromQuantityPrice(1, 8600, 200), 172, "futures notional includes multiplier");
 assert.equal(core.amountFromQuantityPrice(0, 50), null, "invalid amount input returns null");
+assert.equal(core.marketCodeForAshare("159569"), "sz159569", "SZ ETF codes can be synced as A-share instruments");
+assert.equal(core.marketCodeForAshare("512890"), "sh512890", "SH ETF 512 prefix can be synced as A-share instruments");
+assert.equal(core.marketCodeForAshare("520890"), "sh520890", "SH ETF 520 prefix can be synced as A-share instruments");
+assert.equal(core.marketCodeForAshare("QQQ"), null, "US tickers are not treated as A-share market codes");
 assert.equal(core.writeLocalStorage("ok", "1", "测试数据"), true, "writeLocalStorage returns true on success");
 core.setLocalStorage({ setItem() { throw new Error("quota"); } });
 const originalConsoleError = console.error;

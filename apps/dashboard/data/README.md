@@ -116,7 +116,7 @@ python3 tools/dashboard/update_ic_im_valuation.py --no-include-basis
 运行以下命令生成前端读取的价格 JSON：
 
 ```bash
-python3 tools/dashboard/update_position_quotes.py 000858 000568 600887 600153 600036 002818 002091 601668 600177 600873 601318 600938 600941 601225 000651 600690 512890 520890 159545 513630 159117 QQQ QLD SPY
+python3 tools/dashboard/update_position_quotes.py 000858 000568 600887 600153 600036 002818 002091 601668 600177 600873 601318 600938 600941 601225 000651 600690 512890 520890 159569 159545 513630 159117 QQQ QLD SPY
 ```
 
 默认输出：
@@ -135,6 +135,11 @@ apps/dashboard/data/position-quotes.json
 - 若持仓估值里已经手工填写了 `当前市值`，手工市值仍保持最高优先级，不会被价格同步覆盖
 - QQQ / QLD 等普通美股 ETF 可通过本地 JSON 同步人民币折算价；期权权利金、期货保证金等仍建议继续手工填写当前市值
 - `watchlist-data/20260626/watchlist-quotes.json` 已补充进 `position-quotes.json`：16 只 A 股 + 5 只 ETF 的 2026-06-26 收盘快照可直接用于持仓价格同步。
+- `Kimi_Agent_金融数据拉取.zip` 已补充进默认数据：
+  - `dividend-watchlist-defaults.json`：高股息 + 低估值 + 低波动关注池的默认指标，来自 `watchlist-data/00_红利低波策略指标总览.csv`、`watchlist-data/00_valuation_dividend_overview.csv`、`watchlist-data/00_volatility_metrics.csv`
+  - `position-quotes.json`：仅补齐缺失的 `159569` 2026-06-26 收盘价；已有同日行情不覆盖
+  - `position-history.json`：合并 16 只 A 股和 3 只红利低波 ETF 的 Yahoo 2 年日线，作为收益率曲线的本地历史兜底
+- `dividend-watchlist-defaults.json` 是默认观察池指标，不是买入建议；其中估值、股息率、波动率等为单源快照，使用前需按最新行情复核。
 
 如果需要同时生成 A 股日收盘价历史 JSON：
 
@@ -150,7 +155,7 @@ apps/dashboard/data/position-history.json
 
 网页端的收益率曲线会在打开时自动补齐缺失日期：
 
-- A 股：直接读取腾讯日线 `appstock/app/fqkline/get` 的前复权日收盘价
+- A 股 / ETF：优先合并本地 `position-history.json` 历史数据，再用腾讯日线 `appstock/app/fqkline/get` 的前复权日收盘价覆盖同日记录
 - 关注列表补充数据：缺少腾讯日线历史的标的，会先用 `watchlist-data/20260626/watchlist-quotes.json` 的 2026-06-26 单日收盘快照补一条记录；已有同日腾讯日线的不覆盖
 - 现金 / 类现金 / 债券：按流水日期推导余额
 - 暂未自动取价的资产：沿用上一条可用估值

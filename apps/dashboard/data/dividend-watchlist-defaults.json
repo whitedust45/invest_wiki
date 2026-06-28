@@ -1,0 +1,966 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-06-28T11:55:00+08:00",
+  "data_as_of": "2026-06-26",
+  "strategy": "高股息 + 低估值 + 低波动",
+  "source": {
+    "package": "Kimi_Agent_金融数据拉取.zip",
+    "readme": "Kimi_Agent_金融数据拉取.zip/watchlist-data/00_README_红利低波策略数据索引.md",
+    "summary": "Kimi_Agent_金融数据拉取.zip/watchlist-data/00_红利低波策略指标总览.csv",
+    "valuation_overview": "Kimi_Agent_金融数据拉取.zip/watchlist-data/00_valuation_dividend_overview.csv",
+    "volatility": "Kimi_Agent_金融数据拉取.zip/watchlist-data/00_volatility_metrics.csv",
+    "note": "默认指标来自 Kimi Agent 数据包；价格和财务指标为单源快照，使用时需按最新行情复核。"
+  },
+  "universe": [
+    {
+      "symbol": "000858",
+      "ts_code": "000858.SZ",
+      "name": "五粮液",
+      "asset_type": "stock",
+      "price": 73.17,
+      "market_cap_cny_billion": 2840.17,
+      "valuation": {
+        "pe_ttm": 22.51,
+        "forward_pe": 13.08,
+        "pb": 2.22,
+        "ps": 6.14,
+        "ev_ebitda": 11.2
+      },
+      "dividend": {
+        "dividend_per_share": 5.75,
+        "dividend_yield_pct": 7.85,
+        "five_year_avg_yield_pct": 3.03,
+        "payout_ratio_pct": 1.77
+      },
+      "quality": {
+        "roe_pct": 9.21,
+        "roa_pct": 4.37,
+        "net_margin_pct": 27.23,
+        "gross_margin_pct": 78.85,
+        "free_cash_flow_cny_billion": 182.82,
+        "debt_to_equity_pct": 0.34
+      },
+      "growth": {
+        "revenue_growth_pct": 33.7,
+        "earnings_growth_pct": 82.6
+      },
+      "risk": {
+        "beta": 0.38,
+        "annual_volatility_pct": 20.79,
+        "max_drawdown_pct": -52.24,
+        "sharpe_ratio": -0.85,
+        "latest_vol_20d": 0.26207038689326606,
+        "latest_vol_60d": 0.2133459761176216,
+        "latest_vol_120d": 0.2509849960564682,
+        "latest_vol_250d": 0.2078766643954733,
+        "sortino_ratio": -1.463810991188151,
+        "calmar_ratio": -0.4051699065092492
+      },
+      "source_files": {
+        "summary": "Kimi_Agent_金融数据拉取.zip/watchlist-data/00_红利低波策略指标总览.csv",
+        "valuation_overview": "Kimi_Agent_金融数据拉取.zip/watchlist-data/00_valuation_dividend_overview.csv",
+        "volatility": "Kimi_Agent_金融数据拉取.zip/watchlist-data/00_volatility_metrics.csv"
+      }
+    },
+    {
+      "symbol": "000568",
+      "ts_code": "000568.SZ",
+      "name": "泸州老窖",
+      "asset_type": "stock",
+      "price": 75.2,
+      "market_cap_cny_billion": 1106.87,
+      "valuation": {
+        "pe_ttm": 11.14,
+        "forward_pe": 9.75,
+        "pb": 2.15,
+        "ps": 4.54,
+        "ev_ebitda": 6.37
+      },
+      "dividend": {
+        "dividend_per_share": 5.95,
+        "dividend_yield_pct": 7.91,
+        "five_year_avg_yield_pct": 2.84,
+        "payout_ratio_pct": 88.15
+      },
+      "quality": {
+        "roe_pct": 19.56,
+        "roa_pct": 11.99,
+        "net_margin_pct": 40.76,
+        "gross_margin_pct": 86.4,
+        "free_cash_flow_cny_billion": 46.65,
+        "debt_to_equity_pct": 12.92
+      },
+      "growth": {
+        "revenue_growth_pct": -14.2,
+        "earnings_growth_pct": -19.5
+      },
+      "risk": {
+        "beta": 0.36,
+        "annual_volatility_pct": 28.67,
+        "max_drawdown_pct": -49.82,
+        "sharpe_ratio": -0.78,
+        "latest_vol_20d": 0.2629839416977904,
+        "latest_vol_60d": 0.2442016552956466,
+        "latest_vol_120d": 0.27895957428248885,
+        "latest_vol_250d": 0.28665979272071773,
+        "sortino_ratio": -1.3558544312063854,
+        "calmar_ratio": -0.4908809959292146
+      },
+      "source_files": {
+        "summary": "Kimi_Agent_金融数据拉取.zip/watchlist-data/00_红利低波策略指标总览.csv",
+        "valuation_overview": "Kimi_Agent_金融数据拉取.zip/watchlist-data/00_valuation_dividend_overview.csv",
+        "volatility": "Kimi_Agent_金融数据拉取.zip/watchlist-data/00_volatility_metrics.csv"
+      }
+    },
+    {
+      "symbol": "600887",
+      "ts_code": "600887.SH",
+      "name": "伊利股份",
+      "asset_type": "stock",
+      "price": 24.27,
+      "market_cap_cny_billion": 1535.17,
+      "valuation": {
+        "pe_ttm": 12.71,
+        "forward_pe": 11.68,
+        "pb": 2.58,
+        "ps": 1.3,
+        "ev_ebitda": 11.94
+      },
+      "dividend": {
+        "dividend_per_share": 2.6,
+        "dividend_yield_pct": 10.71,
+        "five_year_avg_yield_pct": 3.74,
+        "payout_ratio_pct": 89.01
+      },
+      "quality": {
+        "roe_pct": 19.09,
+        "roa_pct": 5.01,
+        "net_margin_pct": 10.26,
+        "gross_margin_pct": 34.52,
+        "free_cash_flow_cny_billion": 16.32,
+        "debt_to_equity_pct": 97.88
+      },
+      "growth": {
+        "revenue_growth_pct": 5.5,
+        "earnings_growth_pct": 10.4
+      },
+      "risk": {
+        "beta": 0.33,
+        "annual_volatility_pct": 16.35,
+        "max_drawdown_pct": -19.05,
+        "sharpe_ratio": 0.06,
+        "latest_vol_20d": 0.21393196272920686,
+        "latest_vol_60d": 0.1972356670578824,
+        "latest_vol_120d": 0.1830863254050231,
+        "latest_vol_250d": 0.16345044987721127,
+        "sortino_ratio": 0.10973607796358065,
+        "calmar_ratio": 0.20898374565208702
+      },
+      "source_files": {
+        "summary": "Kimi_Agent_金融数据拉取.zip/watchlist-data/00_红利低波策略指标总览.csv",
+        "valuation_overview": "Kimi_Agent_金融数据拉取.zip/watchlist-data/00_valuation_dividend_overview.csv",
+        "volatility": "Kimi_Agent_金融数据拉取.zip/watchlist-data/00_volatility_metrics.csv"
+      }
+    },
+    {
+      "symbol": "600153",
+      "ts_code": "600153.SH",
+      "name": "建发股份",
+      "asset_type": "stock",
+      "price": 8.08,
+      "market_cap_cny_billion": 234.28,
+      "valuation": {
+        "pe_ttm": null,
+        "forward_pe": 6.58,
+        "pb": 0.54,
+        "ps": 0.04,
+        "ev_ebitda": 26.72
+      },
+      "dividend": {
+        "dividend_per_share": 0.7,
+        "dividend_yield_pct": 8.66,
+        "five_year_avg_yield_pct": 6.45,
+        "payout_ratio_pct": 1.37
+      },
+      "quality": {
+        "roe_pct": -13.44,
+        "roa_pct": 0.6,
+        "net_margin_pct": -1.6,
+        "gross_margin_pct": 4.04,
+        "free_cash_flow_cny_billion": -83,
+        "debt_to_equity_pct": 119.86
+      },
+      "growth": {
+        "revenue_growth_pct": -2.5,
+        "earnings_growth_pct": 18.8
+      },
+      "risk": {
+        "beta": 0.38,
+        "annual_volatility_pct": 26.62,
+        "max_drawdown_pct": -25.4,
+        "sharpe_ratio": 0.16,
+        "latest_vol_20d": 0.31817289299520884,
+        "latest_vol_60d": 0.30509110858076643,
+        "latest_vol_120d": 0.27838767761972794,
+        "latest_vol_250d": 0.2661745576877095,
+        "sortino_ratio": 0.24523516318024036,
+        "calmar_ratio": 0.28868734521529615
+      },
+      "source_files": {
+        "summary": "Kimi_Agent_金融数据拉取.zip/watchlist-data/00_红利低波策略指标总览.csv",
+        "valuation_overview": "Kimi_Agent_金融数据拉取.zip/watchlist-data/00_valuation_dividend_overview.csv",
+        "volatility": "Kimi_Agent_金融数据拉取.zip/watchlist-data/00_volatility_metrics.csv"
+      }
+    },
+    {
+      "symbol": "600036",
+      "ts_code": "600036.SH",
+      "name": "招商银行",
+      "asset_type": "stock",
+      "price": 36,
+      "market_cap_cny_billion": 9079.14,
+      "valuation": {
+        "pe_ttm": 6.3,
+        "forward_pe": 5.76,
+        "pb": 0.8,
+        "ps": 3.04,
+        "ev_ebitda": null
+      },
+      "dividend": {
+        "dividend_per_share": 3.01,
+        "dividend_yield_pct": 8.37,
+        "five_year_avg_yield_pct": 4.69,
+        "payout_ratio_pct": 52.77
+      },
+      "quality": {
+        "roe_pct": 11.92,
+        "roa_pct": 1.17,
+        "net_margin_pct": 50.45,
+        "gross_margin_pct": 0,
+        "free_cash_flow_cny_billion": null,
+        "debt_to_equity_pct": null
+      },
+      "growth": {
+        "revenue_growth_pct": 1.7,
+        "earnings_growth_pct": 0.7
+      },
+      "risk": {
+        "beta": 0.54,
+        "annual_volatility_pct": 15.97,
+        "max_drawdown_pct": -20.13,
+        "sharpe_ratio": 0.44,
+        "latest_vol_20d": 0.20359944910124933,
+        "latest_vol_60d": 0.1532654109565183,
+        "latest_vol_120d": 0.15242131344802523,
+        "latest_vol_250d": 0.15965642470428862,
+        "sortino_ratio": 0.6385243213398485,
+        "calmar_ratio": 0.5785277018678618
+      },
+      "source_files": {
+        "summary": "Kimi_Agent_金融数据拉取.zip/watchlist-data/00_红利低波策略指标总览.csv",
+        "valuation_overview": "Kimi_Agent_金融数据拉取.zip/watchlist-data/00_valuation_dividend_overview.csv",
+        "volatility": "Kimi_Agent_金融数据拉取.zip/watchlist-data/00_volatility_metrics.csv"
+      }
+    },
+    {
+      "symbol": "002818",
+      "ts_code": "002818.SZ",
+      "name": "富森美",
+      "asset_type": "stock",
+      "price": 10.67,
+      "market_cap_cny_billion": 79.86,
+      "valuation": {
+        "pe_ttm": 10.07,
+        "forward_pe": 8.67,
+        "pb": 1.34,
+        "ps": 7.08,
+        "ev_ebitda": 7.26
+      },
+      "dividend": {
+        "dividend_per_share": 0.62,
+        "dividend_yield_pct": 5.81,
+        "five_year_avg_yield_pct": 7.73,
+        "payout_ratio_pct": 33.96
+      },
+      "quality": {
+        "roe_pct": 18.14,
+        "roa_pct": 4.55,
+        "net_margin_pct": 70.52,
+        "gross_margin_pct": 61.1,
+        "free_cash_flow_cny_billion": 3.49,
+        "debt_to_equity_pct": 0.08
+      },
+      "growth": {
+        "revenue_growth_pct": -21.7,
+        "earnings_growth_pct": 161.9
+      },
+      "risk": {
+        "beta": 0.39,
+        "annual_volatility_pct": 22.72,
+        "max_drawdown_pct": -23.48,
+        "sharpe_ratio": -0.02,
+        "latest_vol_20d": 0.30770065479450076,
+        "latest_vol_60d": 0.32157308003720153,
+        "latest_vol_120d": 0.2847023096616771,
+        "latest_vol_250d": 0.2271927250936328,
+        "sortino_ratio": -0.020404637217843916,
+        "calmar_ratio": 0.08984678809646289
+      },
+      "source_files": {
+        "summary": "Kimi_Agent_金融数据拉取.zip/watchlist-data/00_红利低波策略指标总览.csv",
+        "valuation_overview": "Kimi_Agent_金融数据拉取.zip/watchlist-data/00_valuation_dividend_overview.csv",
+        "volatility": "Kimi_Agent_金融数据拉取.zip/watchlist-data/00_volatility_metrics.csv"
+      }
+    },
+    {
+      "symbol": "002091",
+      "ts_code": "002091.SZ",
+      "name": "江苏国泰",
+      "asset_type": "stock",
+      "price": 7.18,
+      "market_cap_cny_billion": 116.87,
+      "valuation": {
+        "pe_ttm": 10.88,
+        "forward_pe": 8.16,
+        "pb": 0.71,
+        "ps": 0.29,
+        "ev_ebitda": 1.81
+      },
+      "dividend": {
+        "dividend_per_share": 0.47,
+        "dividend_yield_pct": 6.55,
+        "five_year_avg_yield_pct": 3.76,
+        "payout_ratio_pct": 71.21
+      },
+      "quality": {
+        "roe_pct": 9.51,
+        "roa_pct": 3.74,
+        "net_margin_pct": 3.14,
+        "gross_margin_pct": 15.49,
+        "free_cash_flow_cny_billion": -1.03,
+        "debt_to_equity_pct": 38.88
+      },
+      "growth": {
+        "revenue_growth_pct": 8.9,
+        "earnings_growth_pct": -7.7
+      },
+      "risk": {
+        "beta": 0.37,
+        "annual_volatility_pct": 34.91,
+        "max_drawdown_pct": -28.89,
+        "sharpe_ratio": 0.32,
+        "latest_vol_20d": 0.3184272195250415,
+        "latest_vol_60d": 0.4069559305574635,
+        "latest_vol_120d": 0.34284118034980665,
+        "latest_vol_250d": 0.34910507639094784,
+        "sortino_ratio": 0.45291815306035316,
+        "calmar_ratio": 0.42808776996782816
+      },
+      "source_files": {
+        "summary": "Kimi_Agent_金融数据拉取.zip/watchlist-data/00_红利低波策略指标总览.csv",
+        "valuation_overview": "Kimi_Agent_金融数据拉取.zip/watchlist-data/00_valuation_dividend_overview.csv",
+        "volatility": "Kimi_Agent_金融数据拉取.zip/watchlist-data/00_volatility_metrics.csv"
+      }
+    },
+    {
+      "symbol": "601668",
+      "ts_code": "601668.SH",
+      "name": "中国建筑",
+      "asset_type": "stock",
+      "price": 4.4,
+      "market_cap_cny_billion": 1818.1,
+      "valuation": {
+        "pe_ttm": 4.84,
+        "forward_pe": 4.23,
+        "pb": 0.37,
+        "ps": 0.09,
+        "ev_ebitda": 11.48
+      },
+      "dividend": {
+        "dividend_per_share": 0.27,
+        "dividend_yield_pct": 6.17,
+        "five_year_avg_yield_pct": 4.71,
+        "payout_ratio_pct": 29.84
+      },
+      "quality": {
+        "roe_pct": 6.37,
+        "roa_pct": 1.57,
+        "net_margin_pct": 1.86,
+        "gross_margin_pct": 9.74,
+        "free_cash_flow_cny_billion": -443.6,
+        "debt_to_equity_pct": 117.61
+      },
+      "growth": {
+        "revenue_growth_pct": -7.8,
+        "earnings_growth_pct": -8.3
+      },
+      "risk": {
+        "beta": 0.26,
+        "annual_volatility_pct": 15.01,
+        "max_drawdown_pct": -29.58,
+        "sharpe_ratio": -0.27,
+        "latest_vol_20d": 0.18293328328873715,
+        "latest_vol_60d": 0.13961307438792622,
+        "latest_vol_120d": 0.15086513005966393,
+        "latest_vol_250d": 0.15012663012417665,
+        "sortino_ratio": -0.3760901297141329,
+        "calmar_ratio": -0.12216556308686825
+      },
+      "source_files": {
+        "summary": "Kimi_Agent_金融数据拉取.zip/watchlist-data/00_红利低波策略指标总览.csv",
+        "valuation_overview": "Kimi_Agent_金融数据拉取.zip/watchlist-data/00_valuation_dividend_overview.csv",
+        "volatility": "Kimi_Agent_金融数据拉取.zip/watchlist-data/00_volatility_metrics.csv"
+      }
+    },
+    {
+      "symbol": "600177",
+      "ts_code": "600177.SH",
+      "name": "雅戈尔",
+      "asset_type": "stock",
+      "price": 7.51,
+      "market_cap_cny_billion": 347.22,
+      "valuation": {
+        "pe_ttm": 13.41,
+        "forward_pe": 11.55,
+        "pb": 0.82,
+        "ps": 2.98,
+        "ev_ebitda": 66.85
+      },
+      "dividend": {
+        "dividend_per_share": 0.44,
+        "dividend_yield_pct": 5.86,
+        "five_year_avg_yield_pct": 7.4,
+        "payout_ratio_pct": 78.57
+      },
+      "quality": {
+        "roe_pct": 6.06,
+        "roa_pct": -0.11,
+        "net_margin_pct": 21.99,
+        "gross_margin_pct": 41.34,
+        "free_cash_flow_cny_billion": 3.39,
+        "debt_to_equity_pct": 52.06
+      },
+      "growth": {
+        "revenue_growth_pct": 3.1,
+        "earnings_growth_pct": 17.6
+      },
+      "risk": {
+        "beta": 0.11,
+        "annual_volatility_pct": 15.71,
+        "max_drawdown_pct": -21.71,
+        "sharpe_ratio": 0.41,
+        "latest_vol_20d": 0.23726332533160102,
+        "latest_vol_60d": 0.2011384887973022,
+        "latest_vol_120d": 0.19217785526328166,
+        "latest_vol_250d": 0.15708605106458098,
+        "sortino_ratio": 0.5278564604478365,
+        "calmar_ratio": 0.5247838499415958
+      },
+      "source_files": {
+        "summary": "Kimi_Agent_金融数据拉取.zip/watchlist-data/00_红利低波策略指标总览.csv",
+        "valuation_overview": "Kimi_Agent_金融数据拉取.zip/watchlist-data/00_valuation_dividend_overview.csv",
+        "volatility": "Kimi_Agent_金融数据拉取.zip/watchlist-data/00_volatility_metrics.csv"
+      }
+    },
+    {
+      "symbol": "600873",
+      "ts_code": "600873.SH",
+      "name": "梅花生物",
+      "asset_type": "stock",
+      "price": 7.36,
+      "market_cap_cny_billion": 206.39,
+      "valuation": {
+        "pe_ttm": 8.66,
+        "forward_pe": 8.66,
+        "pb": 1.26,
+        "ps": 0.86,
+        "ev_ebitda": 6.91
+      },
+      "dividend": {
+        "dividend_per_share": 1.02,
+        "dividend_yield_pct": 10.68,
+        "five_year_avg_yield_pct": 4.5,
+        "payout_ratio_pct": 50.11
+      },
+      "quality": {
+        "roe_pct": 14.94,
+        "roa_pct": 3.98,
+        "net_margin_pct": 9.95,
+        "gross_margin_pct": 15.1,
+        "free_cash_flow_cny_billion": -5.37,
+        "debt_to_equity_pct": 24.68
+      },
+      "growth": {
+        "revenue_growth_pct": -4.5,
+        "earnings_growth_pct": -88.9
+      },
+      "risk": {
+        "beta": -0.06,
+        "annual_volatility_pct": 27.72,
+        "max_drawdown_pct": -42.63,
+        "sharpe_ratio": -0.48,
+        "latest_vol_20d": 0.31322996276632104,
+        "latest_vol_60d": 0.35319753302324897,
+        "latest_vol_120d": 0.3560980982374965,
+        "latest_vol_250d": 0.27720538631591723,
+        "sortino_ratio": -0.7133244483995154,
+        "calmar_ratio": -0.24763422180036576
+      },
+      "source_files": {
+        "summary": "Kimi_Agent_金融数据拉取.zip/watchlist-data/00_红利低波策略指标总览.csv",
+        "valuation_overview": "Kimi_Agent_金融数据拉取.zip/watchlist-data/00_valuation_dividend_overview.csv",
+        "volatility": "Kimi_Agent_金融数据拉取.zip/watchlist-data/00_volatility_metrics.csv"
+      }
+    },
+    {
+      "symbol": "601318",
+      "ts_code": "601318.SH",
+      "name": "中国平安",
+      "asset_type": "stock",
+      "price": 47.23,
+      "market_cap_cny_billion": 8552.24,
+      "valuation": {
+        "pe_ttm": 6.51,
+        "forward_pe": 5.33,
+        "pb": 0.84,
+        "ps": 0.9,
+        "ev_ebitda": -1.36
+      },
+      "dividend": {
+        "dividend_per_share": 2.7,
+        "dividend_yield_pct": 5.72,
+        "five_year_avg_yield_pct": 4.92,
+        "payout_ratio_pct": 35.45
+      },
+      "quality": {
+        "roe_pct": 11.28,
+        "roa_pct": 0.98,
+        "net_margin_pct": 13.94,
+        "gross_margin_pct": 36.08,
+        "free_cash_flow_cny_billion": 5276.89,
+        "debt_to_equity_pct": 140.54
+      },
+      "growth": {
+        "revenue_growth_pct": -3.3,
+        "earnings_growth_pct": -13.2
+      },
+      "risk": {
+        "beta": 0.64,
+        "annual_volatility_pct": 26.06,
+        "max_drawdown_pct": -34.32,
+        "sharpe_ratio": 0.53,
+        "latest_vol_20d": 0.40653679912889773,
+        "latest_vol_60d": 0.2981254600523794,
+        "latest_vol_120d": 0.29462309159593175,
+        "latest_vol_250d": 0.2605948589283294,
+        "sortino_ratio": 0.8102096752980431,
+        "calmar_ratio": 0.501318699507752
+      },
+      "source_files": {
+        "summary": "Kimi_Agent_金融数据拉取.zip/watchlist-data/00_红利低波策略指标总览.csv",
+        "valuation_overview": "Kimi_Agent_金融数据拉取.zip/watchlist-data/00_valuation_dividend_overview.csv",
+        "volatility": "Kimi_Agent_金融数据拉取.zip/watchlist-data/00_volatility_metrics.csv"
+      }
+    },
+    {
+      "symbol": "600938",
+      "ts_code": "600938.SH",
+      "name": "中国海油",
+      "asset_type": "stock",
+      "price": 27.37,
+      "market_cap_cny_billion": 13008.95,
+      "valuation": {
+        "pe_ttm": 10.65,
+        "forward_pe": 8.21,
+        "pb": 1.55,
+        "ps": 3.19,
+        "ev_ebitda": 4.45
+      },
+      "dividend": {
+        "dividend_per_share": 1.33,
+        "dividend_yield_pct": 4.87,
+        "five_year_avg_yield_pct": null,
+        "payout_ratio_pct": 49.46
+      },
+      "quality": {
+        "roe_pct": 15.35,
+        "roa_pct": 9.38,
+        "net_margin_pct": 30.6,
+        "gross_margin_pct": 76.41,
+        "free_cash_flow_cny_billion": 655.73,
+        "debt_to_equity_pct": 8.26
+      },
+      "growth": {
+        "revenue_growth_pct": 8.6,
+        "earnings_growth_pct": 6.5
+      },
+      "risk": {
+        "beta": 0.28,
+        "annual_volatility_pct": 35.4,
+        "max_drawdown_pct": -36.95,
+        "sharpe_ratio": -0.01,
+        "latest_vol_20d": 0.3807584073381088,
+        "latest_vol_60d": 0.3506055935846293,
+        "latest_vol_120d": 0.4671521732929461,
+        "latest_vol_250d": 0.35396689116506314,
+        "sortino_ratio": -0.02047531698246096,
+        "calmar_ratio": 0.0545610665203261
+      },
+      "source_files": {
+        "summary": "Kimi_Agent_金融数据拉取.zip/watchlist-data/00_红利低波策略指标总览.csv",
+        "valuation_overview": "Kimi_Agent_金融数据拉取.zip/watchlist-data/00_valuation_dividend_overview.csv",
+        "volatility": "Kimi_Agent_金融数据拉取.zip/watchlist-data/00_volatility_metrics.csv"
+      }
+    },
+    {
+      "symbol": "600941",
+      "ts_code": "600941.SH",
+      "name": "中国移动",
+      "asset_type": "stock",
+      "price": 86.82,
+      "market_cap_cny_billion": 18791.85,
+      "valuation": {
+        "pe_ttm": 13.78,
+        "forward_pe": 12.9,
+        "pb": 1.32,
+        "ps": 1.78,
+        "ev_ebitda": 5.84
+      },
+      "dividend": {
+        "dividend_per_share": 4.7,
+        "dividend_yield_pct": 5.42,
+        "five_year_avg_yield_pct": null,
+        "payout_ratio_pct": 76.1
+      },
+      "quality": {
+        "roe_pct": 9.64,
+        "roa_pct": 4.27,
+        "net_margin_pct": 12.9,
+        "gross_margin_pct": 28.45,
+        "free_cash_flow_cny_billion": 1555.68,
+        "debt_to_equity_pct": 7.17
+      },
+      "growth": {
+        "revenue_growth_pct": 1,
+        "earnings_growth_pct": -4.9
+      },
+      "risk": {
+        "beta": 0.25,
+        "annual_volatility_pct": 13.91,
+        "max_drawdown_pct": -22.09,
+        "sharpe_ratio": -0.29,
+        "latest_vol_20d": 0.15495876276592369,
+        "latest_vol_60d": 0.1598032767613652,
+        "latest_vol_120d": 0.16865039970809262,
+        "latest_vol_250d": 0.1390694596570405,
+        "sortino_ratio": -0.44658275692594757,
+        "calmar_ratio": -0.11854739795326301
+      },
+      "source_files": {
+        "summary": "Kimi_Agent_金融数据拉取.zip/watchlist-data/00_红利低波策略指标总览.csv",
+        "valuation_overview": "Kimi_Agent_金融数据拉取.zip/watchlist-data/00_valuation_dividend_overview.csv",
+        "volatility": "Kimi_Agent_金融数据拉取.zip/watchlist-data/00_volatility_metrics.csv"
+      }
+    },
+    {
+      "symbol": "601225",
+      "ts_code": "601225.SH",
+      "name": "陕西煤业",
+      "asset_type": "stock",
+      "price": 20.7,
+      "market_cap_cny_billion": 2006.87,
+      "valuation": {
+        "pe_ttm": 12.4,
+        "forward_pe": 11.13,
+        "pb": 1.97,
+        "ps": 1.28,
+        "ev_ebitda": 5.54
+      },
+      "dividend": {
+        "dividend_per_share": 0.95,
+        "dividend_yield_pct": 4.58,
+        "five_year_avg_yield_pct": 6.91,
+        "payout_ratio_pct": 70.42
+      },
+      "quality": {
+        "roe_pct": 18.52,
+        "roa_pct": 7.43,
+        "net_margin_pct": 10.3,
+        "gross_margin_pct": 29.52,
+        "free_cash_flow_cny_billion": 101.3,
+        "debt_to_equity_pct": 17.84
+      },
+      "growth": {
+        "revenue_growth_pct": -3,
+        "earnings_growth_pct": -12.4
+      },
+      "risk": {
+        "beta": 0.02,
+        "annual_volatility_pct": 32.15,
+        "max_drawdown_pct": -31.52,
+        "sharpe_ratio": -0.09,
+        "latest_vol_20d": 0.4454136510743213,
+        "latest_vol_60d": 0.3624298176218758,
+        "latest_vol_120d": 0.36457154257551266,
+        "latest_vol_250d": 0.3215041111949624,
+        "sortino_ratio": -0.14754943459767603,
+        "calmar_ratio": -0.012127985095281344
+      },
+      "source_files": {
+        "summary": "Kimi_Agent_金融数据拉取.zip/watchlist-data/00_红利低波策略指标总览.csv",
+        "valuation_overview": "Kimi_Agent_金融数据拉取.zip/watchlist-data/00_valuation_dividend_overview.csv",
+        "volatility": "Kimi_Agent_金融数据拉取.zip/watchlist-data/00_volatility_metrics.csv"
+      }
+    },
+    {
+      "symbol": "000651",
+      "ts_code": "000651.SZ",
+      "name": "格力电器",
+      "asset_type": "stock",
+      "price": 37.02,
+      "market_cap_cny_billion": 2073.64,
+      "valuation": {
+        "pe_ttm": 7.09,
+        "forward_pe": 7.06,
+        "pb": 1.36,
+        "ps": 1.21,
+        "ev_ebitda": 3.73
+      },
+      "dividend": {
+        "dividend_per_share": 3,
+        "dividend_yield_pct": 8.1,
+        "five_year_avg_yield_pct": 7.28,
+        "payout_ratio_pct": 76.63
+      },
+      "quality": {
+        "roe_pct": 19.14,
+        "roa_pct": 4.8,
+        "net_margin_pct": 16.98,
+        "gross_margin_pct": 29.77,
+        "free_cash_flow_cny_billion": 441.06,
+        "debt_to_equity_pct": 47.26
+      },
+      "growth": {
+        "revenue_growth_pct": 3.5,
+        "earnings_growth_pct": 1.9
+      },
+      "risk": {
+        "beta": 0.35,
+        "annual_volatility_pct": 16.21,
+        "max_drawdown_pct": -22.02,
+        "sharpe_ratio": 0.17,
+        "latest_vol_20d": 0.18948936919852938,
+        "latest_vol_60d": 0.18738522959820114,
+        "latest_vol_120d": 0.16848374246774864,
+        "latest_vol_250d": 0.16210986648003667,
+        "sortino_ratio": 0.2532853462577972,
+        "calmar_ratio": 0.2813450069979313
+      },
+      "source_files": {
+        "summary": "Kimi_Agent_金融数据拉取.zip/watchlist-data/00_红利低波策略指标总览.csv",
+        "valuation_overview": "Kimi_Agent_金融数据拉取.zip/watchlist-data/00_valuation_dividend_overview.csv",
+        "volatility": "Kimi_Agent_金融数据拉取.zip/watchlist-data/00_volatility_metrics.csv"
+      }
+    },
+    {
+      "symbol": "600690",
+      "ts_code": "600690.SH",
+      "name": "海尔智家",
+      "asset_type": "stock",
+      "price": 19.72,
+      "market_cap_cny_billion": 1795.82,
+      "valuation": {
+        "pe_ttm": 9.81,
+        "forward_pe": 8.57,
+        "pb": 1.47,
+        "ps": 0.6,
+        "ev_ebitda": 6.49
+      },
+      "dividend": {
+        "dividend_per_share": 1.23,
+        "dividend_yield_pct": 6.26,
+        "five_year_avg_yield_pct": 2.57,
+        "payout_ratio_pct": 61.4
+      },
+      "quality": {
+        "roe_pct": 14.87,
+        "roa_pct": 4.29,
+        "net_margin_pct": 6.3,
+        "gross_margin_pct": 26.34,
+        "free_cash_flow_cny_billion": 5.84,
+        "debt_to_equity_pct": 31.22
+      },
+      "growth": {
+        "revenue_growth_pct": -6.9,
+        "earnings_growth_pct": -15.3
+      },
+      "risk": {
+        "beta": 0.51,
+        "annual_volatility_pct": 21.26,
+        "max_drawdown_pct": -38.86,
+        "sharpe_ratio": -0.57,
+        "latest_vol_20d": 0.33999140525954596,
+        "latest_vol_60d": 0.25472443983526405,
+        "latest_vol_120d": 0.22926082793429822,
+        "latest_vol_250d": 0.2125711107482094,
+        "sortino_ratio": -0.8497910223143372,
+        "calmar_ratio": -0.3342651444950617
+      },
+      "source_files": {
+        "summary": "Kimi_Agent_金融数据拉取.zip/watchlist-data/00_红利低波策略指标总览.csv",
+        "valuation_overview": "Kimi_Agent_金融数据拉取.zip/watchlist-data/00_valuation_dividend_overview.csv",
+        "volatility": "Kimi_Agent_金融数据拉取.zip/watchlist-data/00_volatility_metrics.csv"
+      }
+    },
+    {
+      "symbol": "512890",
+      "ts_code": "512890.SH",
+      "name": "红利低波ETF",
+      "asset_type": "etf",
+      "price": 1.081,
+      "market_cap_cny_billion": null,
+      "valuation": {
+        "pe_ttm": null,
+        "forward_pe": null,
+        "pb": null,
+        "ps": null,
+        "ev_ebitda": null
+      },
+      "dividend": {
+        "dividend_per_share": null,
+        "dividend_yield_pct": null,
+        "five_year_avg_yield_pct": null,
+        "payout_ratio_pct": null
+      },
+      "quality": {
+        "roe_pct": null,
+        "roa_pct": null,
+        "net_margin_pct": null,
+        "gross_margin_pct": null,
+        "free_cash_flow_cny_billion": null,
+        "debt_to_equity_pct": null
+      },
+      "growth": {
+        "revenue_growth_pct": null,
+        "earnings_growth_pct": null
+      },
+      "risk": {
+        "beta": null,
+        "annual_volatility_pct": 16.21,
+        "max_drawdown_pct": -16.07,
+        "sharpe_ratio": 0.86,
+        "latest_vol_20d": null,
+        "latest_vol_60d": null,
+        "latest_vol_120d": null,
+        "latest_vol_250d": null,
+        "sortino_ratio": null,
+        "calmar_ratio": null
+      },
+      "source_files": {
+        "summary": "Kimi_Agent_金融数据拉取.zip/watchlist-data/00_红利低波策略指标总览.csv",
+        "valuation_overview": "Kimi_Agent_金融数据拉取.zip/watchlist-data/00_valuation_dividend_overview.csv",
+        "volatility": "Kimi_Agent_金融数据拉取.zip/watchlist-data/00_volatility_metrics.csv"
+      }
+    },
+    {
+      "symbol": "159569",
+      "ts_code": "159569.SZ",
+      "name": "港股通红利低波",
+      "asset_type": "etf",
+      "price": 1.252,
+      "market_cap_cny_billion": null,
+      "valuation": {
+        "pe_ttm": null,
+        "forward_pe": null,
+        "pb": null,
+        "ps": null,
+        "ev_ebitda": null
+      },
+      "dividend": {
+        "dividend_per_share": null,
+        "dividend_yield_pct": null,
+        "five_year_avg_yield_pct": null,
+        "payout_ratio_pct": null
+      },
+      "quality": {
+        "roe_pct": null,
+        "roa_pct": null,
+        "net_margin_pct": null,
+        "gross_margin_pct": null,
+        "free_cash_flow_cny_billion": null,
+        "debt_to_equity_pct": null
+      },
+      "growth": {
+        "revenue_growth_pct": null,
+        "earnings_growth_pct": null
+      },
+      "risk": {
+        "beta": null,
+        "annual_volatility_pct": 16.21,
+        "max_drawdown_pct": -16.07,
+        "sharpe_ratio": 0.86,
+        "latest_vol_20d": null,
+        "latest_vol_60d": null,
+        "latest_vol_120d": null,
+        "latest_vol_250d": null,
+        "sortino_ratio": null,
+        "calmar_ratio": null
+      },
+      "source_files": {
+        "summary": "Kimi_Agent_金融数据拉取.zip/watchlist-data/00_红利低波策略指标总览.csv",
+        "valuation_overview": "Kimi_Agent_金融数据拉取.zip/watchlist-data/00_valuation_dividend_overview.csv",
+        "volatility": "Kimi_Agent_金融数据拉取.zip/watchlist-data/00_volatility_metrics.csv"
+      }
+    },
+    {
+      "symbol": "520890",
+      "ts_code": "520890.SH",
+      "name": "恒生红利低波",
+      "asset_type": "etf",
+      "price": 1.245,
+      "market_cap_cny_billion": null,
+      "valuation": {
+        "pe_ttm": null,
+        "forward_pe": null,
+        "pb": null,
+        "ps": null,
+        "ev_ebitda": null
+      },
+      "dividend": {
+        "dividend_per_share": null,
+        "dividend_yield_pct": null,
+        "five_year_avg_yield_pct": null,
+        "payout_ratio_pct": null
+      },
+      "quality": {
+        "roe_pct": null,
+        "roa_pct": null,
+        "net_margin_pct": null,
+        "gross_margin_pct": null,
+        "free_cash_flow_cny_billion": null,
+        "debt_to_equity_pct": null
+      },
+      "growth": {
+        "revenue_growth_pct": null,
+        "earnings_growth_pct": null
+      },
+      "risk": {
+        "beta": null,
+        "annual_volatility_pct": 12.96,
+        "max_drawdown_pct": -18.52,
+        "sharpe_ratio": 0.6,
+        "latest_vol_20d": null,
+        "latest_vol_60d": null,
+        "latest_vol_120d": null,
+        "latest_vol_250d": null,
+        "sortino_ratio": null,
+        "calmar_ratio": null
+      },
+      "source_files": {
+        "summary": "Kimi_Agent_金融数据拉取.zip/watchlist-data/00_红利低波策略指标总览.csv",
+        "valuation_overview": "Kimi_Agent_金融数据拉取.zip/watchlist-data/00_valuation_dividend_overview.csv",
+        "volatility": "Kimi_Agent_金融数据拉取.zip/watchlist-data/00_volatility_metrics.csv"
+      }
+    }
+  ]
+}

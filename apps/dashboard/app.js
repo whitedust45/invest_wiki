@@ -158,6 +158,7 @@ let ledgerBackupState = {
 let localServiceGuideVisible = window.location.protocol === "file:";
 let localServiceGuideReason = window.location.protocol === "file:" ? "file" : "";
 let localServiceGuideDismissed = false;
+let localPositionHistoryCache = null;
 let remoteSyncTimer = null;
 let remoteSyncInFlight = false;
 let remoteSyncState = {
@@ -3967,6 +3968,37 @@ function ashareSymbolsInLedger(ledger) {
   return Array.from(symbols);
 }
 
+async function loadLocalPositionHistoryPayload() {
+  if (localPositionHistoryCache !== null) return localPositionHistoryCache;
+  try {
+    const response = await fetch(`./data/position-history.json?ts=${Date.now()}`);
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    localPositionHistoryCache = await response.json();
+  } catch {
+    localPositionHistoryCache = {};
+  }
+  return localPositionHistoryCache;
+}
+
+function normalizeCloseHistoryRows(rows, source = "本地历史JSON") {
+  if (!Array.isArray(rows)) return [];
+  return rows
+    .map((row) => ({
+      date: row.date,
+      close: Number(row.close),
+      source: row.source || source
+    }))
+    .filter((row) => row.date && Number.isFinite(row.close) && row.close > 0)
+    .sort((a, b) => compareDate(a.date, b.date));
+}
+
+function mergeCloseHistoryRows(primaryRows, overrideRows) {
+  const merged = new Map();
+  normalizeCloseHistoryRows(primaryRows).forEach((row) => merged.set(row.date, row));
+  normalizeCloseHistoryRows(overrideRows).forEach((row) => merged.set(row.date, row));
+  return Array.from(merged.values()).sort((a, b) => compareDate(a.date, b.date));
+}
+
 async function fetchTencentDailyHistory(symbol, endDate, count) {
   const code = marketCodeForAshare(symbol);
   if (!code) return [];
@@ -3988,12 +4020,15 @@ async function fetchTencentDailyHistory(symbol, endDate, count) {
 
 async function fetchAshareCloseHistory(symbols, startDate, endDate) {
   const days = Math.max(dateRange(startDate, endDate).length + 20, 40);
+  const localPayload = await loadLocalPositionHistoryPayload();
+  const localHistories = localPayload && localPayload.histories ? localPayload.histories : {};
   const result = {};
   await Promise.all(symbols.map(async (symbol) => {
+    const localRows = normalizeCloseHistoryRows(localHistories[symbol], "本地历史JSON");
     try {
-      result[symbol] = await fetchTencentDailyHistory(symbol, endDate, days);
+      result[symbol] = mergeCloseHistoryRows(localRows, await fetchTencentDailyHistory(symbol, endDate, days));
     } catch {
-      result[symbol] = [];
+      result[symbol] = localRows;
     }
   }));
   return result;
@@ -4701,8 +4736,8 @@ function handlePositionValuationChange(event) {
 function marketCodeForAshare(symbol) {
   const code = String(symbol || "").trim();
   if (!/^\d{6}$/.test(code)) return null;
-  if (/^(000|001|002|003|300|301)/.test(code)) return `sz${code}`;
-  if (/^(600|601|603|605|688|689)/.test(code)) return `sh${code}`;
+  if (/^(000|001|002|003|159|300|301)/.test(code)) return `sz${code}`;
+  if (/^(510|511|512|513|515|516|517|518|519|520|560|561|562|563|588|600|601|603|605|688|689)/.test(code)) return `sh${code}`;
   return null;
 }
 
