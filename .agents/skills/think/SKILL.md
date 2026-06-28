@@ -1,6 +1,8 @@
 ---
 name: think
-description: 对话式思考沉淀 — 主动追问 + 被动感知 + 知识库增量写入
+description: |
+  对话式思考沉淀 — 主动追问 + 被动感知 + 知识库增量写入。
+  触发词：think、想一下、帮我想想、记一下、沉淀一下、这个值得记、有个想法、我在想。
 ---
 
 # /think — 对话式思考沉淀
@@ -138,7 +140,7 @@ description: 对话式思考沉淀 — 主动追问 + 被动感知 + 知识库�
 
 | 情况 | 操作 |
 |------|------|
-| 讨论主题已有对应 wiki 页面 | → 增量追加（按 `.Codex/skills/ingest/reference/update-rules.md`） |
+| 讨论主题已有对应 wiki 页面 | → 增量追加（按 `.agents/skills/ingest/reference/update-rules.md`） |
 | 属于已有概念的延伸 | → 追加到最相关的已有页面 |
 | 完全是新领域 | → 新建页面 |
 | 涉及多个主题交叉 | → 新建 analysis 页面 |
@@ -196,7 +198,7 @@ sources:
 #### 写入规则
 
 - 新建页面：按 `knowledge/schema/frontmatter.md` 填完整 frontmatter
-- 追加到已有页面：按 `.Codex/skills/ingest/reference/update-rules.md` 操作
+- 追加到已有页面：按 `.agents/skills/ingest/reference/update-rules.md` 操作
 - `status` 默认 `active`（论点清晰）或 `draft`（用户说"还没想透"）
 - 必须至少 1 条 `[[wikilink]]` 指向相关页面
 - version 更新为今天日期

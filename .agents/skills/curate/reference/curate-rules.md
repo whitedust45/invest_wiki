@@ -252,8 +252,8 @@ git 历史保留：✅
 #### Step 1：影响面扫描
 
 ```bash
-bash .coco/skills/query/scripts/search.sh fulltext {keyword}
-bash .coco/skills/query/scripts/search.sh topic {keyword}
+bash .agents/skills/query/scripts/search.sh fulltext {keyword}
+bash .agents/skills/query/scripts/search.sh topic {keyword}
 ```
 
 汇总所有命中页面，生成清单：
@@ -291,7 +291,7 @@ bash .coco/skills/query/scripts/search.sh topic {keyword}
 
 #### Step 4：跑 lint 验证
 
-批量同步后强烈建议立即跑 `bash .coco/skills/lint/scripts/lint-all.sh` 验证：
+批量同步后强烈建议立即跑 `bash .agents/skills/lint/scripts/lint-all.sh` 验证：
 - 无断链
 - supersedes 双向对称
 - 索引一致

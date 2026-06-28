@@ -1,6 +1,6 @@
 #!/bin/bash
 # lint-all.sh — Wiki 知识库完整健康检查
-# 在项目根目录（wiki实践/）下执行：bash .claude/skills/lint/scripts/lint-all.sh
+# 在项目根目录（wiki实践/）下执行：bash .agents/skills/lint/scripts/lint-all.sh
 #
 # 输出格式：每个检查项以 "=== P{级别} #{编号} {名称} ===" 开头
 # Agent 解析此输出生成结构化报告

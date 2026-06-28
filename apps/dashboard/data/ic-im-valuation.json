@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-06-27T17:21:08.055317+00:00",
+  "generated_at": "2026-06-28T02:48:09.472922+00:00",
   "source": {
     "current_valuation": "中证指数官网 /csindex-home/data-service/indexValuation",
     "current_pb_fallback": "东方财富 push2 quote fields f167/f152; best-effort only",
@@ -21,7 +21,7 @@
       "pe_source": "csindex_pe_history",
       "pb_source": "csindex_current",
       "eastmoney_fallback_error": null,
-      "pe_percentile": 88.75,
+      "pe_percentile": 88.79,
       "pb_percentile": null,
       "pb_percentile_source": null,
       "pb_percentile_manual_required": true,
@@ -110,7 +110,7 @@
       "pe_source": "csindex_pe_history",
       "pb_source": "eastmoney_current_fallback",
       "eastmoney_fallback_error": null,
-      "pe_percentile": 85.99,
+      "pe_percentile": 86.02,
       "pb_percentile": null,
       "pb_percentile_source": null,
       "pb_percentile_manual_required": true,

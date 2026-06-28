@@ -313,6 +313,7 @@ h1 {
 .target-track,
 .bucket-track {
   display: block;
+  position: relative;
   height: 8px;
   overflow: hidden;
   border-radius: 999px;
@@ -326,6 +327,69 @@ h1 {
   height: 100%;
   border-radius: inherit;
   background: var(--accent);
+}
+
+.target-marker {
+  position: absolute;
+  top: -3px;
+  bottom: -3px;
+  width: 2px;
+  border-radius: 999px;
+  background: var(--warn);
+  box-shadow: 0 0 0 2px rgba(255, 253, 248, 0.88);
+  transform: translateX(-1px);
+}
+
+.reference-marker {
+  background: var(--accent);
+}
+
+.reference-marker-2 {
+  background: var(--warn);
+}
+
+.target-ok {
+  color: var(--good) !important;
+}
+
+.target-missing {
+  color: var(--warn) !important;
+}
+
+.target-neutral {
+  color: var(--muted) !important;
+}
+
+.risk-status-good {
+  color: var(--good) !important;
+}
+
+.risk-status-warn {
+  color: var(--warn) !important;
+}
+
+.risk-status-danger {
+  color: var(--danger) !important;
+}
+
+.risk-status-neutral {
+  color: var(--muted) !important;
+}
+
+.futures-risk-track .track-fill.risk-status-good {
+  background: var(--good);
+}
+
+.futures-risk-track .track-fill.risk-status-warn {
+  background: var(--warn);
+}
+
+.futures-risk-track .track-fill.risk-status-danger {
+  background: var(--danger);
+}
+
+.futures-risk-track .track-fill.risk-status-neutral {
+  background: var(--muted);
 }
 
 .account-dividend .account-track span,
@@ -1909,6 +1973,26 @@ td {
   vertical-align: top;
   font-size: 13px;
   line-height: 1.45;
+}
+
+.allocation-advice table {
+  min-width: 720px;
+}
+
+.allocation-parent td {
+  background: rgba(15, 106, 122, 0.06);
+  font-weight: 740;
+}
+
+.allocation-child td {
+  background: rgba(255, 253, 248, 0.72);
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.allocation-child td:first-child {
+  padding-left: 22px;
+  color: var(--ink);
 }
 
 th {

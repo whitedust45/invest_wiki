@@ -7,9 +7,15 @@
 #   ./search.sh stale <days>                      — 找超过 N 天未更新的页面
 #   ./search.sh broken-refs                       — 快速扫描断链
 #
-# 所有命令需在项目根目录（wiki实践/）下执行
+# 脚本会自动 cd 到项目根目录，cwd 不影响结果。
 
 set -euo pipefail
+
+# 自动定位到项目根目录
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+ROOT_DIR="$(cd "$SCRIPT_DIR/../../../.." && pwd)"
+cd "$ROOT_DIR"
+
 WIKI_DIR="knowledge/wiki"
 
 usage() {
@@ -48,7 +54,7 @@ case "$MODE" in
 
   stale)
     DAYS="${1:-90}"
-    CUTOFF=$(date -v-${DAYS}d +%Y-%m-%d 2>/dev/null || date -d "$DAYS days ago" +%Y-%m-%d 2>/dev/null || echo "2026-01-01")
+    CUTOFF=$(date -v-${DAYS}d +%Y-%m-%d 2>/dev/null || date -d "$DAYS days ago" +%Y-%m-%d 2>/dev/null) || { echo "ERROR: 无法计算 $DAYS 天前的日期，请检查 date 命令"; exit 1; }
     echo "=== version older than $CUTOFF ==="
     find "$WIKI_DIR/" -name "*.md" -not -name "index.md" -not -name "log.md" | while read f; do
       version=$(grep "^version:" "$f" 2>/dev/null | head -1 | awk '{print $2}')

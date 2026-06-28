@@ -49,7 +49,7 @@ description: |
 - 用户给的是页面 id？→ 直接 Read 该页
 - 用户描述的是某条事实？→ 走 `/query` 的 L1+L2 定位（轻量版，跳过 L3）
 - 用户给的是 lint 报告条目？→ 按报告中的文件路径直接 Read
-- 跨页影响？→ 用 `bash .coco/skills/query/scripts/search.sh fulltext {keyword}` 找出所有相关页面
+- 跨页影响？→ 用 `bash .agents/skills/query/scripts/search.sh fulltext {keyword}` 找出所有相关页面
 
 定位后必须读取**完整 frontmatter**，确认：
 - 当前 `status`、`version`、`supersedes`/`superseded_by` 链

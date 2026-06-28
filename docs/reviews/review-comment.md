@@ -17,64 +17,22 @@ ID 跨轮稳定。status: OPEN | FIXED | PARTIAL | REGRESSED。
 - P1-6 必填校验: 按动作校验,buy 缺数量/价格被拦、补齐放行(实测 blocked→放行)。
 - P1-8 PB手动优先(R5方向已返工): applyValuation 仅 source==="auto" 才覆盖; manual 保留; 加「用自动值 X%」采纳按钮。实测: 手填25读JSON(88)保留25✅ / auto被88覆盖✅ / 点采纳 manual→auto 取88✅。
 
-## OPEN (用户已定口径 2026-06-27,fixer 可执行)
-
-### P2-9 双端信息架构割裂 [status: OPEN | 决策:手机版加]
-- 用户决策: 手机版要加(二级导航/锚点)。
-- loc: `index.html`(移动) + `app.js` 移动端渲染 + `styles.css`
-- fix: 移动版各 tab 内加子区块锚点跳转或分段折叠,对齐桌面二级子页(概览/录入/分布/估值/流水)。
-- accept: 移动版各 tab 内可快速跳转到子区块。
-
-### P2-12 高分红分类强制合并 [status: OPEN | 决策:不拆分]
-- 用户决策: 不用单独拆出来,保留现聚合口径。
-- 结论: 维持 normalizeDividendBucket 现状(白酒/五粮液等并入「高分红股票」)。本项关闭,不整改。
-- status 实际可置为 WONTFIX。
-
-## P4 信任层补强(PM审查后用户已定,定位=长期严肃账本,按序执行)
-执行顺序: P4-1 > P4-2 > P4-3 > P4-4。
-
-### P4-1 修复 marginRisk 在权益为0时误报安全 [status: OPEN | 优先级:最高]
-- 来源: PM审查。投资工具给出反向安全信号会造成真实损失。
-- loc: `app.js` calculate() marginRisk = ratio(usedMargin, futuresEquity); ratio() 在 total<=0 时返回 0 → classify 判为 status-good 绿。
-- bug: 占用保证金>0 但期货权益=0(最危险)时,风险度显示 0% 且标绿"安全"。
-- fix: usedMargin>0 且 futuresEquity<=0 时,风险度应表达为"异常/极高危"(返回 Infinity 语义或专门状态),classify 给 danger;UI 显示如「权益为0,风险度不可计算/极危」。
-- accept: 构造 usedMargin=10/futuresEquity=0 → 风险度不显示 0%/绿,而是红色危险态。
-- 非目标: 不改其他指标口径。
-
-### P4-2 localStorage 写失败捕获并告警 [status: OPEN]
-- 来源: PM审查。写失败静默 + 假成功 toast 会让用户误以为数据已存。
-- loc: `app.js` saveLedger(469)/saveHistory(2846)/savePositionValuations(746)/saveValuation(3193) 均裸 setItem 无 try/catch。
-- bug: QuotaExceededError/隐私模式写入抛错时,用户仍看到"已保存"成功 toast,实际数据丢失,无告警。
-- fix: setItem 包 try/catch;失败时 showToast(error,"写入失败:存储空间不足或被浏览器限制,请导出备份")并返回失败状态;调用方据此不再显示成功 toast。
-- accept: 模拟 setItem 抛错(stub)→ 出现明确"写入失败"红色提示,且不出现"已保存"成功提示。
-- 非目标: 不改存储架构(仍 localStorage 主存)。
-
-### P4-3 完整备份/恢复(全量导出 + 导入还原) [status: OPEN]
-- 来源: PM审查。现有 exportEntries 只导单模块流水,不含 settings/positionValuations/history,且无导入流水通道 → 无法完整备份/迁移。
-- loc: `app.js` exportEntries(3771) 当前仅单模块 entries;valuationFile 仅导估值。
-- fix:
-  - 新增"导出全部数据"按钮: 单个 JSON 含 {ledger.entries, ledger.settings, positionValuations, history, schemaVersion, exportedAt}。
-  - 新增"导入全部数据"按钮(file input): 校验结构后整体还原,覆盖前二次确认;非法文件给 toast error 不破坏现有数据。
-  - 顶部全局操作区放入口(桌面+移动均可达)。
-- accept: 导出 JSON → 清空 → 导入同一 JSON → 流水/设置/估值/历史全部还原一致。导入损坏文件不丢现有数据。
-- 非目标: 不替代 SQLite 镜像(二者并存,本项是用户可控的显式备份)。
-
-### P4-4 核心计算加自动化测试(轻量零依赖) [status: OPEN]
-- 来源: PM审查。核心金融计算零测试,改一处可能悄悄算错。
-- 选型: 轻量零依赖——Node 原生(node:assert + node:test 或纯 assert 脚本),不引入 npm/构建链。需把纯函数抽到可被 Node require/import 的位置(或用注释标记的可提取段),不破坏浏览器直接 <script> 加载。
-- 覆盖(纯函数优先): calculate(缺口/风险度/各比率,含 P4-1 的权益0边界)、detectStage(阶段0-4 边界)、summarizeLedger(分桶汇总)、ratio/gap、金额自动计算、收益率净值法(剔除转入转出)。
-- fix: 加 `scripts/test_*.mjs` 或 `tests/` 目录 + 一条运行命令(如 `node --test`)。每个函数覆盖正常+边界+空数据。
-- accept: 运行测试命令全绿;故意改坏 calculate 某行 → 对应测试变红。
-- 非目标: 不追求 UI/E2E 覆盖,先锁住金融计算纯函数。
+## FIXED 续 (P2-9 + P4 信任层,本轮 reviewer 收口)
+- P2-9 手机版二级导航: mobileSectionNav() 移动端每 tab 渲染区块跳转条(overview:现金/风险/参数/估值/图表/动作; reports:图表/矩阵/排行/估值/流水; module:概览/录入/分布/估值/流水),点击 scrollIntoView 到对应区块。reviewer 实测(index.html 移动视口): 点「参数」scrollY 0→2007 核心参数区块 top 归 0✅; 点「动作」scrollY→7519 decision-panel 入视口✅。
+- P4-1 marginRisk 权益0极危: calculate() usedMargin>0 且 futuresEquity<=0 → marginRisk=Infinity + marginRiskInvalid=true,classify 判 status-danger,UI「权益为0,极危」。test_dashboard_core.mjs 断言覆盖。
+- P4-2 写失败告警: writeLocalStorage() 统一入口包 try/catch,失败 showToast error「写入失败…请立即导出全部数据」+ 返回 false,调用方不再假成功。测试 stub 抛错验证。
+- P4-3 完整备份/恢复: 顶部「导出全部/导入全部」(桌面+移动),JSON 含 ledger.entries/settings + positionValuations + history + valuation + historyView + schemaVersion;导入先校验后二次确认,非法文件不破坏现有数据。
+- P4-4 核心计算测试(Node 零依赖): tools/dashboard/test_dashboard_core.mjs 从 app.js 抽取纯函数执行。覆盖 ratio/gap/金额自算/summarizeLedger/calculate(权益0边界)/detectStage/externalFlowOnDate/NAV 复合。本轮 reviewer 追加多端同步纯函数: validateFullBackupPayload(校验/抛错/默认值/historyView归一) + comparableBackupPayload(等价稳定/差异敏感) + backupHasData(各数据分支) + 冲突真值表(clean/conflict/单侧)。改坏 backupHasData→测试变红→还原→全绿,验证有效。
+- P2-12 高分红分类: WONTFIX(用户决策不拆分,维持 normalizeDividendBucket 聚合口径)。
 
 ## 新需求(用户已定方案,fixer 可执行)
-### P3-1 SQLite 本地持久化(镜像备份模式) [status: OPEN | 决策:已定]
+### P3-1 SQLite 本地持久化(镜像备份模式) [status: FIXED 实测]
 - 用户决策: 纯本地不上云; SQLite; 架构=B 镜像备份(localStorage 主存,SQLite 做持久化备份+跨浏览器同步); 痛点=怕清缓存/换浏览器丢数据。
 - 约束(硬性):
   - localStorage 保持为主数据源。双击 HTML(file:// 或无服务)时,读写全部走 localStorage,功能不降级。
-  - 仅在 serve_dashboard.py 服务可用时,额外把数据镜像到 SQLite。服务不可用则静默跳过(不报错、不阻塞)。
+  - 仅在 services/sync/src/main.py 服务可用时,额外把数据镜像到 SQLite。服务不可用则静默跳过(不报错、不阻塞)。
   - 数据不出本机。SQLite 文件落在仓库本地(建议 `apps/dashboard/data/ledger.db`,并加入 .gitignore 避免误提交个人财务数据)。
-- 后端(serve_dashboard.py):
+- 后端(services/sync/src/main.py):
   - 用 Python 标准库 sqlite3(无第三方依赖)。
   - 加 API: `GET /api/ledger`(读最新快照) / `POST /api/ledger`(写入快照,整体 upsert)。可选 `GET /api/ledger/backups` 列历史。
   - 表结构建议: snapshots(id, created_at, payload_json) 追加式存储,保留历史版本(顺带满足防误删); 另存一个 current 指针或取最新行为当前态。
@@ -96,7 +54,7 @@ ID 跨轮稳定。status: OPEN | FIXED | PARTIAL | REGRESSED。
 - 顺带验证 P1-6 校验生效: 债券 buy 缺数量/价格被拦(blocked,localStorage 不增); 补齐数量价格后放行(2→3笔)。
 
 ## 整改顺序
-仅剩 P2-9(手机版二级导航)。P1-6/P1-8/P3-1/P3-1a 已完成并实测通过。P2-12 关闭(WONTFIX)。
+全部 OPEN 项已清零。P0×3/P1×5/P2(10/11/13)/P1-6/P1-8/P3-1/P3-1a/P4-1~4/P2-9 均 FIXED 实测。P2-12 WONTFIX。
 
 ## LOG
 - R1 base=`35254327`: 建 13 项(P0×3/P1×5/P2×5) 全 OPEN。
@@ -111,3 +69,4 @@ ID 跨轮稳定。status: OPEN | FIXED | PARTIAL | REGRESSED。
 - R7 base=`8cd486ac`: fixer 修 P3-1a(去重改幂等,只认 cancelled)+ 已实现 P1-6 校验。reviewer 实测: P3-1a 全 accept 通过(残留标志不再误挡恢复 / 取消后不再重弹); P1-6 买入缺数量价格被拦、补齐放行。当前仅 P1-8(返工手动优先)/ P2-9(手机版)待办。
 - R8(同 base `8cd486ac`): reviewer 复验 P1-8 返工。fixer 已把 R5「自动优先」改为「手动优先」(applyValuation 仅 source==auto 覆盖)+ 加「用自动值」采纳按钮。实测全 accept: 手填25读JSON保留25 / auto被覆盖 / 点采纳 manual→auto。P1-8 FIXED。剩唯一 OPEN=P2-9(手机版)。
 - PM审查(R8后): 以产品经理视角做成熟度体检。结论=体验层合格(8/10)但信任层不及格(数据可信4/10、正确性3/10)。用户定位=长期严肃账本,拍板补 4 项→新增 P4-1(修风险度误导bug)/P4-2(写失败告警)/P4-3(完整备份恢复)/P4-4(核心计算轻量测试)。按序执行,测试用 Node 原生零依赖。当前 OPEN: P2-9 + P4-1~4。
+- R9(迭代收口轮): fixer 已自报 P3-2(SQLite 备份面板增强)+ P4-1~4 全部完成(见 review-comment.agent.md)。reviewer 本轮做: ①云同步真实双向往返测试(只动 syncMeta 元数据,推送→拉回→还原全通过); ②清技术债(删死代码 serve_dashboard.py,前端只用 main.py 超集; 清 requirements.txt 过时注释 + 删空占位 routes/.gitkeep); ③收敛三套 skill 目录(.agents 为真源,合并 .coco 更全内容 + 迁入 curate,删 .claude/.coco + CLAUDE.md,统一内部路径); ④补多端同步纯函数测试(见 P4-4); ⑤实测 P2-9 移动跳转。全部 OPEN 清零。遗留: .claude/a.txt(用户投资思考草稿)待用户定夺归属。

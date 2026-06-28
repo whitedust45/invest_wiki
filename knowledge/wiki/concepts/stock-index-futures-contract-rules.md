@@ -6,7 +6,7 @@ domain: risk
 topic: [stock-index-futures, position-sizing, carry]
 tags: [中金所, IC, IM, 保证金, 移仓]
 status: active
-version: 2026-06-27
+version: 2026-06-28
 effective_date: 2026-06-27
 supersedes: []
 superseded_by: []
@@ -22,6 +22,10 @@ sources:
     url: http://www.cffex.com/cn/zz1000.html
     publisher: 中国金融期货交易所
     date: 2026-06-27
+  - type: dialogue
+    context: 仪表盘 IC/IM 持仓分析自审，确认期货账户权益、占用保证金和名义敞口应由流水与日级合约点位推导
+    date: 2026-06-28
+    participants: [用户, Agent]
 summary: IC/IM 合约乘数均为每点200元，最后交易日和交割日为到期月第三个周五并遇假日顺延
 ---
 
@@ -56,7 +60,7 @@ summary: IC/IM 合约乘数均为每点200元，最后交易日和交割日为�
 保证金率 = 占用保证金 / 名义敞口
 ```
 
-其中占用保证金和期货账户权益由用户手动录入。若占用保证金大于 0 且期货账户权益为 0，应视为风险度不可计算且处于极危状态。
+[2026-06-28 更正] 仪表盘不再把占用保证金、期货账户权益和名义敞口作为核心参数手动录入；它们应由 IC/IM 流水、开仓保证金率和日级合约点位推导。若占用保证金大于 0 且期货账户权益为 0，仍应视为风险度不可计算且处于极危状态。
 
 ## 移仓提醒
 
