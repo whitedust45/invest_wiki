@@ -197,6 +197,7 @@ const subpageLabels = {
     overview: "模块概览",
     entry: "记录录入",
     buckets: "持仓分布",
+    add: "加仓测算",
     valuation: "持仓估值",
     ledger: "投资流水"
   }
@@ -1858,6 +1859,7 @@ function mobileSectionNav(tab) {
       ["概览", ".module-dashboard"],
       ["录入", ".entry-panel"],
       ["分布", ".bucket-panel"],
+      ...(tab === "ic" ? [["加仓", ".futures-add-panel"]] : []),
       ["估值", ".position-panel"],
       ["流水", ".module-ledger-panel"]
     ]
@@ -2166,24 +2168,24 @@ function pruneReportsSubpage(subpage) {
 
 function pruneModuleSubpage(config, subpage) {
   if (subpage === "full") return;
-  const hero = appRoot.children[0];
-  const dashboard = appRoot.children[1];
-  const workbench = appRoot.children[2];
-  if (!workbench) return;
-  const side = workbench.querySelector(".module-side");
-  const entry = side ? side.children[0] : null;
-  const buckets = side ? side.children[1] : null;
-  const valuation = side ? side.children[2] : null;
-  const ledger = workbench.querySelector(".module-ledger-panel");
+  const hero = appRoot.querySelector(".module-hero");
+  const dashboard = appRoot.querySelector(".module-dashboard");
+  const summary = appRoot.querySelector(".module-overview-grid");
+  const entry = appRoot.querySelector(".entry-panel");
+  const buckets = appRoot.querySelector(".bucket-panel");
+  const add = appRoot.querySelector(".futures-add-panel");
+  const valuation = appRoot.querySelector(".position-panel");
+  const ledger = appRoot.querySelector(".module-ledger-panel");
   const icDataPanel = config.module === "ic" && dashboard ? dashboard.querySelector(".data-panel") : null;
   const keepMap = {
-    overview: [hero, dashboard],
+    overview: [hero, dashboard, summary],
     entry: [entry],
     buckets: [buckets],
+    add: config.module === "ic" ? [add] : [hero, dashboard, summary],
     valuation: [valuation, icDataPanel],
     ledger: [ledger]
   };
-  keepAppChildren(keepMap[subpage] || [hero, dashboard, workbench]);
+  keepAppChildren(keepMap[subpage] || [hero, dashboard, summary]);
 }
 
 function onboardingPanel(ledger, data) {
@@ -2841,7 +2843,7 @@ function moduleBucketOverviewPanel(config, data, totals) {
       }
     ];
     return `
-      <section class="panel">
+      <section class="panel bucket-panel">
         <div class="section-head">
           <h2>期货账户结构</h2>
           <button type="button" data-tab="${escapeHtml(config.module)}" data-subpage="valuation">查看持仓</button>
@@ -2861,7 +2863,7 @@ function moduleBucketOverviewPanel(config, data, totals) {
     `;
   }
   return `
-    <section class="panel">
+    <section class="panel bucket-panel">
       <div class="section-head">
         <h2>持仓分布</h2>
         <button type="button" data-tab="${escapeHtml(config.module)}" data-subpage="buckets">查看分布</button>
@@ -3042,7 +3044,7 @@ function moduleHeroShare(config, data, totals) {
   return ratio(moduleHeroValue(config, data, totals), data.totalAssets);
 }
 
-function renderLedgerModuleOverview(config, data, calc, entries, modulePositions, totals) {
+function renderLedgerModuleOverview(config, data, calc, entries, filteredEntries, modulePositions, totals, editing) {
   appRoot.innerHTML = `
     <section class="module-hero module-${escapeHtml(config.accent || config.module)}">
       <div>
@@ -3071,6 +3073,29 @@ function renderLedgerModuleOverview(config, data, calc, entries, modulePositions
       </div>
       ${moduleLedgerSummaryPanel(config, entries)}
     </section>
+
+    <section class="module-workbench">
+      <div class="module-side">
+        <section class="panel entry-panel">
+          <div class="section-head">
+            <h2>${editing ? "编辑记录" : escapeHtml(config.entryTitle || `${config.title}记录`)}</h2>
+            ${editing ? '<button type="button" data-action="cancel-edit">取消编辑</button>' : ""}
+          </div>
+          ${entryForm(config, editing)}
+        </section>
+        ${moduleBucketOverviewPanel(config, data, totals)}
+        ${config.module === "ic" ? futuresAddOneSuggestionPanel(data, calc) : ""}
+        ${config.module === "ic" ? futuresPositionValuationPanel(data) : positionValuationPanel(config, modulePositions)}
+      </div>
+      <section class="panel module-ledger-panel">
+        <div class="section-head">
+          <h2>投资流水</h2>
+          <span>${entries.length} 笔</span>
+        </div>
+        ${ledgerFilterControls(config, entries, filteredEntries)}
+        <div id="ledgerTableArea">${filteredEntries.length ? ledgerTable(filteredEntries) : emptyFilteredState(config, entries.length)}</div>
+      </section>
+    </section>
   `;
 }
 
@@ -3089,7 +3114,7 @@ function renderLedgerModule(config, subpage = "full") {
   const editing = editingId ? ledger.entries.find((entry) => entry.id === editingId) : null;
 
   if (isDesktopMode() && subpage === "full") {
-    renderLedgerModuleOverview(config, data, calc, entries, modulePositions, totals);
+    renderLedgerModuleOverview(config, data, calc, entries, filteredEntries, modulePositions, totals, editing);
     return;
   }
 
@@ -3110,6 +3135,13 @@ function renderLedgerModule(config, subpage = "full") {
     ${mobileSectionNav(config.module)}
 
     ${moduleFocusPanel(config, data, calc, entries, totals)}
+
+    <section class="module-overview-grid">
+      <div class="module-overview-stack">
+        ${config.module === "ic" ? futuresPositionSummaryPanel(data) : modulePositionSummaryPanel(config, modulePositions)}
+      </div>
+      ${moduleLedgerSummaryPanel(config, entries)}
+    </section>
 
     <section class="module-workbench">
       <div class="module-side">
