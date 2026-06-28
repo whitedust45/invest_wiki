@@ -175,10 +175,12 @@ body.desktop-browser {
   flex-wrap: nowrap;
 }
 
-.desktop-browser .header-actions button {
+.desktop-browser .header-actions button,
+.desktop-browser .header-actions .file-button {
   min-height: 42px;
   padding: 0 16px;
   border-radius: 10px;
+  white-space: nowrap;
 }
 
 .desktop-browser .app-main {
@@ -190,8 +192,12 @@ body.desktop-browser {
 }
 
 .desktop-browser .overview-layout {
-  grid-template-columns: minmax(0, 1.12fr) minmax(320px, 0.88fr);
+  grid-template-columns: minmax(0, 1fr);
   align-items: start;
+}
+
+.desktop-browser .overview-layout > * {
+  grid-column: 1 / -1;
 }
 
 .desktop-browser .overview-layout .wealth-hero,
@@ -210,18 +216,7 @@ body.desktop-browser {
 
 .desktop-browser .overview-layout .dashboard-split,
 .desktop-browser .overview-layout .work-grid {
-  grid-column: 1;
-}
-
-.desktop-browser .overview-layout .overview-settings,
-.desktop-browser .overview-layout .target-panel,
-.desktop-browser .overview-layout .decision-panel {
-  grid-column: 2;
-}
-
-.desktop-browser .overview-layout .dashboard-split,
-.desktop-browser .overview-layout .work-grid {
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 0.86fr);
 }
 
 .desktop-browser .onboarding-steps {
@@ -252,6 +247,7 @@ body.desktop-browser {
 
 .desktop-browser .module-overview-layout > .module-hero,
 .desktop-browser .module-overview-layout > .module-dashboard,
+.desktop-browser .module-overview-layout > .module-overview-grid,
 .desktop-browser .module-overview-layout > .module-workbench {
   min-width: 0;
 }
@@ -309,10 +305,23 @@ body.desktop-browser {
 
 .desktop-browser .module-overview-layout .module-side {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: minmax(0, 1fr);
   align-items: start;
   gap: 18px;
   min-width: 0;
+}
+
+.desktop-browser .module-full-width-panel {
+  min-width: 0;
+}
+
+.desktop-browser .module-hero,
+.desktop-browser .wealth-hero,
+.desktop-browser .panel,
+.desktop-browser .chart-panel,
+.desktop-browser .module-workbench,
+.desktop-browser .module-full-width-panel {
+  scroll-margin-top: 178px;
 }
 
 .desktop-browser .module-overview-layout .position-panel {
@@ -509,8 +518,11 @@ body.desktop-browser {
 }
 
 .desktop-browser .ledger-tools {
-  grid-template-columns: minmax(220px, 1.3fr) repeat(2, minmax(150px, 0.8fr)) auto;
   gap: 12px;
+}
+
+.desktop-browser .ledger-filter-grid {
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
 }
 
 .desktop-browser .ledger-table {
@@ -520,7 +532,9 @@ body.desktop-browser {
 .desktop-browser .table-wrap,
 .desktop-browser .position-table-wrap,
 .desktop-browser .basis-table-wrap {
+  width: 100%;
   max-width: 100%;
+  min-width: 0;
   overflow-x: auto;
   scrollbar-width: thin;
 }
@@ -599,6 +613,24 @@ body.desktop-browser {
 @media (max-width: 1180px) {
   .desktop-browser .app-shell {
     grid-template-columns: 248px minmax(0, 1fr);
+  }
+
+  .desktop-browser .app-header {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .desktop-browser h1 {
+    font-size: 28px;
+    line-height: 1.12;
+    word-break: keep-all;
+  }
+
+  .desktop-browser .header-actions {
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: flex-start;
   }
 
   .desktop-sidebar {

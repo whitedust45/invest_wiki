@@ -131,6 +131,7 @@ const balanceActions = {
 };
 
 const defaultFuturesMultiplier = 200;
+const ledgerPageSize = 10;
 
 const defaultSettings = {
   annualExpense: 12,
@@ -1891,6 +1892,7 @@ function setActiveTab(tab, subpage = "full") {
   editingId = null;
   updateNavigationState();
   render();
+  window.scrollTo({ top: 0, left: 0, behavior: "auto" });
 }
 
 function render() {
@@ -2650,7 +2652,7 @@ function adoptPbButton(type, source) {
 }
 
 function getLedgerFilter(module) {
-  if (!ledgerFilters[module]) ledgerFilters[module] = { search: "", action: "", bucket: "" };
+  if (!ledgerFilters[module]) ledgerFilters[module] = { search: "", action: "", bucket: "", page: 1 };
   return ledgerFilters[module];
 }
 
@@ -2665,26 +2667,53 @@ function filterEntries(entries, filter) {
   });
 }
 
-function ledgerFilterControls(config, entries, filteredEntries) {
+function ledgerPageInfo(module, filteredEntries) {
+  const filter = getLedgerFilter(module);
+  const total = filteredEntries.length;
+  const totalPages = Math.max(1, Math.ceil(total / ledgerPageSize));
+  const page = Math.min(Math.max(Number(filter.page) || 1, 1), totalPages);
+  filter.page = page;
+  const start = total > 0 ? (page - 1) * ledgerPageSize : 0;
+  const pageEntries = filteredEntries.slice(start, start + ledgerPageSize);
+  return {
+    page,
+    totalPages,
+    start,
+    end: start + pageEntries.length,
+    total,
+    pageEntries
+  };
+}
+
+function ledgerCountText(entries, filteredEntries, pageInfo) {
+  if (!filteredEntries.length) return `显示 0 / ${entries.length} 笔`;
+  const range = `${pageInfo.start + 1}-${pageInfo.end}`;
+  if (filteredEntries.length === entries.length) return `显示 ${range} / ${entries.length} 笔`;
+  return `显示 ${range} / ${filteredEntries.length} 笔，全部 ${entries.length} 笔`;
+}
+
+function ledgerFilterControls(config, entries, filteredEntries, pageInfo) {
   const filter = getLedgerFilter(config.module);
   const actions = Array.from(new Set(entries.map((entry) => entry.action).filter(Boolean)));
   return `
     <div class="ledger-tools">
-      <label>搜索<input id="ledgerSearch" name="search" value="${escapeHtml(filter.search)}" placeholder="代码 / 名称 / 备注" autocomplete="off" /></label>
-      <label>动作<select id="ledgerActionFilter" name="action">
-        <option value="">全部动作</option>
-        ${actions.map((action) => `<option value="${escapeHtml(action)}" ${filter.action === action ? "selected" : ""}>${escapeHtml(entryActionLabel(config.module, action))}</option>`).join("")}
-      </select></label>
-      <label>分类<select id="ledgerBucketFilter" name="bucket">
-        <option value="">全部分类</option>
-        ${config.buckets.map((bucket) => `<option value="${escapeHtml(bucket)}" ${filter.bucket === bucket ? "selected" : ""}>${escapeHtml(bucket)}</option>`).join("")}
-      </select></label>
+      <div class="ledger-filter-grid">
+        <label>搜索<input id="ledgerSearch" name="search" value="${escapeHtml(filter.search)}" placeholder="代码 / 名称 / 备注" autocomplete="off" /></label>
+        <label>动作<select id="ledgerActionFilter" name="action">
+          <option value="">全部动作</option>
+          ${actions.map((action) => `<option value="${escapeHtml(action)}" ${filter.action === action ? "selected" : ""}>${escapeHtml(entryActionLabel(config.module, action))}</option>`).join("")}
+        </select></label>
+        <label>分类<select id="ledgerBucketFilter" name="bucket">
+          <option value="">全部分类</option>
+          ${config.buckets.map((bucket) => `<option value="${escapeHtml(bucket)}" ${filter.bucket === bucket ? "selected" : ""}>${escapeHtml(bucket)}</option>`).join("")}
+        </select></label>
+      </div>
       <div class="ledger-tool-actions">
         <button type="button" data-action="clear-filters" data-module="${escapeHtml(config.module)}">清除</button>
         <button type="button" data-action="export-csv" data-module="${escapeHtml(config.module)}">导出 CSV</button>
         <button type="button" data-action="export-json" data-module="${escapeHtml(config.module)}">导出 JSON</button>
       </div>
-      <p class="ledger-count">显示 ${escapeHtml(String(filteredEntries.length))} / ${escapeHtml(String(entries.length))} 笔</p>
+      <p class="ledger-count">${escapeHtml(ledgerCountText(entries, filteredEntries, pageInfo))}</p>
     </div>
   `;
 }
@@ -2698,7 +2727,8 @@ function moduleEntries(module) {
 function renderLedgerTableArea(config) {
   const entries = moduleEntries(config.module);
   const filteredEntries = filterEntries(entries, getLedgerFilter(config.module));
-  return filteredEntries.length ? ledgerTable(filteredEntries) : emptyFilteredState(config, entries.length);
+  const pageInfo = ledgerPageInfo(config.module, filteredEntries);
+  return filteredEntries.length ? `${ledgerTable(pageInfo.pageEntries)}${ledgerPagination(config.module, pageInfo)}` : emptyFilteredState(config, entries.length);
 }
 
 function emptyFilteredState(config, total) {
@@ -2721,8 +2751,9 @@ function updateLedgerTableArea(module) {
   if (!config || !area) return;
   const entries = moduleEntries(module);
   const filteredEntries = filterEntries(entries, getLedgerFilter(module));
-  area.innerHTML = filteredEntries.length ? ledgerTable(filteredEntries) : emptyFilteredState(config, entries.length);
-  if (count) count.textContent = `显示 ${filteredEntries.length} / ${entries.length} 笔`;
+  const pageInfo = ledgerPageInfo(module, filteredEntries);
+  area.innerHTML = filteredEntries.length ? `${ledgerTable(pageInfo.pageEntries)}${ledgerPagination(module, pageInfo)}` : emptyFilteredState(config, entries.length);
+  if (count) count.textContent = ledgerCountText(entries, filteredEntries, pageInfo);
 }
 
 function positionsForModule(module, data = summarizeLedger()) {
@@ -3045,6 +3076,8 @@ function moduleHeroShare(config, data, totals) {
 }
 
 function renderLedgerModuleOverview(config, data, calc, entries, filteredEntries, modulePositions, totals, editing) {
+  const pageInfo = ledgerPageInfo(config.module, filteredEntries);
+  const valuationPanel = config.module === "ic" ? futuresPositionValuationPanel(data) : positionValuationPanel(config, modulePositions);
   appRoot.innerHTML = `
     <section class="module-hero module-${escapeHtml(config.accent || config.module)}">
       <div>
@@ -3065,15 +3098,6 @@ function renderLedgerModuleOverview(config, data, calc, entries, filteredEntries
 
     ${moduleFocusPanel(config, data, calc, entries, totals)}
 
-    <section class="module-overview-grid">
-      <div class="module-overview-stack">
-        ${moduleBucketOverviewPanel(config, data, totals)}
-        ${config.module === "ic" ? futuresAddOneSuggestionPanel(data, calc) : ""}
-        ${config.module === "ic" ? futuresPositionSummaryPanel(data) : modulePositionSummaryPanel(config, modulePositions)}
-      </div>
-      ${moduleLedgerSummaryPanel(config, entries)}
-    </section>
-
     <section class="module-workbench">
       <div class="module-side">
         <section class="panel entry-panel">
@@ -3085,17 +3109,20 @@ function renderLedgerModuleOverview(config, data, calc, entries, filteredEntries
         </section>
         ${moduleBucketOverviewPanel(config, data, totals)}
         ${config.module === "ic" ? futuresAddOneSuggestionPanel(data, calc) : ""}
-        ${config.module === "ic" ? futuresPositionValuationPanel(data) : positionValuationPanel(config, modulePositions)}
       </div>
       <section class="panel module-ledger-panel">
         <div class="section-head">
           <h2>投资流水</h2>
           <span>${entries.length} 笔</span>
         </div>
-        ${ledgerFilterControls(config, entries, filteredEntries)}
-        <div id="ledgerTableArea">${filteredEntries.length ? ledgerTable(filteredEntries) : emptyFilteredState(config, entries.length)}</div>
+        ${ledgerFilterControls(config, entries, filteredEntries, pageInfo)}
+        <div id="ledgerTableArea">${filteredEntries.length ? `${ledgerTable(pageInfo.pageEntries)}${ledgerPagination(config.module, pageInfo)}` : emptyFilteredState(config, entries.length)}</div>
       </section>
     </section>
+
+    <div class="module-full-width-panel">
+      ${valuationPanel}
+    </div>
   `;
 }
 
@@ -3105,6 +3132,7 @@ function renderLedgerModule(config, subpage = "full") {
   const calc = calculate(data);
   const entries = moduleEntries(config.module);
   const filteredEntries = filterEntries(entries, getLedgerFilter(config.module));
+  const pageInfo = ledgerPageInfo(config.module, filteredEntries);
   const modulePositions = positionsForModule(config.module, data);
   const totals = {
     balance: data.moduleTotals[config.module] || 0,
@@ -3136,13 +3164,6 @@ function renderLedgerModule(config, subpage = "full") {
 
     ${moduleFocusPanel(config, data, calc, entries, totals)}
 
-    <section class="module-overview-grid">
-      <div class="module-overview-stack">
-        ${config.module === "ic" ? futuresPositionSummaryPanel(data) : modulePositionSummaryPanel(config, modulePositions)}
-      </div>
-      ${moduleLedgerSummaryPanel(config, entries)}
-    </section>
-
     <section class="module-workbench">
       <div class="module-side">
         <section class="panel entry-panel">
@@ -3161,8 +3182,8 @@ function renderLedgerModule(config, subpage = "full") {
           <h2>投资流水</h2>
           <span>${entries.length} 笔</span>
         </div>
-        ${ledgerFilterControls(config, entries, filteredEntries)}
-        <div id="ledgerTableArea">${filteredEntries.length ? ledgerTable(filteredEntries) : emptyFilteredState(config, entries.length)}</div>
+        ${ledgerFilterControls(config, entries, filteredEntries, pageInfo)}
+        <div id="ledgerTableArea">${filteredEntries.length ? `${ledgerTable(pageInfo.pageEntries)}${ledgerPagination(config.module, pageInfo)}` : emptyFilteredState(config, entries.length)}</div>
       </section>
     </section>
   `;
@@ -3706,6 +3727,17 @@ function ledgerTable(entries) {
         </tbody>
       </table>
     </div>
+  `;
+}
+
+function ledgerPagination(module, pageInfo) {
+  if (pageInfo.totalPages <= 1) return "";
+  return `
+    <nav class="ledger-pagination" aria-label="投资流水分页">
+      <button type="button" data-action="ledger-page-prev" data-module="${escapeHtml(module)}" ${pageInfo.page <= 1 ? "disabled" : ""}>上一页</button>
+      <span>第 ${escapeHtml(String(pageInfo.page))} / ${escapeHtml(String(pageInfo.totalPages))} 页</span>
+      <button type="button" data-action="ledger-page-next" data-module="${escapeHtml(module)}" ${pageInfo.page >= pageInfo.totalPages ? "disabled" : ""}>下一页</button>
+    </nav>
   `;
 }
 
@@ -4639,6 +4671,7 @@ function handleLedgerFilterInput(event) {
   filter.search = search ? search.value : "";
   filter.action = action ? action.value : "";
   filter.bucket = bucket ? bucket.value : "";
+  filter.page = 1;
   updateLedgerTableArea(module);
 }
 
@@ -5510,6 +5543,14 @@ document.addEventListener("click", (event) => {
       renderRemoteSyncPanel();
       return;
     }
+    if (action.dataset.action === "ledger-page-prev" || action.dataset.action === "ledger-page-next") {
+      const module = action.dataset.module || currentTab;
+      const filter = getLedgerFilter(module);
+      const direction = action.dataset.action === "ledger-page-next" ? 1 : -1;
+      filter.page = Math.max(1, (Number(filter.page) || 1) + direction);
+      updateLedgerTableArea(module);
+      return;
+    }
     const ledger = loadLedger();
     if (action.dataset.action === "edit-entry") {
       editingId = action.dataset.id;
@@ -5529,7 +5570,7 @@ document.addEventListener("click", (event) => {
       editingId = null;
       render();
     } else if (action.dataset.action === "clear-filters") {
-      ledgerFilters[action.dataset.module] = { search: "", action: "", bucket: "" };
+      ledgerFilters[action.dataset.module] = { search: "", action: "", bucket: "", page: 1 };
       render();
       showToast("已清除筛选", "info");
     } else if (action.dataset.action === "export-csv") {

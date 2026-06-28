@@ -115,8 +115,15 @@ const functions = [
   "backupHasData"
 ].map(extractFunction).join("\n\n");
 
+const ledgerHelpers = [
+  "getLedgerFilter",
+  "ledgerPageInfo",
+  "ledgerCountText"
+].map(extractFunction).join("\n\n");
+
 const core = new Function(`
 const defaultFuturesMultiplier = 200;
+const ledgerPageSize = 10;
 const defaultSettings = {
   annualExpense: 12,
   newMoney: 1,
@@ -141,6 +148,7 @@ const balanceActions = {
   interest: 0,
   roll: 0
 };
+const ledgerFilters = {};
 let __toasts = [];
 let localStorage = { setItem() {} };
 function showToast(message, type = "info") {
@@ -168,6 +176,7 @@ let loadValuation = () => globalThis.__dashboardTestValuation || null;
 let loadLedger = () => ({ entries: [], settings: { ...defaultSettings } });
 let summarizeLedgerAtDate = () => globalThis.__dashboardTestSummary;
 ${functions}
+${ledgerHelpers}
 return {
   ratio,
   writeLocalStorage,
@@ -192,7 +201,10 @@ return {
   buildDailySnapshot,
   validateFullBackupPayload,
   comparableBackupPayload,
-  backupHasData
+  backupHasData,
+  getLedgerFilter,
+  ledgerPageInfo,
+  ledgerCountText
 };
 `)();
 
@@ -217,6 +229,17 @@ try {
 const storageToasts = core.takeToasts();
 assert.equal(storageToasts.at(-1).type, "error", "write failure emits error toast");
 assert.match(storageToasts.at(-1).message, /写入失败/, "write failure explains persistence failure");
+
+const manyLedgerEntries = Array.from({ length: 23 }, (_, index) => ({ id: String(index + 1) }));
+const firstLedgerPage = core.ledgerPageInfo("dividend", manyLedgerEntries);
+assert.equal(firstLedgerPage.page, 1, "ledger pagination starts on page 1");
+assert.equal(firstLedgerPage.totalPages, 3, "ledger pagination uses 10 rows per page");
+assert.equal(firstLedgerPage.pageEntries.length, 10, "ledger first page shows 10 rows");
+core.getLedgerFilter("dividend").page = 9;
+const clampedLedgerPage = core.ledgerPageInfo("dividend", manyLedgerEntries);
+assert.equal(clampedLedgerPage.page, 3, "ledger pagination clamps overflowing pages");
+assert.equal(clampedLedgerPage.pageEntries.length, 3, "ledger final page shows remaining rows");
+assert.equal(core.ledgerCountText(manyLedgerEntries, manyLedgerEntries, clampedLedgerPage), "显示 21-23 / 23 笔", "ledger count text reports the visible page range");
 
 const ledger = {
   settings: { annualExpense: 12, futuresEquity: 0, usedMargin: 10, icPb: 25, imPb: 18, hasIc: true },

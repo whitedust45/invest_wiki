@@ -223,6 +223,7 @@ h1 {
 .module-workbench {
   display: grid;
   gap: 14px;
+  min-width: 0;
 }
 
 .dashboard-split {
@@ -239,6 +240,21 @@ h1 {
 .module-side {
   display: grid;
   gap: 14px;
+  min-width: 0;
+}
+
+.panel,
+.chart-panel,
+.strategy-card,
+.focus-card,
+.visual-card,
+.metric,
+.account-row,
+.target-row,
+.bucket-row,
+.risk-item,
+.wealth-hero,
+.module-hero {
   min-width: 0;
 }
 
@@ -1109,10 +1125,18 @@ select:focus {
 
 .ledger-tools {
   display: grid;
-  grid-template-columns: minmax(180px, 1.2fr) minmax(130px, 0.7fr) minmax(130px, 0.7fr) auto;
-  gap: 10px;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 10px 12px;
   align-items: end;
   margin-bottom: 12px;
+  min-width: 0;
+}
+
+.ledger-filter-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 10px;
+  min-width: 0;
 }
 
 .ledger-tool-actions {
@@ -1120,12 +1144,34 @@ select:focus {
   flex-wrap: wrap;
   gap: 8px;
   justify-content: flex-end;
+  min-width: 0;
 }
 
 .ledger-count {
-  grid-column: 1 / -1;
   color: var(--muted);
   font-size: 12px;
+}
+
+.ledger-pagination {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.ledger-pagination button {
+  min-height: 34px;
+}
+
+.ledger-pagination button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
 }
 
 .module-ledger-panel {
@@ -1134,6 +1180,20 @@ select:focus {
 
 .position-panel {
   min-width: 0;
+}
+
+.module-full-width-panel {
+  display: grid;
+  min-width: 0;
+}
+
+.module-hero,
+.wealth-hero,
+.panel,
+.chart-panel,
+.module-workbench,
+.module-full-width-panel {
+  scroll-margin-top: 132px;
 }
 
 .position-tools {
@@ -1945,7 +2005,12 @@ select:focus {
 
 .basis-table-wrap,
 .table-wrap {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
   overflow-x: auto;
+  overscroll-behavior-x: contain;
 }
 
 table {
@@ -2339,13 +2404,8 @@ li {
   .bucket-grid,
   .strategy-grid,
   .module-dashboard,
-  .ledger-tools {
+  .ledger-filter-grid {
     grid-template-columns: repeat(2, minmax(140px, 1fr));
-  }
-
-  .ledger-tool-actions,
-  .ledger-count {
-    grid-column: 1 / -1;
   }
 
   .ledger-tool-actions {
@@ -2409,7 +2469,7 @@ li {
   .bucket-grid,
   .strategy-grid,
   .module-dashboard,
-  .ledger-tools,
+  .ledger-filter-grid,
   .data-subgrid {
     grid-template-columns: 1fr;
   }
