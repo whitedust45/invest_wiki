@@ -171,7 +171,7 @@ const appRoot = document.querySelector("#appRoot");
 const pageTitle = document.querySelector("#pageTitle");
 
 const dashboardServiceCommand = "python3 services/sync/src/main.py";
-const positionQuotesCommand = "python3 tools/dashboard/update_position_quotes.py 000568 000858 QQQ QLD SPY";
+const positionQuotesCommand = "python3 tools/dashboard/update_position_quotes.py 000858 000568 600887 600153 600036 002818 002091 601668 600177 600873 601318 600938 600941 601225 000651 600690 512890 520890 159545 513630 159117 QQQ QLD SPY";
 const dashboardServiceBaseUrl = "http://127.0.0.1:8775/apps/dashboard/";
 
 const subpageLabels = {
@@ -1493,6 +1493,57 @@ function futuresRiskTrack(meta, className = "bucket-track") {
       <i class="target-marker reference-marker-2" title="70% 防守线" style="left:${defenseMarker}%"></i>
     </span>
   `;
+}
+
+function futuresStressLossForRows(rows, stressDrop) {
+  return (rows || []).reduce((sum, row) => {
+    const notional = safeAmount(row.currentNotional) || amountFromQuantityPrice(safeAmount(row.quantity), safeAmount(row.currentPrice), safeAmount(row.multiplier) || defaultFuturesMultiplier) || 0;
+    return sum + notional * stressDrop;
+  }, 0);
+}
+
+function futuresAddLotCandidates(data, calc = calculate(data), valuation = loadValuation(), stressDrop = 0.20) {
+  const marginRate = calc.futuresMarginRate > 0 ? calc.futuresMarginRate / 100 : 0.12;
+  const currentEquity = safeAmount(data.futuresEquity);
+  const currentUsedMargin = safeAmount(data.usedMargin);
+  const existingStressLoss = futuresStressLossForRows(futuresHoldingRows(data), stressDrop);
+  const watchRisk = 0.55;
+  const defenseRisk = 0.70;
+  return ["IC", "IM"].map((product) => {
+    const contract = futuresFrontContract(valuation, product);
+    const future = contract ? Number(contract.future) : 0;
+    const notional = future > 0 ? amountFromQuantityPrice(1, future, defaultFuturesMultiplier) || 0 : 0;
+    const addedMargin = notional * marginRate;
+    const nextUsedMargin = currentUsedMargin + addedMargin;
+    const riskNoTopUp = currentEquity > 0 ? ratio(nextUsedMargin, currentEquity) : Infinity;
+    const topUpToDefense = nextUsedMargin > 0 ? gap(nextUsedMargin / defenseRisk, currentEquity) : 0;
+    const topUpToWatch = nextUsedMargin > 0 ? gap(nextUsedMargin / watchRisk, currentEquity) : 0;
+    const stressLoss = existingStressLoss + notional * stressDrop;
+    const stressedUsedMargin = nextUsedMargin * (1 - stressDrop);
+    const stressedEquityWithoutTopUp = currentEquity - stressLoss;
+    const stressTopUpToDefense = stressedUsedMargin > 0 ? gap(stressedUsedMargin / defenseRisk, stressedEquityWithoutTopUp) : 0;
+    const stressTopUpToWatch = stressedUsedMargin > 0 ? gap(stressedUsedMargin / watchRisk, stressedEquityWithoutTopUp) : 0;
+    return {
+      product,
+      contract: contract ? contract.contract || "" : "",
+      future,
+      notional,
+      marginRate: marginRate * 100,
+      addedMargin,
+      nextUsedMargin,
+      currentEquity,
+      riskNoTopUp,
+      topUpToDefense,
+      topUpToWatch,
+      stressDrop: stressDrop * 100,
+      stressLoss,
+      stressedUsedMargin,
+      stressTopUpToDefense,
+      stressTopUpToWatch,
+      recommendedTopUp: stressTopUpToDefense,
+      reserveAfterImmediateWatch: Math.max(stressTopUpToDefense - topUpToWatch, 0)
+    };
+  });
 }
 
 function detectStage(data, calc) {
@@ -2879,6 +2930,39 @@ function futuresPositionSummaryPanel(data) {
   `;
 }
 
+function futuresAddOneSuggestionPanel(data, calc = calculate(data)) {
+  const candidates = futuresAddLotCandidates(data, calc).filter((item) => item.notional > 0);
+  const rows = candidates.map((item) => `
+    <tr>
+      <td>${escapeHtml(item.product)}<small>${escapeHtml(item.contract || "近月合约")}</small></td>
+      <td>${escapeHtml(chartValue(item.future))}</td>
+      <td>${escapeHtml(yuan(item.notional))}</td>
+      <td>${escapeHtml(yuan(item.addedMargin))}<small>${escapeHtml(pct(item.marginRate))}</small></td>
+      <td>${escapeHtml(pct(item.riskNoTopUp))}</td>
+      <td>${escapeHtml(yuan(item.topUpToDefense))}<small>当下 ≤70%</small></td>
+      <td>${escapeHtml(yuan(item.topUpToWatch))}<small>当下 ≤55%</small></td>
+      <td><strong>${escapeHtml(yuan(item.recommendedTopUp))}</strong><small>加完再跌 ${escapeHtml(pct(item.stressDrop))} 后 ≤70%</small></td>
+    </tr>
+  `).join("");
+  return `
+    <section class="panel futures-add-panel">
+      <div class="section-head">
+        <h2>加一手资金测算</h2>
+        <span>默认推荐稳健压力线</span>
+      </div>
+      ${rows ? `
+        <div class="table-wrap">
+          <table class="overview-mini-table">
+            <thead><tr><th>品种</th><th>点位</th><th>新增名义</th><th>新增保证金</th><th>不补资风险度</th><th>最低补资</th><th>当下55%</th><th>建议补资</th></tr></thead>
+            <tbody>${rows}</tbody>
+          </table>
+        </div>
+        <p class="notice">建议补资口径：买入 1 手后，再假设期货继续下跌 20%，期货风险度仍不超过 70%。这是资金安全垫测算，不代表必须交易。</p>
+      ` : `<p class="notice">读取 IC/IM 估值 JSON 后，才能按近月合约测算再买 1 手需要补多少权益。</p>`}
+    </section>
+  `;
+}
+
 function futuresPositionValuationPanel(data) {
   const rows = futuresHoldingRows(data);
   const state = data.futuresState || {};
@@ -2982,6 +3066,7 @@ function renderLedgerModuleOverview(config, data, calc, entries, modulePositions
     <section class="module-overview-grid">
       <div class="module-overview-stack">
         ${moduleBucketOverviewPanel(config, data, totals)}
+        ${config.module === "ic" ? futuresAddOneSuggestionPanel(data, calc) : ""}
         ${config.module === "ic" ? futuresPositionSummaryPanel(data) : modulePositionSummaryPanel(config, modulePositions)}
       </div>
       ${moduleLedgerSummaryPanel(config, entries)}
@@ -3036,6 +3121,7 @@ function renderLedgerModule(config, subpage = "full") {
           ${entryForm(config, editing)}
         </section>
         ${moduleBucketOverviewPanel(config, data, totals)}
+        ${config.module === "ic" ? futuresAddOneSuggestionPanel(data, calc) : ""}
         ${config.module === "ic" ? futuresPositionValuationPanel(data) : positionValuationPanel(config, modulePositions)}
       </div>
       <section class="panel module-ledger-panel">

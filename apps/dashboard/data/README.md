@@ -116,7 +116,7 @@ python3 tools/dashboard/update_ic_im_valuation.py --no-include-basis
 运行以下命令生成前端读取的价格 JSON：
 
 ```bash
-python3 tools/dashboard/update_position_quotes.py 000568 000858 QQQ QLD SPY
+python3 tools/dashboard/update_position_quotes.py 000858 000568 600887 600153 600036 002818 002091 601668 600177 600873 601318 600938 600941 601225 000651 600690 512890 520890 159545 513630 159117 QQQ QLD SPY
 ```
 
 默认输出：
@@ -134,6 +134,7 @@ apps/dashboard/data/position-quotes.json
 - 页面读取该 JSON 后，只更新持仓估值层的 `当前价格 / 数据来源 / 更新时间`
 - 若持仓估值里已经手工填写了 `当前市值`，手工市值仍保持最高优先级，不会被价格同步覆盖
 - QQQ / QLD 等普通美股 ETF 可通过本地 JSON 同步人民币折算价；期权权利金、期货保证金等仍建议继续手工填写当前市值
+- `watchlist-data/20260626/watchlist-quotes.json` 已补充进 `position-quotes.json`：16 只 A 股 + 5 只 ETF 的 2026-06-26 收盘快照可直接用于持仓价格同步。
 
 如果需要同时生成 A 股日收盘价历史 JSON：
 
@@ -150,6 +151,7 @@ apps/dashboard/data/position-history.json
 网页端的收益率曲线会在打开时自动补齐缺失日期：
 
 - A 股：直接读取腾讯日线 `appstock/app/fqkline/get` 的前复权日收盘价
+- 关注列表补充数据：缺少腾讯日线历史的标的，会先用 `watchlist-data/20260626/watchlist-quotes.json` 的 2026-06-26 单日收盘快照补一条记录；已有同日腾讯日线的不覆盖
 - 现金 / 类现金 / 债券：按流水日期推导余额
 - 暂未自动取价的资产：沿用上一条可用估值
 - 收益率按总资产净值法计算，`转入 / 转出` 作为外部现金流剔除

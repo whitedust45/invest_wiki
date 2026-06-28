@@ -93,6 +93,8 @@ const functions = [
   "calculate",
   "futuresAccountRiskMeta",
   "futuresRiskActionText",
+  "futuresStressLossForRows",
+  "futuresAddLotCandidates",
   "detectStage",
   "weightedChildren",
   "defensiveChildren",
@@ -182,6 +184,8 @@ return {
   futuresExposureReference,
   futuresAccountRiskMeta,
   futuresRiskActionText,
+  futuresStressLossForRows,
+  futuresAddLotCandidates,
   allocationPlanForAmount,
   amountFromQuantityPrice,
   externalFlowOnDate,
@@ -297,6 +301,43 @@ const dangerRiskMeta = core.futuresAccountRiskMeta({ ...summary, usedMargin: 80,
 assert.equal(dangerRiskMeta.statusText, "危险区", "futures risk above 70% is marked as danger");
 assert.equal(Number(dangerRiskMeta.topUpToWatch.toFixed(2)), 45.45, "top-up gap is derived from used margin / 55% risk line");
 assert.match(core.futuresRiskActionText(dangerRiskMeta), /需补权益/, "unsafe futures risk reports equity top-up, not margin excess");
+
+globalThis.__dashboardTestValuation = {
+  indexes: {
+    IC: { basis: { contracts: [{ contract: "IC2607", future: 4221.64 }] } },
+    IM: { basis: { contracts: [{ contract: "IM2607", future: 4180.97 }] } }
+  }
+};
+const twiceStressedFutures = {
+  ...summary,
+  futuresEquity: 12.1008,
+  usedMargin: 10.131936,
+  futuresNotional: 84.4328,
+  futuresState: {
+    openPositions: [{
+      symbol: "IC2607",
+      product: "IC",
+      quantity: 1,
+      avgPrice: 8615.6,
+      currentPrice: 4221.64,
+      multiplier: 200,
+      currentNotional: 84.4328,
+      usedMargin: 10.131936,
+      unrealizedPnl: -87.8792,
+      priceSource: "valuation"
+    }]
+  }
+};
+const addOneCandidates = core.futuresAddLotCandidates(twiceStressedFutures, core.calculate(twiceStressedFutures));
+const addIc = addOneCandidates.find((item) => item.product === "IC");
+const addIm = addOneCandidates.find((item) => item.product === "IM");
+assert.equal(Number(addIc.riskNoTopUp.toFixed(1)), 167.5, "adding one IC without top-up shows immediate risk blow-up");
+assert.equal(Number(addIm.riskNoTopUp.toFixed(1)), 166.7, "adding one IM without top-up shows immediate risk blow-up");
+assert.equal(Number(addIc.topUpToWatch.toFixed(2)), 24.74, "adding one IC reports current 55% top-up");
+assert.equal(Number(addIm.topUpToWatch.toFixed(2)), 24.57, "adding one IM reports current 55% top-up");
+assert.equal(Number(addIc.recommendedTopUp.toFixed(2)), 44.83, "recommended IC top-up keeps risk <=70% after another 20% drop");
+assert.equal(Number(addIm.recommendedTopUp.toFixed(2)), 44.56, "recommended IM top-up keeps risk <=70% after another 20% drop");
+globalThis.__dashboardTestValuation = null;
 
 const allocationData = {
   ...summary,
