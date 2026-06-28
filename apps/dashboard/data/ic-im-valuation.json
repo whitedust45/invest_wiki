@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-06-27T15:09:53.321350+00:00",
+  "generated_at": "2026-06-28T03:02:12.988113+00:00",
   "source": {
     "current_valuation": "中证指数官网 /csindex-home/data-service/indexValuation",
     "current_pb_fallback": "东方财富 push2 quote fields f167/f152; best-effort only",
@@ -21,7 +21,7 @@
       "pe_source": "csindex_pe_history",
       "pb_source": "csindex_current",
       "eastmoney_fallback_error": null,
-      "pe_percentile": 88.75,
+      "pe_percentile": 88.79,
       "pb_percentile": null,
       "pb_percentile_source": null,
       "pb_percentile_manual_required": true,
@@ -37,9 +37,9 @@
         "roll_notice": {
           "contract": "IC2607",
           "delivery_date": "2026-07-17",
-          "days_left": 20,
+          "days_left": 19,
           "level": "normal",
-          "message": "距离理论交割日 20 天，暂未进入移仓窗口。",
+          "message": "距离理论交割日 19 天，暂未进入移仓窗口。",
           "watch_days": 10,
           "alert_days": 5,
           "calendar_note": "按第三个周五估算；若交易所节假日顺延，以中金所公告为准。"
@@ -50,12 +50,12 @@
             "spot": 8703.57,
             "future": 8615.6,
             "basis": 87.97,
-            "annualized_basis_pct": 18.63,
-            "days_left": 20,
+            "annualized_basis_pct": 19.62,
+            "days_left": 19,
             "delivery_date": "2026-07-17",
             "roll_notice": {
               "level": "normal",
-              "message": "距离理论交割日 20 天，暂未进入移仓窗口。"
+              "message": "距离理论交割日 19 天，暂未进入移仓窗口。"
             }
           },
           {
@@ -63,12 +63,12 @@
             "spot": 8703.57,
             "future": 8526.0,
             "basis": 177.57,
-            "annualized_basis_pct": 13.82,
-            "days_left": 55,
+            "annualized_basis_pct": 14.08,
+            "days_left": 54,
             "delivery_date": "2026-08-21",
             "roll_notice": {
               "level": "normal",
-              "message": "距离理论交割日 55 天，暂未进入移仓窗口。"
+              "message": "距离理论交割日 54 天，暂未进入移仓窗口。"
             }
           },
           {
@@ -76,12 +76,12 @@
             "spot": 8703.57,
             "future": 8447.0,
             "basis": 256.57,
-            "annualized_basis_pct": 13.36,
-            "days_left": 83,
+            "annualized_basis_pct": 13.52,
+            "days_left": 82,
             "delivery_date": "2026-09-18",
             "roll_notice": {
               "level": "normal",
-              "message": "距离理论交割日 83 天，暂未进入移仓窗口。"
+              "message": "距离理论交割日 82 天，暂未进入移仓窗口。"
             }
           },
           {
@@ -89,12 +89,12 @@
             "spot": 8703.57,
             "future": 8244.8,
             "basis": 458.77,
-            "annualized_basis_pct": 11.67,
-            "days_left": 174,
+            "annualized_basis_pct": 11.74,
+            "days_left": 173,
             "delivery_date": "2026-12-18",
             "roll_notice": {
               "level": "normal",
-              "message": "距离理论交割日 174 天，暂未进入移仓窗口。"
+              "message": "距离理论交割日 173 天，暂未进入移仓窗口。"
             }
           }
         ]
@@ -110,7 +110,7 @@
       "pe_source": "csindex_pe_history",
       "pb_source": "eastmoney_current_fallback",
       "eastmoney_fallback_error": null,
-      "pe_percentile": 85.99,
+      "pe_percentile": 86.02,
       "pb_percentile": null,
       "pb_percentile_source": null,
       "pb_percentile_manual_required": true,
@@ -126,9 +126,9 @@
         "roll_notice": {
           "contract": "IM2607",
           "delivery_date": "2026-07-17",
-          "days_left": 20,
+          "days_left": 19,
           "level": "normal",
-          "message": "距离理论交割日 20 天，暂未进入移仓窗口。",
+          "message": "距离理论交割日 19 天，暂未进入移仓窗口。",
           "watch_days": 10,
           "alert_days": 5,
           "calendar_note": "按第三个周五估算；若交易所节假日顺延，以中金所公告为准。"
@@ -139,12 +139,12 @@
             "spot": 8601.41,
             "future": 8532.6,
             "basis": 68.81,
-            "annualized_basis_pct": 14.72,
-            "days_left": 20,
+            "annualized_basis_pct": 15.49,
+            "days_left": 19,
             "delivery_date": "2026-07-17",
             "roll_notice": {
               "level": "normal",
-              "message": "距离理论交割日 20 天，暂未进入移仓窗口。"
+              "message": "距离理论交割日 19 天，暂未进入移仓窗口。"
             }
           },
           {
@@ -152,12 +152,12 @@
             "spot": 8601.41,
             "future": 8424.6,
             "basis": 176.81,
-            "annualized_basis_pct": 13.93,
-            "days_left": 55,
+            "annualized_basis_pct": 14.19,
+            "days_left": 54,
             "delivery_date": "2026-08-21",
             "roll_notice": {
               "level": "normal",
-              "message": "距离理论交割日 55 天，暂未进入移仓窗口。"
+              "message": "距离理论交割日 54 天，暂未进入移仓窗口。"
             }
           },
           {
@@ -165,12 +165,12 @@
             "spot": 8601.41,
             "future": 8319.2,
             "basis": 282.21,
-            "annualized_basis_pct": 14.92,
-            "days_left": 83,
+            "annualized_basis_pct": 15.1,
+            "days_left": 82,
             "delivery_date": "2026-09-18",
             "roll_notice": {
               "level": "normal",
-              "message": "距离理论交割日 83 天，暂未进入移仓窗口。"
+              "message": "距离理论交割日 82 天，暂未进入移仓窗口。"
             }
           },
           {
@@ -178,12 +178,12 @@
             "spot": 8601.41,
             "future": 8066.0,
             "basis": 535.41,
-            "annualized_basis_pct": 13.92,
-            "days_left": 174,
+            "annualized_basis_pct": 14.0,
+            "days_left": 173,
             "delivery_date": "2026-12-18",
             "roll_notice": {
               "level": "normal",
-              "message": "距离理论交割日 174 天，暂未进入移仓窗口。"
+              "message": "距离理论交割日 173 天，暂未进入移仓窗口。"
             }
           }
         ]

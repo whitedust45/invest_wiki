@@ -1,6 +1,6 @@
 ---
 description: Wiki 内容索引，按类别组织所有页面
-updated: 2026-06-23
+updated: 2026-06-27
 ---
 
 # Wiki 索引
@@ -46,6 +46,8 @@ _投资方法论、估值模型、行为金融、宏观框架_
 | convexity | 凸性 / Convexity | risk | 指收益对冲击并非线性响应，而会出现“下行有限、上行加速”或相反的非线性放大特征 |
 | asset-allocation | 资产配置 / Asset Allocation | strategy | 在股票、债券、现金等大类资产之间分配资金，以匹配目标、期限与风险承受能力 |
 | rebalance | 再平衡 / Rebalancing | strategy | 把组合权重拉回目标配置的管理动作，用于控制风险漂移并维持投资纪律 |
+| stock-index-futures | 股指期货 / Stock Index Futures | risk | 股指期货以股票指数为标的，通过保证金交易放大名义敞口，核心风险在杠杆和移仓 |
+| stock-index-futures-contract-rules | 股指期货合约规则 / Stock Index Futures Contract Rules | risk | IC/IM 合约乘数均为每点200元，最后交易日和交割日为到期月第三个周五并遇假日顺延 |
 | risk-reward | 风险收益比 / Risk-Reward Ratio | risk | 衡量一笔机会的潜在收益相对潜在损失是否划算，是仓位与执行纪律的重要输入 |
 | insurance-float | 保险浮存金 / Insurance Float | risk | 保险公司先收保费后赔付形成的可投资资金，其价值取决于承保纪律 |
 | intrinsic-value | 内在价值 / Intrinsic Value | valuation | 资产或企业未来可分配现金流折现后的经济价值，独立于市场价格 |

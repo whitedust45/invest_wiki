@@ -1,6 +1,8 @@
 ---
 name: lint
-description: Wiki 健康检查 — 16 项检查 + 自动化脚本 + 分级修复策略
+description: |
+  Wiki 健康检查 — 16 项检查 + 自动化脚本 + 分级修复策略。
+  触发词：lint、wiki 体检、知识库健康检查、断链检查、孤岛页面、过时数据、wiki 巡检。
 ---
 
 # /lint — Wiki 健康检查
@@ -13,9 +15,13 @@ description: Wiki 健康检查 — 16 项检查 + 自动化脚本 + 分级修复
 
 ## 执行方式
 
-**一键执行**：在项目根目录运行 `bash .Codex/skills/lint/scripts/lint-all.sh`
+**一键执行**：在项目根目录运行：
 
-脚本会输出结构化报告，Agent 据此生成修复建议。
+```bash
+bash .agents/skills/lint/scripts/lint-all.sh
+```
+
+脚本输出契约：每个检查项以 `=== P{级别} #{编号} {名称} ===` 开头，Agent 据此解析并生成结构化报告。
 
 ## 检查项（按优先级）
 

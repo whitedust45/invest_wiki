@@ -10,7 +10,7 @@ version: 2026-06-23
 effective_date: 2026-06-23
 supersedes: []
 superseded_by: []
-see_also: [personal-hybrid-barbell-matrix, ic-im-roll-discount-strategy, ic-im-roll-discount-operations-manual, personal-position-sizing-framework]
+see_also: [personal-hybrid-barbell-matrix, ic-im-roll-discount-strategy, ic-im-roll-discount-operations-manual, personal-position-sizing-framework, stock-index-futures-contract-rules]
 sources:
   - type: dialogue
     context: 从零开始构建个人混合杠铃矩阵，补充三张执行表与分阶段配置顺序
@@ -64,6 +64,8 @@ summary: 将个人混合杠铃策略落成生活现金流、组合风险、极�
 | 年度保险费 | 待填 | 成型后 1.5%-2% | 尾部保护成本 | 过高侵蚀收益 | 降预算或优化合约 |
 
 核心规则：不能只看每个模块自身是否合理，还要看它们是否共同押注同一个风险。尤其要合并观察 **A 股同源风险 = 白酒 + 其他高分红 A 股 + IC/IM 名义风险暴露**。
+
+IC/IM 所属的 [[stock-index-futures|股指期货]] 合约规则和仪表盘计算口径见 [[stock-index-futures-contract-rules]]。
 
 ### 3. 极端行情动作卡
 

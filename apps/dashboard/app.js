@@ -20,6 +20,9 @@ const moduleConfigs = {
   reports: {
     title: "报表"
   },
+  cash: {
+    title: "现金池"
+  },
   dividend: {
     title: "高分红",
     module: "dividend",
@@ -81,11 +84,34 @@ const actionLabels = {
   interest: "利息",
   deposit: "转入",
   withdraw: "转出",
+  futures_deposit: "入金/补资",
+  expire: "到期归零",
   internal_in: "内部划入",
   internal_out: "内部划出",
   fee: "费用",
   margin: "保证金",
   roll: "移仓"
+};
+
+const moduleActions = {
+  dividend: ["buy", "sell", "dividend", "interest"],
+  qqq: ["buy", "sell", "dividend"],
+  put: ["buy", "sell", "expire"],
+  ic: ["futures_deposit", "buy", "sell", "margin", "roll"]
+};
+
+const moduleActionLabels = {
+  ic: {
+    buy: "开仓/加仓",
+    sell: "平仓/减仓",
+    futures_deposit: "入金/补资",
+    margin: "保证金调整",
+    roll: "移仓"
+  },
+  put: {
+    sell: "卖出/平仓",
+    expire: "到期归零"
+  }
 };
 
 const balanceActions = {
@@ -97,10 +123,15 @@ const balanceActions = {
   withdraw: -1,
   internal_out: -1,
   fee: -1,
+  expire: -1,
+  futures_deposit: 1,
   dividend: 0,
   interest: 0,
   roll: 0
 };
+
+const defaultFuturesMultiplier = 200;
+const ledgerPageSize = 10;
 
 const defaultSettings = {
   annualExpense: 12,
@@ -109,10 +140,6 @@ const defaultSettings = {
   imPb: 50,
   icPbSource: "manual",
   imPbSource: "manual",
-  hasIc: false,
-  futuresEquity: 0,
-  usedMargin: 0,
-  futuresNotional: 0,
   manualTotalAssets: 0
 };
 
@@ -145,13 +172,14 @@ const appRoot = document.querySelector("#appRoot");
 const pageTitle = document.querySelector("#pageTitle");
 
 const dashboardServiceCommand = "python3 services/sync/src/main.py";
-const positionQuotesCommand = "python3 tools/dashboard/update_position_quotes.py 000568 000858 QQQ QLD SPY";
+const positionQuotesCommand = "python3 tools/dashboard/update_position_quotes.py 000858 000568 600887 600153 600036 002818 002091 601668 600177 600873 601318 600938 600941 601225 000651 600690 512890 520890 159545 513630 159117 QQQ QLD SPY";
 const dashboardServiceBaseUrl = "http://127.0.0.1:8775/apps/dashboard/";
 
 const subpageLabels = {
   overview: {
     full: "全部总览",
     snapshot: "净值快照",
+    cash: "现金池",
     risk: "账户风险",
     settings: "核心参数",
     charts: "图表追踪",
@@ -170,6 +198,7 @@ const subpageLabels = {
     overview: "模块概览",
     entry: "记录录入",
     buckets: "持仓分布",
+    add: "加仓测算",
     valuation: "持仓估值",
     ledger: "投资流水"
   }
@@ -223,6 +252,24 @@ function makeId() {
 function yuan(value) {
   if (!Number.isFinite(value)) return "-";
   return `${format(value)} 万`;
+}
+
+function wanFromYuan(value) {
+  const num = Number(value);
+  return Number.isFinite(num) ? num / 10000 : 0;
+}
+
+function yuanFromWan(value) {
+  return safeAmount(value) * 10000;
+}
+
+function yuanText(value) {
+  if (!Number.isFinite(value)) return "-";
+  return `${chartValue(value)} 元`;
+}
+
+function yuanTextFromWan(value) {
+  return yuanText(yuanFromWan(value));
 }
 
 function pct(value) {
@@ -411,6 +458,24 @@ function safeAmount(value) {
   return Number.isFinite(num) ? num : 0;
 }
 
+function settingNumber(value, fallback) {
+  const num = Number(value);
+  return Number.isFinite(num) ? num : fallback;
+}
+
+function normalizeSettings(settings) {
+  const raw = { ...defaultSettings, ...(settings || {}) };
+  return {
+    annualExpense: settingNumber(raw.annualExpense, defaultSettings.annualExpense),
+    newMoney: settingNumber(raw.newMoney, defaultSettings.newMoney),
+    icPb: settingNumber(raw.icPb, defaultSettings.icPb),
+    imPb: settingNumber(raw.imPb, defaultSettings.imPb),
+    icPbSource: raw.icPbSource === "auto" ? "auto" : "manual",
+    imPbSource: raw.imPbSource === "auto" ? "auto" : "manual",
+    manualTotalAssets: settingNumber(raw.manualTotalAssets, defaultSettings.manualTotalAssets)
+  };
+}
+
 function escapeHtml(value) {
   return String(value)
     .replace(/&/g, "&amp;")
@@ -432,10 +497,6 @@ function loadLegacySettings() {
       imPb: safeAmount(legacy.imPb) || 50,
       icPbSource: "manual",
       imPbSource: "manual",
-      hasIc: Boolean(legacy.hasIc),
-      futuresEquity: safeAmount(legacy.futuresEquity),
-      usedMargin: safeAmount(legacy.usedMargin),
-      futuresNotional: safeAmount(legacy.futuresNotional),
       manualTotalAssets: safeAmount(legacy.totalAssets)
     };
   } catch {
@@ -467,7 +528,7 @@ function loadLedger() {
       const parsed = JSON.parse(raw);
       return {
         entries: Array.isArray(parsed.entries) ? parsed.entries.map(normalizeEntry) : [],
-        settings: { ...defaultSettings, ...(parsed.settings || {}) }
+        settings: normalizeSettings(parsed.settings || {})
       };
     }
   } catch {
@@ -475,7 +536,7 @@ function loadLedger() {
   }
   return {
     entries: [],
-    settings: { ...defaultSettings, ...loadLegacySettings() }
+    settings: normalizeSettings(loadLegacySettings())
   };
 }
 
@@ -486,7 +547,7 @@ function ledgerServiceAvailable() {
 function normalizeLedgerForStorage(ledger) {
   return {
     entries: Array.isArray(ledger.entries) ? ledger.entries.map(normalizeEntry) : [],
-    settings: { ...defaultSettings, ...(ledger.settings || {}) }
+    settings: normalizeSettings(ledger.settings || {})
   };
 }
 
@@ -759,7 +820,7 @@ async function restoreLedgerBackup(snapshotId) {
 
 function saveSettings(partial) {
   const ledger = loadLedger();
-  ledger.settings = { ...defaultSettings, ...ledger.settings, ...partial };
+  ledger.settings = normalizeSettings({ ...ledger.settings, ...partial });
   return saveLedger(ledger);
 }
 
@@ -786,14 +847,231 @@ function positionKey(module, symbol, name) {
 
 function quantityImpact(entry) {
   const quantity = safeAmount(entry.quantity);
-  if (entry.action === "buy" || entry.action === "deposit" || entry.action === "internal_in" || entry.action === "margin") return quantity;
-  if (entry.action === "sell" || entry.action === "withdraw" || entry.action === "internal_out") return -quantity;
+  if (entry.action === "buy") return quantity;
+  if (entry.action === "sell" || entry.action === "expire") return -quantity;
   return 0;
 }
 
 function entryBalanceImpact(entry) {
+  const amount = safeAmount(entry.amount);
+  const fee = safeAmount(entry.fee);
+  if (entry.module === "ic" && (entry.action === "buy" || entry.action === "sell" || entry.action === "roll")) return 0;
+  if (entry.action === "buy") return amount + fee;
+  if (entry.action === "sell") return -amount;
+  if (entry.action === "dividend") return -amount;
+  if (entry.action === "expire") return -amount;
+  if (entry.action === "roll") return fee > 0 ? fee : 0;
   const sign = balanceActions[entry.action] ?? 0;
-  return sign * safeAmount(entry.amount);
+  return sign * amount;
+}
+
+function entryCashImpact(entry) {
+  const amount = safeAmount(entry.amount);
+  const fee = safeAmount(entry.fee);
+  if (entry.action === "deposit") return amount;
+  if (entry.action === "withdraw") return -amount;
+  if (entry.module === "ic" && (entry.action === "buy" || entry.action === "sell" || entry.action === "roll")) return 0;
+  if (entry.action === "buy") return -(amount + fee);
+  if (entry.action === "sell") return amount - fee;
+  if (entry.action === "dividend" || entry.action === "interest") return amount;
+  if (entry.action === "futures_deposit") return -amount;
+  if (entry.action === "roll") return -fee;
+  return 0;
+}
+
+function entryMarginImpact(entry) {
+  if (entry.module !== "ic") return 0;
+  return safeAmount(entry.margin);
+}
+
+function entryFuturesNotionalImpact(entry) {
+  if (entry.module !== "ic") return 0;
+  if (entry.action === "buy") return safeAmount(entry.amount);
+  if (entry.action === "sell") return -safeAmount(entry.amount);
+  return 0;
+}
+
+function futuresProductFromSymbol(symbol) {
+  const match = String(symbol || "").trim().toUpperCase().match(/^(IC|IM)\d{4}$/);
+  return match ? match[1] : "";
+}
+
+function futuresContractPrice(payload, symbol) {
+  const normalized = String(symbol || "").trim().toUpperCase();
+  const product = futuresProductFromSymbol(normalized);
+  const contracts = product && payload && payload.indexes && payload.indexes[product] && payload.indexes[product].basis
+    ? payload.indexes[product].basis.contracts || []
+    : [];
+  const contract = contracts.find((item) => String(item.contract || "").toUpperCase() === normalized);
+  const price = contract ? Number(contract.future) : NaN;
+  return Number.isFinite(price) && price > 0 ? price : null;
+}
+
+function futuresFrontContract(payload, product) {
+  const key = String(product || "").trim().toUpperCase();
+  const contracts = key && payload && payload.indexes && payload.indexes[key] && payload.indexes[key].basis
+    ? payload.indexes[key].basis.contracts || []
+    : [];
+  return contracts.find((item) => Number.isFinite(Number(item.future)) && Number(item.future) > 0) || null;
+}
+
+function futuresOneLotNotional(payload, product) {
+  const contract = futuresFrontContract(payload, product);
+  const price = contract ? Number(contract.future) : 0;
+  return price > 0 ? amountFromQuantityPrice(1, price, defaultFuturesMultiplier) || 0 : 0;
+}
+
+function futuresExposureReference(payload) {
+  const source = payload || loadValuation();
+  const ic = futuresOneLotNotional(source, "IC");
+  const im = futuresOneLotNotional(source, "IM");
+  return {
+    ic,
+    im,
+    icIm: ic + im,
+    icContract: (futuresFrontContract(source, "IC") || {}).contract || "",
+    imContract: (futuresFrontContract(source, "IM") || {}).contract || ""
+  };
+}
+
+function futuresExposureReferenceText(reference) {
+  if (!reference || (!reference.ic && !reference.icIm)) return "读取估值 JSON 后显示 1手参考敞口";
+  const icText = reference.ic ? `1手IC ${yuan(reference.ic)}` : "1手IC -";
+  const comboText = reference.icIm ? `1手IC+1手IM ${yuan(reference.icIm)}` : "1手IC+1手IM -";
+  return `参考：${icText} / ${comboText}`;
+}
+
+function deriveFuturesState(entries, valuation = loadValuation()) {
+  const positions = new Map();
+  let accountFunding = 0;
+  let fees = 0;
+  let realizedPnl = 0;
+
+  entries.forEach((entry) => {
+    if (entry.module !== "ic") return;
+    const action = entry.action;
+    const amount = safeAmount(entry.amount);
+    const fee = safeAmount(entry.fee);
+    if (fee > 0) fees += fee;
+    if (action === "futures_deposit") {
+      accountFunding += amount;
+      return;
+    }
+    if (action !== "buy" && action !== "sell") return;
+
+    const symbol = String(entry.symbol || "").trim().toUpperCase();
+    const quantity = safeAmount(entry.quantity);
+    const price = safeAmount(entry.price);
+    const multiplier = safeAmount(entry.multiplier) || defaultFuturesMultiplier;
+    if (!symbol || quantity <= 0 || price <= 0 || multiplier <= 0) return;
+
+    const notional = amountFromQuantityPrice(quantity, price, multiplier) || amount;
+    const entryMargin = safeAmount(entry.margin);
+    const entryMarginRate = notional > 0 && entryMargin > 0 ? entryMargin / notional : 0;
+    const current = positions.get(symbol) || {
+      symbol,
+      product: futuresProductFromSymbol(symbol),
+      quantity: 0,
+      avgPrice: 0,
+      multiplier,
+      marginRate: 0
+    };
+
+    if (action === "buy") {
+      const existingNotional = amountFromQuantityPrice(current.quantity, current.avgPrice, current.multiplier) || 0;
+      const nextQuantity = current.quantity + quantity;
+      current.avgPrice = nextQuantity > 0
+        ? ((current.avgPrice * current.quantity) + (price * quantity)) / nextQuantity
+        : 0;
+      current.quantity = nextQuantity;
+      current.multiplier = multiplier;
+      current.marginRate = existingNotional + notional > 0
+        ? ((existingNotional * current.marginRate) + (notional * entryMarginRate)) / (existingNotional + notional)
+        : entryMarginRate;
+      positions.set(symbol, current);
+      return;
+    }
+
+    const closeQuantity = Math.min(quantity, current.quantity);
+    if (closeQuantity > 0) {
+      realizedPnl += ((price - current.avgPrice) * closeQuantity * current.multiplier) / 10000;
+      current.quantity -= closeQuantity;
+    }
+    if (current.quantity > 0) positions.set(symbol, current);
+    else positions.delete(symbol);
+  });
+
+  let notional = 0;
+  let usedMargin = 0;
+  let unrealizedPnl = 0;
+  let hasIc = false;
+  let hasIm = false;
+  const openPositions = [];
+
+  positions.forEach((position) => {
+    if (position.quantity <= 0) return;
+    const currentPrice = futuresContractPrice(valuation, position.symbol) || position.avgPrice;
+    const currentNotional = amountFromQuantityPrice(position.quantity, currentPrice, position.multiplier) || 0;
+    const openPnl = ((currentPrice - position.avgPrice) * position.quantity * position.multiplier) / 10000;
+    notional += currentNotional;
+    usedMargin += currentNotional * position.marginRate;
+    unrealizedPnl += openPnl;
+    hasIc = hasIc || position.product === "IC";
+    hasIm = hasIm || position.product === "IM";
+    openPositions.push({
+      ...position,
+      currentPrice,
+      currentNotional,
+      usedMargin: currentNotional * position.marginRate,
+      unrealizedPnl: openPnl,
+      priceSource: futuresContractPrice(valuation, position.symbol) ? "valuation" : "entry"
+    });
+  });
+
+  return {
+    accountFunding,
+    fees,
+    realizedPnl,
+    unrealizedPnl,
+    totalPnl: realizedPnl + unrealizedPnl,
+    equity: accountFunding + realizedPnl + unrealizedPnl - fees,
+    usedMargin,
+    notional,
+    hasIc,
+    hasIm,
+    openPositions
+  };
+}
+
+function futuresHoldingRows(data) {
+  const state = data.futuresState || { openPositions: [] };
+  return (state.openPositions || [])
+    .slice()
+    .sort((a, b) => String(a.symbol || "").localeCompare(String(b.symbol || "")))
+    .map((position) => ({
+      symbol: position.symbol,
+      product: position.product || futuresProductFromSymbol(position.symbol),
+      quantity: safeAmount(position.quantity),
+      avgPrice: safeAmount(position.avgPrice),
+      currentPrice: safeAmount(position.currentPrice),
+      multiplier: safeAmount(position.multiplier) || defaultFuturesMultiplier,
+      currentNotional: safeAmount(position.currentNotional),
+      usedMargin: safeAmount(position.usedMargin),
+      marginRate: ratio(safeAmount(position.usedMargin), safeAmount(position.currentNotional)),
+      unrealizedPnl: safeAmount(position.unrealizedPnl),
+      priceSource: position.priceSource || "entry"
+    }));
+}
+
+function isCashPoolEntry(entry) {
+  return entry.module === "cash" || entry.action === "deposit" || entry.action === "withdraw";
+}
+
+function isPositionEntry(entry) {
+  if (isCashPoolEntry(entry)) return false;
+  if (entry.module === "ic" && (entry.action === "buy" || entry.action === "sell")) return false;
+  if (entry.action === "margin" || entry.action === "roll" || entry.action === "fee") return false;
+  return true;
 }
 
 function entryIncomeImpact(entry) {
@@ -807,10 +1085,11 @@ function entryIncomeImpact(entry) {
 function buildPositionsFromEntries(entries, valuations = loadPositionValuations(), enrich = enrichPosition) {
   const byKey = new Map();
   entries.forEach((entry) => {
+    if (!isPositionEntry(entry)) return;
     const symbol = String(entry.symbol || "").trim();
     const name = String(entry.name || "").trim();
     const key = positionKey(entry.module, symbol, name);
-    const isIncomeOnly = entry.action === "dividend" || entry.action === "interest";
+    const isIncomeOnly = entry.action === "interest";
     const existing = byKey.get(key) || {
       key,
       module: entry.module || "",
@@ -828,7 +1107,6 @@ function buildPositionsFromEntries(entries, valuations = loadPositionValuations(
       if (name) existing.name = name;
       existing.quantity += quantityImpact(entry);
       existing.netInvestment += entryBalanceImpact(entry);
-      if (entry.action === "buy") existing.netInvestment += safeAmount(entry.fee);
       existing.entryCount += 1;
     }
     if (String(entry.date || "") > String(existing.latestDate || "")) existing.latestDate = entry.date || "";
@@ -901,7 +1179,8 @@ function summarizeLedger(ledger = loadLedger()) {
   const buckets = sumPositionsBy(positions, "bucket");
   const moduleTotals = sumPositionsBy(positions, "module");
   const settings = { ...defaultSettings, ...ledger.settings };
-  const hardCash = (buckets["现金"] || 0) + (buckets["硬现金"] || 0);
+  const cashBalance = ledger.entries.reduce((sum, entry) => sum + entryCashImpact(entry), 0);
+  const hardCash = cashBalance + (buckets["现金"] || 0) + (buckets["硬现金"] || 0);
   const reverseRepo = (buckets["类现金"] || 0) + (buckets["国债逆回购"] || 0);
   const whiteLiquor = 0;
   const highDividend =
@@ -915,15 +1194,17 @@ function summarizeLedger(ledger = loadLedger()) {
   const qqq = (buckets["QQQ"] || 0) + (buckets["QLD"] || 0);
   const spyPutBudget = buckets["SPY put"] || 0;
   const futuresPool = buckets["IC/IM资金池"] || 0;
-  const futuresExposure = (buckets["IC"] || 0) + (buckets["IM"] || 0);
-  const derivedTotal = Object.values(buckets).reduce((sum, value) => sum + value, 0);
+  const futuresState = deriveFuturesState(ledger.entries);
+  const futuresNetPnl = futuresState.totalPnl - futuresState.fees;
+  const derivedTotal = cashBalance + Object.values(buckets).reduce((sum, value) => sum + value, 0) + futuresNetPnl;
   const totalAssets = derivedTotal > 0 ? derivedTotal : settings.manualTotalAssets;
   const annualDividend = ledger.entries.reduce((sum, entry) => sum + entryIncomeImpact(entry), 0);
   const investedCost = positions.reduce((sum, position) => sum + position.netInvestment, 0);
-  const unrealizedPnl = positions.reduce((sum, position) => sum + position.unrealizedPnl, 0);
+  const unrealizedPnl = positions.reduce((sum, position) => sum + position.unrealizedPnl, 0) + futuresNetPnl;
 
   return {
     totalAssets,
+    cashBalance,
     annualExpense: settings.annualExpense,
     hardCash,
     reverseRepo,
@@ -932,15 +1213,16 @@ function summarizeLedger(ledger = loadLedger()) {
     qqq,
     newMoney: settings.newMoney,
     futuresPool,
-    futuresEquity: settings.futuresEquity,
-    usedMargin: settings.usedMargin,
-    futuresNotional: settings.futuresNotional || futuresExposure,
+    futuresEquity: futuresState.equity,
+    usedMargin: futuresState.usedMargin,
+    futuresNotional: futuresState.notional,
     spyPutBudget,
     whiteLiquor,
     otherAHighDividend,
     icPb: settings.icPb,
     imPb: settings.imPb,
-    hasIc: settings.hasIc,
+    hasIc: futuresState.hasIc,
+    futuresState,
     bucketTotals: buckets,
     costBucketTotals: costBuckets,
     positions,
@@ -989,6 +1271,103 @@ function qqqStatus(qqqPct) {
   return "过重";
 }
 
+function targetProgressMeta(current, target, mode = "min") {
+  const currentValue = safeAmount(current);
+  const targetValue = safeAmount(target);
+  if (targetValue <= 0) {
+    return {
+      current: currentValue,
+      target: 0,
+      fill: currentValue > 0 ? 100 : 0,
+      marker: 0,
+      label: "暂无阶段目标",
+      statusClass: "target-neutral",
+      hasTarget: false
+    };
+  }
+  const scale = Math.max(currentValue, targetValue, 1);
+  const reached = mode === "max" ? currentValue <= targetValue : currentValue >= targetValue;
+  const diff = Math.abs(currentValue - targetValue);
+  return {
+    current: currentValue,
+    target: targetValue,
+    fill: Math.min(100, Math.max(0, ratio(currentValue, scale))),
+    marker: Math.min(100, Math.max(0, ratio(targetValue, scale))),
+    label: reached ? (mode === "max" ? "安全" : "达标") : (mode === "max" ? `超 ${yuan(diff)}` : `差 ${yuan(diff)}`),
+    statusClass: reached ? "target-ok" : "target-missing",
+    hasTarget: true
+  };
+}
+
+function targetTrack(current, target, mode = "min", className = "target-track") {
+  const meta = targetProgressMeta(current, target, mode);
+  return `
+    <span class="${className}">
+      <span class="track-fill" style="width:${meta.fill}%"></span>
+      ${meta.hasTarget ? `<i class="target-marker" style="left:${meta.marker}%"></i>` : ""}
+    </span>
+  `;
+}
+
+function referenceTrack(current, references, className = "target-track") {
+  const validReferences = (references || []).filter((item) => safeAmount(item.value) > 0);
+  const scale = Math.max(safeAmount(current), ...validReferences.map((item) => safeAmount(item.value)), 1);
+  return `
+    <span class="${className}">
+      <span class="track-fill" style="width:${Math.min(100, Math.max(0, ratio(safeAmount(current), scale)))}%"></span>
+      ${validReferences.map((item, index) => (
+        `<i class="target-marker reference-marker reference-marker-${index + 1}" title="${escapeHtml(item.label)} ${escapeHtml(yuan(item.value))}" style="left:${Math.min(100, Math.max(0, ratio(safeAmount(item.value), scale)))}%"></i>`
+      )).join("")}
+    </span>
+  `;
+}
+
+function targetText(current, target, mode = "min") {
+  const meta = targetProgressMeta(current, target, mode);
+  if (!meta.hasTarget) return meta.label;
+  return `目标 ${yuan(meta.target)} · ${meta.label}`;
+}
+
+function moduleTargetInfo(key, data, calc, current) {
+  if (key === "dividend") {
+    if (calc.cashGap6 > 0) return { target: current + calc.cashGap6, mode: "min", text: "阶段目标：补足 6 个月硬现金" };
+    if (calc.liquidGap12 > 0) return { target: current + calc.liquidGap12, mode: "min", text: "阶段目标：补足 12 个月流动安全垫" };
+    if (calc.highDividendGap30 > 0) return { target: current + calc.highDividendGap30, mode: "min", text: "阶段目标：高分红股票接近 30%" };
+    return { target: current, mode: "min", text: "阶段目标已达成" };
+  }
+  if (key === "qqq") {
+    const targetPct = calc.qqqPct < 5 ? 0.05 : 0.10;
+    return { target: data.totalAssets * targetPct, mode: "min", text: `阶段目标：${targetPct === 0.05 ? "5% 起步线" : "10% 目标线"}` };
+  }
+  if (key === "put") {
+    return { target: calc.putBudgetTarget, mode: "min", text: calc.putBudgetTarget > 0 ? "阶段目标：年度保险预算" : "阶段目标：暂不启用" };
+  }
+  if (key === "ic") {
+    if (calc.futuresTopUpGap > 0) return { target: current + calc.futuresTopUpGap, mode: "min", text: "阶段目标：补回 55% 风险度以内" };
+    return { target: data.futuresPool < 100 ? 100 : current, mode: "min", text: data.futuresPool < 100 ? "阶段目标：期货资金池 100 万" : "阶段目标已达成" };
+  }
+  return { target: 0, mode: "min", text: "暂无阶段目标" };
+}
+
+function bucketTargetInfo(module, bucket, current, data, calc) {
+  if (module === "dividend") {
+    if (bucket === "现金") return { target: calc.monthlyExpense * 6, mode: "min", text: "6 个月硬现金" };
+    if (bucket === "类现金") return { target: Math.max(data.annualExpense - data.hardCash, 0), mode: "min", text: "补足 12 个月流动垫" };
+    if (bucket === "高分红股票") return { target: data.totalAssets * 0.30, mode: "min", text: "高分红股票 30%" };
+    if (bucket === "债券") return { target: data.totalAssets >= 100 ? data.totalAssets * 0.10 : 0, mode: "min", text: data.totalAssets >= 100 ? "阶段债券缓冲 10%" : "暂不设硬目标" };
+  }
+  if (module === "qqq") {
+    if (bucket === "QQQ") return { target: data.totalAssets * (calc.qqqPct < 5 ? 0.05 : 0.10), mode: "min", text: "右尾仓阶段目标" };
+    if (bucket === "QLD") return { target: Math.max(data.qqq * 0.35, 0), mode: "max", text: "QLD 不超过右尾仓 35%" };
+    if (bucket === "现金等待") return { target: 0, mode: "min", text: "趋势未确认时等待" };
+  }
+  if (module === "put") {
+    if (bucket === "SPY put" || bucket === "保险预算") return { target: calc.putBudgetTarget, mode: "min", text: "年度保险预算" };
+    if (bucket === "到期归零") return { target: 0, mode: "max", text: "保险成本归档" };
+  }
+  return { target: 0, mode: "min", text: "暂无阶段目标" };
+}
+
 function calculate(data) {
   const monthlyExpense = data.annualExpense / 12;
   const liquidAssets = data.hardCash + data.reverseRepo;
@@ -1003,12 +1382,18 @@ function calculate(data) {
   const sameSourcePct = ratio(data.whiteLiquor + data.otherAHighDividend + data.futuresNotional, data.totalAssets);
   const marginRiskInvalid = data.usedMargin > 0 && data.futuresEquity <= 0;
   const marginRisk = marginRiskInvalid ? Infinity : ratio(data.usedMargin, data.futuresEquity);
+  const futuresLeverage = data.futuresEquity > 0 ? data.futuresNotional / data.futuresEquity : 0;
+  const futuresMarginRate = ratio(data.usedMargin, data.futuresNotional);
   const cashGap6 = gap(monthlyExpense * 6, data.hardCash);
   const liquidGap12 = gap(data.annualExpense, liquidAssets);
   const divGap = gap(data.annualExpense * 1.2, data.annualDividend);
   const qqqGap5 = gap(data.totalAssets * 0.05, data.qqq);
   const qqqGap10 = gap(data.totalAssets * 0.10, data.qqq);
+  const highDividendGap30 = gap(data.totalAssets * 0.30, data.highDividend);
   const futuresGap = gap(100, data.futuresPool);
+  const futuresTopUpGap = data.usedMargin > 0 ? gap(data.usedMargin / 0.55, data.futuresEquity) : 0;
+  const putBudgetTarget = data.totalAssets >= 300 ? data.totalAssets * 0.015 : data.totalAssets >= 200 ? data.totalAssets * 0.005 : 0;
+  const putBudgetGap = gap(putBudgetTarget, data.spyPutBudget);
 
   return {
     monthlyExpense,
@@ -1024,12 +1409,18 @@ function calculate(data) {
     sameSourcePct,
     marginRisk,
     marginRiskInvalid,
+    futuresLeverage,
+    futuresMarginRate,
     cashGap6,
     liquidGap12,
     divGap,
     qqqGap5,
     qqqGap10,
-    futuresGap
+    highDividendGap30,
+    futuresGap,
+    futuresTopUpGap,
+    putBudgetTarget,
+    putBudgetGap
   };
 }
 
@@ -1039,6 +1430,122 @@ function marginRiskText(calc) {
 
 function marginRiskHint(calc) {
   return calc.marginRiskInvalid ? "占用保证金 > 0 但账户权益为 0，风险度不可计算" : "占用保证金 / 账户权益";
+}
+
+function futuresAccountRiskMeta(data, calc = calculate(data)) {
+  const equity = safeAmount(data.futuresEquity);
+  const usedMargin = safeAmount(data.usedMargin);
+  const availableEquity = equity - usedMargin;
+  const watchLine = 55;
+  const defenseLine = 70;
+  const requiredEquityForWatch = usedMargin > 0 ? usedMargin / (watchLine / 100) : 0;
+  const requiredEquityForDefense = usedMargin > 0 ? usedMargin / (defenseLine / 100) : 0;
+  const topUpToWatch = usedMargin > 0 ? gap(requiredEquityForWatch, equity) : 0;
+  const topUpToDefense = usedMargin > 0 ? gap(requiredEquityForDefense, equity) : 0;
+  const marginRisk = calc.marginRiskInvalid ? Infinity : safeAmount(calc.marginRisk);
+  let statusText = "未开仓";
+  let statusClass = "risk-status-neutral";
+  if (calc.marginRiskInvalid) {
+    statusText = "极危";
+    statusClass = "risk-status-danger";
+  } else if (usedMargin > 0 && marginRisk <= watchLine) {
+    statusText = "安全区";
+    statusClass = "risk-status-good";
+  } else if (usedMargin > 0 && marginRisk <= defenseLine) {
+    statusText = "观察区";
+    statusClass = "risk-status-warn";
+  } else if (usedMargin > 0) {
+    statusText = "危险区";
+    statusClass = "risk-status-danger";
+  }
+  return {
+    equity,
+    usedMargin,
+    availableEquity,
+    watchLine,
+    defenseLine,
+    requiredEquityForWatch,
+    requiredEquityForDefense,
+    topUpToWatch,
+    topUpToDefense,
+    marginRisk,
+    statusText,
+    statusClass
+  };
+}
+
+function futuresRiskActionText(meta) {
+  if (meta.usedMargin <= 0) return "未开仓，无保证金占用";
+  if (!Number.isFinite(meta.marginRisk)) return "权益为 0，需先补权益或修正流水";
+  if (meta.marginRisk > meta.defenseLine) {
+    return `需补权益 ${yuan(meta.topUpToDefense)} 回到 70% 防守线，补 ${yuan(meta.topUpToWatch)} 回到 55% 观察线`;
+  }
+  if (meta.marginRisk > meta.watchLine) return `需补权益 ${yuan(meta.topUpToWatch)} 回到 55% 观察线`;
+  return `当前无需补资；55% 观察线所需权益 ${yuan(meta.requiredEquityForWatch)}`;
+}
+
+function futuresRiskTrack(meta, className = "bucket-track") {
+  const fill = Number.isFinite(meta.marginRisk) ? Math.min(100, Math.max(0, meta.marginRisk)) : 100;
+  const watchMarker = Math.min(100, Math.max(0, meta.watchLine));
+  const defenseMarker = Math.min(100, Math.max(0, meta.defenseLine));
+  return `
+    <span class="${className} futures-risk-track">
+      <span class="track-fill ${escapeHtml(meta.statusClass)}" style="width:${fill}%"></span>
+      <i class="target-marker reference-marker" title="55% 观察线" style="left:${watchMarker}%"></i>
+      <i class="target-marker reference-marker-2" title="70% 防守线" style="left:${defenseMarker}%"></i>
+    </span>
+  `;
+}
+
+function futuresStressLossForRows(rows, stressDrop) {
+  return (rows || []).reduce((sum, row) => {
+    const notional = safeAmount(row.currentNotional) || amountFromQuantityPrice(safeAmount(row.quantity), safeAmount(row.currentPrice), safeAmount(row.multiplier) || defaultFuturesMultiplier) || 0;
+    return sum + notional * stressDrop;
+  }, 0);
+}
+
+function futuresAddLotCandidates(data, calc = calculate(data), valuation = loadValuation(), stressDrop = 0.20) {
+  const marginRate = calc.futuresMarginRate > 0 ? calc.futuresMarginRate / 100 : 0.12;
+  const currentEquity = safeAmount(data.futuresEquity);
+  const currentUsedMargin = safeAmount(data.usedMargin);
+  const existingStressLoss = futuresStressLossForRows(futuresHoldingRows(data), stressDrop);
+  const watchRisk = 0.55;
+  const defenseRisk = 0.70;
+  return ["IC", "IM"].map((product) => {
+    const contract = futuresFrontContract(valuation, product);
+    const future = contract ? Number(contract.future) : 0;
+    const notional = future > 0 ? amountFromQuantityPrice(1, future, defaultFuturesMultiplier) || 0 : 0;
+    const addedMargin = notional * marginRate;
+    const nextUsedMargin = currentUsedMargin + addedMargin;
+    const riskNoTopUp = currentEquity > 0 ? ratio(nextUsedMargin, currentEquity) : Infinity;
+    const topUpToDefense = nextUsedMargin > 0 ? gap(nextUsedMargin / defenseRisk, currentEquity) : 0;
+    const topUpToWatch = nextUsedMargin > 0 ? gap(nextUsedMargin / watchRisk, currentEquity) : 0;
+    const stressLoss = existingStressLoss + notional * stressDrop;
+    const stressedUsedMargin = nextUsedMargin * (1 - stressDrop);
+    const stressedEquityWithoutTopUp = currentEquity - stressLoss;
+    const stressTopUpToDefense = stressedUsedMargin > 0 ? gap(stressedUsedMargin / defenseRisk, stressedEquityWithoutTopUp) : 0;
+    const stressTopUpToWatch = stressedUsedMargin > 0 ? gap(stressedUsedMargin / watchRisk, stressedEquityWithoutTopUp) : 0;
+    return {
+      product,
+      contract: contract ? contract.contract || "" : "",
+      future,
+      notional,
+      marginRate: marginRate * 100,
+      addedMargin,
+      nextUsedMargin,
+      currentEquity,
+      riskNoTopUp,
+      topUpToDefense,
+      topUpToWatch,
+      stressDrop: stressDrop * 100,
+      stressLoss,
+      stressedUsedMargin,
+      stressTopUpToDefense,
+      stressTopUpToWatch,
+      recommendedTopUp: stressTopUpToDefense,
+      reserveAfterImmediateWatch: Math.max(stressTopUpToDefense - topUpToWatch, 0)
+    };
+  });
 }
 
 function detectStage(data, calc) {
@@ -1060,45 +1567,115 @@ function detectStage(data, calc) {
   return { id: 4, name: "阶段 4：等待 IC 估值", reason: "资金条件具备，但 IC PB 百分位还没进执行区" };
 }
 
-function allocationPlan(data, calc, stage) {
-  const money = Math.max(data.newMoney, 0);
-  let plan;
-  if (stage.id === 0) {
-    plan = [["硬现金", 100, "先补满 6 个月硬现金"]];
-  } else if (stage.id === 1) {
-    plan = [
-      ["高分红", 80, "先建确定性现金流底座"],
-      ["QQQ / QLD", 20, "把右尾仓补到当前总资产 5%"]
-    ];
-  } else if (stage.id === 2) {
-    plan = [
-      ["高分红", 70, "提高税后股息覆盖"],
-      ["QQQ / QLD", 12, "维持右尾暴露但不抢跑"],
-      ["现金 / 逆回购", 18, "把流动安全垫推向 12 个月"]
-    ];
-  } else if (stage.id === 3) {
-    plan = [
-      ["高分红", 55, "继续做生活现金流"],
-      ["QQQ / QLD", 10, "保持美股成长敞口"],
-      ["IC/IM 资金池", 25, "为低估时第一手 IC 做准备"],
-      ["现金 / 逆回购", 10, "给保证金和生活预留缓冲"]
-    ];
-  } else {
-    const putWeight = data.totalAssets >= 300 ? 2 : data.totalAssets >= 200 ? 1 : 0;
-    plan = [
-      ["高分红", 45, "维持核心现金流"],
-      ["QQQ / QLD", 10, "不让右尾仓掉出目标区"],
-      ["IC/IM 资金池", 25, "低估区才转换成期货敞口"],
-      ["现金 / 逆回购", 20 - putWeight, "保留补保证金能力"],
-      ["SPY put", putWeight, putWeight > 0 ? "进入年度保险预算" : "总资产不足时暂不预算化"]
-    ].filter((row) => row[1] > 0);
+function weightedChildren(amount, rows) {
+  return rows
+    .map(([name, weight, reason]) => ({
+      name,
+      weight,
+      amount: amount * weight / 100,
+      reason
+    }))
+    .filter((item) => item.amount > 0);
+}
+
+function defensiveChildren(amount, mode) {
+  if (mode === "hard_cash") {
+    return weightedChildren(amount, [["现金 / 货币基金", 100, "硬现金未满 6 个月，先补生存底线"]]);
   }
-  return plan.map(([name, weight, reason]) => ({
+  if (mode === "liquidity") {
+    return weightedChildren(amount, [
+      ["国债逆回购 / 短债", 30, "明显激进版：保留一部分 12 个月流动性缓冲"],
+      ["高分红股票", 70, "底线之后更快转向现金流资产"]
+    ]);
+  }
+  if (mode === "cashflow") {
+    return weightedChildren(amount, [
+      ["高分红股票", 90, "优先提高未来股息现金流和防守权益仓"],
+      ["国债逆回购 / 短债", 10, "保留少量再行动能力"]
+    ]);
+  }
+  return weightedChildren(amount, [
+    ["现金 / 货币基金", 5, "成熟期仍保留少量即时流动性"],
+    ["国债逆回购 / 短债", 15, "成熟期保留等待机会和补保证金能力"],
+    ["高分红股票", 80, "其余进入防守现金流资产"]
+  ]);
+}
+
+function qqqChildren(amount) {
+  return weightedChildren(amount, [["QQQ", 100, "先补长期右尾仓；QLD 只在 120 日均线策略确认后另行执行"]]);
+}
+
+function futuresChildren(amount, mode) {
+  if (mode === "top_up") {
+    return weightedChildren(amount, [["补保证金 / 期货账户权益", 100, "风险度超过观察线时先修复账户安全垫"]]);
+  }
+  return weightedChildren(amount, [
+    ["期货账户资金", 55, "对应第一手 IC 起步账户"],
+    ["备用补资池", 45, "给后续下跌和 IM 候选保留缓冲"]
+  ]);
+}
+
+function putChildren(amount) {
+  return weightedChildren(amount, [["年度保险预算池", 100, "具体合约仍按到期日、行权价和 Delta 另行选择"]]);
+}
+
+function pushAllocation(items, total, name, amount, reason, children = []) {
+  const value = Math.max(amount, 0);
+  if (value <= 0) return 0;
+  items.push({
     name,
-    weight,
-    amount: money * weight / 100,
-    reason
-  }));
+    weight: ratio(value, total),
+    amount: value,
+    reason,
+    children
+  });
+  return value;
+}
+
+function allocationPlanForAmount(data, calc, amount) {
+  const total = Math.max(amount, 0);
+  const items = [];
+  let remaining = total;
+  const take = (gapValue) => Math.min(remaining, Math.max(gapValue, 0));
+  if (total <= 0) return items;
+
+  if (remaining > 0 && calc.futuresTopUpGap > 0 && (calc.marginRiskInvalid || calc.marginRisk > 57)) {
+    const value = take(calc.futuresTopUpGap);
+    remaining -= pushAllocation(items, total, "IC/IM", value, "期货风险度先于新增配置，优先补回 55% 风险度以内", futuresChildren(value, "top_up"));
+  }
+  if (remaining > 0 && calc.cashGap6 > 0) {
+    const value = take(calc.cashGap6);
+    remaining -= pushAllocation(items, total, "高分红 / 防守现金流", value, `硬现金距 6 个月生活费还差 ${yuan(calc.cashGap6)}`, defensiveChildren(value, "hard_cash"));
+  }
+  if (remaining > 0 && calc.qqqGap5 > 0) {
+    const value = take(calc.qqqGap5);
+    remaining -= pushAllocation(items, total, "QQQ / QLD", value, `右尾仓距总资产 5% 起步线还差 ${yuan(calc.qqqGap5)}`, qqqChildren(value));
+  }
+  if (remaining > 0 && calc.liquidGap12 > 0) {
+    const value = take(calc.liquidGap12);
+    remaining -= pushAllocation(items, total, "高分红 / 防守现金流", value, `现金 + 逆回购距 12 个月安全垫还差 ${yuan(calc.liquidGap12)}`, defensiveChildren(value, "liquidity"));
+  }
+  if (remaining > 0 && (calc.highDividendGap30 > 0 || calc.divGap > 0)) {
+    const value = calc.highDividendGap30 > 0 ? take(calc.highDividendGap30) : remaining;
+    remaining -= pushAllocation(items, total, "高分红 / 防守现金流", value, "高分红股票仍未形成足够防守现金流主体", defensiveChildren(value, "cashflow"));
+  }
+  if (remaining > 0 && calc.futuresGap > 0 && calc.liquidGap12 <= 0) {
+    const value = take(calc.futuresGap);
+    remaining -= pushAllocation(items, total, "IC/IM", value, `期货专项资金池距 100 万还差 ${yuan(calc.futuresGap)}`, futuresChildren(value, "pool"));
+  }
+  if (remaining > 0 && calc.putBudgetGap > 0) {
+    const value = take(calc.putBudgetGap);
+    remaining -= pushAllocation(items, total, "SPY Put", value, `年度保险预算目标 ${yuan(calc.putBudgetTarget)}，当前还未补满`, putChildren(value));
+  }
+  if (remaining > 0) {
+    remaining -= pushAllocation(items, total, "高分红 / 防守现金流", remaining, "硬缺口已满足，剩余资金先进入防守现金流待机层", defensiveChildren(remaining, "mature"));
+  }
+  return items;
+}
+
+function allocationPlan(data, calc, stage) {
+  void stage;
+  return allocationPlanForAmount(data, calc, data.newMoney);
 }
 
 function buildActions(data, calc, stage) {
@@ -1195,6 +1772,30 @@ function row(a, b, c, d) {
   return `<tr><td>${escapeHtml(a)}</td><td>${escapeHtml(b)}</td><td>${escapeHtml(c)}</td><td>${escapeHtml(d)}</td></tr>`;
 }
 
+function allocationRows(items) {
+  if (!items.length) return row("暂无可分配金额", "-", "-", "现金池为负或下一笔新钱为 0");
+  return items.map((item) => {
+    const parent = `<tr class="allocation-parent"><td>${escapeHtml(item.name)}</td><td>${escapeHtml(pct(item.weight))}</td><td>${escapeHtml(yuan(item.amount))}</td><td>${escapeHtml(item.reason)}</td></tr>`;
+    const children = (item.children || []).map((child) => (
+      `<tr class="allocation-child"><td>↳ ${escapeHtml(child.name)}</td><td>${escapeHtml(pct(child.weight))}</td><td>${escapeHtml(yuan(child.amount))}</td><td>${escapeHtml(child.reason)}</td></tr>`
+    )).join("");
+    return parent + children;
+  }).join("");
+}
+
+function allocationAdviceTable(title, subtitle, items) {
+  return `
+    <div class="table-wrap allocation-advice">
+      <h2>${escapeHtml(title)}</h2>
+      <p class="notice">${escapeHtml(subtitle)}</p>
+      <table>
+        <thead><tr><th>方向</th><th>比例</th><th>金额</th><th>原因</th></tr></thead>
+        <tbody>${allocationRows(items)}</tbody>
+      </table>
+    </div>
+  `;
+}
+
 function moduleIcon(type, label = "") {
   const title = label ? `<title>${escapeHtml(label)}</title>` : "";
   const common = `viewBox="0 0 48 48" aria-hidden="true" focusable="false"`;
@@ -1241,6 +1842,7 @@ function mobileSectionNav(tab) {
   if (isDesktopMode()) return "";
   const itemsByGroup = {
     overview: [
+      ["现金", ".cash-pool-panel"],
       ["风险", ".dashboard-split"],
       ["参数", ".overview-settings"],
       ["估值", ".valuation-band"],
@@ -1258,6 +1860,7 @@ function mobileSectionNav(tab) {
       ["概览", ".module-dashboard"],
       ["录入", ".entry-panel"],
       ["分布", ".bucket-panel"],
+      ...(tab === "ic" ? [["加仓", ".futures-add-panel"]] : []),
       ["估值", ".position-panel"],
       ["流水", ".module-ledger-panel"]
     ]
@@ -1289,6 +1892,7 @@ function setActiveTab(tab, subpage = "full") {
   editingId = null;
   updateNavigationState();
   render();
+  window.scrollTo({ top: 0, left: 0, behavior: "auto" });
 }
 
 function render() {
@@ -1337,11 +1941,20 @@ function moduleSummaryRows(data, calc) {
       key: "ic",
       icon: "futures",
       title: "IC/IM 增强",
-      value: data.moduleTotals.ic,
-      share: ratio(data.moduleTotals.ic, data.totalAssets),
+      value: data.futuresEquity || data.futuresPool,
+      share: ratio(data.futuresEquity || data.futuresPool, data.totalAssets),
       hint: `风险度 ${marginRiskText(calc)}`
     }
-  ];
+  ].map((item) => {
+    const target = moduleTargetInfo(item.key, data, calc, item.value);
+    return {
+      ...item,
+      targetValue: target.target,
+      targetMode: target.mode,
+      targetHint: target.text,
+      targetMeta: targetProgressMeta(item.value, target.target, target.mode)
+    };
+  });
 }
 
 function assetAccountTree(data, calc) {
@@ -1357,12 +1970,12 @@ function assetAccountTree(data, calc) {
             <span class="account-icon">${moduleIcon(item.icon, item.title)}</span>
             <span class="account-main">
               <strong>${escapeHtml(item.title)}</strong>
-              <small>${escapeHtml(item.hint)}</small>
-              <span class="account-track"><span style="width:${Math.min(100, Math.max(0, item.share))}%"></span></span>
+              <small>${escapeHtml(`${item.hint} · ${item.targetHint}`)}</small>
+              ${targetTrack(item.value, item.targetValue, item.targetMode, "account-track")}
             </span>
             <span class="account-number">
               <strong>${escapeHtml(yuan(item.value))}</strong>
-              <small>${escapeHtml(pct(item.share))}</small>
+              <small class="${escapeHtml(item.targetMeta.statusClass)}">${escapeHtml(`${pct(item.share)} · ${item.targetMeta.label}`)}</small>
             </span>
           </button>
         `).join("")}
@@ -1415,7 +2028,7 @@ function riskChecklist(data, calc) {
     {
       label: "期货风险度",
       status: calc.marginRisk <= 57 ? "good" : calc.marginRisk <= 70 ? "warn" : "danger",
-      text: calc.marginRiskInvalid ? marginRiskHint(calc) : calc.marginRisk > 0 ? `当前风险度 ${marginRiskText(calc)}` : "尚未录入期货账户权益和保证金"
+      text: calc.marginRiskInvalid ? marginRiskHint(calc) : calc.marginRisk > 0 ? `当前风险度 ${marginRiskText(calc)}` : "尚未从 IC/IM 流水和日级行情推导出风险度"
     },
     {
       label: "同源风险",
@@ -1442,6 +2055,55 @@ function riskChecklist(data, calc) {
           </div>
         `).join("")}
       </div>
+    </section>
+  `;
+}
+
+function cashPoolPanel(ledger, data) {
+  const calc = calculate(data);
+  const distributableCash = Math.max(data.cashBalance, 0);
+  const cashAdvice = allocationPlanForAmount(data, calc, distributableCash);
+  const cashEntries = ledger.entries
+    .filter((entry) => isCashPoolEntry(entry))
+    .slice()
+    .sort((a, b) => String(b.date || "").localeCompare(String(a.date || "")))
+    .slice(0, 5);
+  const rows = cashEntries.map((entry) => `
+    <tr>
+      <td>${escapeHtml(entry.date || "-")}</td>
+      <td>${escapeHtml(actionLabels[entry.action] || entry.action || "-")}</td>
+      <td>${escapeHtml(yuanTextFromWan(safeAmount(entry.amount)))}</td>
+      <td>${escapeHtml(entry.note || "-")}</td>
+    </tr>
+  `).join("");
+  return `
+    <section class="panel cash-pool-panel">
+      <div class="section-head">
+        <h2>全局现金池</h2>
+        <span>统一转账入口</span>
+      </div>
+      <div class="cash-pool-grid">
+        <article>
+          <span>当前现金池</span>
+          <strong>${escapeHtml(yuan(data.cashBalance))}</strong>
+          <small>${escapeHtml(yuanTextFromWan(data.cashBalance))}</small>
+        </article>
+        <article>
+          <span>记账规则</span>
+          <strong>买入自动扣款</strong>
+          <small>转入/转出只在这里登记；模块买入会自动划走现金。</small>
+        </article>
+      </div>
+      ${allocationAdviceTable("现金池分配提示", `按当前现金池 ${yuan(distributableCash)} 做缺口优先分配；高分红/防守现金流采用明显激进子资产配方。`, cashAdvice)}
+      <form id="cashTransferForm" class="cash-transfer-form" novalidate>
+        <label>日期<input type="date" name="date" value="${escapeHtml(today())}" required /></label>
+        <label>动作<select name="action"><option value="deposit">转入</option><option value="withdraw">转出</option></select></label>
+        <label>金额（元）<input type="number" name="amountYuan" min="0" step="0.01" required /></label>
+        <label class="entry-note">备注<input name="note" placeholder="工资、补资、取出等" /></label>
+        <div class="form-error" data-entry-errors hidden></div>
+        <div class="form-actions"><button type="submit">记录转账</button></div>
+      </form>
+      ${rows ? `<div class="table-wrap cash-transfer-history"><table><thead><tr><th>日期</th><th>动作</th><th>金额</th><th>备注</th></tr></thead><tbody>${rows}</tbody></table></div>` : `<p class="notice">还没有全局转账记录。</p>`}
     </section>
   `;
 }
@@ -1478,9 +2140,10 @@ function keepAppChildren(nodes) {
 function pruneOverviewSubpage(subpage) {
   if (subpage === "full") return;
   const children = Array.from(appRoot.children);
-  const [hero, onboarding, split, settings, target, metrics, strategy, valuation, charts, work, decision] = children;
+  const [hero, onboarding, cash, split, settings, target, metrics, strategy, valuation, charts, work, decision] = children;
   const keepMap = {
     snapshot: [hero, metrics, strategy],
+    cash: [cash],
     risk: [split, target],
     settings: [settings],
     charts: [valuation, charts],
@@ -1507,24 +2170,24 @@ function pruneReportsSubpage(subpage) {
 
 function pruneModuleSubpage(config, subpage) {
   if (subpage === "full") return;
-  const hero = appRoot.children[0];
-  const dashboard = appRoot.children[1];
-  const workbench = appRoot.children[2];
-  if (!workbench) return;
-  const side = workbench.querySelector(".module-side");
-  const entry = side ? side.children[0] : null;
-  const buckets = side ? side.children[1] : null;
-  const valuation = side ? side.children[2] : null;
-  const ledger = workbench.querySelector(".module-ledger-panel");
+  const hero = appRoot.querySelector(".module-hero");
+  const dashboard = appRoot.querySelector(".module-dashboard");
+  const summary = appRoot.querySelector(".module-overview-grid");
+  const entry = appRoot.querySelector(".entry-panel");
+  const buckets = appRoot.querySelector(".bucket-panel");
+  const add = appRoot.querySelector(".futures-add-panel");
+  const valuation = appRoot.querySelector(".position-panel");
+  const ledger = appRoot.querySelector(".module-ledger-panel");
   const icDataPanel = config.module === "ic" && dashboard ? dashboard.querySelector(".data-panel") : null;
   const keepMap = {
-    overview: [hero, dashboard],
+    overview: [hero, dashboard, summary],
     entry: [entry],
     buckets: [buckets],
+    add: config.module === "ic" ? [add] : [hero, dashboard, summary],
     valuation: [valuation, icDataPanel],
     ledger: [ledger]
   };
-  keepAppChildren(keepMap[subpage] || [hero, dashboard, workbench]);
+  keepAppChildren(keepMap[subpage] || [hero, dashboard, summary]);
 }
 
 function onboardingPanel(ledger, data) {
@@ -1590,6 +2253,8 @@ function renderOverview(subpage = "full") {
 
     <div class="overview-onboarding">${onboardingPanel(ledger, data)}</div>
 
+    ${cashPoolPanel(ledger, data)}
+
     <section class="dashboard-split">
       ${assetAccountTree(data, calc)}
       ${riskChecklist(data, calc)}
@@ -1649,7 +2314,7 @@ function renderOverview(subpage = "full") {
           ${historyPeriodControls()}
         </div>
         <canvas id="historyLine" width="1120" height="320"></canvas>
-        <p class="notice">净值收益率只剔除“转入 / 转出”外部现金流；若同时维护现金余额，买入资产时用“内部划出”扣减现金，卖出资产后用“内部划入”增加现金。</p>
+        <p class="notice">净值收益率只剔除全局现金池的外部转入 / 转出；买入、卖出、分红和费用会自动影响现金池。</p>
       </article>
     </section>
 
@@ -1670,13 +2335,7 @@ function renderOverview(subpage = "full") {
           </tbody>
         </table>
       </div>
-      <div class="table-wrap">
-        <h2>下一笔钱</h2>
-        <table>
-          <thead><tr><th>方向</th><th>比例</th><th>金额</th><th>原因</th></tr></thead>
-          <tbody>${allocations.map((item) => row(item.name, pct(item.weight), yuan(item.amount), item.reason)).join("")}</tbody>
-        </table>
-      </div>
+      ${allocationAdviceTable("下一笔钱", `按下一笔新钱 ${yuan(Math.max(data.newMoney, 0))} 生成真实操作提示；先补硬缺口，再进入增强和保险。`, allocations)}
     </section>
 
     <section class="panel decision-panel">
@@ -1696,7 +2355,7 @@ function reportMatrixRows(data, calc) {
     ["现金流底座", yuan(data.highDividend), pct(calc.highDividendPct), calc.divCoverage >= 100 ? "股息接近覆盖生活" : `股息覆盖 ${pct(calc.divCoverage)}`],
     ["右尾成长", yuan(data.qqq), pct(calc.qqqPct), qqqStatus(calc.qqqPct)],
     ["黑天鹅保险", yuan(data.spyPutBudget), pct(calc.putPct), data.totalAssets >= 200 ? "可制度化预算" : "暂缓预算化"],
-    ["期货增强", yuan(data.futuresPool), pct(calc.futuresPoolPct), data.futuresPool >= 100 ? "资金池达标" : `还差 ${yuan(calc.futuresGap)}`],
+    ["期货增强", yuan(data.futuresEquity || data.futuresPool), pct(ratio(data.futuresEquity || data.futuresPool, data.totalAssets)), data.futuresPool >= 100 ? `风险度 ${marginRiskText(calc)}` : `资金池还差 ${yuan(calc.futuresGap)}`],
     ["同源风险", yuan(data.otherAHighDividend + data.futuresNotional), pct(calc.sameSourcePct), calc.sameSourcePct <= 45 ? "压力可控" : "需要合并观察"]
   ];
   return rows.map((item) => row(item[0], item[1], item[2], item[3])).join("");
@@ -1872,8 +2531,8 @@ function overviewStrategyCards(data, calc) {
       key: "ic",
       icon: "futures",
       title: "IC/IM 增强",
-      value: yuan(data.futuresPool),
-      meta: `IC PB ${pct(data.icPb)}`,
+      value: yuan(data.futuresEquity || data.futuresPool),
+      meta: `风险度 ${marginRiskText(calc)} · IC PB ${pct(data.icPb)}`,
       status: data.futuresPool >= 100 && data.icPb <= 30 ? "可复算" : "等待",
       hint: calc.futuresGap > 0 ? `资金池距 100 万还差 ${yuan(calc.futuresGap)}` : "资金池够了也只在低估区评估第一手 IC。"
     }
@@ -1917,10 +2576,6 @@ function settingsForm(settings) {
       <label>手工总资产兜底（万元）<input type="number" name="manualTotalAssets" min="0" step="0.1" value="${escapeHtml(s.manualTotalAssets)}" /></label>
       <label>IC PB 百分位（%） ${termHelp("PB 分位")} ${pbSourceBadge(s.icPbSource)} ${adoptPbButton("ic", s.icPbSource)}<input type="number" name="icPb" min="0" max="100" step="0.1" value="${escapeHtml(s.icPb)}" /></label>
       <label>IM PB 百分位（%） ${termHelp("PB 分位")} ${pbSourceBadge(s.imPbSource)} ${adoptPbButton("im", s.imPbSource)}<input type="number" name="imPb" min="0" max="100" step="0.1" value="${escapeHtml(s.imPb)}" /></label>
-      <label>期货账户权益（万元）<input type="number" name="futuresEquity" min="0" step="0.1" value="${escapeHtml(s.futuresEquity)}" /></label>
-      <label>占用保证金（万元）<input type="number" name="usedMargin" min="0" step="0.1" value="${escapeHtml(s.usedMargin)}" /></label>
-      <label>期货名义敞口（万元）<input type="number" name="futuresNotional" min="0" step="0.1" value="${escapeHtml(s.futuresNotional)}" /></label>
-      <label class="checkline"><input type="checkbox" name="hasIc" ${s.hasIc ? "checked" : ""} /> 已有 IC 底仓</label>
     </form>
   `;
 }
@@ -1955,7 +2610,7 @@ function overviewSettingsSummaryPanel(ledger) {
         <article class="settings-summary-card">
           <span>期货安全</span>
           <strong>${escapeHtml(marginRiskText(calc))}</strong>
-          <small>权益 ${escapeHtml(format(s.futuresEquity))} 万 / 保证金 ${escapeHtml(format(s.usedMargin))} 万</small>
+          <small>权益 ${escapeHtml(format(data.futuresEquity))} 万 / 保证金 ${escapeHtml(format(data.usedMargin))} 万</small>
         </article>
         <article class="settings-summary-card">
           <span>浏览器账本</span>
@@ -1997,7 +2652,7 @@ function adoptPbButton(type, source) {
 }
 
 function getLedgerFilter(module) {
-  if (!ledgerFilters[module]) ledgerFilters[module] = { search: "", action: "", bucket: "" };
+  if (!ledgerFilters[module]) ledgerFilters[module] = { search: "", action: "", bucket: "", page: 1 };
   return ledgerFilters[module];
 }
 
@@ -2012,26 +2667,53 @@ function filterEntries(entries, filter) {
   });
 }
 
-function ledgerFilterControls(config, entries, filteredEntries) {
+function ledgerPageInfo(module, filteredEntries) {
+  const filter = getLedgerFilter(module);
+  const total = filteredEntries.length;
+  const totalPages = Math.max(1, Math.ceil(total / ledgerPageSize));
+  const page = Math.min(Math.max(Number(filter.page) || 1, 1), totalPages);
+  filter.page = page;
+  const start = total > 0 ? (page - 1) * ledgerPageSize : 0;
+  const pageEntries = filteredEntries.slice(start, start + ledgerPageSize);
+  return {
+    page,
+    totalPages,
+    start,
+    end: start + pageEntries.length,
+    total,
+    pageEntries
+  };
+}
+
+function ledgerCountText(entries, filteredEntries, pageInfo) {
+  if (!filteredEntries.length) return `显示 0 / ${entries.length} 笔`;
+  const range = `${pageInfo.start + 1}-${pageInfo.end}`;
+  if (filteredEntries.length === entries.length) return `显示 ${range} / ${entries.length} 笔`;
+  return `显示 ${range} / ${filteredEntries.length} 笔，全部 ${entries.length} 笔`;
+}
+
+function ledgerFilterControls(config, entries, filteredEntries, pageInfo) {
   const filter = getLedgerFilter(config.module);
   const actions = Array.from(new Set(entries.map((entry) => entry.action).filter(Boolean)));
   return `
     <div class="ledger-tools">
-      <label>搜索<input id="ledgerSearch" name="search" value="${escapeHtml(filter.search)}" placeholder="代码 / 名称 / 备注" autocomplete="off" /></label>
-      <label>动作<select id="ledgerActionFilter" name="action">
-        <option value="">全部动作</option>
-        ${actions.map((action) => `<option value="${escapeHtml(action)}" ${filter.action === action ? "selected" : ""}>${escapeHtml(actionLabels[action] || action)}</option>`).join("")}
-      </select></label>
-      <label>分类<select id="ledgerBucketFilter" name="bucket">
-        <option value="">全部分类</option>
-        ${config.buckets.map((bucket) => `<option value="${escapeHtml(bucket)}" ${filter.bucket === bucket ? "selected" : ""}>${escapeHtml(bucket)}</option>`).join("")}
-      </select></label>
+      <div class="ledger-filter-grid">
+        <label>搜索<input id="ledgerSearch" name="search" value="${escapeHtml(filter.search)}" placeholder="代码 / 名称 / 备注" autocomplete="off" /></label>
+        <label>动作<select id="ledgerActionFilter" name="action">
+          <option value="">全部动作</option>
+          ${actions.map((action) => `<option value="${escapeHtml(action)}" ${filter.action === action ? "selected" : ""}>${escapeHtml(entryActionLabel(config.module, action))}</option>`).join("")}
+        </select></label>
+        <label>分类<select id="ledgerBucketFilter" name="bucket">
+          <option value="">全部分类</option>
+          ${config.buckets.map((bucket) => `<option value="${escapeHtml(bucket)}" ${filter.bucket === bucket ? "selected" : ""}>${escapeHtml(bucket)}</option>`).join("")}
+        </select></label>
+      </div>
       <div class="ledger-tool-actions">
         <button type="button" data-action="clear-filters" data-module="${escapeHtml(config.module)}">清除</button>
         <button type="button" data-action="export-csv" data-module="${escapeHtml(config.module)}">导出 CSV</button>
         <button type="button" data-action="export-json" data-module="${escapeHtml(config.module)}">导出 JSON</button>
       </div>
-      <p class="ledger-count">显示 ${escapeHtml(String(filteredEntries.length))} / ${escapeHtml(String(entries.length))} 笔</p>
+      <p class="ledger-count">${escapeHtml(ledgerCountText(entries, filteredEntries, pageInfo))}</p>
     </div>
   `;
 }
@@ -2045,7 +2727,8 @@ function moduleEntries(module) {
 function renderLedgerTableArea(config) {
   const entries = moduleEntries(config.module);
   const filteredEntries = filterEntries(entries, getLedgerFilter(config.module));
-  return filteredEntries.length ? ledgerTable(filteredEntries) : emptyFilteredState(config, entries.length);
+  const pageInfo = ledgerPageInfo(config.module, filteredEntries);
+  return filteredEntries.length ? `${ledgerTable(pageInfo.pageEntries)}${ledgerPagination(config.module, pageInfo)}` : emptyFilteredState(config, entries.length);
 }
 
 function emptyFilteredState(config, total) {
@@ -2068,8 +2751,9 @@ function updateLedgerTableArea(module) {
   if (!config || !area) return;
   const entries = moduleEntries(module);
   const filteredEntries = filterEntries(entries, getLedgerFilter(module));
-  area.innerHTML = filteredEntries.length ? ledgerTable(filteredEntries) : emptyFilteredState(config, entries.length);
-  if (count) count.textContent = `显示 ${filteredEntries.length} / ${entries.length} 笔`;
+  const pageInfo = ledgerPageInfo(module, filteredEntries);
+  area.innerHTML = filteredEntries.length ? `${ledgerTable(pageInfo.pageEntries)}${ledgerPagination(module, pageInfo)}` : emptyFilteredState(config, entries.length);
+  if (count) count.textContent = ledgerCountText(entries, filteredEntries, pageInfo);
 }
 
 function positionsForModule(module, data = summarizeLedger()) {
@@ -2149,8 +2833,68 @@ function positionValuationRow(position) {
 }
 
 function moduleBucketOverviewPanel(config, data, totals) {
+  if (config.module === "ic") {
+    const calc = calculate(data);
+    const riskMeta = futuresAccountRiskMeta(data, calc);
+    const availablePct = riskMeta.equity > 0 ? ratio(riskMeta.availableEquity, riskMeta.equity) : 0;
+    const exposureReference = futuresExposureReference();
+    const rows = [
+      {
+        label: "期货账户权益",
+        value: riskMeta.equity,
+        hint: "入金 + 已实现盈亏 + 盯市盈亏 - 费用",
+        detail: futuresRiskActionText(riskMeta),
+        statusClass: riskMeta.statusClass
+      },
+      {
+        label: "占用保证金",
+        value: riskMeta.usedMargin,
+        hint: "按当前名义敞口和录入保证金率推导；这是风控读数，不是资产配置项",
+        detail: `${riskMeta.statusText} · 风险度 ${marginRiskText(calc)} · 观察线 55% / 防守线 70%`,
+        statusClass: riskMeta.statusClass,
+        track: "risk"
+      },
+      {
+        label: "可用权益",
+        value: riskMeta.availableEquity,
+        hint: "账户权益 - 占用保证金",
+        detail: riskMeta.usedMargin > 0 ? `占账户权益 ${pct(availablePct)}；越厚越能承受波动` : "未开仓，全部权益可用",
+        statusClass: riskMeta.statusClass
+      },
+      {
+        label: "名义敞口",
+        value: data.futuresNotional,
+        hint: `风险暴露，不计入资产本金；${futuresExposureReferenceText(exposureReference)}`,
+        detail: "当前风险暴露",
+        statusClass: "target-neutral",
+        references: [
+          { label: exposureReference.icContract ? `1手IC ${exposureReference.icContract}` : "1手IC", value: exposureReference.ic },
+          { label: "1手IC+1手IM", value: exposureReference.icIm }
+        ]
+      }
+    ];
+    return `
+      <section class="panel bucket-panel">
+        <div class="section-head">
+          <h2>期货账户结构</h2>
+          <button type="button" data-tab="${escapeHtml(config.module)}" data-subpage="valuation">查看持仓</button>
+        </div>
+        <div class="bucket-stack">
+          ${rows.map((item) => {
+            return `
+              <div class="bucket-row">
+                <div><strong>${escapeHtml(item.label)}</strong><span>${escapeHtml(item.hint)}</span></div>
+                <div><strong>${escapeHtml(yuan(item.value))}</strong><span class="${escapeHtml(item.statusClass || "target-neutral")}">${escapeHtml(item.detail || "")}</span></div>
+                ${item.track === "risk" ? futuresRiskTrack(riskMeta, "bucket-track") : item.references ? referenceTrack(item.value, item.references, "bucket-track") : ""}
+              </div>
+            `;
+          }).join("")}
+        </div>
+      </section>
+    `;
+  }
   return `
-    <section class="panel">
+    <section class="panel bucket-panel">
       <div class="section-head">
         <h2>持仓分布</h2>
         <button type="button" data-tab="${escapeHtml(config.module)}" data-subpage="buckets">查看分布</button>
@@ -2159,15 +2903,119 @@ function moduleBucketOverviewPanel(config, data, totals) {
         ${config.buckets.map((bucket) => {
           const value = data.bucketTotals[bucket] || 0;
           const share = ratio(value, Math.max(totals.balance, 1));
+          const target = bucketTargetInfo(config.module, bucket, value, data, calculate(data));
+          const meta = targetProgressMeta(value, target.target, target.mode);
           return `
             <div class="bucket-row">
               <div><strong>${escapeHtml(bucket)}</strong><span>${escapeHtml(bucketHint(config.module, bucket))}</span></div>
-              <div><strong>${escapeHtml(yuan(value))}</strong><span>${escapeHtml(pct(share))}</span></div>
-              <div class="bucket-track"><span style="width:${Math.min(100, Math.max(0, share))}%"></span></div>
+              <div><strong>${escapeHtml(yuan(value))}</strong><span class="${escapeHtml(meta.statusClass)}">${escapeHtml(`${pct(share)} · ${target.text} · ${meta.label}`)}</span></div>
+              ${targetTrack(value, target.target, target.mode, "bucket-track")}
             </div>
           `;
         }).join("")}
       </div>
+    </section>
+  `;
+}
+
+function futuresPnlClass(value) {
+  return value > 0 ? "pnl-good" : value < 0 ? "pnl-danger" : "";
+}
+
+function futuresPriceSourceText(source) {
+  return source === "valuation" ? "日级行情" : "开仓价兜底";
+}
+
+function futuresPositionTable(rows, compact = false) {
+  if (!rows.length) return `<p class="notice">还没有 IC/IM 开仓持仓；资金池和补资记录会进入账户权益，但不会伪装成合约持仓。</p>`;
+  const tableRows = rows.map((rowData) => `
+    <tr>
+      <td>${escapeHtml(rowData.symbol || "-")}<small>${escapeHtml(rowData.product || "")}</small></td>
+      <td>${escapeHtml(chartValue(rowData.quantity))}</td>
+      <td>${escapeHtml(chartValue(rowData.avgPrice))}</td>
+      <td>${escapeHtml(chartValue(rowData.currentPrice))}<small>${escapeHtml(futuresPriceSourceText(rowData.priceSource))}</small></td>
+      <td>${escapeHtml(yuan(rowData.currentNotional))}</td>
+      ${compact ? "" : `<td>${escapeHtml(yuan(rowData.usedMargin))}<small>${escapeHtml(pct(rowData.marginRate))}</small></td>`}
+      <td class="${escapeHtml(futuresPnlClass(rowData.unrealizedPnl))}">${escapeHtml(yuan(rowData.unrealizedPnl))}</td>
+    </tr>
+  `).join("");
+  return `
+    <div class="table-wrap">
+      <table class="overview-mini-table futures-position-table">
+        <thead><tr><th>合约</th><th>净手数</th><th>持仓均价</th><th>盯市价</th><th>名义敞口</th>${compact ? "" : "<th>占用保证金</th>"}<th>盯市盈亏</th></tr></thead>
+        <tbody>${tableRows}</tbody>
+      </table>
+    </div>
+  `;
+}
+
+function futuresPositionSummaryPanel(data) {
+  const rows = futuresHoldingRows(data);
+  return `
+    <section class="panel">
+      <div class="section-head">
+        <h2>期货持仓分析</h2>
+        <button type="button" data-tab="ic" data-subpage="valuation">查看持仓</button>
+      </div>
+      ${futuresPositionTable(rows, true)}
+      <p class="notice">这里展示合约净手数和名义敞口；期货名义敞口不是资产本金，不进入普通持仓估值表。</p>
+    </section>
+  `;
+}
+
+function futuresAddOneSuggestionPanel(data, calc = calculate(data)) {
+  const candidates = futuresAddLotCandidates(data, calc).filter((item) => item.notional > 0);
+  const rows = candidates.map((item) => `
+    <tr>
+      <td>${escapeHtml(item.product)}<small>${escapeHtml(item.contract || "近月合约")}</small></td>
+      <td>${escapeHtml(chartValue(item.future))}</td>
+      <td>${escapeHtml(yuan(item.notional))}</td>
+      <td>${escapeHtml(yuan(item.addedMargin))}<small>${escapeHtml(pct(item.marginRate))}</small></td>
+      <td>${escapeHtml(pct(item.riskNoTopUp))}</td>
+      <td>${escapeHtml(yuan(item.topUpToDefense))}<small>当下 ≤70%</small></td>
+      <td>${escapeHtml(yuan(item.topUpToWatch))}<small>当下 ≤55%</small></td>
+      <td><strong>${escapeHtml(yuan(item.recommendedTopUp))}</strong><small>加完再跌 ${escapeHtml(pct(item.stressDrop))} 后 ≤70%</small></td>
+    </tr>
+  `).join("");
+  return `
+    <section class="panel futures-add-panel">
+      <div class="section-head">
+        <h2>加一手资金测算</h2>
+        <span>默认推荐稳健压力线</span>
+      </div>
+      ${rows ? `
+        <div class="table-wrap">
+          <table class="overview-mini-table">
+            <thead><tr><th>品种</th><th>点位</th><th>新增名义</th><th>新增保证金</th><th>不补资风险度</th><th>最低补资</th><th>当下55%</th><th>建议补资</th></tr></thead>
+            <tbody>${rows}</tbody>
+          </table>
+        </div>
+        <p class="notice">建议补资口径：买入 1 手后，再假设期货继续下跌 20%，期货风险度仍不超过 70%。这是资金安全垫测算，不代表必须交易。</p>
+      ` : `<p class="notice">读取 IC/IM 估值 JSON 后，才能按近月合约测算再买 1 手需要补多少权益。</p>`}
+    </section>
+  `;
+}
+
+function futuresPositionValuationPanel(data) {
+  const rows = futuresHoldingRows(data);
+  const state = data.futuresState || {};
+  return `
+    <section class="panel position-panel futures-position-panel">
+      <div class="section-head">
+        <h2>期货持仓分析</h2>
+        <div class="position-tools">
+          <span>由 IC/IM 流水和日级估值 JSON 推导</span>
+          <button type="button" data-action="load-valuation-json">读取估值 JSON</button>
+        </div>
+      </div>
+      <div class="backup-summary">
+        <article><span>账户权益</span><strong>${escapeHtml(yuan(data.futuresEquity))}</strong><small>入金 + 盈亏 - 费用</small></article>
+        <article><span>占用保证金</span><strong>${escapeHtml(yuan(data.usedMargin))}</strong><small>当前风险度 ${escapeHtml(marginRiskText(calculate(data)))}</small></article>
+        <article><span>名义敞口</span><strong>${escapeHtml(yuan(data.futuresNotional))}</strong><small>风险暴露，不是本金</small></article>
+        <article><span>总盯市盈亏</span><strong>${escapeHtml(yuan(state.totalPnl || 0))}</strong><small>已实现 + 未实现</small></article>
+      </div>
+      ${futuresPositionTable(rows, false)}
+      <p class="notice">若合约未在最新估值 JSON 中出现，盯市价会回退到开仓价并标记为“开仓价兜底”；临近移仓或已过期合约应优先更新流水。</p>
     </section>
   `;
 }
@@ -2211,13 +3059,31 @@ function moduleLedgerSummaryPanel(config, entries) {
   `;
 }
 
-function renderLedgerModuleOverview(config, data, calc, entries, modulePositions, totals) {
+function moduleHeroValue(config, data, totals) {
+  if (config.module === "ic") return data.futuresEquity || data.futuresPool;
+  return totals.balance;
+}
+
+function moduleHeroNote(config, data, totals) {
+  if (config.module === "ic") {
+    return `账户权益 ${yuan(data.futuresEquity)}，名义敞口 ${yuan(data.futuresNotional)}，盯市盈亏 ${yuan((data.futuresState || {}).totalPnl || 0)}`;
+  }
+  return `净投入 ${yuan(totals.cost)}，浮盈亏 ${yuan(totals.balance - totals.cost)}`;
+}
+
+function moduleHeroShare(config, data, totals) {
+  return ratio(moduleHeroValue(config, data, totals), data.totalAssets);
+}
+
+function renderLedgerModuleOverview(config, data, calc, entries, filteredEntries, modulePositions, totals, editing) {
+  const pageInfo = ledgerPageInfo(config.module, filteredEntries);
+  const valuationPanel = config.module === "ic" ? futuresPositionValuationPanel(data) : positionValuationPanel(config, modulePositions);
   appRoot.innerHTML = `
     <section class="module-hero module-${escapeHtml(config.accent || config.module)}">
       <div>
         <div class="module-hero-title">${moduleIcon(config.icon, config.title)}<span>${escapeHtml(config.description)}</span></div>
-        <strong>${escapeHtml(yuan(totals.balance))}</strong>
-        <p class="module-hero-note">净投入 ${escapeHtml(yuan(totals.cost))}，浮盈亏 ${escapeHtml(yuan(totals.balance - totals.cost))}</p>
+        <strong>${escapeHtml(yuan(moduleHeroValue(config, data, totals)))}</strong>
+        <p class="module-hero-note">${escapeHtml(moduleHeroNote(config, data, totals))}</p>
         <div class="overview-actions">
           <button type="button" data-tab="${escapeHtml(config.module)}" data-subpage="entry">记录一笔</button>
           <button type="button" data-tab="${escapeHtml(config.module)}" data-subpage="ledger">查看流水</button>
@@ -2226,19 +3092,37 @@ function renderLedgerModuleOverview(config, data, calc, entries, modulePositions
       <div class="hero-grid">
         <div><span>流水笔数</span><strong>${entries.length}</strong></div>
         <div><span>过去12个月收入</span><strong>${escapeHtml(yuan(totals.income))}</strong></div>
-        <div><span>占总资产</span><strong>${escapeHtml(pct(ratio(totals.balance, data.totalAssets)))}</strong></div>
+        <div><span>占总资产</span><strong>${escapeHtml(pct(moduleHeroShare(config, data, totals)))}</strong></div>
       </div>
     </section>
 
     ${moduleFocusPanel(config, data, calc, entries, totals)}
 
-    <section class="module-overview-grid">
-      <div class="module-overview-stack">
+    <section class="module-workbench">
+      <div class="module-side">
+        <section class="panel entry-panel">
+          <div class="section-head">
+            <h2>${editing ? "编辑记录" : escapeHtml(config.entryTitle || `${config.title}记录`)}</h2>
+            ${editing ? '<button type="button" data-action="cancel-edit">取消编辑</button>' : ""}
+          </div>
+          ${entryForm(config, editing)}
+        </section>
         ${moduleBucketOverviewPanel(config, data, totals)}
-        ${modulePositionSummaryPanel(config, modulePositions)}
+        ${config.module === "ic" ? futuresAddOneSuggestionPanel(data, calc) : ""}
       </div>
-      ${moduleLedgerSummaryPanel(config, entries)}
+      <section class="panel module-ledger-panel">
+        <div class="section-head">
+          <h2>投资流水</h2>
+          <span>${entries.length} 笔</span>
+        </div>
+        ${ledgerFilterControls(config, entries, filteredEntries, pageInfo)}
+        <div id="ledgerTableArea">${filteredEntries.length ? `${ledgerTable(pageInfo.pageEntries)}${ledgerPagination(config.module, pageInfo)}` : emptyFilteredState(config, entries.length)}</div>
+      </section>
     </section>
+
+    <div class="module-full-width-panel">
+      ${valuationPanel}
+    </div>
   `;
 }
 
@@ -2248,6 +3132,7 @@ function renderLedgerModule(config, subpage = "full") {
   const calc = calculate(data);
   const entries = moduleEntries(config.module);
   const filteredEntries = filterEntries(entries, getLedgerFilter(config.module));
+  const pageInfo = ledgerPageInfo(config.module, filteredEntries);
   const modulePositions = positionsForModule(config.module, data);
   const totals = {
     balance: data.moduleTotals[config.module] || 0,
@@ -2257,7 +3142,7 @@ function renderLedgerModule(config, subpage = "full") {
   const editing = editingId ? ledger.entries.find((entry) => entry.id === editingId) : null;
 
   if (isDesktopMode() && subpage === "full") {
-    renderLedgerModuleOverview(config, data, calc, entries, modulePositions, totals);
+    renderLedgerModuleOverview(config, data, calc, entries, filteredEntries, modulePositions, totals, editing);
     return;
   }
 
@@ -2265,13 +3150,13 @@ function renderLedgerModule(config, subpage = "full") {
     <section class="module-hero module-${escapeHtml(config.accent || config.module)}">
       <div>
         <div class="module-hero-title">${moduleIcon(config.icon, config.title)}<span>${escapeHtml(config.description)}</span></div>
-        <strong>${escapeHtml(yuan(totals.balance))}</strong>
-        <p class="module-hero-note">净投入 ${escapeHtml(yuan(totals.cost))}，浮盈亏 ${escapeHtml(yuan(totals.balance - totals.cost))}</p>
+        <strong>${escapeHtml(yuan(moduleHeroValue(config, data, totals)))}</strong>
+        <p class="module-hero-note">${escapeHtml(moduleHeroNote(config, data, totals))}</p>
       </div>
       <div class="hero-grid">
         <div><span>流水笔数</span><strong>${entries.length}</strong></div>
         <div><span>过去12个月收入</span><strong>${escapeHtml(yuan(totals.income))}</strong></div>
-        <div><span>占总资产</span><strong>${escapeHtml(pct(ratio(totals.balance, data.totalAssets)))}</strong></div>
+        <div><span>占总资产</span><strong>${escapeHtml(pct(moduleHeroShare(config, data, totals)))}</strong></div>
       </div>
     </section>
 
@@ -2288,34 +3173,17 @@ function renderLedgerModule(config, subpage = "full") {
           </div>
           ${entryForm(config, editing)}
         </section>
-        <section class="panel bucket-panel">
-          <div class="section-head">
-            <h2>持仓分布</h2>
-            <span>${escapeHtml(config.primaryMetric)}</span>
-          </div>
-          <div class="bucket-stack">
-            ${config.buckets.map((bucket) => {
-              const value = data.bucketTotals[bucket] || 0;
-              const share = ratio(value, Math.max(totals.balance, 1));
-              return `
-                <div class="bucket-row">
-                  <div><strong>${escapeHtml(bucket)}</strong><span>${escapeHtml(bucketHint(config.module, bucket))}</span></div>
-                  <div><strong>${escapeHtml(yuan(value))}</strong><span>${escapeHtml(pct(share))}</span></div>
-                  <div class="bucket-track"><span style="width:${Math.min(100, Math.max(0, share))}%"></span></div>
-                </div>
-              `;
-            }).join("")}
-          </div>
-        </section>
-        ${positionValuationPanel(config, modulePositions)}
+        ${moduleBucketOverviewPanel(config, data, totals)}
+        ${config.module === "ic" ? futuresAddOneSuggestionPanel(data, calc) : ""}
+        ${config.module === "ic" ? futuresPositionValuationPanel(data) : positionValuationPanel(config, modulePositions)}
       </div>
       <section class="panel module-ledger-panel">
         <div class="section-head">
           <h2>投资流水</h2>
           <span>${entries.length} 笔</span>
         </div>
-        ${ledgerFilterControls(config, entries, filteredEntries)}
-        <div id="ledgerTableArea">${filteredEntries.length ? ledgerTable(filteredEntries) : emptyFilteredState(config, entries.length)}</div>
+        ${ledgerFilterControls(config, entries, filteredEntries, pageInfo)}
+        <div id="ledgerTableArea">${filteredEntries.length ? `${ledgerTable(pageInfo.pageEntries)}${ledgerPagination(config.module, pageInfo)}` : emptyFilteredState(config, entries.length)}</div>
       </section>
     </section>
   `;
@@ -2402,8 +3270,13 @@ function moduleFocusPanel(config, data, calc, entries, totals) {
       <section class="module-dashboard ic-dashboard">
         ${moduleVisual("ic", data, calc)}
         ${metric("资金池", yuan(data.futuresPool), "100 万起步线", data.futuresPool >= 100 ? "status-good" : "status-warn")}
-        ${metric("IC PB 分位", pct(data.icPb), "低于 30 才进入执行区", classify(data.icPb, 30, 50, true))}
+        ${metric("账户权益", yuan(data.futuresEquity), "期货资金池 + 日级盯市盈亏 - 费用", data.futuresEquity > 0 ? "status-good" : data.usedMargin > 0 ? "status-danger" : "status-warn")}
+        ${metric("盯市盈亏", yuan((data.futuresState || {}).totalPnl || 0), "按最新 IC/IM 日级合约点位推导", ((data.futuresState || {}).totalPnl || 0) >= 0 ? "status-good" : "status-warn")}
+        ${metric("名义敞口", yuan(data.futuresNotional), "指数点位 × 乘数 × 手数", data.futuresNotional > 0 ? "status-good" : "status-warn")}
+        ${metric("杠杆比例", `${format(calc.futuresLeverage)}x`, "名义敞口 / 期货账户权益", calc.futuresLeverage <= 2 ? "status-good" : calc.futuresLeverage <= 4 ? "status-warn" : "status-danger")}
         ${metric("期货风险度", marginRiskText(calc), marginRiskHint(calc), classify(calc.marginRisk, 50, 70, true))}
+        ${metric("保证金率", pct(calc.futuresMarginRate), "占用保证金 / 名义敞口", calc.futuresMarginRate <= 20 ? "status-good" : "status-warn")}
+        ${metric("IC PB 分位", pct(data.icPb), "低于 30 才进入执行区", classify(data.icPb, 30, 50, true))}
         <article class="focus-card">
           <h3>开仓前置条件</h3>
           <ol>${focusItems}</ol>
@@ -2693,7 +3566,88 @@ function findInstrumentMemory(value, field, module = "") {
   }) || null;
 }
 
+function entryActionLabel(module, action) {
+  return (moduleActionLabels[module] && moduleActionLabels[module][action]) || actionLabels[action] || action;
+}
+
+function entryActionOptions(module, currentAction = "") {
+  const actions = moduleActions[module] || Object.keys(actionLabels);
+  const merged = actions.includes(currentAction) || !currentAction ? actions : [currentAction, ...actions];
+  return merged.map((action) => [action, entryActionLabel(module, action)]);
+}
+
+function thirdFriday(year, month) {
+  const date = new Date(year, month - 1, 1);
+  let fridayCount = 0;
+  while (date.getMonth() === month - 1) {
+    if (date.getDay() === 5) {
+      fridayCount += 1;
+      if (fridayCount === 3) return new Date(date);
+    }
+    date.setDate(date.getDate() + 1);
+  }
+  return null;
+}
+
+function parseFuturesContract(symbol) {
+  const match = String(symbol || "").trim().toUpperCase().match(/^(IC|IM)(\d{2})(\d{2})$/);
+  if (!match) return null;
+  const year = 2000 + Number(match[2]);
+  const month = Number(match[3]);
+  if (month < 1 || month > 12) return null;
+  const delivery = thirdFriday(year, month);
+  if (!delivery) return null;
+  return {
+    product: match[1],
+    year,
+    month,
+    deliveryDate: formatDate(delivery)
+  };
+}
+
+function daysUntil(dateText) {
+  const date = parseDate(dateText);
+  const now = parseDate(today());
+  if (!date || !now) return null;
+  return Math.ceil((date.getTime() - now.getTime()) / 86400000);
+}
+
+function futuresContractHint(symbol) {
+  const parsed = parseFuturesContract(symbol);
+  if (!parsed) return "填 IC2607 / IM2607 后自动推算理论交割日";
+  const left = daysUntil(parsed.deliveryDate);
+  const leftText = left === null ? "" : `，距今 ${left} 天`;
+  return `${parsed.product} ${parsed.year}年${String(parsed.month).padStart(2, "0")}月合约，理论交割日 ${parsed.deliveryDate}${leftText}；法定假日顺延需复核`;
+}
+
+function futuresContractName(symbol) {
+  const parsed = parseFuturesContract(symbol);
+  if (!parsed) return "";
+  return parsed.product === "IC" ? "中证500股指期货" : "中证1000股指期货";
+}
+
+function amountWanFromEntryForm(form) {
+  if (form.elements.amountYuan) return wanFromYuan(form.elements.amountYuan.value);
+  return numberFromForm(form, "amount");
+}
+
+function feeWanFromEntryForm(form) {
+  if (form.elements.feeYuan) return wanFromYuan(form.elements.feeYuan.value);
+  return numberFromForm(form, "fee");
+}
+
+function marginWanFromEntryForm(form) {
+  if (form.elements.marginYuan) return wanFromYuan(form.elements.marginYuan.value);
+  return numberFromForm(form, "margin");
+}
+
+function marginRatioText(amount, margin) {
+  if (safeAmount(amount) <= 0 || safeAmount(margin) <= 0) return "填保证金后自动计算保证金比例";
+  return `保证金比例 ${pct(ratio(safeAmount(margin), safeAmount(amount)))}`;
+}
+
 function entryForm(config, entry = null) {
+  const isFutures = config.module === "ic";
   const data = entry || {
     id: "",
     date: today(),
@@ -2705,19 +3659,34 @@ function entryForm(config, entry = null) {
     price: "",
     amount: "",
     fee: "",
+    margin: "",
+    multiplier: isFutures ? defaultFuturesMultiplier : "",
     note: ""
   };
+  const derivedName = isFutures ? futuresContractName(data.symbol) : "";
+  const displayName = data.name || derivedName;
+  const autoName = Boolean(isFutures && derivedName && !data.name);
+  const actionOptions = entryActionOptions(config.module, data.action);
+  const amountYuan = data.amount ? chartValue(yuanFromWan(data.amount)) : "";
+  const feeYuan = data.fee ? chartValue(yuanFromWan(data.fee)) : "";
+  const marginYuan = data.margin ? chartValue(yuanFromWan(data.margin)) : "";
+  const quantityLabel = isFutures ? "手数" : "数量（股/份）";
+  const priceLabel = isFutures ? "指数点位" : "价格（元）";
+  const amountHint = data.amount ? `${escapeHtml(yuan(data.amount))}` : "买卖按数量 × 价格自动计算；分红/利息手填";
+  const contractHint = isFutures ? futuresContractHint(data.symbol || "") : "";
   return `
     <form id="entryForm" class="entry-form" data-module="${escapeHtml(config.module)}" data-id="${escapeHtml(data.id || "")}" novalidate>
       <label>日期<input type="date" name="date" value="${escapeHtml(data.date || today())}" required /></label>
       <label>分类<select name="bucket">${config.buckets.map((bucket) => `<option value="${escapeHtml(bucket)}" ${bucket === data.bucket ? "selected" : ""}>${escapeHtml(bucket)}</option>`).join("")}</select></label>
-      <label>动作 ${termHelp("内部划入/划出")}<select name="action">${Object.entries(actionLabels).map(([value, label]) => `<option value="${value}" ${value === data.action ? "selected" : ""}>${escapeHtml(label)}</option>`).join("")}</select></label>
+      <label>动作<select name="action">${actionOptions.map(([value, label]) => `<option value="${escapeHtml(value)}" ${value === data.action ? "selected" : ""}>${escapeHtml(label)}</option>`).join("")}</select></label>
       <label>标的代码<input name="symbol" list="instrumentSymbolMemory" value="${escapeHtml(data.symbol || "")}" placeholder="${escapeHtml(config.symbolPlaceholder || "如 QQQ / IC2609")}" autocomplete="off" /></label>
-      <label>标的名称<input name="name" list="instrumentNameMemory" value="${escapeHtml(data.name || "")}" placeholder="可选" autocomplete="off" /></label>
-      <label>数量（股/份）<input type="number" name="quantity" step="0.0001" value="${escapeHtml(data.quantity || "")}" /></label>
-      <label>价格（元）<input type="number" name="price" step="0.0001" value="${escapeHtml(data.price || "")}" /></label>
-      <label>金额（万元）<input type="number" name="amount" step="0.0001" value="${escapeHtml(data.amount || "")}" required /><small class="field-hint" data-amount-preview>${data.amount ? `≈ ${escapeHtml(chartValue(safeAmount(data.amount) * 10000))} 元` : "填数量和价格后自动计算，可手工覆盖"}</small></label>
-      <label>费用（万元）<input type="number" name="fee" step="0.0001" value="${escapeHtml(data.fee || "")}" /></label>
+      <label>标的名称<input name="name" list="instrumentNameMemory" value="${escapeHtml(displayName)}" data-auto-name="${autoName ? "true" : "false"}" placeholder="可选" autocomplete="off" /></label>
+      <label>${quantityLabel}<input type="number" name="quantity" min="1" step="1" value="${escapeHtml(data.quantity || "")}" /></label>
+      <label>${priceLabel}<input type="number" name="price" step="0.01" value="${escapeHtml(data.price || "")}" /></label>
+      ${isFutures ? `<label>乘数（元/点）<input type="number" name="multiplier" min="1" step="1" value="${escapeHtml(data.multiplier || defaultFuturesMultiplier)}" /><small class="field-hint" data-contract-hint>${escapeHtml(contractHint)}</small></label>` : ""}
+      <label>金额（元）<input type="number" name="amountYuan" step="0.01" value="${escapeHtml(amountYuan)}" required /><small class="field-hint" data-amount-preview>${amountHint}</small></label>
+      ${isFutures ? `<label>保证金（元）<input type="number" name="marginYuan" min="0" step="0.01" value="${escapeHtml(marginYuan)}" /><small class="field-hint" data-margin-preview>${escapeHtml(marginRatioText(data.amount, data.margin))}</small></label>` : ""}
+      <label>费用（元）<input type="number" name="feeYuan" step="0.01" value="${escapeHtml(feeYuan)}" /></label>
       <label class="entry-note">备注<input name="note" value="${escapeHtml(data.note || "")}" placeholder="${escapeHtml(config.notePlaceholder || "买入理由、移仓说明、分红记录")}" /></label>
       ${instrumentMemoryDatalists(config.module)}
       <div class="form-error" data-entry-errors hidden></div>
@@ -2733,7 +3702,7 @@ function ledgerTable(entries) {
     <div class="table-wrap">
       <table class="ledger-table">
         <thead>
-          <tr><th>日期</th><th>分类</th><th>动作</th><th>标的</th><th>数量</th><th>价格</th><th>金额</th><th>费用</th><th>备注</th><th>操作</th></tr>
+          <tr><th>日期</th><th>分类</th><th>动作</th><th>标的</th><th>数量</th><th>价格</th><th>金额</th><th>保证金</th><th>保证金率</th><th>费用</th><th>备注</th><th>操作</th></tr>
         </thead>
         <tbody>
           ${entries.map((entry) => `
@@ -2743,9 +3712,11 @@ function ledgerTable(entries) {
               <td>${escapeHtml(actionLabels[entry.action] || entry.action || "-")}</td>
               <td>${escapeHtml(entry.symbol || entry.name || "-")}</td>
               <td>${escapeHtml(entry.quantity || "-")}</td>
-              <td>${escapeHtml(entry.price || "-")}</td>
+              <td>${escapeHtml(entry.price ? chartValue(Number(entry.price)) : "-")}</td>
               <td>${escapeHtml(yuan(safeAmount(entry.amount)))}</td>
-              <td>${escapeHtml(entry.fee ? yuan(safeAmount(entry.fee)) : "-")}</td>
+              <td>${escapeHtml(entry.margin ? yuanTextFromWan(safeAmount(entry.margin)) : "-")}</td>
+              <td>${escapeHtml(entry.margin && entry.amount ? pct(ratio(safeAmount(entry.margin), safeAmount(entry.amount))) : "-")}</td>
+              <td>${escapeHtml(entry.fee ? yuanTextFromWan(safeAmount(entry.fee)) : "-")}</td>
               <td>${escapeHtml(entry.note || "-")}</td>
               <td class="row-actions">
                 <button type="button" data-action="edit-entry" data-id="${escapeHtml(entry.id)}">编辑</button>
@@ -2756,6 +3727,17 @@ function ledgerTable(entries) {
         </tbody>
       </table>
     </div>
+  `;
+}
+
+function ledgerPagination(module, pageInfo) {
+  if (pageInfo.totalPages <= 1) return "";
+  return `
+    <nav class="ledger-pagination" aria-label="投资流水分页">
+      <button type="button" data-action="ledger-page-prev" data-module="${escapeHtml(module)}" ${pageInfo.page <= 1 ? "disabled" : ""}>上一页</button>
+      <span>第 ${escapeHtml(String(pageInfo.page))} / ${escapeHtml(String(pageInfo.totalPages))} 页</span>
+      <button type="button" data-action="ledger-page-next" data-module="${escapeHtml(module)}" ${pageInfo.page >= pageInfo.totalPages ? "disabled" : ""}>下一页</button>
+    </nav>
   `;
 }
 
@@ -2797,7 +3779,7 @@ function buildPieData(data) {
     { label: "高分红股票", value: data.highDividend },
     { label: "QQQ/QLD", value: data.qqq },
     { label: "深度Put", value: data.spyPutBudget },
-    { label: "IC/IM资金池", value: data.futuresPool }
+    { label: "IC/IM账户权益", value: data.futuresEquity || data.futuresPool }
   ].filter((item) => item.value > 0);
   const used = items.reduce((sum, item) => sum + item.value, 0);
   const other = Math.max(data.totalAssets - used, 0);
@@ -3431,11 +4413,12 @@ function displaySigned(value) {
   return `${num > 0 ? "+" : ""}${chartValue(num)}`;
 }
 
-function amountFromQuantityPrice(quantity, price) {
+function amountFromQuantityPrice(quantity, price, multiplier = 1) {
   const q = Number(quantity);
   const p = Number(price);
-  if (!Number.isFinite(q) || !Number.isFinite(p) || q <= 0 || p <= 0) return null;
-  return (q * p) / 10000;
+  const m = Number(multiplier || 1);
+  if (!Number.isFinite(q) || !Number.isFinite(p) || !Number.isFinite(m) || q <= 0 || p <= 0 || m <= 0) return null;
+  return (q * p * m) / 10000;
 }
 
 function handleSettingsInput(event) {
@@ -3446,11 +4429,7 @@ function handleSettingsInput(event) {
     newMoney: numberFromForm(form, "newMoney"),
     manualTotalAssets: numberFromForm(form, "manualTotalAssets"),
     icPb: numberFromForm(form, "icPb"),
-    imPb: numberFromForm(form, "imPb"),
-    futuresEquity: numberFromForm(form, "futuresEquity"),
-    usedMargin: numberFromForm(form, "usedMargin"),
-    futuresNotional: numberFromForm(form, "futuresNotional"),
-    hasIc: Boolean(form.elements.hasIc && form.elements.hasIc.checked)
+    imPb: numberFromForm(form, "imPb")
   };
   if (event.target.name === "icPb") partial.icPbSource = "manual";
   if (event.target.name === "imPb") partial.imPbSource = "manual";
@@ -3483,21 +4462,31 @@ function validateEntryForm(form) {
   const errors = [];
   const action = form.elements.action ? form.elements.action.value : "";
   const hasInstrument = Boolean(String(form.elements.symbol.value || "").trim() || String(form.elements.name.value || "").trim());
-  const amount = numberFromForm(form, "amount");
+  const amount = amountWanFromEntryForm(form);
   const quantity = numberFromForm(form, "quantity");
   const price = numberFromForm(form, "price");
+  const multiplier = form.elements.multiplier ? numberFromForm(form, "multiplier") : 1;
+  const margin = marginWanFromEntryForm(form);
+  const amountField = form.elements.amountYuan ? "amountYuan" : "amount";
 
   if (!form.elements.date.value) addEntryValidationError(form, "date", "日期必填", errors);
   if (!form.elements.bucket.value) addEntryValidationError(form, "bucket", "分类必填", errors);
   if (!action) addEntryValidationError(form, "action", "动作必填", errors);
-  if (amount <= 0) addEntryValidationError(form, "amount", "金额必须大于 0", errors);
 
   if (action === "buy" || action === "sell") {
-    if (!hasInstrument) addEntryValidationError(form, "symbol", `${actionLabels[action]}必须填写标的代码或名称`, errors);
-    if (quantity <= 0) addEntryValidationError(form, "quantity", `${actionLabels[action]}必须填写数量`, errors);
-    if (price <= 0) addEntryValidationError(form, "price", `${actionLabels[action]}必须填写价格`, errors);
+    const label = entryActionLabel(form.dataset.module, action);
+    if (!hasInstrument) addEntryValidationError(form, "symbol", `${label}必须填写标的代码或名称`, errors);
+    if (quantity <= 0) addEntryValidationError(form, "quantity", `${label}必须填写数量/手数`, errors);
+    else if (!Number.isInteger(quantity)) addEntryValidationError(form, "quantity", `${label}数量/手数必须为整数`, errors);
+    if (price <= 0) addEntryValidationError(form, "price", `${label}必须填写价格/指数点位`, errors);
+    if (multiplier <= 0) addEntryValidationError(form, "multiplier", "乘数必须大于 0", errors);
+    if (amountFromQuantityPrice(quantity, price, multiplier) === null) addEntryValidationError(form, amountField, "金额无法自动计算", errors);
+    if (form.dataset.module === "ic" && margin < 0) addEntryValidationError(form, "marginYuan", "保证金不能为负", errors);
   } else if (action === "dividend" || action === "interest") {
     if (!hasInstrument) addEntryValidationError(form, "symbol", `${actionLabels[action]}必须填写标的代码或名称`, errors);
+    if (amount <= 0) addEntryValidationError(form, amountField, "金额必须大于 0", errors);
+  } else if (action === "futures_deposit" || action === "expire") {
+    if (amount <= 0) addEntryValidationError(form, amountField, "金额必须大于 0", errors);
   }
 
   const uniqueErrors = Array.from(new Set(errors));
@@ -3515,7 +4504,47 @@ function validateEntryForm(form) {
   return true;
 }
 
+function handleCashTransferSubmit(event) {
+  const form = event.target.closest("#cashTransferForm");
+  if (!form) return false;
+  event.preventDefault();
+  clearEntryValidation(form);
+  const errors = [];
+  const amountYuan = numberFromForm(form, "amountYuan");
+  if (!form.elements.date.value) addEntryValidationError(form, "date", "日期必填", errors);
+  if (amountYuan <= 0) addEntryValidationError(form, "amountYuan", "转账金额必须大于 0", errors);
+  if (errors.length) {
+    const errorBox = form.querySelector("[data-entry-errors]");
+    if (errorBox) {
+      errorBox.hidden = false;
+      errorBox.textContent = Array.from(new Set(errors)).join("；");
+    }
+    showToast(errors[0], "error");
+    return true;
+  }
+  const ledger = loadLedger();
+  ledger.entries.push({
+    id: makeId(),
+    module: "cash",
+    date: form.elements.date.value || today(),
+    bucket: "现金池",
+    action: form.elements.action.value === "withdraw" ? "withdraw" : "deposit",
+    symbol: "",
+    name: "全局现金池",
+    quantity: "",
+    price: "",
+    amount: wanFromYuan(amountYuan),
+    fee: 0,
+    note: form.elements.note.value.trim()
+  });
+  if (!saveLedger(ledger)) return true;
+  render();
+  showToast("已记录全局现金池转账", "success");
+  return true;
+}
+
 function handleEntrySubmit(event) {
+  if (handleCashTransferSubmit(event)) return;
   const form = event.target.closest("#entryForm");
   if (!form) return;
   event.preventDefault();
@@ -3532,8 +4561,11 @@ function handleEntrySubmit(event) {
     name: form.elements.name.value.trim(),
     quantity: form.elements.quantity.value,
     price: form.elements.price.value,
-    amount: numberFromForm(form, "amount"),
-    fee: numberFromForm(form, "fee"),
+    multiplier: form.elements.multiplier ? numberFromForm(form, "multiplier") || defaultFuturesMultiplier : "",
+    deliveryDate: form.elements.symbol ? (parseFuturesContract(form.elements.symbol.value) || {}).deliveryDate || "" : "",
+    amount: amountWanFromEntryForm(form),
+    margin: marginWanFromEntryForm(form),
+    fee: feeWanFromEntryForm(form),
     note: form.elements.note.value.trim()
   };
   const index = ledger.entries.findIndex((item) => item.id === id);
@@ -3546,39 +4578,54 @@ function handleEntrySubmit(event) {
 }
 
 function updateAmountPreview(form) {
-  const amount = numberFromForm(form, "amount");
+  const amount = amountWanFromEntryForm(form);
   const hint = form.querySelector("[data-amount-preview]");
   if (!hint) return;
-  hint.textContent = amount > 0 ? `≈ ${chartValue(amount * 10000)} 元` : "填数量和价格后自动计算，可手工覆盖";
+  hint.textContent = amount > 0 ? `${yuan(amount)} / ${yuanTextFromWan(amount)}` : "买卖按数量 × 价格自动计算；分红/利息手填";
+}
+
+function updateMarginPreview(form) {
+  const hint = form.querySelector("[data-margin-preview]");
+  if (!hint) return;
+  hint.textContent = marginRatioText(amountWanFromEntryForm(form), marginWanFromEntryForm(form));
 }
 
 function handleEntryAmountAutoCalc(event) {
   const form = event.target.closest("#entryForm");
   if (!form) return;
   const targetName = event.target.name;
-  if (targetName === "amount") {
+  if (targetName === "marginYuan" || targetName === "margin") {
+    updateMarginPreview(form);
+    return;
+  }
+  if (targetName === "amountYuan" || targetName === "amount") {
     form.dataset.amountManual = "true";
     form.dataset.amountAuto = "false";
     updateAmountPreview(form);
+    updateMarginPreview(form);
     return;
   }
-  if (targetName !== "quantity" && targetName !== "price") return;
+  if (targetName !== "quantity" && targetName !== "price" && targetName !== "multiplier") return;
   const quantity = Number(form.elements.quantity ? form.elements.quantity.value : "");
   const price = Number(form.elements.price ? form.elements.price.value : "");
-  const amountInput = form.elements.amount;
-  const amount = amountFromQuantityPrice(quantity, price);
+  const multiplier = form.elements.multiplier ? Number(form.elements.multiplier.value || defaultFuturesMultiplier) : 1;
+  const amountInput = form.elements.amountYuan || form.elements.amount;
+  const amount = amountFromQuantityPrice(quantity, price, multiplier);
   if (!amountInput || amount === null) {
     updateAmountPreview(form);
+    updateMarginPreview(form);
     return;
   }
   const canAutoFill = form.dataset.amountManual !== "true" || form.dataset.amountAuto === "true" || amountInput.value === "";
   if (!canAutoFill) {
     updateAmountPreview(form);
+    updateMarginPreview(form);
     return;
   }
-  amountInput.value = chartValue(amount);
+  amountInput.value = chartValue(yuanFromWan(amount));
   form.dataset.amountAuto = "true";
   updateAmountPreview(form);
+  updateMarginPreview(form);
 }
 
 function handleInstrumentMemoryInput(event) {
@@ -3588,10 +4635,24 @@ function handleInstrumentMemoryInput(event) {
   const symbolInput = form.elements.symbol;
   const nameInput = form.elements.name;
   if (!symbolInput || !nameInput) return;
+  const contractHint = form.querySelector("[data-contract-hint]");
+  if (contractHint) contractHint.textContent = futuresContractHint(symbolInput.value);
+
+  const derivedName = module === "ic" ? futuresContractName(symbolInput.value) : "";
+  if (module === "ic" && event.target.name === "symbol") {
+    if (derivedName && (!nameInput.value.trim() || nameInput.dataset.autoName === "true")) {
+      nameInput.value = derivedName;
+      nameInput.dataset.autoName = "true";
+    }
+  }
+
+  if (module === "ic" && event.target.name === "name") {
+    nameInput.dataset.autoName = "false";
+  }
 
   if (event.target.name === "symbol") {
     const match = findInstrumentMemory(symbolInput.value, "symbol", module);
-    if (match && match.name) nameInput.value = match.name;
+    if (match && match.name && !derivedName) nameInput.value = match.name;
     return;
   }
 
@@ -3610,6 +4671,7 @@ function handleLedgerFilterInput(event) {
   filter.search = search ? search.value : "";
   filter.action = action ? action.value : "";
   filter.bucket = bucket ? bucket.value : "";
+  filter.page = 1;
   updateLedgerTableArea(module);
 }
 
@@ -3887,18 +4949,20 @@ function exportEntries(module, format) {
     downloadText(`${fileBase}.json`, JSON.stringify({ module, title: config.title, exported_at: new Date().toISOString(), entries }, null, 2), "application/json");
     return;
   }
-  const headers = ["日期", "模块", "分类", "动作", "代码", "名称", "数量", "价格", "金额万元", "费用万元", "备注"];
+  const headers = ["日期", "模块", "分类", "动作", "代码", "名称", "数量", "价格", "金额元", "保证金元", "保证金率", "费用元", "备注"];
   const rows = entries.map((entry) => [
     entry.date || "",
     config.title,
     entry.bucket || "",
-    actionLabels[entry.action] || entry.action || "",
+    entryActionLabel(module, entry.action) || "",
     entry.symbol || "",
     entry.name || "",
     entry.quantity || "",
     entry.price || "",
-    entry.amount || 0,
-    entry.fee || 0,
+    yuanFromWan(entry.amount || 0),
+    yuanFromWan(entry.margin || 0),
+    entry.margin && entry.amount ? pct(ratio(safeAmount(entry.margin), safeAmount(entry.amount))) : "",
+    yuanFromWan(entry.fee || 0),
     entry.note || ""
   ]);
   const csv = [headers, ...rows].map((rowData) => rowData.map(csvCell).join(",")).join("\n");
@@ -4076,7 +5140,7 @@ function renderRemoteSyncPanel() {
     host.id = "remoteSyncHost";
     document.body.appendChild(host);
   }
-  if (remoteSyncState.status === "idle") {
+  if (remoteSyncState.status !== "conflict") {
     host.innerHTML = "";
     return;
   }
@@ -4110,11 +5174,11 @@ async function checkRemoteDashboardState(options = {}) {
       sha: null,
       checkedAt: null
     };
-    renderRemoteSyncPanel();
+    if (!options.silent) renderRemoteSyncPanel();
     return;
   }
   remoteSyncState = { ...remoteSyncState, status: "loading", message: "正在检查 Gitee 远端数据..." };
-  renderRemoteSyncPanel();
+  if (!options.silent) renderRemoteSyncPanel();
   try {
     const remote = await fetchRemoteDashboardState({ prompt: options.prompt });
     const remotePayload = remote.data;
@@ -4133,7 +5197,7 @@ async function checkRemoteDashboardState(options = {}) {
       sha: remote.sha,
       checkedAt: new Date().toISOString()
     };
-    renderRemoteSyncPanel();
+    if (!options.silent || !same) renderRemoteSyncPanel();
     if (!options.silent) showToast("云同步检查完成", "success");
   } catch (error) {
     remoteSyncState = {
@@ -4143,7 +5207,7 @@ async function checkRemoteDashboardState(options = {}) {
       sha: null,
       checkedAt: new Date().toISOString()
     };
-    renderRemoteSyncPanel();
+    if (!options.silent) renderRemoteSyncPanel();
     if (!options.silent) showToast("云同步检查失败", "error");
   }
 }
@@ -4318,49 +5382,60 @@ function downloadText(filename, content, type) {
 
 function createSampleLedger() {
   const entries = [
-    ["dividend", "现金", "deposit", "现金", "生活现金", 6, "6个月底线"],
-    ["dividend", "类现金", "buy", "GC001", "逆回购", 8, "流动缓冲"],
-    ["dividend", "高分红股票", "buy", "000568", "泸州老窖", 18, "高分红股票仓"],
-    ["dividend", "高分红股票", "buy", "000858", "五粮液", 14, "高分红股票仓"],
-    ["dividend", "高分红股票", "buy", "红利组合", "红利组合", 38, "现金流底座"],
-    ["dividend", "债券", "buy", "债券基金", "债券", 6, "波动缓冲"],
-    ["dividend", "高分红股票", "dividend", "红利组合", "税后分红", 3.8, "过去12个月分红"],
-    ["qqq", "QQQ", "buy", "QQQ", "纳指100", 6, "右尾底仓"],
-    ["qqq", "QLD", "buy", "QLD", "120日线策略", 2, "站上120日线后买入"],
-    ["put", "SPY put", "buy", "SPY 2027P300", "深度虚值保险", 1.2, "Delta约-0.08，年度保险预算"],
-    ["put", "保险预算", "deposit", "保险预算池", "保费预留", 0.8, "只用于极端黑天鹅保护"],
-    ["ic", "IC/IM资金池", "deposit", "期货资金池", "专项资金", 10, "等待低估"],
-    ["ic", "IC", "roll", "IC2607", "换月观察", 0, "记录移仓动作"]
+    { module: "cash", bucket: "现金池", action: "deposit", symbol: "", name: "全局现金池", amount: 150, note: "示例：初始资金转入 150 万" },
+    { module: "cash", bucket: "现金池", action: "withdraw", symbol: "", name: "全局现金池", amount: 2, note: "示例：生活支出取出" },
+    { module: "dividend", bucket: "类现金", action: "buy", symbol: "GC001", name: "国债逆回购", amount: 8, note: "流动缓冲" },
+    { module: "dividend", bucket: "高分红股票", action: "buy", symbol: "000568", name: "泸州老窖", amount: 18, fee: 0.0025, note: "示例高分红股票仓" },
+    { module: "dividend", bucket: "高分红股票", action: "buy", symbol: "000858", name: "五粮液", amount: 14, fee: 0.0022, note: "示例高分红股票仓" },
+    { module: "dividend", bucket: "高分红股票", action: "buy", symbol: "600519", name: "贵州茅台", amount: 10, fee: 0.0018, note: "示例高质量白酒观察仓" },
+    { module: "dividend", bucket: "债券", action: "buy", symbol: "511010", name: "国债ETF", amount: 6, fee: 0.001, note: "波动缓冲" },
+    { module: "dividend", bucket: "高分红股票", action: "dividend", symbol: "000568", name: "泸州老窖", amount: 0.45, note: "模拟 A 股分红，冲减成本并进入现金池" },
+    { module: "dividend", bucket: "高分红股票", action: "dividend", symbol: "000858", name: "五粮液", amount: 0.35, note: "模拟 A 股分红，冲减成本并进入现金池" },
+    { module: "dividend", bucket: "类现金", action: "interest", symbol: "GC001", name: "国债逆回购", amount: 0.05, note: "模拟逆回购利息" },
+    { module: "qqq", bucket: "QQQ", action: "buy", symbol: "QQQ", name: "纳指100ETF", amount: 6, fee: 0.003, note: "右尾底仓" },
+    { module: "qqq", bucket: "QLD", action: "buy", symbol: "QLD", name: "二倍纳指ETF", amount: 2, fee: 0.002, note: "站上120日线后买入" },
+    { module: "qqq", bucket: "QQQ", action: "dividend", symbol: "QQQ", name: "纳指100ETF", amount: 0.06, note: "模拟 QQQ 分红" },
+    { module: "put", bucket: "SPY put", action: "buy", symbol: "SPY 2027P300", name: "深度虚值保险", amount: 1.2, fee: 0.01, note: "Delta约-0.08，年度保险预算" },
+    { module: "put", bucket: "保险预算", action: "expire", symbol: "SPY 2026P300", name: "到期归零示例", amount: 0.3, note: "模拟保险成本归零" },
+    { module: "ic", bucket: "IC/IM资金池", action: "futures_deposit", symbol: "期货资金池", name: "专项资金", amount: 55, note: "示例：第一手 IC 账户资金" },
+    { module: "ic", bucket: "IC", action: "buy", symbol: "IC2607", name: "中证500股指期货", amount: 172, margin: 20.64, quantity: "1", price: "8600", multiplier: 200, note: "示例：1手 IC，保证金率约12%" },
+    { module: "ic", bucket: "移仓", action: "roll", symbol: "IC2607", name: "中证500股指期货", amount: 0, fee: 0.005, note: "记录移仓动作" }
   ];
   return {
     settings: { ...defaultSettings, annualExpense: 12, newMoney: 2, icPb: 35, imPb: 22 },
-    entries: entries.map(([module, bucket, action, symbol, name, amount, note], index) => {
+    entries: entries.map((item, index) => {
       const quantityMap = {
         "000568": "1500",
         "000858": "1400",
+        "600519": "6",
+        "511010": "6000",
         QQQ: "18",
         QLD: "10"
       };
       const priceMap = {
         "000568": "120",
         "000858": "100",
+        "600519": "1666.67",
+        "511010": "10",
         QQQ: "3333.3333",
         QLD: "2000"
       };
       return {
-      id: makeId(),
-      module,
-      bucket,
-      action,
-      symbol,
-      name,
-      amount,
-      quantity: action === "buy" ? (quantityMap[symbol] || "") : "",
-      price: action === "buy" ? (priceMap[symbol] || "") : "",
-      fee: 0,
-      note,
-      date: new Date(Date.now() - index * 86400000).toISOString().slice(0, 10)
-    };
+        id: makeId(),
+        module: item.module,
+        bucket: item.bucket,
+        action: item.action,
+        symbol: item.symbol,
+        name: item.name,
+        amount: item.amount,
+        margin: item.margin || 0,
+        quantity: item.quantity || (item.action === "buy" ? (quantityMap[item.symbol] || "") : ""),
+        price: item.price || (item.action === "buy" ? (priceMap[item.symbol] || "") : ""),
+        multiplier: item.multiplier || "",
+        fee: item.fee || 0,
+        note: item.note,
+        date: new Date(Date.now() - index * 86400000).toISOString().slice(0, 10)
+      };
     })
   };
 }
@@ -4468,6 +5543,14 @@ document.addEventListener("click", (event) => {
       renderRemoteSyncPanel();
       return;
     }
+    if (action.dataset.action === "ledger-page-prev" || action.dataset.action === "ledger-page-next") {
+      const module = action.dataset.module || currentTab;
+      const filter = getLedgerFilter(module);
+      const direction = action.dataset.action === "ledger-page-next" ? 1 : -1;
+      filter.page = Math.max(1, (Number(filter.page) || 1) + direction);
+      updateLedgerTableArea(module);
+      return;
+    }
     const ledger = loadLedger();
     if (action.dataset.action === "edit-entry") {
       editingId = action.dataset.id;
@@ -4487,7 +5570,7 @@ document.addEventListener("click", (event) => {
       editingId = null;
       render();
     } else if (action.dataset.action === "clear-filters") {
-      ledgerFilters[action.dataset.module] = { search: "", action: "", bucket: "" };
+      ledgerFilters[action.dataset.module] = { search: "", action: "", bucket: "", page: 1 };
       render();
       showToast("已清除筛选", "info");
     } else if (action.dataset.action === "export-csv") {
@@ -4562,7 +5645,7 @@ document.addEventListener("click", (event) => {
     return;
   }
 
-  if (event.target.closest("#loadValuationJson")) {
+  if (event.target.closest("#loadValuationJson") || event.target.closest("[data-action='load-valuation-json']")) {
     loadValuationJson();
   }
 

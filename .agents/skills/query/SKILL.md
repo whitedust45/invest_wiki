@@ -1,6 +1,8 @@
 ---
 name: query
-description: 知识库查询 — 三层定位 + 交叉验证 + 结构化输出 + 归档判断
+description: |
+  知识库查询 — 三层定位 + 交叉验证 + 结构化输出 + 归档判断。
+  触发词：query、查一下、查询知识库、找一下、PE 是多少、谁说过、检索 wiki、知识库里有没有、相关页面。
 ---
 
 # /query — 投资知识库查询
@@ -20,10 +22,15 @@ description: 知识库查询 — 三层定位 + 交叉验证 + 结构化输出 +
 
 ### 2. 定位（L1 + L2 + L3 全跑，不是 fallback 关系）
 
-- **L1（索引扫描）**：读 `knowledge/wiki/index.md`，按 summary 和 domain 列筛选 → 候选集 A
-- **L2（topic 匹配）**：执行 `scripts/search.sh topic {keyword}` → 候选集 B
-- **L3（全文搜索）**：执行 `scripts/search.sh fulltext {keyword}` → 候选集 C
-- 合并 A ∪ B ∪ C 去重 → 原始候选池
+三层全跑后合并去重为原始候选池。脚本路径：`.agents/skills/query/scripts/search.sh`（脚本会自动 cd 到项目根，cwd 不限）。
+
+| 层 | 操作 | 候选集 |
+|---|------|-------|
+| L1 索引扫描 | 读 `knowledge/wiki/index.md`，按 summary 和 domain 列筛选 | A |
+| L2 topic 匹配 | `bash .agents/skills/query/scripts/search.sh topic {keyword}` | B |
+| L3 全文搜索 | `bash .agents/skills/query/scripts/search.sh fulltext {keyword}` | C |
+
+合并 A ∪ B ∪ C 去重 → 原始候选池。
 
 ### 3. 候选裁剪（性能保护）
 

@@ -1,6 +1,8 @@
 ---
 name: ingest
-description: 摄入新素材 — 阅读提取 + 交叉引用 + 冲突检测 + glossary 维护
+description: |
+  摄入新素材 — 阅读提取 + 交叉引用 + 冲突检测 + glossary 维护。
+  触发词：ingest、摄入、新素材、URL、粘贴文章、研报、播客笔记、个人复盘、保存到 raw、加入知识库。
 ---
 
 # /ingest — 素材摄入
@@ -49,8 +51,11 @@ description: 摄入新素材 — 阅读提取 + 交叉引用 + 冲突检测 + gl
    ```
 
 3. **文件名生成**
-   抓取前先调用 `scripts/save-raw.sh --url "<URL>" --dry-run` 拿到规范文件名,
-   再把抓取结果写入该路径,确保命名与「knowledge/raw/ 文件命名规则」一致。
+   抓取前先调用脚本生成规范文件名（脚本会打印 `Target: knowledge/raw/...`，不下载）：
+   ```bash
+   bash .agents/skills/ingest/scripts/save-raw.sh url "{URL}" "{title}"
+   ```
+   再把抓取结果写入 `Target` 行给出的路径，确保命名与「knowledge/raw/ 文件命名规则」一致。
 
 4. **失败处理**
    出现以下情况立即中止抓取,并提示用户改用「粘贴文本」方式:
@@ -61,13 +66,13 @@ description: 摄入新素材 — 阅读提取 + 交叉引用 + 冲突检测 + gl
 
 ### knowledge/raw/ 文件命名规则
 
-执行 `.agents/skills/ingest/scripts/save-raw.sh` 完成文件保存（或手动按以下规则）：
+执行 `bash .agents/skills/ingest/scripts/save-raw.sh` 完成文件保存（或手动按以下规则）：
 
-| 输入方式 | knowledge/raw/ 文件名格式 | 示例 |
-|---------|----------------|------|
-| 文件路径 | 保持原文件名不变 | `knowledge/raw/intelligent-investor-ch20.pdf` |
-| 粘贴文本 | `{YYYY-MM-DD}-{short-title}.md` | `knowledge/raw/2026-05-13-margin-of-safety-notes.md` |
-| URL | `{YYYY-MM-DD}-{source-domain}-{short-title}.{ext}` | `knowledge/raw/2026-05-13-goldman-china-internet.pdf` |
+| 输入方式 | 命令 | knowledge/raw/ 文件名格式 | 示例 |
+|---------|------|----------------|------|
+| 文件路径 | （直接复制到 `knowledge/raw/`，保持原名） | 保持原文件名不变 | `knowledge/raw/intelligent-investor-ch20.pdf` |
+| 粘贴文本 | `... save-raw.sh paste "{title}" < content.txt` | `{YYYY-MM-DD}-{short-title}.md` | `knowledge/raw/2026-05-13-margin-of-safety-notes.md` |
+| URL | `... save-raw.sh url "{URL}" "{title}"`（先生成文件名再抓取写入） | `{YYYY-MM-DD}-{source-domain}-{short-title}.{ext}` | `knowledge/raw/2026-05-13-goldman-china-internet.pdf` |
 
 **命名约束**：
 - 全小写 kebab-case

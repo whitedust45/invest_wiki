@@ -5,9 +5,15 @@
 #   ./save-raw.sh url "<url>" "<title>"            — 生成规范文件名（不下载，需 Agent 配合抓取）
 #   ./save-raw.sh check "<filename>"               — 验证文件名是否符合规范
 #
-# 在项目根目录（wiki实践/）下执行
+# 脚本会自动 cd 到项目根目录，cwd 不影响结果。
 
 set -euo pipefail
+
+# 自动定位到项目根目录
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+ROOT_DIR="$(cd "$SCRIPT_DIR/../../../.." && pwd)"
+cd "$ROOT_DIR"
+
 RAW_DIR="knowledge/raw"
 
 TODAY=$(date +%Y-%m-%d)

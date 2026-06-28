@@ -223,6 +223,7 @@ h1 {
 .module-workbench {
   display: grid;
   gap: 14px;
+  min-width: 0;
 }
 
 .dashboard-split {
@@ -239,6 +240,21 @@ h1 {
 .module-side {
   display: grid;
   gap: 14px;
+  min-width: 0;
+}
+
+.panel,
+.chart-panel,
+.strategy-card,
+.focus-card,
+.visual-card,
+.metric,
+.account-row,
+.target-row,
+.bucket-row,
+.risk-item,
+.wealth-hero,
+.module-hero {
   min-width: 0;
 }
 
@@ -313,6 +329,7 @@ h1 {
 .target-track,
 .bucket-track {
   display: block;
+  position: relative;
   height: 8px;
   overflow: hidden;
   border-radius: 999px;
@@ -326,6 +343,69 @@ h1 {
   height: 100%;
   border-radius: inherit;
   background: var(--accent);
+}
+
+.target-marker {
+  position: absolute;
+  top: -3px;
+  bottom: -3px;
+  width: 2px;
+  border-radius: 999px;
+  background: var(--warn);
+  box-shadow: 0 0 0 2px rgba(255, 253, 248, 0.88);
+  transform: translateX(-1px);
+}
+
+.reference-marker {
+  background: var(--accent);
+}
+
+.reference-marker-2 {
+  background: var(--warn);
+}
+
+.target-ok {
+  color: var(--good) !important;
+}
+
+.target-missing {
+  color: var(--warn) !important;
+}
+
+.target-neutral {
+  color: var(--muted) !important;
+}
+
+.risk-status-good {
+  color: var(--good) !important;
+}
+
+.risk-status-warn {
+  color: var(--warn) !important;
+}
+
+.risk-status-danger {
+  color: var(--danger) !important;
+}
+
+.risk-status-neutral {
+  color: var(--muted) !important;
+}
+
+.futures-risk-track .track-fill.risk-status-good {
+  background: var(--good);
+}
+
+.futures-risk-track .track-fill.risk-status-warn {
+  background: var(--warn);
+}
+
+.futures-risk-track .track-fill.risk-status-danger {
+  background: var(--danger);
+}
+
+.futures-risk-track .track-fill.risk-status-neutral {
+  background: var(--muted);
 }
 
 .account-dividend .account-track span,
@@ -502,15 +582,18 @@ h3 {
 }
 
 .settings-grid,
-.entry-form {
+.entry-form,
+.cash-transfer-form {
   display: grid;
-  grid-template-columns: repeat(4, minmax(160px, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 12px;
 }
 
 label {
   display: grid;
+  align-content: start;
   gap: 6px;
+  min-width: 0;
   color: var(--muted);
   font-size: 13px;
 }
@@ -627,7 +710,7 @@ label {
   display: none;
   left: 0;
   bottom: calc(100% + 8px);
-  z-index: 50;
+  z-index: 500;
   width: max-content;
   max-width: min(280px, calc(100vw - 36px));
   padding: 9px 10px;
@@ -667,10 +750,25 @@ label {
   transform: translateY(0);
 }
 
+.table-wrap th .term-tip,
+.position-table-wrap th .term-tip {
+  top: calc(100% + 8px);
+  bottom: auto;
+}
+
+.table-wrap th .term-tip::after,
+.position-table-wrap th .term-tip::after {
+  top: auto;
+  bottom: 100%;
+  border-top-color: transparent;
+  border-bottom-color: rgba(35, 32, 28, 0.97);
+}
+
 input,
 select {
   width: 100%;
   min-height: 38px;
+  align-self: start;
   padding: 7px 9px;
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -718,6 +816,10 @@ select:focus {
 .form-actions {
   display: flex;
   align-items: end;
+}
+
+.form-actions button {
+  width: 100%;
 }
 
 .form-actions button,
@@ -939,6 +1041,49 @@ select:focus {
   min-width: 0;
 }
 
+.cash-pool-panel {
+  display: grid;
+  gap: 12px;
+  min-width: 0;
+}
+
+.cash-pool-panel > * {
+  min-width: 0;
+}
+
+.cash-pool-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.cash-pool-grid article {
+  display: grid;
+  gap: 5px;
+  min-width: 0;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: #fffdfa;
+}
+
+.cash-pool-grid span,
+.cash-pool-grid small {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.cash-pool-grid strong {
+  color: var(--ink);
+  font-size: 18px;
+  overflow-wrap: anywhere;
+}
+
+.cash-transfer-history {
+  margin-top: 4px;
+}
+
 .settings-summary {
   display: grid;
   gap: 12px;
@@ -980,10 +1125,18 @@ select:focus {
 
 .ledger-tools {
   display: grid;
-  grid-template-columns: minmax(180px, 1.2fr) minmax(130px, 0.7fr) minmax(130px, 0.7fr) auto;
-  gap: 10px;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 10px 12px;
   align-items: end;
   margin-bottom: 12px;
+  min-width: 0;
+}
+
+.ledger-filter-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 10px;
+  min-width: 0;
 }
 
 .ledger-tool-actions {
@@ -991,12 +1144,34 @@ select:focus {
   flex-wrap: wrap;
   gap: 8px;
   justify-content: flex-end;
+  min-width: 0;
 }
 
 .ledger-count {
-  grid-column: 1 / -1;
   color: var(--muted);
   font-size: 12px;
+}
+
+.ledger-pagination {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.ledger-pagination button {
+  min-height: 34px;
+}
+
+.ledger-pagination button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
 }
 
 .module-ledger-panel {
@@ -1005,6 +1180,20 @@ select:focus {
 
 .position-panel {
   min-width: 0;
+}
+
+.module-full-width-panel {
+  display: grid;
+  min-width: 0;
+}
+
+.module-hero,
+.wealth-hero,
+.panel,
+.chart-panel,
+.module-workbench,
+.module-full-width-panel {
+  scroll-margin-top: 132px;
 }
 
 .position-tools {
@@ -1816,7 +2005,12 @@ select:focus {
 
 .basis-table-wrap,
 .table-wrap {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
   overflow-x: auto;
+  overscroll-behavior-x: contain;
 }
 
 table {
@@ -1844,6 +2038,26 @@ td {
   vertical-align: top;
   font-size: 13px;
   line-height: 1.45;
+}
+
+.allocation-advice table {
+  min-width: 720px;
+}
+
+.allocation-parent td {
+  background: rgba(15, 106, 122, 0.06);
+  font-weight: 740;
+}
+
+.allocation-child td {
+  background: rgba(255, 253, 248, 0.72);
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.allocation-child td:first-child {
+  padding-left: 22px;
+  color: var(--ink);
 }
 
 th {
@@ -2185,17 +2399,13 @@ li {
 
   .settings-grid,
   .entry-form,
+  .cash-transfer-form,
   .metrics-grid,
   .bucket-grid,
   .strategy-grid,
   .module-dashboard,
-  .ledger-tools {
+  .ledger-filter-grid {
     grid-template-columns: repeat(2, minmax(140px, 1fr));
-  }
-
-  .ledger-tool-actions,
-  .ledger-count {
-    grid-column: 1 / -1;
   }
 
   .ledger-tool-actions {
@@ -2254,11 +2464,12 @@ li {
 
   .settings-grid,
   .entry-form,
+  .cash-transfer-form,
   .metrics-grid,
   .bucket-grid,
   .strategy-grid,
   .module-dashboard,
-  .ledger-tools,
+  .ledger-filter-grid,
   .data-subgrid {
     grid-template-columns: 1fr;
   }
