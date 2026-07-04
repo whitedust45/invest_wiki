@@ -1,0 +1,71 @@
+大模型成本优化.md
+  s_8c6de243c7681b::t_9433d95007d460 1-205 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a44c5a80351f0d0677e3184","tool_type":"agent","tool_id":"apply_patch","line_ranges":[{"Range":[1,205]}]}]}
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "d722fe7b19c422674596cf4ae923fc3b09972f25",
+  "prompts": {},
+  "humans": {
+    "h_48e1775f2475fb": {
+      "author": "whitedust45 <112306732+whitedust45@users.noreply.github.com>"
+    }
+  },
+  "sessions": {
+    "s_8c6de243c7681b": {
+      "agent_id": {
+        "tool": "trae",
+        "id": "6a44c1130351f0d0677e2e8c",
+        "model": "gpt-5.5__max"
+      },
+      "human_author": "whitedust45 <112306732+whitedust45@users.noreply.github.com>"
+    }
+  },
+  "attestation_metadata": {
+    "大模型成本优化.md": [
+      {
+        "hash": "s_8c6de243c7681b::t_9433d95007d460",
+        "line_ranges": [
+          {
+            "Range": [
+              1,
+              205
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a44c5a80351f0d0677e3184",
+            "tool_type": "agent",
+            "tool_id": "apply_patch",
+            "line_ranges": [
+              {
+                "Range": [
+                  1,
+                  205
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "remote_transcripts": {
+    "s_8c6de243c7681b": {
+      "tool": "trae",
+      "conversation_id": "6a44c1130351f0d0677e2e8c",
+      "session_id": "6a44c1130351f0d0677e2e8c",
+      "status": "remote_only",
+      "message": "Remote transcript resolution is not implemented yet for TRAE prompts."
+    },
+    "s_8c6de243c7681b::t_9433d95007d460": {
+      "tool": "trae",
+      "conversation_id": "6a44c1130351f0d0677e2e8c",
+      "session_id": "6a44c1130351f0d0677e2e8c",
+      "status": "remote_only",
+      "message": "Remote transcript resolution is not implemented yet for TRAE prompts."
+    }
+  }
+}
