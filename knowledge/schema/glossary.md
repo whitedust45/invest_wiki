@@ -118,6 +118,14 @@
 
 **相关页**：[[factor-investing]]（已建）
 
+### managed-volatility — 管理波动率 / Managed Volatility
+
+**同义词**：Managed Volatility、vol-targeting、volatility targeting、波动率目标、波动率管理、动态杠杆、volatility timing
+
+**定义**：用预测波动率动态缩放仓位或杠杆，低波动时提高风险暴露、高波动时降敞口以平滑回撤
+
+**相关页**：[[managed-volatility]]（已建）
+
 ### carry — Carry 因子 / Carry
 
 **同义词**：Carry、套息、利差收益、持有收益、贴水（股指期货语境）

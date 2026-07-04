@@ -1,6 +1,6 @@
 ---
 description: Wiki 内容索引，按类别组织所有页面
-updated: 2026-06-27
+updated: 2026-07-02
 ---
 
 # Wiki 索引
@@ -69,6 +69,7 @@ _投资方法论、估值模型、行为金融、宏观框架_
 | growth-investing | 成长投资 / Growth Investing | methodology | 以未来盈利与收入增速为核心，愿意为扩张潜力和长期空间支付更高估值 |
 | momentum | 动量 / Momentum | methodology | 以趋势延续为前提，依靠价格强弱与技术信号进行顺势交易或配置；并补充作为横截面/时序因子的动量定义与动量崩盘风险 |
 | factor-investing | 因子投资 / Factor Investing | methodology | 因子是可被定价的横截面/时序收益来源，判定看持续性、普适性、稳健性与可解释性 |
+| managed-volatility | 管理波动率 / Managed Volatility | strategy | 管理波动率用预测波动率动态缩放风险暴露，低波动时提高杠杆、高波动时降杠杆以平滑回撤 |
 | carry | Carry 因子 / Carry | methodology | Carry 是“价格不变时仅靠持有资产就能拿到的收益率”，平稳期吃利差、危机时易大亏，与动量互补 |
 | contrarian | 逆向投资 / Contrarian Investing | methodology | 在市场情绪极端时反向操作，利用恐惧与狂热造成的错误定价寻找机会 |
 | mean-reversion | 均值回归 / Mean Reversion | methodology | 认为价格或估值显著偏离历史均值后常会修正，核心在识别偏离而非追随趋势 |
@@ -108,6 +109,7 @@ _每份原始素材的关键提取_
 | 2026-05-15-ten-core-stocks-research-report | 十只核心标的深度研究报告 / Ten Core Stocks Research Report | 2026-05-15 | 该报告用护城河、ROE、估值与股东回报框架横向比较十只 A 股标的，并给出分层推荐 |
 | 2026-05-14-thedecisionlab-loss-aversion | 损失厌恶导读 / Loss Aversion Primer | 2026-05-14 | 该文用前景理论解释损失厌恶，指出损失痛感通常强于同等收益，并影响保险与投资决策 |
 | 2026-05-14-simplypsychology-confirmation-bias | 确认偏误导读 / Confirmation Bias Primer | 2026-05-14 | 该文将确认偏误拆解为搜寻、解释与记忆三层偏向，并给出减轻方法 |
+| 2010-08-06-alpha-generation-managed-volatility | Alpha Generation and Risk Smoothing using Managed Volatility | 2010-08-06 | Tony Cooper提出用预测波动率动态调整杠杆，在不提高目标波动的前提下争取杠杆上行并降低回撤 |
 | log-archive-2026-05 | 2026-05 操作日志归档 / May 2026 Operation Log Archive | 2026-05-31 | 归档 2026-05 的知识库操作日志，降低主日志长度并保留历史变更轨迹 |
 | log-archive-2026-05-early | 2026-05 早期操作日志归档 / Early May 2026 Operation Log Archive | 2026-05-14 | 归档 2026-05-13 至 2026-05-14 的知识库初始化与早期素材摄入记录 |
 
@@ -141,7 +143,7 @@ _持仓逻辑、配置策略、再平衡记录_
 | tiered-position-sizing-template | 分档仓位法模板 / Tiered Position Sizing Template | 2026-05-15 | 将个人仓位纪律拆成观察仓、试错仓、标准仓、完成仓与超配仓五档，降低一次性押注错误的伤害 |
 | personal-hybrid-barbell-matrix | 个人混合杠铃投资矩阵 / Personal Hybrid Barbell Matrix | 2026-06-23 | 以国债逆回购保生存、QQQ抓右尾、SPY put防左尾，并叠加高股息、IC/IM 与分阶段执行纪律的个人混合杠铃框架 |
 | personal-hybrid-barbell-execution-dashboard | 个人混合杠铃执行仪表盘 / Personal Hybrid Barbell Execution Dashboard | 2026-06-23 | 将个人混合杠铃策略落成生活现金流、组合风险、极端行情动作与从零构建顺序四套执行表 |
-| qld-qqq-120ma-tactical-strategy | QLD/QQQ 120 日均线战术策略 / QLD-QQQ 120MA Tactical Strategy | 2026-06-23 | 用 QQQ 的 120 日均线过滤趋势，只在中期上升趋势中持有 2 倍杠杆 QLD，跌破则退出 |
+| qld-qqq-120ma-tactical-strategy | QLD/QQQ 120 日均线战术策略 / QLD-QQQ 120MA Tactical Strategy | 2026-07-02 | QQQ线上持有QLD、跌破持现金；2006-2026回测显示收益高于QQQ且回撤更低 |
 
 ---
 

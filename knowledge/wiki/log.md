@@ -1,6 +1,6 @@
 ---
 description: 操作日志，按时间倒序记录所有变更
-updated: 2026-06-28
+updated: 2026-07-02
 ---
 
 # 操作日志
@@ -9,6 +9,25 @@ updated: 2026-06-28
 > 格式：`## [YYYY-MM-DD] {操作类型} | {标题}`
 > 操作类型：`init` / `ingest` / `query` / `lint` / `update` / `curate`
 > 快速查看：`grep "^## \[" log.md | tail -10`
+
+## [2026-07-02] update | QLD/QQQ 120MA 策略补入 2006-2026 回测
+
+- 更新 [[qld-qqq-120ma-tactical-strategy]]：
+  - 主策略收敛为“QQQ 在 120 日均线上方持有 QLD；跌破后卖出并持现金”
+  - 补入 Yahoo Finance adjusted close 回测口径：2006-06-22 至 2026-07-01，覆盖 2008 金融危机
+  - 记录核心结果：主策略 CAGR 18.2%、最大回撤 -47.1%、终值 28.52x；2008 年收益 -18.2%、最大回撤 -21.9%
+  - 将 [[managed-volatility]] 定位为增强研究模块，而非主策略本体
+- 更新 `knowledge/wiki/index.md` 摘要
+
+## [2026-07-02] ingest | Alpha Generation and Risk Smoothing using Managed Volatility
+
+- 新增 raw 原文：`knowledge/raw/2026-07-02-financialfactory-alpha-generation-and-risk-smoothing.pdf`
+- 新增来源页：[[2010-08-06-alpha-generation-managed-volatility]]
+- 新增概念页：[[managed-volatility]]
+  - 沉淀 Tony Cooper 的管理波动率框架：预测波动率、动态缩放杠杆、低波动加风险暴露、高波动降杠杆
+  - 明确 CVS / OVS / OVPMS 三类策略，以及作者最终偏好 CVS 的原因
+- 更新 [[qld-qqq-120ma-tactical-strategy]]：补充该论文与 QLD/QQQ 120MA 策略的关系，明确“均线决定是否在场，波动率决定押多大”
+- 更新 `knowledge/schema/glossary.md` 与 `knowledge/wiki/index.md`
 
 ## [2026-06-28] curate | 订正 IC/IM 仪表盘期货账户状态口径
 
