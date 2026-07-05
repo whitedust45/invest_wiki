@@ -6,11 +6,11 @@ domain: strategy
 topic: [position-sizing, kelly-criterion, drawdown, rebalance]
 tags: [半凯利, 组合纪律, 回撤控制, 执行规则]
 status: active
-version: 2026-06-23
+version: 2026-07-05
 effective_date: 2026-05-15
 supersedes: []
 superseded_by: []
-see_also: [position-sizing, kelly-criterion, overview, tiered-position-sizing-template, kelly-criterion-vs-value-investing, personal-hybrid-barbell-matrix, personal-hybrid-barbell-execution-dashboard, ic-im-roll-discount-operations-manual]
+see_also: [position-sizing, kelly-criterion, overview, tiered-position-sizing-template, guigu-position-management-framework, kelly-criterion-vs-value-investing, personal-hybrid-barbell-matrix, personal-hybrid-barbell-execution-dashboard, ic-im-roll-discount-operations-manual]
 sources:
   - type: dialogue
     context: 围绕凯利公式实战化与个人仓位规则的延伸沉淀
@@ -31,6 +31,9 @@ sources:
     url: https://rpc.cfainstitute.org/blogs/enterprising-investor/2018/the-kelly-criterion-you-dont-know-the-half-of-it
     publisher: CFA Institute
     date: 2018-06-14
+  - type: personal
+    context: 用户提供的龟龟投资法仓位管理1截图素材，补充市场弹性和商业模式上限
+    date: 2026-07-05
 summary: 把凯利、安全边际与回撤约束落成个人仓位纪律：理论满凯利只作上限，实盘默认半凯利以下执行
 ---
 
@@ -160,6 +163,18 @@ post_add_stress_drop: 0.20
 - 组合相关性骤然上升，导致风险集中；  
 - 头寸已大到即使基本面没变，我也无法舒服持有；  
 - 权重漂移过大，需要用 [[rebalance|再平衡]] 恢复纪律。  
+
+## 龟龟仓位管理补充
+
+**[2026-07-05 via [[2026-07-05-guigu-position-management-elasticity-gap]]]**
+[[guigu-position-management-framework|龟龟仓位管理框架]] 可以作为本页的个股执行补丁，尤其适合高分红现金流仓。它把仓位拆成四层：
+
+1. 市场位置决定组合弹性：低位时可提高高弹性资产比例，高位时转向低波动、固收或现金。
+2. 商业模式决定单股仓位上限：越稳定、越可理解、越弱周期，越能承受高权重。
+3. 价格决定实际仓位：好公司也要等到穿透回报率足够高，才配得上仓位推升。
+4. 同源风险合并限制：地产、金融、白酒、资源等同源风险不能按多个独立机会分别加仓。
+
+这与本页原有逻辑并不冲突：凯利和回撤约束回答“总风险不能多大”，龟龟框架回答“在当前市场位置和商业模式质量下，哪类个股更配得上这部分风险预算”。
 
 ## 一张最小执行卡片
 

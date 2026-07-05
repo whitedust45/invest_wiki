@@ -10,6 +10,30 @@ updated: 2026-07-05
 > 操作类型：`init` / `ingest` / `query` / `lint` / `update` / `curate`
 > 快速查看：`grep "^## \[" log.md | tail -10`
 
+## [2026-07-05] ingest | 龟龟投资法截图体系吸纳
+
+- 新增来源页：
+  - [[2026-07-05-guigu-opening-basic-methodology]]：逐图摘录开篇三步构建顺序
+  - [[2026-07-05-guigu-stock-factor-business-model]]：逐图摘录商业模式六问
+  - [[2026-07-05-guigu-stock-factor-look-through-return]]：逐图摘录穿透回报率
+  - [[2026-07-05-guigu-stock-factor-distributable-cash]]：逐图摘录可支配现金结余
+  - [[2026-07-05-guigu-position-management-elasticity-gap]]：逐图摘录仓位管理四原则
+- 新增方法页：
+  - [[guigu-cashflow-defensive-investing-framework]]：将龟龟框架吸纳为高股息现金流仓的完整子系统
+  - [[guigu-business-model-screen]]：沉淀商业模式六问
+  - [[look-through-return-rate]]：沉淀穿透回报率估值锚
+  - [[distributable-cash-balance]]：沉淀真实可支配现金视角
+  - [[guigu-position-management-framework]]：沉淀市场位置、弹性差、商业模式上限和同源风险仓位规则
+  - [[elasticity-gap]]：补建弹性差概念页，避免断链
+- 更新现有页面：
+  - [[fcf]]、[[dividend]]：接入可支配现金结余与穿透回报率
+  - [[moat-evaluation-template]]、[[high-dividend-cashflow-watchlist]]：接入龟龟商业模式六问和三因子买入前审查
+  - [[personal-hybrid-barbell-execution-dashboard]]：补充半年生活费、30%生活费现金流、高赔率后置的顺序校验
+  - [[personal-position-sizing-framework]]、[[position-sizing]]：接入龟龟弹性差与商业模式仓位上限
+- 更新 `knowledge/schema/glossary.md`：新增 `business-model-quality`、`look-through-return-rate`、`distributable-cash-balance`、`elasticity-gap`
+- 更新 `knowledge/wiki/index.md`：收录新增 source / concept / portfolio 页面
+- 来源口径：当前使用用户提供的本地 raw 截图路径作为真实来源，未补写外部视频 URL
+
 ## [2026-07-05] update | 高分红现金流观察池沉淀并接入仪表盘候选项
 
 - 新增 [[high-dividend-cashflow-watchlist]]：
@@ -21,6 +45,10 @@ updated: 2026-07-05
   - 保留历史流水记忆优先级，用户录入过的代码/名称配对仍会优先展示
   - 将标的录入从原生 `datalist` 升级为自绘候选选择器，名称在前、代码在后，选择候选时强绑定名称和代码
   - 同名 A/H 标的必须选中具体市场条目，避免名称自动猜错代码
+- 新增 `.agents/skills/guigu-cashflow-stock-decision/SKILL.md`：
+  - 将龟龟策略落成高分红现金流公司的个股/批量决策过滤器
+  - 明确采用“商业模式筛 → 穿透回报率筛 → 可支配现金结余筛 → 仓位管理筛”的漏斗模式
+  - 输出 `PASS-CORE / PASS-SMALL / WAIT-PRICE / WAIT-DATA / REJECT` 五档
 
 ## [2026-07-02] update | QLD/QQQ 120MA 策略补入 2006-2026 回测
 

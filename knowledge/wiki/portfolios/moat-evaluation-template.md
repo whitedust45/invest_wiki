@@ -6,15 +6,18 @@ domain: strategy
 topic: [moat, value-investing, roe, dividend]
 tags: [模板, 护城河, 公司研究, 财务体现, 资产负债表]
 status: active
-version: 2026-05-18
+version: 2026-07-05
 effective_date: 2026-05-18
 supersedes: []
 superseded_by: []
-see_also: [a-share-good-companies-list, overview]
+see_also: [a-share-good-companies-list, guigu-business-model-screen, look-through-return-rate, distributable-cash-balance, overview]
 sources:
   - type: personal
     context: 基于十只核心标的研究报告与后续讨论整理护城河评估母版
     date: 2026-05-18
+  - type: personal
+    context: 用户提供的龟龟投资法选股因子1截图素材，补充商业模式六问
+    date: 2026-07-05
 summary: 将护城河来源、财务体现、验证指标、失效信号与仓位表达沉淀成可复用的公司研究母版
 ---
 
@@ -186,3 +189,19 @@ summary: 将护城河来源、财务体现、验证指标、失效信号与仓�
 5. 它适合进“核心跟踪 / 防御底仓 / 等赔率 / 只观察”的哪一层？  
 
 如果第 2 题答不清，这家公司通常还不配进入高优先级候选池。
+
+## 龟龟商业模式六问
+
+**[2026-07-05 via [[2026-07-05-guigu-stock-factor-business-model]]]**
+龟龟投资法给高股息公司研究补了一套更偏执行的 [[guigu-business-model-screen|商业模式筛选]]。以后本模板用于现金流防守仓时，还要额外回答六个问题：
+
+| 问题 | 要排除的风险 |
+|---|---|
+| 能否看懂 | 看不懂业务、产品、需求和赚钱方式时，投资会退化成跟风 |
+| 是否需要重复性资本开支 | 利润长期被再投资吞掉，股息和自由现金流不稳定 |
+| 赚真钱还是假钱 | 利润挂在应收账款上，可能坏账、占资或靠融资周转 |
+| 竞争还是垄断 | 高度内卷行业利润难预测，弱垄断或资质壁垒更适合现金流仓 |
+| 有没有定价权 | 成本上涨无法传导时，毛利率和分红会被周期压垮 |
+| 周期性有多强 | 强周期利润和股息不可预测，不适合作为稳定现金流底座 |
+
+这六问不替代护城河分析，而是把护城河落到现金流和股息稳定性上。若一家公司护城河叙事很强，但六问里连续失败，就不应进入高分红现金流仓的高优先级。

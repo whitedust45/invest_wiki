@@ -10,7 +10,7 @@ version: 2026-07-05
 effective_date: 2026-07-05
 supersedes: []
 superseded_by: []
-see_also: [personal-hybrid-barbell-matrix, personal-hybrid-barbell-execution-dashboard, a-share-good-companies-list, luzhou-laojiao, wuliangye, china-ping-an, china-merchants-bank, china-state-construction, c-d-inc]
+see_also: [personal-hybrid-barbell-matrix, personal-hybrid-barbell-execution-dashboard, guigu-cashflow-defensive-investing-framework, guigu-business-model-screen, look-through-return-rate, distributable-cash-balance, a-share-good-companies-list, luzhou-laojiao, wuliangye, china-ping-an, china-merchants-bank, china-state-construction, c-d-inc]
 sources:
   - type: dialogue
     context: 将用户给出的高分红现金流候选公司整理为观察池，并接入个人仪表盘高分红录入候选项
@@ -26,6 +26,9 @@ sources:
     url: https://quote.eastmoney.com/
   - type: personal
     context: 用户确认采用“宽进严买”：完整候选进入下拉，wiki 中标注分层和观察状态
+    date: 2026-07-05
+  - type: personal
+    context: 用户提供的龟龟投资法截图素材，补充高分红现金流仓的三因子审查
     date: 2026-07-05
 summary: 将高分红现金流候选股整理为宽进严买观察池，并同步为仪表盘可选标的
 ---
@@ -92,6 +95,21 @@ summary: 将高分红现金流候选股整理为宽进严买观察池，并同�
 | 估值折价 | 好公司也需要 [[margin-of-safety|安全边际]]，尤其是高分红股容易被“股息率幻觉”误导 |
 | 税费与市场 | 港股、B股要单独考虑交易货币、税费、流动性和折溢价 |
 | 仓位相关性 | 白酒、金融、地产链、资源股各自有同源风险，不能把“高股息”误认为天然分散 |
+
+## 龟龟三因子审查
+
+**[2026-07-05 via [[2026-07-05-guigu-opening-basic-methodology]]]**
+本池未来买入前应接入 [[guigu-cashflow-defensive-investing-framework]] 的三因子审查。进入候选池只代表可跟踪，真正买入至少要通过下面三层：
+
+| 因子 | 核心问题 | 未通过时的处理 |
+|---|---|---|
+| [[guigu-business-model-screen|商业模式]] | 是否看得懂、低重复资本开支、收真现金、有定价权、弱周期 | 不买或只观察 |
+| [[look-through-return-rate|穿透回报率]] | 保守分红和注销回购是否至少提供 3%，最好 5%+ 的到手回报 | 等价格，不因“好公司”硬买 |
+| [[distributable-cash-balance|可支配现金结余]] | 分红是否来自经营现金和安全现金储备，而不是贷款或一次性处置 | 降级或剔除现金流仓 |
+
+这会把“宽进严买”具体化：下拉候选项可以宽，但真实买入必须严。尤其对高股息股，不能只看股息率，要先确认股息背后的商业模式、现金流和负债结构。
+
+换句话说，本页的“宽进”只适用于观察池和仪表盘候选项，不代表绕过三因子审查的买入许可。
 
 ## 仪表盘落地口径
 

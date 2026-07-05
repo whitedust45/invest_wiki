@@ -6,10 +6,10 @@ domain: risk
 topic: [position-sizing, diversification, drawdown]
 tags: [组合管理, 风险控制, 权重分配]
 status: active
-version: 2026-05-23
+version: 2026-07-05
 supersedes: []
 superseded_by: []
-see_also: [kelly-criterion, diversification, margin-of-safety, moat, overview, rebalance, asset-allocation, loss-aversion, drawdown, risk-reward, barbell-strategy, cross-asset-carry-momentum, personal-hybrid-barbell-matrix, ic-im-roll-discount-strategy, 2026-05-15-investopedia-kelly-criterion, 2026-05-21-taleb-barbell-guide, 2026-05-14-thedecisionlab-loss-aversion, 2026-05-14-investor-gov-asset-allocation-guide, kelly-criterion-in-practice, personal-position-sizing-framework, tiered-position-sizing-template]
+see_also: [kelly-criterion, diversification, margin-of-safety, moat, overview, rebalance, asset-allocation, loss-aversion, drawdown, risk-reward, barbell-strategy, elasticity-gap, guigu-position-management-framework, cross-asset-carry-momentum, personal-hybrid-barbell-matrix, ic-im-roll-discount-strategy, 2026-05-15-investopedia-kelly-criterion, 2026-05-21-taleb-barbell-guide, 2026-05-14-thedecisionlab-loss-aversion, 2026-05-14-investor-gov-asset-allocation-guide, kelly-criterion-in-practice, personal-position-sizing-framework, tiered-position-sizing-template]
 sources:
   - type: personal
     context: 基于 glossary 定义与当前知识库结构补建风险管理基础概念页
@@ -21,6 +21,9 @@ sources:
     trigger: 接下来我想跟你讨论一个观点就是对于凯利公式，有一种观点认为在投资市场上做投资，很多时候其实就是混沌的
     rounds: 0
     depth: refined
+  - type: personal
+    context: 用户提供的龟龟投资法仓位管理1截图素材，补充弹性差与商业模式仓位上限
+    date: 2026-07-05
 summary: 仓位管理不仅把判断转成可控风险敞口，也是在控制回撤对长期复利效率的侵蚀
 ---
 
@@ -68,3 +71,10 @@ summary: 仓位管理不仅把判断转成可控风险敞口，也是在控制�
 ## 当前知识库中的用法
 
 这一页用于沉淀“多大仓位才配得上多大把握”的组合纪律。后续组合页若记录具体持仓，应说明初始仓位、加减仓条件，以及单一头寸的上限，而不是只记录标的名称。
+
+## 龟龟弹性差视角
+
+**[2026-07-05 via [[2026-07-05-guigu-position-management-elasticity-gap]]]**
+[[guigu-position-management-framework]] 给 [[position-sizing|仓位管理]] 增加了“市场位置与个股弹性”的维度：低位时可以提高高弹性股票比例，高位时逐步转向低波动股票、固收或现金，以利用 [[mean-reversion|均值回归]] 中的 [[elasticity-gap|弹性差]]。
+
+这提醒仓位管理不只是单股风险控制，还包括组合整体弹性的动态调节。

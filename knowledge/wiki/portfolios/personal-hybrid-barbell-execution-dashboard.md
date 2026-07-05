@@ -6,11 +6,11 @@ domain: strategy
 topic: [asset-allocation, position-sizing, drawdown, rebalance]
 tags: [个人思考, 执行仪表盘, 600万, QQQ, SPY期权, 国债逆回购, IC, IM]
 status: active
-version: 2026-06-23
+version: 2026-07-05
 effective_date: 2026-06-23
 supersedes: []
 superseded_by: []
-see_also: [personal-hybrid-barbell-matrix, ic-im-roll-discount-strategy, ic-im-roll-discount-operations-manual, personal-position-sizing-framework, stock-index-futures-contract-rules]
+see_also: [personal-hybrid-barbell-matrix, ic-im-roll-discount-strategy, ic-im-roll-discount-operations-manual, personal-position-sizing-framework, guigu-cashflow-defensive-investing-framework, high-dividend-cashflow-watchlist, stock-index-futures-contract-rules]
 sources:
   - type: dialogue
     context: 从零开始构建个人混合杠铃矩阵，补充三张执行表与分阶段配置顺序
@@ -19,6 +19,9 @@ sources:
     trigger: 我们假设是从0开始慢慢攒钱构建，我应该到什么时候才能开始配置杠杆部分，同时什么时候该配置深度看跌，以及每笔新钱该按多少比例去买高分红和QQQ
     rounds: 6
     depth: refined
+  - type: personal
+    context: 用户提供的龟龟投资法开篇截图素材，补充分阶段现金流构建顺序
+    date: 2026-07-05
 summary: 将个人混合杠铃策略落成生活现金流、组合风险、极端行情动作与从零构建顺序四套执行表
 ---
 
@@ -92,6 +95,13 @@ IC/IM 所属的 [[stock-index-futures|股指期货]] 合约规则和仪表盘计
 ## 从 0 开始的构建顺序
 
 这套矩阵不能用 600 万终局比例直接按比例缩小。QQQ 和高分红资产可以从小资金阶段开始，但 [[ic-im-roll-discount-strategy|IC/IM]] 与 SPY put 都有最小有效规模和执行成本，应后置。本节所有“总资产”均指**当前实时可投资总资产**，不是 600 万终局目标金额。
+
+**[2026-07-05 via [[2026-07-05-guigu-opening-basic-methodology]]]**
+龟龟框架给了一个与本页高度一致的顺序校验：先用至少半年生活费做 [[guigu-cashflow-defensive-investing-framework|流动性保障]]，再用高股息现金流逐步替代劳动收入，等红利现金流能覆盖约 30% 生活费后，才使用安全垫之外的超额现金流参与高赔率机会。
+
+这对本页的执行含义是：高赔率资产、IC/IM 和 SPY put 都不能挤占生活安全垫；高分红仓也不能只因股息率高就快速买满，而要先通过 [[high-dividend-cashflow-watchlist]] 的商业模式、穿透回报率和可支配现金审查。
+
+这里的 QQQ 早期配置是长期右尾底仓的低比例起步，不等同于龟龟语境中等待极端环境后用超额现金流做高赔率加码；后者仍按“安全垫和现金流仓成型后再做”的后置原则处理。
 
 ### 阶段 0：先建立硬现金
 

@@ -54,14 +54,18 @@ _投资方法论、估值模型、行为金融、宏观框架_
 | margin-of-safety | 安全边际 / Margin of Safety | risk | 买入价格低于内在价值所留下的缓冲区，用于对抗估值与现实误差 |
 | dcf-model | 现金流折现 / DCF Model | valuation | 将企业未来自由现金流按折现率折算为现值的估值方法 |
 | fcf | 自由现金流 / Free Cash Flow | valuation | 企业在维持经营与资本开支后可自由分配的现金，是 DCF 估值的重要输入 |
+| distributable-cash-balance | 可支配现金结余 / Distributable Cash Balance | valuation | 从真实现金进出判断利润是否能分红，避免被会计利润和应收账款误导 |
 | gaap-vs-operating-earnings | GAAP 与经营利润 / GAAP vs. Operating Earnings | company | 区分会计总利润与经营现实的分析框架，适合用于理解复杂控股公司的利润口径 |
 | moat | 护城河 / Economic Moat | company | 企业在竞争中维持高回报与抗侵蚀能力的持久结构性优势 |
+| guigu-business-model-screen | 龟龟商业模式筛选 / Guigui Business Model Screen | company | 用六问判断高股息公司的利润稳定性、现金质量和股息可预测性 |
 | roe | 净资产收益率 / ROE | company | 净利润相对于股东权益的回报率，用于衡量企业利用自有资本赚钱的效率 |
 | buyback | 回购 / Share Buyback | company | 公司用自有资金买回自身股票，只有当回购价格低于内在价值时才真正提升每股价值 |
 | dividend | 股息 / Dividend | company | 公司将部分利润以现金形式返还股东，其价值取决于分红可持续性与资本再配置机会成本 |
+| look-through-return-rate | 穿透回报率 / Look-through Return Rate | valuation | 衡量企业利润中能确定以分红或注销回购形式回到股东账户的比例 |
 | drawdown | 回撤 / Drawdown | risk | 回撤不仅衡量最坏阶段会亏多少，也衡量资金曲线的复利效率会被破坏到什么程度 |
 | diversification | 分散化 / Diversification | risk | 通过持有多个低相关资产或头寸来降低单一判断错误对组合的伤害 |
 | position-sizing | 仓位管理 / Position Sizing | risk | 决定单一投资在整体组合中占比的方法，本质上也是在控制回撤对长期复利效率的侵蚀 |
+| elasticity-gap | 弹性差 / Elasticity Gap | risk | 在不同市场位置切换高低波动资产，以利用均值回归放大收益或减少损失 |
 | loss-aversion | 损失厌恶 / Loss Aversion | psychology | 人对损失的痛感通常强于同等收益的愉悦，因此决策更偏向避免失去 |
 | confirmation-bias | 确认偏误 / Confirmation Bias | psychology | 人倾向于搜集、解释和记忆支持既有观点的信息，而忽视反证 |
 | narrative-fallacy | 叙事谬误 / Narrative Fallacy | psychology | 把复杂甚至随机事实强行串成因果故事的倾向，会让人高估解释力与确定性 |
@@ -110,6 +114,11 @@ _每份原始素材的关键提取_
 | 2026-05-14-thedecisionlab-loss-aversion | 损失厌恶导读 / Loss Aversion Primer | 2026-05-14 | 该文用前景理论解释损失厌恶，指出损失痛感通常强于同等收益，并影响保险与投资决策 |
 | 2026-05-14-simplypsychology-confirmation-bias | 确认偏误导读 / Confirmation Bias Primer | 2026-05-14 | 该文将确认偏误拆解为搜寻、解释与记忆三层偏向，并给出减轻方法 |
 | 2010-08-06-alpha-generation-managed-volatility | Alpha Generation and Risk Smoothing using Managed Volatility | 2010-08-06 | Tony Cooper提出用预测波动率动态调整杠杆，在不提高目标波动的前提下争取杠杆上行并降低回撤 |
+| 2026-07-05-guigu-opening-basic-methodology | 龟龟投资组合开篇基础方法论截图摘录 / Guigui Opening Basic Methodology | 2026-07-05 | 龟龟开篇把防御型投资组合拆为流动性保障、现金流打造和极端赔率三步 |
+| 2026-07-05-guigu-stock-factor-business-model | 龟龟选股因子1商业模式截图摘录 / Guigui Stock Factor Business Model | 2026-07-05 | 龟龟商业模式因子用六个问题筛出高股息企业的利润稳定性、现金质量和风险边界 |
+| 2026-07-05-guigu-stock-factor-look-through-return | 龟龟选股因子2穿透回报率截图摘录 / Guigui Stock Factor Look-through Return | 2026-07-05 | 龟龟穿透回报率把股东真实到手的分红和注销回购作为高息股估值锚 |
+| 2026-07-05-guigu-stock-factor-distributable-cash | 龟龟选股因子3可支配现金结余截图摘录 / Guigui Stock Factor Distributable Cash | 2026-07-05 | 龟龟可支配现金结余用真实现金进出替代表面利润，校验企业利润是否能支持分红 |
+| 2026-07-05-guigu-position-management-elasticity-gap | 龟龟仓位管理1弹性差与商业模式仓位截图摘录 / Guigui Position Management Elasticity Gap | 2026-07-05 | 龟龟仓位管理把市场位置、个股弹性、商业模式上限、价格和同源风险接成一套仓位规则 |
 | log-archive-2026-05 | 2026-05 操作日志归档 / May 2026 Operation Log Archive | 2026-05-31 | 归档 2026-05 的知识库操作日志，降低主日志长度并保留历史变更轨迹 |
 | log-archive-2026-05-early | 2026-05 早期操作日志归档 / Early May 2026 Operation Log Archive | 2026-05-14 | 归档 2026-05-13 至 2026-05-14 的知识库初始化与早期素材摄入记录 |
 
@@ -145,6 +154,8 @@ _持仓逻辑、配置策略、再平衡记录_
 | personal-hybrid-barbell-execution-dashboard | 个人混合杠铃执行仪表盘 / Personal Hybrid Barbell Execution Dashboard | 2026-06-23 | 将个人混合杠铃策略落成生活现金流、组合风险、极端行情动作与从零构建顺序四套执行表 |
 | qld-qqq-120ma-tactical-strategy | QLD/QQQ 120 日均线战术策略 / QLD-QQQ 120MA Tactical Strategy | 2026-07-02 | QQQ线上持有QLD、跌破持现金；2006-2026回测显示收益高于QQQ且回撤更低 |
 | high-dividend-cashflow-watchlist | 高分红现金流观察候选池 / High Dividend Cashflow Watchlist | 2026-07-05 | 将高分红现金流候选股整理为宽进严买观察池，并同步为仪表盘可选标的 |
+| guigu-cashflow-defensive-investing-framework | 龟龟现金流防御型投资框架 / Guigui Cashflow Defensive Investing Framework | 2026-07-05 | 以半年生活费保障为起点，用高股息现金流替代劳动收入，再用超额现金流参与极端赔率 |
+| guigu-position-management-framework | 龟龟仓位管理框架 / Guigui Position Management Framework | 2026-07-05 | 用市场位置、个股弹性、商业模式上限、价格和同源风险决定实际仓位 |
 
 ---
 

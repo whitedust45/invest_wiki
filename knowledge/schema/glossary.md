@@ -82,6 +82,22 @@
 
 **相关页**：[[gaap-vs-operating-earnings]]（已建）
 
+### look-through-return-rate — 穿透回报率 / Look-through Return Rate
+
+**同义词**：穿透回报、穿透收益率、股东穿透回报、Look-through Return
+
+**定义**：衡量企业利润中能通过现金分红、注销型回购等方式确定回到股东账户的真实回报率
+
+**相关页**：[[look-through-return-rate]]（已建）
+
+### distributable-cash-balance — 可支配现金结余 / Distributable Cash Balance
+
+**同义词**：可支配现金、真实可支配现金、现金型利润、真钱白银结余
+
+**定义**：从真实现金进出判断企业利润中可用于分红、回购或留存配置的现金结余
+
+**相关页**：[[distributable-cash-balance]]（已建）
+
 ---
 
 ## 投资方法论
@@ -222,6 +238,14 @@
 
 **相关页**：[[convexity]]（已建）
 
+### elasticity-gap — 弹性差 / Elasticity Gap
+
+**同义词**：弹性套利、组合弹性、市场位置弹性、Elasticity Gap
+
+**定义**：根据市场位置在高波动和低波动资产之间切换，以利用均值回归中不同弹性带来的收益差或损失缓冲
+
+**相关页**：[[elasticity-gap]]（已建）
+
 ---
 
 ## 公司分析
@@ -273,6 +297,14 @@
 **定义**：公司将部分利润以现金形式分配给股东
 
 **相关页**：[[dividend]]（已建）
+
+### business-model-quality — 商业模式质量 / Business Model Quality
+
+**同义词**：商业模式、好生意、商业模式筛选、Business Quality
+
+**定义**：企业赚钱方式在可理解性、现金回收、资本开支、定价权、竞争结构和周期性上的综合质量
+
+**相关页**：[[guigu-business-model-screen]]（已建）
 
 ### insurance-float — 保险浮存金 / Insurance Float
 

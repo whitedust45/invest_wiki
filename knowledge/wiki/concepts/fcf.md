@@ -6,10 +6,10 @@ domain: valuation
 topic: [fcf, dcf-model, capital-allocation]
 tags: [现金流, 估值, 资本开支]
 status: active
-version: 2026-06-18
+version: 2026-07-05
 supersedes: []
 superseded_by: []
-see_also: [dcf-model, capital-allocation, intrinsic-value, gaap-vs-operating-earnings, value-investing, moat, buffett-shareholder-letters-core-value-investing, 2026-06-18-berkshire-official-shareholder-letter-archive, overview]
+see_also: [dcf-model, capital-allocation, intrinsic-value, gaap-vs-operating-earnings, value-investing, moat, distributable-cash-balance, buffett-shareholder-letters-core-value-investing, 2026-06-18-berkshire-official-shareholder-letter-archive, overview]
 sources:
   - type: personal
     context: 基于 glossary 与全库 lint 清理补建现金流相关基础概念页
@@ -20,6 +20,9 @@ sources:
     publisher: Berkshire Hathaway Inc.
     url: https://www.berkshirehathaway.com/letters/1986.html
     date: 1986
+  - type: personal
+    context: 用户提供的龟龟投资法选股因子3截图素材，补充可支配现金结余视角
+    date: 2026-07-05
 summary: 自由现金流是企业在维持经营和资本开支后可自由分配的现金，是 DCF 估值的重要输入
 ---
 
@@ -47,6 +50,18 @@ summary: 自由现金流是企业在维持经营和资本开支后可自由分�
 - 自由现金流并不总等于“越高越好”，还要看它是否靠压缩必要投资换来。  
 - 周期股、金融股与高成长公司使用 FCF 时，要特别小心口径和阶段差异。  
 - 研究时应结合利润表、现金流量表和资本开支一起看，避免只盯一个数字。  
+
+## 龟龟语境：可支配现金结余
+
+**[2026-07-05 via [[2026-07-05-guigu-stock-factor-distributable-cash]]]**
+龟龟投资法把 [[fcf|自由现金流]] 进一步转译成 [[distributable-cash-balance|可支配现金结余]]：不要机械套公式，而要逐项判断企业到底进账多少现金、花掉多少现金，剩下的钱是否真的可以用于分红、回购或留存配置。
+
+这个视角特别适合高股息现金流仓，因为它能过滤两类陷阱：
+
+- 会计利润很好，但经营现金流长期为负、应收账款快速膨胀；
+- 股息率很高，但分红依赖贷款、出售资产或牺牲必要再投资。
+
+同时它也有边界：如果企业今年资本开支很大、未来资本开支会明显收缩，仅看当年现金流可能低估未来可分配能力。因此可支配现金结余必须和 [[guigu-business-model-screen|商业模式筛选]] 一起使用。
 
 ## 巴菲特语境：所有者收益
 

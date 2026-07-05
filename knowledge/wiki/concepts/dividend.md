@@ -6,10 +6,10 @@ domain: company
 topic: [dividend, value-investing, capital-allocation]
 tags: [股东回报, 高股息, 现金回报]
 status: active
-version: 2026-05-15
+version: 2026-07-05
 supersedes: []
 superseded_by: []
-see_also: [buyback, capital-allocation, value-investing, carry, a-share-ten-core-stocks-202605, 2026-05-15-ten-core-stocks-research-report, overview]
+see_also: [buyback, capital-allocation, value-investing, carry, look-through-return-rate, distributable-cash-balance, a-share-ten-core-stocks-202605, 2026-05-15-ten-core-stocks-research-report, overview]
 sources:
   - type: personal
     context: 基于十只核心标的研究报告与现有价值投资框架补建股东回报基础概念页
@@ -18,6 +18,9 @@ sources:
     title: 致伯克希尔·哈撒韦公司股东
     author: Warren E. Buffett
     date: 2025-02-22
+  - type: personal
+    context: 用户提供的龟龟投资法选股因子2截图素材，补充穿透回报率视角
+    date: 2026-07-05
 summary: 股息是公司把部分利润以现金形式返还股东的分配方式，其价值取决于分红可持续性与资本再配置机会成本
 ---
 
@@ -40,6 +43,19 @@ summary: 股息是公司把部分利润以现金形式返还股东的分配方�
 - 高股息不等于高质量，若利润不可持续，分红也可能只是阶段性现象。  
 - 高股息也不自动等于低估值，有时只是市场对未来衰退的补偿。  
 - 研究股息时，要看分红来自自由现金流，还是来自资产处置、举债或挤压再投资。  
+
+## 龟龟语境：穿透回报率
+
+**[2026-07-05 via [[2026-07-05-guigu-stock-factor-look-through-return]]]**
+龟龟投资法把 [[dividend|股息]] 放进 [[look-through-return-rate|穿透回报率]] 框架中：股息真正重要的不是公告数字本身，而是它相对买入价格能提供多少确定到手的现金回报。
+
+这个视角要求同时看三件事：
+
+- 公司是否有最低股息支付率、稳定派息历史或明确资本回报承诺；
+- 分红是否来自真实经营现金，而非贷款分红或出售资产；
+- 当前价格是否让保守穿透回报率至少达到 3%，最好达到 5% 以上，并高于货币无风险利率约 1%。
+
+因此，高股息股票的买入逻辑不应是“股息率高就买”，而应是“商业模式可理解、现金流可验证、价格给到足够穿透回报”。
 
 ## 与现有知识的关系
 
