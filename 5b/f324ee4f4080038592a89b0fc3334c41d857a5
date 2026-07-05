@@ -1,0 +1,38 @@
+apps/dashboard/app.js
+  s_d3268536eec2af::t_27d6b519ebf389 80-119,3567-3582,3591-3592,3594-3595,3602-3603,3608-3616,3619-3630,3632-3635,3643,3646-3648,3764-3765,4769,4775,4780-4822,5632-5635,5819-5820,5824-5831,5837
+apps/dashboard/index-desktop.html
+  s_d3268536eec2af::t_f4e31683d34d14 7-8,141
+apps/dashboard/index.html
+  s_d3268536eec2af::t_6971a1641706ae 7,56
+apps/dashboard/styles.css
+  s_d3268536eec2af::t_922f4b5db0c656 601-667,2544-2547
+knowledge/wiki/index.md
+  s_d3268536eec2af::t_b3000cbffb542a 3,147
+knowledge/wiki/log.md
+  s_d3268536eec2af::t_fcf3ce302aac1f 3,13-24
+knowledge/wiki/portfolios/high-dividend-cashflow-watchlist.md
+  s_d3268536eec2af::t_55cfbecb43a224 1-105
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.5",
+  "base_commit_sha": "5bf324ee4f4080038592a89b0fc3334c41d857a5",
+  "prompts": {},
+  "humans": {
+    "h_48e1775f2475fb": {
+      "author": "whitedust45 <112306732+whitedust45@users.noreply.github.com>"
+    }
+  },
+  "sessions": {
+    "s_d3268536eec2af": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019eda03-dce2-79a0-8435-1cc0f361b8e5",
+        "model": "unknown"
+      },
+      "human_author": "whitedust45 <112306732+whitedust45@users.noreply.github.com>"
+    }
+  },
+  "attestation_metadata": {},
+  "remote_transcripts": {}
+}
