@@ -1,0 +1,1292 @@
+knowledge/wiki/sources/2026-07-05-guigu-opening-basic-methodology.md
+  s_ddd9031ed7d6b6::t_f0cafbebb66a63 1-46 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a49c7ec0351f0d0677e36bc","tool_type":"agent","tool_id":"apply_patch","line_ranges":[{"Range":[1,46]}]}]}
+knowledge/wiki/sources/2026-07-05-guigu-position-management-elasticity-gap.md
+  s_ddd9031ed7d6b6::t_b9695d64db046c 1-47 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a49c8cd0351f0d0677e3760","tool_type":"agent","tool_id":"apply_patch","line_ranges":[{"Range":[1,47]}]}]}
+.agents/skills/guigu-cashflow-stock-decision/SKILL.md
+  s_ddd9031ed7d6b6::t_d9a56cb4f91d44 14-235,264 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a4a01b10351f0d0677e3b1a","tool_type":"agent","tool_id":"apply_patch","line_ranges":[{"Range":[14,235]},{"Single":264}]}]}
+  s_ddd9031ed7d6b6::t_c78f1b23dcfdcd 11-13
+  s_ddd9031ed7d6b6::t_523d582fb8a7d9 236-238,261-263
+  s_ddd9031ed7d6b6::t_115d18b6b307c7 265-267
+knowledge/wiki/sources/2026-07-05-guigu-stock-factor-distributable-cash.md
+  s_ddd9031ed7d6b6::t_d6f85e955fb172 1-47 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a49c8970351f0d0677e3735","tool_type":"agent","tool_id":"apply_patch","line_ranges":[{"Range":[1,47]}]}]}
+knowledge/wiki/portfolios/moat-evaluation-template.md
+  s_ddd9031ed7d6b6::t_bf791547d15025 9,13,18-20,192-207 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a49cad90351f0d0677e388b","tool_type":"agent","tool_id":"apply_patch","line_ranges":[{"Single":9},{"Single":13},{"Range":[18,20]},{"Range":[192,207]}]}]}
+knowledge/wiki/portfolios/high-dividend-cashflow-watchlist.md
+  s_ddd9031ed7d6b6::t_cb425f4cd7535b 112-113 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a49f8760351f0d0677e3a3c","tool_type":"agent","tool_id":"apply_patch","line_ranges":[{"Range":[112,113]}]}]}
+  s_ddd9031ed7d6b6::t_c628fd9c709ab0 13,30-32,99-110 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a49cb060351f0d0677e38ac","tool_type":"agent","tool_id":"apply_patch","line_ranges":[{"Single":13},{"Range":[30,32]},{"Range":[99,110]}]}]}
+  s_ddd9031ed7d6b6::t_43dd87450904cc 111
+knowledge/wiki/concepts/fcf.md
+  s_ddd9031ed7d6b6::t_07f5c448fc3748 9,12,23-25,54-64 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a49ca790351f0d0677e3851","tool_type":"agent","tool_id":"apply_patch","line_ranges":[{"Single":9},{"Single":12},{"Range":[23,25]},{"Range":[54,64]}]}]}
+  s_ddd9031ed7d6b6::t_82759a5d1795ee 65
+knowledge/wiki/sources/2026-07-05-guigu-stock-factor-look-through-return.md
+  s_ddd9031ed7d6b6::t_d06ee6871a5946 1-58 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a49c8560351f0d0677e370c","tool_type":"agent","tool_id":"apply_patch","line_ranges":[{"Range":[1,58]}]}]}
+knowledge/wiki/sources/2026-07-05-guigu-stock-factor-business-model.md
+  s_ddd9031ed7d6b6::t_d61c6651b33db3 1-60 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a49c81d0351f0d0677e36e4","tool_type":"agent","tool_id":"apply_patch","line_ranges":[{"Range":[1,60]}]}]}
+knowledge/wiki/concepts/look-through-return-rate.md
+  s_ddd9031ed7d6b6::t_accd797d0bf79f 1-85 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a49c9750351f0d0677e37d0","tool_type":"agent","tool_id":"apply_patch","line_ranges":[{"Range":[1,85]}]}]}
+knowledge/wiki/portfolios/guigu-position-management-framework.md
+  s_ddd9031ed7d6b6::t_bd7958013083d0 1-94 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a49c9ee0351f0d0677e3811","tool_type":"agent","tool_id":"apply_patch","line_ranges":[{"Range":[1,94]}]}]}
+knowledge/wiki/concepts/dividend.md
+  s_ddd9031ed7d6b6::t_ed0154b02fb3cd 9,12,21-23,47-58 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a49caa70351f0d0677e386e","tool_type":"agent","tool_id":"apply_patch","line_ranges":[{"Single":9},{"Single":12},{"Range":[21,23]},{"Range":[47,58]}]}]}
+  s_ddd9031ed7d6b6::t_8cf694c5622887 59
+knowledge/schema/glossary.md
+  s_ddd9031ed7d6b6::t_32a74dcb869802 85-100,241-246,248,301-307 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a49ca4c0351f0d0677e3835","tool_type":"agent","tool_id":"apply_patch","line_ranges":[{"Range":[85,100]},{"Range":[241,246]},{"Single":248},{"Range":[301,307]}]}]}
+  s_ddd9031ed7d6b6::t_b414a0d8d9a667 247 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a49ccff0351f0d0677e3990","tool_type":"agent","tool_id":"apply_patch","line_ranges":[{"Single":247}]}]}
+  s_ddd9031ed7d6b6::t_4c0665b0b3d901 308
+knowledge/wiki/concepts/position-sizing.md
+  s_ddd9031ed7d6b6::t_9189f13b58a9fe 9,12,24-26,74-80 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a49cb9d0351f0d0677e3916","tool_type":"agent","tool_id":"apply_patch","line_ranges":[{"Single":9},{"Single":12},{"Range":[24,26]},{"Range":[74,80]}]}]}
+knowledge/wiki/index.md
+  s_ddd9031ed7d6b6::t_9591603fdf484a 57,60,64,117-121,157-158 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a49cc600351f0d0677e393d","tool_type":"agent","tool_id":"apply_patch","line_ranges":[{"Single":57},{"Single":60},{"Single":64},{"Range":[117,121]},{"Range":[157,158]}]}]}
+  s_ddd9031ed7d6b6::t_2d39bd29efbdcf 68 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a49ccc90351f0d0677e3976","tool_type":"agent","tool_id":"apply_patch","line_ranges":[{"Single":68}]}]}
+knowledge/wiki/concepts/elasticity-gap.md
+  s_ddd9031ed7d6b6::t_8213978282ad09 1-45 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a49cc9b0351f0d0677e3957","tool_type":"agent","tool_id":"apply_patch","line_ranges":[{"Range":[1,45]}]}]}
+knowledge/wiki/concepts/distributable-cash-balance.md
+  s_ddd9031ed7d6b6::t_4989917dcddb91 1-75 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a49c9b50351f0d0677e37ef","tool_type":"agent","tool_id":"apply_patch","line_ranges":[{"Range":[1,75]}]}]}
+knowledge/wiki/concepts/guigu-business-model-screen.md
+  s_ddd9031ed7d6b6::t_28f8cdf6613aa9 1-73 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a49c93a0351f0d0677e37b0","tool_type":"agent","tool_id":"apply_patch","line_ranges":[{"Range":[1,73]}]}]}
+knowledge/wiki/portfolios/personal-hybrid-barbell-execution-dashboard.md
+  s_ddd9031ed7d6b6::t_1dcfaac8418f56 9,13,22-24,99-102 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a49cb3a0351f0d0677e38d0","tool_type":"agent","tool_id":"apply_patch","line_ranges":[{"Single":9},{"Single":13},{"Range":[22,24]},{"Range":[99,102]}]}]}
+  s_ddd9031ed7d6b6::t_5472fe2bb78da7 104-105 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a49f8ad0351f0d0677e3a60","tool_type":"agent","tool_id":"apply_patch","line_ranges":[{"Range":[104,105]}]}]}
+  s_ddd9031ed7d6b6::t_7aee673ad4afa1 103
+knowledge/wiki/portfolios/guigu-cashflow-defensive-investing-framework.md
+  s_ddd9031ed7d6b6::t_bd0d9398b7501a 1-44,47-86 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a49c9040351f0d0677e378a","tool_type":"agent","tool_id":"apply_patch","line_ranges":[{"Range":[1,44]},{"Range":[47,86]}]}]}
+  s_ddd9031ed7d6b6::t_ad4c2d26e1ca5e 45-46 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a49f8d90351f0d0677e3a85","tool_type":"agent","tool_id":"apply_patch","line_ranges":[{"Range":[45,46]}]}]}
+knowledge/wiki/log.md
+  s_ddd9031ed7d6b6::t_6d87899627ba0d 13-36 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a49cd2f0351f0d0677e39ac","tool_type":"agent","tool_id":"apply_patch","line_ranges":[{"Range":[13,36]}]}]}
+  s_d3268536eec2af::t_4a6a3a26f3ec8f 48-51
+knowledge/wiki/portfolios/personal-position-sizing-framework.md
+  s_ddd9031ed7d6b6::t_b4f6170f114444 9,13,34-36,167-177 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a49cb750351f0d0677e38f5","tool_type":"agent","tool_id":"apply_patch","line_ranges":[{"Single":9},{"Single":13},{"Range":[34,36]},{"Range":[167,177]}]}]}
+  s_ddd9031ed7d6b6::t_a59f5feaf09831 178
+AGENTS.md
+  s_d3268536eec2af::t_3f7985aefaefa8 151
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.5",
+  "base_commit_sha": "265378e4526bed5700532fc924b99f56db8c6276",
+  "prompts": {},
+  "humans": {
+    "h_48e1775f2475fb": {
+      "author": "whitedust45 <112306732+whitedust45@users.noreply.github.com>"
+    }
+  },
+  "sessions": {
+    "s_d3268536eec2af": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019eda03-dce2-79a0-8435-1cc0f361b8e5",
+        "model": "unknown"
+      },
+      "human_author": "whitedust45 <112306732+whitedust45@users.noreply.github.com>"
+    },
+    "s_ddd9031ed7d6b6": {
+      "agent_id": {
+        "tool": "trae",
+        "id": "6a49bac60351f0d0677e33fd",
+        "model": "gpt-5.5__max"
+      },
+      "human_author": "whitedust45 <112306732+whitedust45@users.noreply.github.com>"
+    }
+  },
+  "attestation_metadata": {
+    ".agents/skills/guigu-cashflow-stock-decision/SKILL.md": [
+      {
+        "hash": "s_ddd9031ed7d6b6::t_d9a56cb4f91d44",
+        "line_ranges": [
+          {
+            "Range": [
+              14,
+              235
+            ]
+          },
+          {
+            "Single": 264
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a4a01b10351f0d0677e3b1a",
+            "tool_type": "agent",
+            "tool_id": "apply_patch",
+            "line_ranges": [
+              {
+                "Range": [
+                  14,
+                  235
+                ]
+              },
+              {
+                "Single": 264
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "knowledge/schema/glossary.md": [
+      {
+        "hash": "s_ddd9031ed7d6b6::t_32a74dcb869802",
+        "line_ranges": [
+          {
+            "Range": [
+              85,
+              100
+            ]
+          },
+          {
+            "Range": [
+              241,
+              246
+            ]
+          },
+          {
+            "Single": 248
+          },
+          {
+            "Range": [
+              301,
+              307
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a49ca4c0351f0d0677e3835",
+            "tool_type": "agent",
+            "tool_id": "apply_patch",
+            "line_ranges": [
+              {
+                "Range": [
+                  85,
+                  100
+                ]
+              },
+              {
+                "Range": [
+                  241,
+                  246
+                ]
+              },
+              {
+                "Single": 248
+              },
+              {
+                "Range": [
+                  301,
+                  307
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "hash": "s_ddd9031ed7d6b6::t_b414a0d8d9a667",
+        "line_ranges": [
+          {
+            "Single": 247
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a49ccff0351f0d0677e3990",
+            "tool_type": "agent",
+            "tool_id": "apply_patch",
+            "line_ranges": [
+              {
+                "Single": 247
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "knowledge/wiki/concepts/distributable-cash-balance.md": [
+      {
+        "hash": "s_ddd9031ed7d6b6::t_4989917dcddb91",
+        "line_ranges": [
+          {
+            "Range": [
+              1,
+              75
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a49c9b50351f0d0677e37ef",
+            "tool_type": "agent",
+            "tool_id": "apply_patch",
+            "line_ranges": [
+              {
+                "Range": [
+                  1,
+                  75
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "knowledge/wiki/concepts/dividend.md": [
+      {
+        "hash": "s_ddd9031ed7d6b6::t_ed0154b02fb3cd",
+        "line_ranges": [
+          {
+            "Single": 9
+          },
+          {
+            "Single": 12
+          },
+          {
+            "Range": [
+              21,
+              23
+            ]
+          },
+          {
+            "Range": [
+              47,
+              58
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a49caa70351f0d0677e386e",
+            "tool_type": "agent",
+            "tool_id": "apply_patch",
+            "line_ranges": [
+              {
+                "Single": 9
+              },
+              {
+                "Single": 12
+              },
+              {
+                "Range": [
+                  21,
+                  23
+                ]
+              },
+              {
+                "Range": [
+                  47,
+                  58
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "knowledge/wiki/concepts/elasticity-gap.md": [
+      {
+        "hash": "s_ddd9031ed7d6b6::t_8213978282ad09",
+        "line_ranges": [
+          {
+            "Range": [
+              1,
+              45
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a49cc9b0351f0d0677e3957",
+            "tool_type": "agent",
+            "tool_id": "apply_patch",
+            "line_ranges": [
+              {
+                "Range": [
+                  1,
+                  45
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "knowledge/wiki/concepts/fcf.md": [
+      {
+        "hash": "s_ddd9031ed7d6b6::t_07f5c448fc3748",
+        "line_ranges": [
+          {
+            "Single": 9
+          },
+          {
+            "Single": 12
+          },
+          {
+            "Range": [
+              23,
+              25
+            ]
+          },
+          {
+            "Range": [
+              54,
+              64
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a49ca790351f0d0677e3851",
+            "tool_type": "agent",
+            "tool_id": "apply_patch",
+            "line_ranges": [
+              {
+                "Single": 9
+              },
+              {
+                "Single": 12
+              },
+              {
+                "Range": [
+                  23,
+                  25
+                ]
+              },
+              {
+                "Range": [
+                  54,
+                  64
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "knowledge/wiki/concepts/guigu-business-model-screen.md": [
+      {
+        "hash": "s_ddd9031ed7d6b6::t_28f8cdf6613aa9",
+        "line_ranges": [
+          {
+            "Range": [
+              1,
+              73
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a49c93a0351f0d0677e37b0",
+            "tool_type": "agent",
+            "tool_id": "apply_patch",
+            "line_ranges": [
+              {
+                "Range": [
+                  1,
+                  73
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "knowledge/wiki/concepts/look-through-return-rate.md": [
+      {
+        "hash": "s_ddd9031ed7d6b6::t_accd797d0bf79f",
+        "line_ranges": [
+          {
+            "Range": [
+              1,
+              85
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a49c9750351f0d0677e37d0",
+            "tool_type": "agent",
+            "tool_id": "apply_patch",
+            "line_ranges": [
+              {
+                "Range": [
+                  1,
+                  85
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "knowledge/wiki/concepts/position-sizing.md": [
+      {
+        "hash": "s_ddd9031ed7d6b6::t_9189f13b58a9fe",
+        "line_ranges": [
+          {
+            "Single": 9
+          },
+          {
+            "Single": 12
+          },
+          {
+            "Range": [
+              24,
+              26
+            ]
+          },
+          {
+            "Range": [
+              74,
+              80
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a49cb9d0351f0d0677e3916",
+            "tool_type": "agent",
+            "tool_id": "apply_patch",
+            "line_ranges": [
+              {
+                "Single": 9
+              },
+              {
+                "Single": 12
+              },
+              {
+                "Range": [
+                  24,
+                  26
+                ]
+              },
+              {
+                "Range": [
+                  74,
+                  80
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "knowledge/wiki/index.md": [
+      {
+        "hash": "s_ddd9031ed7d6b6::t_9591603fdf484a",
+        "line_ranges": [
+          {
+            "Single": 57
+          },
+          {
+            "Single": 60
+          },
+          {
+            "Single": 64
+          },
+          {
+            "Range": [
+              117,
+              121
+            ]
+          },
+          {
+            "Range": [
+              157,
+              158
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a49cc600351f0d0677e393d",
+            "tool_type": "agent",
+            "tool_id": "apply_patch",
+            "line_ranges": [
+              {
+                "Single": 57
+              },
+              {
+                "Single": 60
+              },
+              {
+                "Single": 64
+              },
+              {
+                "Range": [
+                  117,
+                  121
+                ]
+              },
+              {
+                "Range": [
+                  157,
+                  158
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "hash": "s_ddd9031ed7d6b6::t_2d39bd29efbdcf",
+        "line_ranges": [
+          {
+            "Single": 68
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a49ccc90351f0d0677e3976",
+            "tool_type": "agent",
+            "tool_id": "apply_patch",
+            "line_ranges": [
+              {
+                "Single": 68
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "knowledge/wiki/log.md": [
+      {
+        "hash": "s_ddd9031ed7d6b6::t_6d87899627ba0d",
+        "line_ranges": [
+          {
+            "Range": [
+              13,
+              36
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a49cd2f0351f0d0677e39ac",
+            "tool_type": "agent",
+            "tool_id": "apply_patch",
+            "line_ranges": [
+              {
+                "Range": [
+                  13,
+                  36
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "knowledge/wiki/portfolios/guigu-cashflow-defensive-investing-framework.md": [
+      {
+        "hash": "s_ddd9031ed7d6b6::t_bd0d9398b7501a",
+        "line_ranges": [
+          {
+            "Range": [
+              1,
+              44
+            ]
+          },
+          {
+            "Range": [
+              47,
+              86
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a49c9040351f0d0677e378a",
+            "tool_type": "agent",
+            "tool_id": "apply_patch",
+            "line_ranges": [
+              {
+                "Range": [
+                  1,
+                  44
+                ]
+              },
+              {
+                "Range": [
+                  47,
+                  86
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "hash": "s_ddd9031ed7d6b6::t_ad4c2d26e1ca5e",
+        "line_ranges": [
+          {
+            "Range": [
+              45,
+              46
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a49f8d90351f0d0677e3a85",
+            "tool_type": "agent",
+            "tool_id": "apply_patch",
+            "line_ranges": [
+              {
+                "Range": [
+                  45,
+                  46
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "knowledge/wiki/portfolios/guigu-position-management-framework.md": [
+      {
+        "hash": "s_ddd9031ed7d6b6::t_bd7958013083d0",
+        "line_ranges": [
+          {
+            "Range": [
+              1,
+              94
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a49c9ee0351f0d0677e3811",
+            "tool_type": "agent",
+            "tool_id": "apply_patch",
+            "line_ranges": [
+              {
+                "Range": [
+                  1,
+                  94
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "knowledge/wiki/portfolios/high-dividend-cashflow-watchlist.md": [
+      {
+        "hash": "s_ddd9031ed7d6b6::t_cb425f4cd7535b",
+        "line_ranges": [
+          {
+            "Range": [
+              112,
+              113
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a49f8760351f0d0677e3a3c",
+            "tool_type": "agent",
+            "tool_id": "apply_patch",
+            "line_ranges": [
+              {
+                "Range": [
+                  112,
+                  113
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "hash": "s_ddd9031ed7d6b6::t_c628fd9c709ab0",
+        "line_ranges": [
+          {
+            "Single": 13
+          },
+          {
+            "Range": [
+              30,
+              32
+            ]
+          },
+          {
+            "Range": [
+              99,
+              110
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a49cb060351f0d0677e38ac",
+            "tool_type": "agent",
+            "tool_id": "apply_patch",
+            "line_ranges": [
+              {
+                "Single": 13
+              },
+              {
+                "Range": [
+                  30,
+                  32
+                ]
+              },
+              {
+                "Range": [
+                  99,
+                  110
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "knowledge/wiki/portfolios/moat-evaluation-template.md": [
+      {
+        "hash": "s_ddd9031ed7d6b6::t_bf791547d15025",
+        "line_ranges": [
+          {
+            "Single": 9
+          },
+          {
+            "Single": 13
+          },
+          {
+            "Range": [
+              18,
+              20
+            ]
+          },
+          {
+            "Range": [
+              192,
+              207
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a49cad90351f0d0677e388b",
+            "tool_type": "agent",
+            "tool_id": "apply_patch",
+            "line_ranges": [
+              {
+                "Single": 9
+              },
+              {
+                "Single": 13
+              },
+              {
+                "Range": [
+                  18,
+                  20
+                ]
+              },
+              {
+                "Range": [
+                  192,
+                  207
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "knowledge/wiki/portfolios/personal-hybrid-barbell-execution-dashboard.md": [
+      {
+        "hash": "s_ddd9031ed7d6b6::t_1dcfaac8418f56",
+        "line_ranges": [
+          {
+            "Single": 9
+          },
+          {
+            "Single": 13
+          },
+          {
+            "Range": [
+              22,
+              24
+            ]
+          },
+          {
+            "Range": [
+              99,
+              102
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a49cb3a0351f0d0677e38d0",
+            "tool_type": "agent",
+            "tool_id": "apply_patch",
+            "line_ranges": [
+              {
+                "Single": 9
+              },
+              {
+                "Single": 13
+              },
+              {
+                "Range": [
+                  22,
+                  24
+                ]
+              },
+              {
+                "Range": [
+                  99,
+                  102
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "hash": "s_ddd9031ed7d6b6::t_5472fe2bb78da7",
+        "line_ranges": [
+          {
+            "Range": [
+              104,
+              105
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a49f8ad0351f0d0677e3a60",
+            "tool_type": "agent",
+            "tool_id": "apply_patch",
+            "line_ranges": [
+              {
+                "Range": [
+                  104,
+                  105
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "knowledge/wiki/portfolios/personal-position-sizing-framework.md": [
+      {
+        "hash": "s_ddd9031ed7d6b6::t_b4f6170f114444",
+        "line_ranges": [
+          {
+            "Single": 9
+          },
+          {
+            "Single": 13
+          },
+          {
+            "Range": [
+              34,
+              36
+            ]
+          },
+          {
+            "Range": [
+              167,
+              177
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a49cb750351f0d0677e38f5",
+            "tool_type": "agent",
+            "tool_id": "apply_patch",
+            "line_ranges": [
+              {
+                "Single": 9
+              },
+              {
+                "Single": 13
+              },
+              {
+                "Range": [
+                  34,
+                  36
+                ]
+              },
+              {
+                "Range": [
+                  167,
+                  177
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "knowledge/wiki/sources/2026-07-05-guigu-opening-basic-methodology.md": [
+      {
+        "hash": "s_ddd9031ed7d6b6::t_f0cafbebb66a63",
+        "line_ranges": [
+          {
+            "Range": [
+              1,
+              46
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a49c7ec0351f0d0677e36bc",
+            "tool_type": "agent",
+            "tool_id": "apply_patch",
+            "line_ranges": [
+              {
+                "Range": [
+                  1,
+                  46
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "knowledge/wiki/sources/2026-07-05-guigu-position-management-elasticity-gap.md": [
+      {
+        "hash": "s_ddd9031ed7d6b6::t_b9695d64db046c",
+        "line_ranges": [
+          {
+            "Range": [
+              1,
+              47
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a49c8cd0351f0d0677e3760",
+            "tool_type": "agent",
+            "tool_id": "apply_patch",
+            "line_ranges": [
+              {
+                "Range": [
+                  1,
+                  47
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "knowledge/wiki/sources/2026-07-05-guigu-stock-factor-business-model.md": [
+      {
+        "hash": "s_ddd9031ed7d6b6::t_d61c6651b33db3",
+        "line_ranges": [
+          {
+            "Range": [
+              1,
+              60
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a49c81d0351f0d0677e36e4",
+            "tool_type": "agent",
+            "tool_id": "apply_patch",
+            "line_ranges": [
+              {
+                "Range": [
+                  1,
+                  60
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "knowledge/wiki/sources/2026-07-05-guigu-stock-factor-distributable-cash.md": [
+      {
+        "hash": "s_ddd9031ed7d6b6::t_d6f85e955fb172",
+        "line_ranges": [
+          {
+            "Range": [
+              1,
+              47
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a49c8970351f0d0677e3735",
+            "tool_type": "agent",
+            "tool_id": "apply_patch",
+            "line_ranges": [
+              {
+                "Range": [
+                  1,
+                  47
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "knowledge/wiki/sources/2026-07-05-guigu-stock-factor-look-through-return.md": [
+      {
+        "hash": "s_ddd9031ed7d6b6::t_d06ee6871a5946",
+        "line_ranges": [
+          {
+            "Range": [
+              1,
+              58
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a49c8560351f0d0677e370c",
+            "tool_type": "agent",
+            "tool_id": "apply_patch",
+            "line_ranges": [
+              {
+                "Range": [
+                  1,
+                  58
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "remote_transcripts": {
+    "s_ddd9031ed7d6b6": {
+      "tool": "trae",
+      "conversation_id": "6a49bac60351f0d0677e33fd",
+      "session_id": "6a49bac60351f0d0677e33fd",
+      "status": "remote_only",
+      "message": "Remote transcript resolution is not implemented yet for TRAE prompts."
+    },
+    "s_ddd9031ed7d6b6::t_07f5c448fc3748": {
+      "tool": "trae",
+      "conversation_id": "6a49bac60351f0d0677e33fd",
+      "session_id": "6a49bac60351f0d0677e33fd",
+      "status": "remote_only",
+      "message": "Remote transcript resolution is not implemented yet for TRAE prompts."
+    },
+    "s_ddd9031ed7d6b6::t_1dcfaac8418f56": {
+      "tool": "trae",
+      "conversation_id": "6a49bac60351f0d0677e33fd",
+      "session_id": "6a49bac60351f0d0677e33fd",
+      "status": "remote_only",
+      "message": "Remote transcript resolution is not implemented yet for TRAE prompts."
+    },
+    "s_ddd9031ed7d6b6::t_28f8cdf6613aa9": {
+      "tool": "trae",
+      "conversation_id": "6a49bac60351f0d0677e33fd",
+      "session_id": "6a49bac60351f0d0677e33fd",
+      "status": "remote_only",
+      "message": "Remote transcript resolution is not implemented yet for TRAE prompts."
+    },
+    "s_ddd9031ed7d6b6::t_2d39bd29efbdcf": {
+      "tool": "trae",
+      "conversation_id": "6a49bac60351f0d0677e33fd",
+      "session_id": "6a49bac60351f0d0677e33fd",
+      "status": "remote_only",
+      "message": "Remote transcript resolution is not implemented yet for TRAE prompts."
+    },
+    "s_ddd9031ed7d6b6::t_32a74dcb869802": {
+      "tool": "trae",
+      "conversation_id": "6a49bac60351f0d0677e33fd",
+      "session_id": "6a49bac60351f0d0677e33fd",
+      "status": "remote_only",
+      "message": "Remote transcript resolution is not implemented yet for TRAE prompts."
+    },
+    "s_ddd9031ed7d6b6::t_4989917dcddb91": {
+      "tool": "trae",
+      "conversation_id": "6a49bac60351f0d0677e33fd",
+      "session_id": "6a49bac60351f0d0677e33fd",
+      "status": "remote_only",
+      "message": "Remote transcript resolution is not implemented yet for TRAE prompts."
+    },
+    "s_ddd9031ed7d6b6::t_5472fe2bb78da7": {
+      "tool": "trae",
+      "conversation_id": "6a49bac60351f0d0677e33fd",
+      "session_id": "6a49bac60351f0d0677e33fd",
+      "status": "remote_only",
+      "message": "Remote transcript resolution is not implemented yet for TRAE prompts."
+    },
+    "s_ddd9031ed7d6b6::t_6d87899627ba0d": {
+      "tool": "trae",
+      "conversation_id": "6a49bac60351f0d0677e33fd",
+      "session_id": "6a49bac60351f0d0677e33fd",
+      "status": "remote_only",
+      "message": "Remote transcript resolution is not implemented yet for TRAE prompts."
+    },
+    "s_ddd9031ed7d6b6::t_8213978282ad09": {
+      "tool": "trae",
+      "conversation_id": "6a49bac60351f0d0677e33fd",
+      "session_id": "6a49bac60351f0d0677e33fd",
+      "status": "remote_only",
+      "message": "Remote transcript resolution is not implemented yet for TRAE prompts."
+    },
+    "s_ddd9031ed7d6b6::t_9189f13b58a9fe": {
+      "tool": "trae",
+      "conversation_id": "6a49bac60351f0d0677e33fd",
+      "session_id": "6a49bac60351f0d0677e33fd",
+      "status": "remote_only",
+      "message": "Remote transcript resolution is not implemented yet for TRAE prompts."
+    },
+    "s_ddd9031ed7d6b6::t_9591603fdf484a": {
+      "tool": "trae",
+      "conversation_id": "6a49bac60351f0d0677e33fd",
+      "session_id": "6a49bac60351f0d0677e33fd",
+      "status": "remote_only",
+      "message": "Remote transcript resolution is not implemented yet for TRAE prompts."
+    },
+    "s_ddd9031ed7d6b6::t_accd797d0bf79f": {
+      "tool": "trae",
+      "conversation_id": "6a49bac60351f0d0677e33fd",
+      "session_id": "6a49bac60351f0d0677e33fd",
+      "status": "remote_only",
+      "message": "Remote transcript resolution is not implemented yet for TRAE prompts."
+    },
+    "s_ddd9031ed7d6b6::t_ad4c2d26e1ca5e": {
+      "tool": "trae",
+      "conversation_id": "6a49bac60351f0d0677e33fd",
+      "session_id": "6a49bac60351f0d0677e33fd",
+      "status": "remote_only",
+      "message": "Remote transcript resolution is not implemented yet for TRAE prompts."
+    },
+    "s_ddd9031ed7d6b6::t_b414a0d8d9a667": {
+      "tool": "trae",
+      "conversation_id": "6a49bac60351f0d0677e33fd",
+      "session_id": "6a49bac60351f0d0677e33fd",
+      "status": "remote_only",
+      "message": "Remote transcript resolution is not implemented yet for TRAE prompts."
+    },
+    "s_ddd9031ed7d6b6::t_b4f6170f114444": {
+      "tool": "trae",
+      "conversation_id": "6a49bac60351f0d0677e33fd",
+      "session_id": "6a49bac60351f0d0677e33fd",
+      "status": "remote_only",
+      "message": "Remote transcript resolution is not implemented yet for TRAE prompts."
+    },
+    "s_ddd9031ed7d6b6::t_b9695d64db046c": {
+      "tool": "trae",
+      "conversation_id": "6a49bac60351f0d0677e33fd",
+      "session_id": "6a49bac60351f0d0677e33fd",
+      "status": "remote_only",
+      "message": "Remote transcript resolution is not implemented yet for TRAE prompts."
+    },
+    "s_ddd9031ed7d6b6::t_bd0d9398b7501a": {
+      "tool": "trae",
+      "conversation_id": "6a49bac60351f0d0677e33fd",
+      "session_id": "6a49bac60351f0d0677e33fd",
+      "status": "remote_only",
+      "message": "Remote transcript resolution is not implemented yet for TRAE prompts."
+    },
+    "s_ddd9031ed7d6b6::t_bd7958013083d0": {
+      "tool": "trae",
+      "conversation_id": "6a49bac60351f0d0677e33fd",
+      "session_id": "6a49bac60351f0d0677e33fd",
+      "status": "remote_only",
+      "message": "Remote transcript resolution is not implemented yet for TRAE prompts."
+    },
+    "s_ddd9031ed7d6b6::t_bf791547d15025": {
+      "tool": "trae",
+      "conversation_id": "6a49bac60351f0d0677e33fd",
+      "session_id": "6a49bac60351f0d0677e33fd",
+      "status": "remote_only",
+      "message": "Remote transcript resolution is not implemented yet for TRAE prompts."
+    },
+    "s_ddd9031ed7d6b6::t_c628fd9c709ab0": {
+      "tool": "trae",
+      "conversation_id": "6a49bac60351f0d0677e33fd",
+      "session_id": "6a49bac60351f0d0677e33fd",
+      "status": "remote_only",
+      "message": "Remote transcript resolution is not implemented yet for TRAE prompts."
+    },
+    "s_ddd9031ed7d6b6::t_cb425f4cd7535b": {
+      "tool": "trae",
+      "conversation_id": "6a49bac60351f0d0677e33fd",
+      "session_id": "6a49bac60351f0d0677e33fd",
+      "status": "remote_only",
+      "message": "Remote transcript resolution is not implemented yet for TRAE prompts."
+    },
+    "s_ddd9031ed7d6b6::t_d06ee6871a5946": {
+      "tool": "trae",
+      "conversation_id": "6a49bac60351f0d0677e33fd",
+      "session_id": "6a49bac60351f0d0677e33fd",
+      "status": "remote_only",
+      "message": "Remote transcript resolution is not implemented yet for TRAE prompts."
+    },
+    "s_ddd9031ed7d6b6::t_d61c6651b33db3": {
+      "tool": "trae",
+      "conversation_id": "6a49bac60351f0d0677e33fd",
+      "session_id": "6a49bac60351f0d0677e33fd",
+      "status": "remote_only",
+      "message": "Remote transcript resolution is not implemented yet for TRAE prompts."
+    },
+    "s_ddd9031ed7d6b6::t_d6f85e955fb172": {
+      "tool": "trae",
+      "conversation_id": "6a49bac60351f0d0677e33fd",
+      "session_id": "6a49bac60351f0d0677e33fd",
+      "status": "remote_only",
+      "message": "Remote transcript resolution is not implemented yet for TRAE prompts."
+    },
+    "s_ddd9031ed7d6b6::t_d9a56cb4f91d44": {
+      "tool": "trae",
+      "conversation_id": "6a49bac60351f0d0677e33fd",
+      "session_id": "6a49bac60351f0d0677e33fd",
+      "status": "remote_only",
+      "message": "Remote transcript resolution is not implemented yet for TRAE prompts."
+    },
+    "s_ddd9031ed7d6b6::t_ed0154b02fb3cd": {
+      "tool": "trae",
+      "conversation_id": "6a49bac60351f0d0677e33fd",
+      "session_id": "6a49bac60351f0d0677e33fd",
+      "status": "remote_only",
+      "message": "Remote transcript resolution is not implemented yet for TRAE prompts."
+    },
+    "s_ddd9031ed7d6b6::t_f0cafbebb66a63": {
+      "tool": "trae",
+      "conversation_id": "6a49bac60351f0d0677e33fd",
+      "session_id": "6a49bac60351f0d0677e33fd",
+      "status": "remote_only",
+      "message": "Remote transcript resolution is not implemented yet for TRAE prompts."
+    }
+  }
+}
