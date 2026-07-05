@@ -77,6 +77,46 @@ const moduleConfigs = {
   }
 };
 
+const instrumentPresetCandidates = {
+  dividend: [
+    { symbol: "000568", name: "泸州老窖", market: "A股", category: "核心质量现金流" },
+    { symbol: "000858", name: "五粮液", market: "A股", category: "核心质量现金流" },
+    { symbol: "600036", name: "招商银行", market: "A股", category: "核心质量现金流" },
+    { symbol: "HK:03968", name: "招商银行", market: "港股", category: "核心质量现金流" },
+    { symbol: "601318", name: "中国平安", market: "A股", category: "核心质量现金流" },
+    { symbol: "HK:02318", name: "中国平安", market: "港股", category: "核心质量现金流" },
+    { symbol: "600941", name: "中国移动", market: "A股", category: "核心质量现金流" },
+    { symbol: "HK:00941", name: "中国移动", market: "港股", category: "核心质量现金流" },
+    { symbol: "600938", name: "中国海油", market: "A股", category: "核心质量现金流" },
+    { symbol: "HK:00883", name: "中国海洋石油", market: "港股", category: "核心质量现金流" },
+    { symbol: "600690", name: "海尔智家", market: "A股", category: "质量型消费制造" },
+    { symbol: "HK:06690", name: "海尔智家", market: "港股", category: "质量型消费制造" },
+    { symbol: "000333", name: "美的集团", market: "A股", category: "质量型消费制造" },
+    { symbol: "HK:00300", name: "美的集团", market: "港股", category: "质量型消费制造" },
+    { symbol: "601225", name: "陕西煤业", market: "A股", category: "周期/资源现金流" },
+    { symbol: "601668", name: "中国建筑", market: "A股", category: "周期/工程现金流" },
+    { symbol: "600153", name: "建发股份", market: "A股", category: "周期/供应链现金流" },
+    { symbol: "600887", name: "伊利股份", market: "A股", category: "消费/贸易现金流" },
+    { symbol: "600177", name: "雅戈尔", market: "A股", category: "消费/贸易现金流" },
+    { symbol: "002091", name: "江苏国泰", market: "A股", category: "消费/贸易现金流" },
+    { symbol: "002818", name: "富森美", market: "A股", category: "消费/资产现金流" },
+    { symbol: "HK:00506", name: "中国食品", market: "港股", category: "港股高息/特殊资产" },
+    { symbol: "HK:06049", name: "保利物业", market: "港股", category: "港股高息/特殊资产" },
+    { symbol: "HK:00882", name: "天津发展", market: "港股", category: "港股高息/特殊资产" },
+    { symbol: "HK:01601", name: "中关村科技租赁", market: "港股", category: "港股高息/特殊资产" },
+    { symbol: "B:900905", name: "老凤祥B", market: "B股", category: "B股折价池" },
+    { symbol: "B:900948", name: "伊泰B股", market: "B股", category: "B股折价池" },
+    { symbol: "B:200429", name: "粤高速B", market: "B股", category: "B股折价池" }
+  ],
+  qqq: [
+    { symbol: "QQQ", name: "Invesco QQQ Trust", market: "美股", category: "右尾成长仓" },
+    { symbol: "QLD", name: "ProShares Ultra QQQ", market: "美股", category: "120日均线策略" }
+  ],
+  put: [
+    { symbol: "SPY", name: "SPDR S&P 500 ETF Trust", market: "美股", category: "深度Put底层标的" }
+  ]
+};
+
 const actionLabels = {
   buy: "买入",
   sell: "卖出",
@@ -3524,6 +3564,22 @@ function moduleStats(entries) {
 
 function getInstrumentMemory(module = "") {
   const bySymbol = new Map();
+  const presets = instrumentPresetCandidates[module] || [];
+  presets.forEach((item, index) => {
+    const symbol = String(item.symbol || "").trim();
+    const name = String(item.name || "").trim();
+    if (!symbol || !name) return;
+    bySymbol.set(symbol.toUpperCase(), {
+      symbol,
+      name,
+      module,
+      market: item.market || "",
+      category: item.category || "",
+      date: "",
+      order: index,
+      preset: true
+    });
+  });
   loadLedger().entries.forEach((entry, index) => {
     const symbol = String(entry.symbol || "").trim();
     const name = String(entry.name || "").trim();
@@ -3532,28 +3588,51 @@ function getInstrumentMemory(module = "") {
       symbol,
       name,
       module: entry.module || "",
+      market: "",
+      category: entry.bucket || "",
       date: entry.date || "",
-      order: index
+      order: index,
+      preset: false
     });
   });
   return Array.from(bySymbol.values()).sort((a, b) => {
     const aInModule = a.module === module ? 0 : 1;
     const bInModule = b.module === module ? 0 : 1;
     if (aInModule !== bInModule) return aInModule - bInModule;
+    if (a.preset !== b.preset) return a.preset ? 1 : -1;
+    if (a.preset && b.preset) return a.order - b.order;
     return b.order - a.order;
   });
 }
 
-function instrumentMemoryDatalists(module) {
+function instrumentDisplayParts(item) {
+  return [item.symbol, item.market, item.category].filter(Boolean).join(" · ");
+}
+
+function instrumentSearchText(item) {
+  return [item.name, item.symbol, item.market, item.category].filter(Boolean).join(" ").toLowerCase();
+}
+
+function instrumentSuggestionList(module, field) {
   const memory = getInstrumentMemory(module);
   if (!memory.length) return "";
+  const rows = memory.map((item) => {
+    const title = field === "name" ? item.name : item.symbol;
+    const meta = field === "name"
+      ? instrumentDisplayParts(item)
+      : [item.name, item.market, item.category].filter(Boolean).join(" · ");
+    return `
+      <button class="instrument-suggestion" type="button" data-action="choose-instrument" data-symbol="${escapeHtml(item.symbol)}" data-name="${escapeHtml(item.name)}" data-search="${escapeHtml(instrumentSearchText(item))}">
+        <strong>${escapeHtml(title)}</strong>
+        <span>${escapeHtml(meta)}</span>
+      </button>
+    `;
+  }).join("");
   return `
-    <datalist id="instrumentSymbolMemory">
-      ${memory.map((item) => `<option value="${escapeHtml(item.symbol)}" label="${escapeHtml(item.name)}"></option>`).join("")}
-    </datalist>
-    <datalist id="instrumentNameMemory">
-      ${memory.map((item) => `<option value="${escapeHtml(item.name)}" label="${escapeHtml(item.symbol)}"></option>`).join("")}
-    </datalist>
+    <div class="instrument-menu" data-instrument-menu="${escapeHtml(field)}" hidden>
+      ${rows}
+      <div class="instrument-empty" data-instrument-empty hidden>没有匹配的标的</div>
+    </div>
   `;
 }
 
@@ -3561,10 +3640,12 @@ function findInstrumentMemory(value, field, module = "") {
   const text = String(value || "").trim();
   if (!text) return null;
   const normalized = field === "symbol" ? text.toUpperCase() : text;
-  return getInstrumentMemory(module).find((item) => {
+  const matches = getInstrumentMemory(module).filter((item) => {
     if (field === "symbol") return item.symbol.toUpperCase() === normalized;
     return item.name === normalized;
-  }) || null;
+  });
+  if (field === "name" && matches.length !== 1) return null;
+  return matches[0] || null;
 }
 
 function entryActionLabel(module, action) {
@@ -3680,8 +3761,8 @@ function entryForm(config, entry = null) {
       <label>日期<input type="date" name="date" value="${escapeHtml(data.date || today())}" required /></label>
       <label>分类<select name="bucket">${config.buckets.map((bucket) => `<option value="${escapeHtml(bucket)}" ${bucket === data.bucket ? "selected" : ""}>${escapeHtml(bucket)}</option>`).join("")}</select></label>
       <label>动作<select name="action">${actionOptions.map(([value, label]) => `<option value="${escapeHtml(value)}" ${value === data.action ? "selected" : ""}>${escapeHtml(label)}</option>`).join("")}</select></label>
-      <label>标的代码<input name="symbol" list="instrumentSymbolMemory" value="${escapeHtml(data.symbol || "")}" placeholder="${escapeHtml(config.symbolPlaceholder || "如 QQQ / IC2609")}" autocomplete="off" /></label>
-      <label>标的名称<input name="name" list="instrumentNameMemory" value="${escapeHtml(displayName)}" data-auto-name="${autoName ? "true" : "false"}" placeholder="可选" autocomplete="off" /></label>
+      <label class="instrument-combobox">标的名称<input name="name" data-instrument-field="name" value="${escapeHtml(displayName)}" data-auto-name="${autoName ? "true" : "false"}" placeholder="先选名称，代码会自动带出" autocomplete="off" />${instrumentSuggestionList(config.module, "name")}</label>
+      <label class="instrument-combobox">标的代码<input name="symbol" data-instrument-field="symbol" value="${escapeHtml(data.symbol || "")}" placeholder="${escapeHtml(config.symbolPlaceholder || "如 QQQ / IC2609")}" autocomplete="off" />${instrumentSuggestionList(config.module, "symbol")}</label>
       <label>${quantityLabel}<input type="number" name="quantity" min="1" step="1" value="${escapeHtml(data.quantity || "")}" /></label>
       <label>${priceLabel}<input type="number" name="price" step="0.01" value="${escapeHtml(data.price || "")}" /></label>
       ${isFutures ? `<label>乘数（元/点）<input type="number" name="multiplier" min="1" step="1" value="${escapeHtml(data.multiplier || defaultFuturesMultiplier)}" /><small class="field-hint" data-contract-hint>${escapeHtml(contractHint)}</small></label>` : ""}
@@ -3689,7 +3770,6 @@ function entryForm(config, entry = null) {
       ${isFutures ? `<label>保证金（元）<input type="number" name="marginYuan" min="0" step="0.01" value="${escapeHtml(marginYuan)}" /><small class="field-hint" data-margin-preview>${escapeHtml(marginRatioText(data.amount, data.margin))}</small></label>` : ""}
       <label>费用（元）<input type="number" name="feeYuan" step="0.01" value="${escapeHtml(feeYuan)}" /></label>
       <label class="entry-note">备注<input name="note" value="${escapeHtml(data.note || "")}" placeholder="${escapeHtml(config.notePlaceholder || "买入理由、移仓说明、分红记录")}" /></label>
-      ${instrumentMemoryDatalists(config.module)}
       <div class="form-error" data-entry-errors hidden></div>
       <div class="form-actions">
         <button type="submit">${entry ? "保存修改" : "新增记录"}</button>
@@ -4686,13 +4766,58 @@ function handleInstrumentMemoryInput(event) {
   }
 
   if (event.target.name === "symbol") {
+    filterInstrumentSuggestions(form, "symbol");
     const match = findInstrumentMemory(symbolInput.value, "symbol", module);
     if (match && match.name && !derivedName) nameInput.value = match.name;
     return;
   }
 
+  filterInstrumentSuggestions(form, "name");
   const match = findInstrumentMemory(nameInput.value, "name", module);
   if (match && match.symbol) symbolInput.value = match.symbol;
+}
+
+function closeInstrumentSuggestions() {
+  document.querySelectorAll("[data-instrument-menu]").forEach((menu) => {
+    menu.hidden = true;
+  });
+}
+
+function filterInstrumentSuggestions(form, field) {
+  const input = form.elements[field];
+  const menu = form.querySelector(`[data-instrument-menu="${field}"]`);
+  if (!input || !menu) return;
+  const query = String(input.value || "").trim().toLowerCase();
+  let visible = 0;
+  menu.querySelectorAll("[data-action='choose-instrument']").forEach((button) => {
+    const search = button.dataset.search || "";
+    const matched = !query || search.includes(query);
+    button.hidden = !matched;
+    if (matched) visible += 1;
+  });
+  const empty = menu.querySelector("[data-instrument-empty]");
+  if (empty) empty.hidden = visible > 0;
+  menu.hidden = false;
+}
+
+function openInstrumentSuggestions(input) {
+  const form = input.closest("#entryForm");
+  const field = input.dataset.instrumentField;
+  if (!form || !field) return;
+  closeInstrumentSuggestions();
+  filterInstrumentSuggestions(form, field);
+}
+
+function chooseInstrument(action) {
+  const form = action.closest("#entryForm");
+  if (!form || !form.elements.symbol || !form.elements.name) return false;
+  form.elements.name.value = action.dataset.name || "";
+  form.elements.symbol.value = action.dataset.symbol || "";
+  form.elements.name.dataset.autoName = "false";
+  closeInstrumentSuggestions();
+  const contractHint = form.querySelector("[data-contract-hint]");
+  if (contractHint) contractHint.textContent = futuresContractHint(form.elements.symbol.value);
+  return true;
 }
 
 function handleLedgerFilterInput(event) {
@@ -5504,6 +5629,10 @@ document.addEventListener("click", (event) => {
 
   const action = event.target.closest("[data-action]");
   if (action) {
+    if (action.dataset.action === "choose-instrument") {
+      chooseInstrument(action);
+      return;
+    }
     if (action.dataset.action === "copy-service-command") {
       copyText(dashboardServiceCommand, "已复制启动命令");
       return;
@@ -5687,15 +5816,25 @@ document.addEventListener("click", (event) => {
   if (event.target.closest("#loadPositionQuotesJson")) {
     loadPositionQuotesJson();
   }
+
+  if (!event.target.closest(".instrument-combobox")) closeInstrumentSuggestions();
 });
 
 document.addEventListener("keydown", (event) => {
-  if (event.key === "Escape") closeTermTips();
+  if (event.key === "Escape") {
+    closeTermTips();
+    closeInstrumentSuggestions();
+  }
+});
+
+document.addEventListener("focusin", (event) => {
+  if (event.target.matches("[data-instrument-field]")) openInstrumentSuggestions(event.target);
 });
 
 document.addEventListener("submit", handleEntrySubmit);
 document.addEventListener("input", (event) => {
   if (event.target.closest("#entryForm")) clearEntryValidation(event.target.closest("#entryForm"));
+  if (event.target.matches("[data-instrument-field]")) openInstrumentSuggestions(event.target);
   handleEntryAmountAutoCalc(event);
   handleInstrumentMemoryInput(event);
   handleLedgerFilterInput(event);

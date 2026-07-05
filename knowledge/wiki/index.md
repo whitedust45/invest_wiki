@@ -1,6 +1,6 @@
 ---
 description: Wiki 内容索引，按类别组织所有页面
-updated: 2026-07-02
+updated: 2026-07-05
 ---
 
 # Wiki 索引
@@ -144,6 +144,7 @@ _持仓逻辑、配置策略、再平衡记录_
 | personal-hybrid-barbell-matrix | 个人混合杠铃投资矩阵 / Personal Hybrid Barbell Matrix | 2026-06-23 | 以国债逆回购保生存、QQQ抓右尾、SPY put防左尾，并叠加高股息、IC/IM 与分阶段执行纪律的个人混合杠铃框架 |
 | personal-hybrid-barbell-execution-dashboard | 个人混合杠铃执行仪表盘 / Personal Hybrid Barbell Execution Dashboard | 2026-06-23 | 将个人混合杠铃策略落成生活现金流、组合风险、极端行情动作与从零构建顺序四套执行表 |
 | qld-qqq-120ma-tactical-strategy | QLD/QQQ 120 日均线战术策略 / QLD-QQQ 120MA Tactical Strategy | 2026-07-02 | QQQ线上持有QLD、跌破持现金；2006-2026回测显示收益高于QQQ且回撤更低 |
+| high-dividend-cashflow-watchlist | 高分红现金流观察候选池 / High Dividend Cashflow Watchlist | 2026-07-05 | 将高分红现金流候选股整理为宽进严买观察池，并同步为仪表盘可选标的 |
 
 ---
 
