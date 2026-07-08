@@ -1,0 +1,14 @@
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "f3838732ec4a5b58f6b429829e20b6155b74a271",
+  "prompts": {},
+  "humans": {
+    "h_48e1775f2475fb": {
+      "author": "whitedust45 <112306732+whitedust45@users.noreply.github.com>"
+    }
+  },
+  "attestation_metadata": {},
+  "remote_transcripts": {}
+}
