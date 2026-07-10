@@ -1,0 +1,28 @@
+.gitignore
+  s_f2783c909e483c::t_d37024dd4f274d 18-20
+docs/superpowers/plans/2026-07-10-tdx-brick-selector.md
+  s_f2783c909e483c::t_55b7c782e3afa9 1-271
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "992e9319257f08c28052fbba67a469098b6ab591",
+  "prompts": {},
+  "humans": {
+    "h_48e1775f2475fb": {
+      "author": "whitedust45 <112306732+whitedust45@users.noreply.github.com>"
+    }
+  },
+  "sessions": {
+    "s_f2783c909e483c": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f3174-bc00-7d40-8cce-27770422a570",
+        "model": "unknown"
+      },
+      "human_author": "whitedust45 <112306732+whitedust45@users.noreply.github.com>"
+    }
+  },
+  "attestation_metadata": {},
+  "remote_transcripts": {}
+}
