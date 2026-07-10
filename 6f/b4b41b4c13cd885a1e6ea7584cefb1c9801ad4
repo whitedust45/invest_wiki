@@ -1,0 +1,23 @@
+modules/short_term/backtest_brick.py
+  s_f2783c909e483c::t_4ceaae1438f8a8 6,8-10,12-13,15,18-20,24-27,29-35,250-753
+tools/dashboard/test_tdx_brick_backtest.py
+  s_f2783c909e483c::t_7abfbc40a2ba9a 7,17-21,142-297
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "6fb4b41b4c13cd885a1e6ea7584cefb1c9801ad4",
+  "prompts": {},
+  "sessions": {
+    "s_f2783c909e483c": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f3174-bc00-7d40-8cce-27770422a570",
+        "model": "unknown"
+      },
+      "human_author": "whitedust45 <112306732+whitedust45@users.noreply.github.com>"
+    }
+  },
+  "attestation_metadata": {},
+  "remote_transcripts": {}
+}
