@@ -1,0 +1,23 @@
+modules/short_term/strategies/brick.py
+  s_f2783c909e483c::t_ef2d4040781ecf 70-72,74-76,831-855,873-875,891-897,901-903,907-919,934,944,1160-1162
+tools/dashboard/test_tdx_brick_selector.py
+  s_f2783c909e483c::t_0a2f5cb2e99e6c 20-21,23,157-195,206,211,223
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "8624932de8ba1c19deee3a517cd98c675c92995c",
+  "prompts": {},
+  "sessions": {
+    "s_f2783c909e483c": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f3174-bc00-7d40-8cce-27770422a570",
+        "model": "unknown"
+      },
+      "human_author": "whitedust45 <112306732+whitedust45@users.noreply.github.com>"
+    }
+  },
+  "attestation_metadata": {},
+  "remote_transcripts": {}
+}
