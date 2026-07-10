@@ -1,0 +1,23 @@
+tools/dashboard/tdx_brick_selector.py
+  s_ad3f78d2dd9500::t_14028202e9bd81 1-118
+tools/dashboard/test_tdx_brick_selector.py
+  s_ad3f78d2dd9500::t_55eae7159de1ab 1-116
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "fb759746d17f8ec608ae89b320caf83ae59adc40",
+  "prompts": {},
+  "sessions": {
+    "s_ad3f78d2dd9500": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f4b13-062a-7d00-af12-48af49996997",
+        "model": "unknown"
+      },
+      "human_author": "whitedust45 <112306732+whitedust45@users.noreply.github.com>"
+    }
+  },
+  "attestation_metadata": {},
+  "remote_transcripts": {}
+}
