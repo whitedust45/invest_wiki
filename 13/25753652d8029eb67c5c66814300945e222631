@@ -1,0 +1,29 @@
+invest.py
+  s_f2783c909e483c::t_9742500871a4a8 17,25,33,55-56
+knowledge/wiki/log.md
+  s_f2783c909e483c::t_826a28d3d093d2 3,13-19
+knowledge/wiki/portfolios/short-term-momentum-brick-indicator-system.md
+  s_f2783c909e483c::t_584811fc6a18f7 9,22-28,180-197,238-242
+modules/short_term/README.md
+  s_f2783c909e483c::t_31b865e487f900 8-9,13-16
+tools/dashboard/test_invest_launcher.py
+  s_f2783c909e483c::t_8cf95d2503e584 22-31,37
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "1325753652d8029eb67c5c66814300945e222631",
+  "prompts": {},
+  "sessions": {
+    "s_f2783c909e483c": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f3174-bc00-7d40-8cce-27770422a570",
+        "model": "unknown"
+      },
+      "human_author": "whitedust45 <112306732+whitedust45@users.noreply.github.com>"
+    }
+  },
+  "attestation_metadata": {},
+  "remote_transcripts": {}
+}
