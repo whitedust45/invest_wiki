@@ -1,0 +1,33 @@
+docs/designs/tdx-brick-selector.md
+  s_f2783c909e483c::t_75031353214549 5-7,14,26-45
+docs/superpowers/plans/2026-07-10-tdx-scheduled-runner.md
+  s_f2783c909e483c::t_fbd6b68e63f51a 143,155,161,173,181,187-230,233
+knowledge/wiki/log.md
+  s_f2783c909e483c::t_c41b69e75c817a 21-26
+tools/dashboard/install_tdx_brick_selector_task.ps1
+  s_f2783c909e483c::t_17acdb5a314bd0 1-67
+tools/dashboard/test_tdx_manual_verifier.py
+  s_f2783c909e483c::t_9e3eadbac05d6a 1-27
+tools/dashboard/test_tdx_scheduled_runner_assets.py
+  s_f2783c909e483c::t_eae3ebd5030fa8 32-46
+tools/dashboard/verify_tdx_brick_selector_manual.py
+  s_f2783c909e483c::t_a26957b579a5ce 1-129
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "f835eea70b1a569306b379158b681e9c96530a41",
+  "prompts": {},
+  "sessions": {
+    "s_f2783c909e483c": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f3174-bc00-7d40-8cce-27770422a570",
+        "model": "unknown"
+      },
+      "human_author": "whitedust45 <112306732+whitedust45@users.noreply.github.com>"
+    }
+  },
+  "attestation_metadata": {},
+  "remote_transcripts": {}
+}
