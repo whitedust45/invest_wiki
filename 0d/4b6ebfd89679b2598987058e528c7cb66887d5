@@ -1,0 +1,35 @@
+knowledge/wiki/analyses/tdx-brick-candidate-ranking-framework.md
+  s_f2783c909e483c::t_c35e16e7deff8c 106-111
+knowledge/wiki/log.md
+  s_f2783c909e483c::t_df591c340938cc 36-42
+tools/dashboard/run_tdx_brick_selector.ps1
+  s_f2783c909e483c::t_3d92da1bed7418 15,17,23,77
+tools/dashboard/tdx_brick_selector.py
+  s_f2783c909e483c::t_e4eece2fb0da90 43,49,280-288,304-315,578-596,655-668,704-736,815-817,820,843,848,877,889,898,952,1009-1010,1069-1078,1101,1145-1147,1170,1175,1200,1203,1224-1279,1281-1291,1293-1296,1298-1304,1306-1312,1314-1329,1331-1343,1394,1401,1416-1417
+tools/dashboard/test_tdx_brick_selector.py
+  s_f2783c909e483c::t_2cef6437252be9 25,32,140-143,330,336-338,411-413,419-425,512,515-568
+tools/dashboard/test_tdx_manual_verifier.py
+  s_f2783c909e483c::t_a91b27ce53e1bd 12-15,28-41
+tools/dashboard/test_tdx_scheduled_runner_assets.py
+  s_f2783c909e483c::t_045a5a2ff4eecf 27,29
+tools/dashboard/verify_tdx_brick_selector_manual.py
+  s_f2783c909e483c::t_86b78fd71c6d54 52-71,96-97,115-116,130,139-141
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "0d4b6ebfd89679b2598987058e528c7cb66887d5",
+  "prompts": {},
+  "sessions": {
+    "s_f2783c909e483c": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f3174-bc00-7d40-8cce-27770422a570",
+        "model": "unknown"
+      },
+      "human_author": "whitedust45 <112306732+whitedust45@users.noreply.github.com>"
+    }
+  },
+  "attestation_metadata": {},
+  "remote_transcripts": {}
+}
