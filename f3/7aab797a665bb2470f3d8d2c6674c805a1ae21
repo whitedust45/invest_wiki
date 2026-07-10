@@ -1,0 +1,50 @@
+LEARNING_NOTES.md
+  s_420c38bd6aae2e::t_f1aded2d5c5831 43-88,1361-1390
+apps/dashboard/data/dividend-watchlist-defaults.json
+  s_d3268536eec2af::t_00af23f40adb80 3-4,12,20-21,30-31,70-71,80-81
+buyin-notice-architecture.md
+  s_420c38bd6aae2e::t_aa74f9423ce2e7 738-760,1028-1057
+knowledge/wiki/portfolios/high-dividend-cashflow-watchlist.md
+  s_d3268536eec2af::t_8a44a2df66ef90 9-10,36-43,64-65,110-147,193
+knowledge/wiki/portfolios/short-term-momentum-brick-indicator-system.md
+  s_af1fb3dff40a74::t_18962ea5984315 1-196
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "f37aab797a665bb2470f3d8d2c6674c805a1ae21",
+  "prompts": {},
+  "humans": {
+    "h_48e1775f2475fb": {
+      "author": "whitedust45 <112306732+whitedust45@users.noreply.github.com>"
+    }
+  },
+  "sessions": {
+    "s_420c38bd6aae2e": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f3b89-5393-78e1-ad81-f287ede4a569",
+        "model": "unknown"
+      },
+      "human_author": "whitedust45 <112306732+whitedust45@users.noreply.github.com>"
+    },
+    "s_af1fb3dff40a74": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f40eb-458f-74a2-b8a4-10f342e74cc9",
+        "model": "unknown"
+      },
+      "human_author": "whitedust45 <112306732+whitedust45@users.noreply.github.com>"
+    },
+    "s_d3268536eec2af": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019eda03-dce2-79a0-8435-1cc0f361b8e5",
+        "model": "unknown"
+      },
+      "human_author": "whitedust45 <112306732+whitedust45@users.noreply.github.com>"
+    }
+  },
+  "attestation_metadata": {},
+  "remote_transcripts": {}
+}
