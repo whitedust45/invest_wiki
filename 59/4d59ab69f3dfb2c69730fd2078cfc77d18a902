@@ -1,0 +1,29 @@
+docs/superpowers/specs/2026-07-11-brick-scoring-backtest-design.md
+  s_f2783c909e483c::t_611b9aa767d144 116
+knowledge/wiki/log.md
+  s_f2783c909e483c::t_f0ba98d0ffb3d1 20
+knowledge/wiki/portfolios/short-term-momentum-brick-indicator-system.md
+  s_f2783c909e483c::t_9cedb3a428814e 78,88,198-199,234
+modules/short_term/strategies/brick.py
+  s_f2783c909e483c::t_361f49d7055976 142,841-853,1119-1122
+tools/dashboard/test_tdx_brick_selector.py
+  s_f2783c909e483c::t_38cf8bc96a6110 21,244-249,260-262
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "594d59ab69f3dfb2c69730fd2078cfc77d18a902",
+  "prompts": {},
+  "sessions": {
+    "s_f2783c909e483c": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f3174-bc00-7d40-8cce-27770422a570",
+        "model": "unknown"
+      },
+      "human_author": "whitedust45 <112306732+whitedust45@users.noreply.github.com>"
+    }
+  },
+  "attestation_metadata": {},
+  "remote_transcripts": {}
+}
