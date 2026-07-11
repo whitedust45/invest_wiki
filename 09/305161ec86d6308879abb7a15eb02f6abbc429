@@ -1,0 +1,27 @@
+knowledge/wiki/log.md
+  s_f2783c909e483c::t_ccc3b962aa1e21 19
+modules/short_term/README.md
+  s_f2783c909e483c::t_f8b32d03c0582f 10,18-19
+modules/short_term/backtest_brick.py
+  s_f2783c909e483c::t_e9eabe5eda8adf 8,10,17,45-125,452-575,619-624,631-632,637-638,642,651,655,664-665,675-676,689-702,705-707,711-712,736-738,791,849-854
+tools/dashboard/test_tdx_brick_backtest.py
+  s_f2783c909e483c::t_0d8ded3e871d53 298-358
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "09305161ec86d6308879abb7a15eb02f6abbc429",
+  "prompts": {},
+  "sessions": {
+    "s_f2783c909e483c": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f3174-bc00-7d40-8cce-27770422a570",
+        "model": "unknown"
+      },
+      "human_author": "whitedust45 <112306732+whitedust45@users.noreply.github.com>"
+    }
+  },
+  "attestation_metadata": {},
+  "remote_transcripts": {}
+}
