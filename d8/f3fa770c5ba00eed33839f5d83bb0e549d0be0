@@ -1,0 +1,33 @@
+modules/short_term/README.md
+  s_f2783c909e483c::t_c7d445ae9426f9 11,14,23-24
+modules/short_term/backtest_brick.py
+  s_f2783c909e483c::t_da31f139b6bbff 24,41-46,358-364,367-393,395-406,408-442,696-706,711-713,729-736,751-758,836-837,843-848,912-973,1095,1097,1099,1115-1116
+modules/short_term/backtest_cache.py
+  s_f2783c909e483c::t_72a1e6fbf4b448 1-267
+modules/short_term/strategies/brick.py
+  s_f2783c909e483c::t_25a72eb1293704 70,72,74-76,80,862,864-867,926,928,930,932,1454,1511-1530,1540,1553-1579,1583
+tools/dashboard/test_tdx_backtest_cache.py
+  s_f2783c909e483c::t_e40393577fcabd 1-143
+tools/dashboard/test_tdx_brick_backtest.py
+  s_f2783c909e483c::t_c7e6d5892a6529 168,177-179,236,288-289,304-309,322-324,361-371,375-376
+tools/dashboard/test_tdx_brick_selector.py
+  s_f2783c909e483c::t_fe000f534c4679 46,163,165,167-169,181,185-186,189,225,246,691-693,698-729
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "d8f3fa770c5ba00eed33839f5d83bb0e549d0be0",
+  "prompts": {},
+  "sessions": {
+    "s_f2783c909e483c": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f3174-bc00-7d40-8cce-27770422a570",
+        "model": "unknown"
+      },
+      "human_author": "whitedust45 <112306732+whitedust45@users.noreply.github.com>"
+    }
+  },
+  "attestation_metadata": {},
+  "remote_transcripts": {}
+}
