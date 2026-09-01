@@ -1,0 +1,149 @@
+<view class="page-shell overview-page">
+  <view class="page-header">
+    <view class="page-kicker">个人专属</view>
+    <view class="title">总览</view>
+    <view class="page-description">所有资产按原币种分别记账与展示，不做隐式换汇或合并。</view>
+  </view>
+
+  <view class="quick-actions">
+    <navigator class="quick-action" open-type="switchTab" url="/pages/ledger/ledger">
+      <view class="quick-mark">记</view>
+      <view><view class="quick-title">记一笔</view><view class="quick-copy">现金与交易</view></view>
+    </navigator>
+    <navigator class="quick-action" open-type="switchTab" url="/pages/market/market">
+      <view class="quick-mark">市</view>
+      <view><view class="quick-title">创建标的</view><view class="quick-copy">市场主数据</view></view>
+    </navigator>
+    <navigator class="quick-action" open-type="switchTab" url="/pages/strategy/strategy">
+      <view class="quick-mark">策</view>
+      <view><view class="quick-title">策略中心</view><view class="quick-copy">规则与风险</view></view>
+    </navigator>
+    <navigator class="quick-action" url="/pages/import/import">
+      <view class="quick-mark">导</view>
+      <view><view class="quick-title">历史导入</view><view class="quick-copy">扫描后入账</view></view>
+    </navigator>
+  </view>
+
+  <view wx:if="{{localDevelopment}}" class="card local-seed-card">
+    <view class="section-title-row"><view class="section-title">本地完整测试路径</view><view class="section-meta">仅开发环境</view></view>
+    <view class="muted form-tip">用于验证旧 Dashboard 的四类策略、期货移仓、期权到期、估值和报表闭环。服务端仅在空账本写入，不包含任何清空或覆盖操作。</view>
+    <button class="secondary-button" loading="{{seedingLocalData}}" disabled="{{seedingLocalData}}" bindtap="seedLocalTestData">写入 LEGACY_FULL_PATH 测试数据</button>
+    <view wx:if="{{localSeedMessage}}" class="success-message">{{localSeedMessage}}</view>
+  </view>
+
+  <view class="card overview-hero">
+    <view class="hero-row">
+      <view class="hero-label">资产概况</view>
+      <view class="hero-meta">本地账本</view>
+    </view>
+    <block wx:if="{{loading}}">
+      <view class="hero-empty">正在同步账本快照…</view>
+    </block>
+    <block wx:elif="{{portfolioItems.length === 1}}">
+      <view class="hero-value">{{portfolioItems[0].currency}} {{portfolioItems[0].netAssetDisplay}}</view>
+      <view class="hero-note">业务日 {{portfolioItems[0].asOf}} · {{portfolioItems[0].valuationStatusLabel}}</view>
+    </block>
+    <block wx:elif="{{portfolioItems.length > 1}}">
+      <view class="hero-value hero-value-compact">{{portfolioItems.length}} 个原币种快照</view>
+      <view class="hero-note">不同币种不做换汇合计；请在下方分别查看资产与现金。</view>
+    </block>
+    <block wx:else>
+      <view class="hero-value hero-value-compact">尚无资产快照</view>
+      <view class="hero-note">创建现金账户并录入首笔资金后，即可建立原币种资产总览。</view>
+    </block>
+    <view class="metric-strip">
+      <view class="metric-cell"><view class="metric-label">现金账户</view><view class="metric-value">{{reconciliationAccounts.length}}</view><view class="metric-note">启用账户</view></view>
+      <view class="metric-cell"><view class="metric-label">组合币种</view><view class="metric-value">{{portfolioItems.length}}</view><view class="metric-note">独立快照</view></view>
+      <view class="metric-cell"><view class="metric-label">最近对账</view><view class="metric-value">{{reconciliationHistory.length}}</view><view class="metric-note">保留记录</view></view>
+    </view>
+  </view>
+
+  <view class="card overview-strategy-card">
+    <view class="section-title-row"><view class="section-title">策略与风险看板</view><view class="section-meta">四类原币种工作区</view></view>
+    <view class="muted form-tip">状态只解释已确认规则、账本与市场快照是否满足条件，不构成自动交易指令。</view>
+    <navigator wx:for="{{strategies}}" wx:key="strategyKey" class="overview-strategy-row" open-type="switchTab" url="/pages/strategy/strategy">
+      <view class="overview-strategy-icon">{{item.icon}}</view>
+      <view class="overview-strategy-body"><view class="overview-strategy-name">{{item.displayName}} · {{item.currency}}</view><view class="muted">{{item.message}} · {{item.inputLabel}}</view></view>
+      <view class="overview-strategy-state {{item.statusClass}}">{{item.statusLabel}}</view>
+    </navigator>
+    <navigator class="secondary-button overview-strategy-link" open-type="switchTab" url="/pages/strategy/strategy">查看策略规则、评估与压力输入</navigator>
+  </view>
+
+  <view class="section-nav">
+    <view class="section-nav-active">资产概况</view>
+    <view>组合明细</view>
+    <view>手工估值</view>
+    <view>券商对账</view>
+  </view>
+
+  <view class="card portfolio-card">
+    <view class="section-title-row"><view class="section-title">组合明细</view><view class="section-meta">按原币种</view></view>
+    <view wx:if="{{portfolioItems.length === 0 && !portfolioError}}" class="empty-tip">尚无现金账户或未平仓持仓。创建账户并入金后即可查看组合快照。</view>
+    <view wx:for="{{portfolioItems}}" wx:key="currency" class="portfolio-currency-card">
+      <view class="portfolio-currency-head"><view class="portfolio-currency-title">{{item.currency}}</view><view class="portfolio-status">{{item.valuationStatusLabel}}</view></view>
+      <view class="portfolio-metrics">
+        <view><view class="metric-label">现金</view><view class="portfolio-amount">{{item.cashDisplay}}</view></view>
+        <view><view class="metric-label">保证金</view><view class="portfolio-amount">{{item.marginDisplay}}</view></view>
+        <view><view class="metric-label">持仓市值</view><view class="portfolio-amount">{{item.marketValueDisplay}}</view></view>
+      </view>
+      <view class="portfolio-net-row"><text>净资产</text><text>{{item.netAssetDisplay}}</text></view>
+      <view class="muted">业务日 {{item.asOf}} · 账本版本 {{item.sourceLedgerVersion}}</view>
+      <view wx:if="{{item.positions.length}}" class="portfolio-positions">
+        <view wx:for="{{item.positions}}" wx:key="positionKey" class="portfolio-position-row">
+          <view><view class="position-instrument">{{item.instrumentId}}</view><view class="muted">账户 {{item.cashAccountId}} · 数量 {{item.quantity}}</view></view>
+          <view class="position-value"><view>{{item.marketValueDisplay}}</view><view class="muted">{{item.valuationStatusLabel}}</view></view>
+        </view>
+      </view>
+    </view>
+    <view wx:if="{{portfolioError}}" class="error-message">{{portfolioError}}</view>
+  </view>
+
+  <view class="card status-card">
+    <view class="section-title-row"><view class="section-title">账本状态</view><view class="section-meta">本地同步</view></view>
+    <view class="status-row"><view class="status-dot status-good"></view><view class="status-content"><view class="status-name">会话状态</view><view class="muted" wx:if="{{userId}}">管理员会话有效至 {{sessionExpiresAt}}</view><view class="muted" wx:else>正在验证本地会话</view></view></view>
+    <view class="status-row"><view class="status-dot {{portfolioError ? 'status-risk' : 'status-good'}}"></view><view class="status-content"><view class="status-name">组合读模型</view><view class="muted">{{portfolioError || '已按账本快照分别生成原币种组合明细。'}}</view></view></view>
+    <view class="status-row"><view class="status-dot status-good"></view><view class="status-content"><view class="status-name">对账边界</view><view class="muted">{{reconciliationHistory.length ? '已保留最近对账快照，差异不会自动生成调账分录。' : '尚未保存券商对账快照。'}}</view></view></view>
+    <view wx:if="{{errorMessage}}" class="error-message">{{errorMessage}}</view>
+  </view>
+
+  <view class="card valuation-card">
+    <view class="section-title-row"><view class="section-title">手工估值</view><view class="section-meta">只更新读模型</view></view>
+    <view class="muted form-tip">估值不会改写成本、账务分录或持仓。币种必须与标的原生币种一致，服务端会再次校验。</view>
+    <input class="text-input" placeholder="标的 ID（26 位）" value="{{valuationInstrumentId}}" bindinput="onValuationInstrumentIdInput" maxlength="26" />
+    <picker mode="date" value="{{valuationDate}}" bindchange="onValuationDateChange"><view class="picker">估值日期：{{valuationDate}}</view></picker>
+    <picker mode="selector" range="{{valuationCurrencies}}" value="{{valuationCurrencyIndex}}" bindchange="onValuationCurrencyChange"><view class="picker">标的原币种：{{valuationCurrencies[valuationCurrencyIndex]}}</view></picker>
+    <picker mode="selector" range="{{valuationModeLabels}}" value="{{valuationModeIndex}}" bindchange="onValuationModeChange"><view class="picker">估值方式：{{valuationModeLabels[valuationModeIndex]}}</view></picker>
+    <input class="text-input spaced-input" placeholder="最小单位正整数，例如 USD 6.66 填 666" value="{{valuationAmountCent}}" bindinput="onValuationAmountInput" />
+    <input class="text-input spaced-input" placeholder="有效期 UTC（可选），如 2026-08-01T00:00:00Z" value="{{valuationValidUntil}}" bindinput="onValuationValidUntilInput" />
+    <input class="text-input spaced-input" placeholder="备注（可选）" value="{{valuationNote}}" bindinput="onValuationNoteInput" maxlength="1000" />
+    <button class="primary-button" loading="{{valuationSubmissionState === 'SUBMITTING'}}" disabled="{{valuationSubmissionState === 'SUBMITTING'}}" bindtap="submitValuation">确认并记录估值</button>
+    <button wx:if="{{valuationSubmissionState === 'RETRYABLE_ERROR'}}" class="secondary-button" loading="{{valuationSubmissionState === 'SUBMITTING'}}" bindtap="retryValuation">使用原请求键手动重试</button>
+    <view wx:if="{{valuationSubmissionState === 'SUCCESS'}}" class="success-message">估值事实已追加：{{valuationLastId}} · {{valuationLastStatus}}</view>
+  </view>
+
+  <view class="card reconciliation-card">
+    <view class="section-title-row"><view class="section-title">手工券商对账</view><view class="section-meta">保存事实快照</view></view>
+    <view class="muted form-tip">录入该账户、该业务日的完整券商现金与全部非零持仓。服务端只保存差异，不会自动调账。</view>
+    <view wx:if="{{reconciliationAccounts.length === 0}}" class="empty-tip">请先在账本页创建一个启用中的现金账户。</view>
+    <view wx:else>
+      <picker mode="selector" range="{{reconciliationAccountNames}}" value="{{reconciliationAccountIndex}}" bindchange="onReconciliationAccountChange"><view class="picker">现金账户：{{reconciliationAccountNames[reconciliationAccountIndex]}}</view></picker>
+      <picker mode="date" value="{{reconciliationDate}}" bindchange="onReconciliationDateChange"><view class="picker">对账业务日：{{reconciliationDate}}</view></picker>
+      <input class="text-input spaced-input" placeholder="券商现金最小单位，例如 USD 6.66 填 666" value="{{reconciliationBrokerCashCent}}" bindinput="onReconciliationBrokerCashInput" />
+      <view class="position-section-title">券商非零持仓</view>
+      <view wx:for="{{reconciliationPositions}}" wx:key="index" class="reconciliation-position-row">
+        <input class="text-input" placeholder="标的 ID（26 位）" value="{{item.instrumentId}}" data-index="{{index}}" bindinput="onReconciliationPositionInstrumentInput" maxlength="26" />
+        <input class="text-input spaced-input" placeholder="数量，例如 2.5" value="{{item.quantity}}" data-index="{{index}}" bindinput="onReconciliationPositionQuantityInput" />
+        <button class="text-button" data-index="{{index}}" bindtap="removeReconciliationPosition">删除此持仓</button>
+      </view>
+      <button class="secondary-button" bindtap="addReconciliationPosition">添加券商持仓</button>
+      <input class="text-input spaced-input" placeholder="差异说明（发现现金或持仓差异时必填）" value="{{reconciliationReason}}" bindinput="onReconciliationReasonInput" maxlength="1000" />
+      <button class="primary-button" loading="{{reconciliationSubmissionState === 'SUBMITTING'}}" disabled="{{reconciliationSubmissionState === 'SUBMITTING'}}" bindtap="submitReconciliation">确认并保存对账快照</button>
+      <button wx:if="{{reconciliationSubmissionState === 'RETRYABLE_ERROR'}}" class="secondary-button" loading="{{reconciliationSubmissionState === 'SUBMITTING'}}" bindtap="retryReconciliation">使用原请求键手动重试</button>
+      <view wx:if="{{reconciliationSubmissionState === 'SUCCESS'}}" class="success-message">对账已保存：{{reconciliationLastId}} · {{reconciliationLastStatus}} · 现金差异最小单位 {{reconciliationLastCashDifferenceCent}}</view>
+      <view wx:if="{{reconciliationHistory.length}}" class="reconciliation-history">
+        <view class="position-section-title">最近对账</view>
+        <view wx:for="{{reconciliationHistory}}" wx:key="reconciliationId" class="history-row"><view>{{item.reconciliationDate}} · {{item.currency}} · {{item.status}}</view><view class="muted">现金差异最小单位：{{item.cashDifferenceCent}}</view></view>
+      </view>
+    </view>
+  </view>
+</view>

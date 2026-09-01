@@ -1,0 +1,2923 @@
+openapi: 3.1.0
+info:
+  title: Personal Investment API
+  version: 0.2.0
+  description: 本地开发切片。所有金额以原币种两位小数最小单位的十进制字符串传输，绝不使用浮点数。
+servers:
+  - url: http://127.0.0.1:<API_PORT>
+paths:
+  /api/v1/auth/wechat/login:
+    post:
+      summary: local Mock 微信登录
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: 登录成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+        '400':
+          $ref: '#/components/responses/Problem'
+        '403':
+          $ref: '#/components/responses/Problem'
+        '503':
+          $ref: '#/components/responses/Problem'
+  /api/v1/me:
+    get:
+      summary: 当前登录管理员
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: 当前用户
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MeResponse'
+        '401':
+          $ref: '#/components/responses/Problem'
+        '503':
+          $ref: '#/components/responses/Problem'
+  /api/v1/ledger/accounts:
+    get:
+      summary: 查询当前管理员的现金账户
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: 现金账户列表
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CashAccountListResponse'
+        '401':
+          $ref: '#/components/responses/Problem'
+    post:
+      summary: 创建现金账户并初始化同币种后端系统科目
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: Idempotency-Key
+          in: header
+          required: true
+          schema:
+            type: string
+            minLength: 1
+            maxLength: 128
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCashAccountRequest'
+      responses:
+        '201':
+          description: 已创建；同键同请求返回首个响应
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CashAccount'
+        '400':
+          $ref: '#/components/responses/Problem'
+        '401':
+          $ref: '#/components/responses/Problem'
+        '409':
+          $ref: '#/components/responses/Problem'
+  /api/v1/market/instruments:
+    get:
+      summary: 分页查询全局行情标的和显式 Tushare 代码映射
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: limit
+          in: query
+          schema: {type: integer, minimum: 1, maximum: 100, default: 50}
+        - name: cursor
+          in: query
+          schema: {type: string, pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'}
+      responses:
+        '200':
+          description: 稳定游标页
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/InstrumentPage'}
+    post:
+      summary: 创建或复用全局标的主数据
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: Idempotency-Key
+          in: header
+          required: true
+          schema:
+            type: string
+            minLength: 1
+            maxLength: 128
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateInstrumentRequest'
+      responses:
+        '201':
+          description: 已创建；同自然键同定义或同幂等键返回首个响应
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Instrument'
+        '400':
+          $ref: '#/components/responses/Problem'
+        '401':
+          $ref: '#/components/responses/Problem'
+        '409':
+          $ref: '#/components/responses/Problem'
+  /api/v1/market/instruments/{instrumentId}/source-codes/TUSHARE_PRO:
+    put:
+      summary: 维护标的的显式 Tushare Pro 代码
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: instrumentId
+          in: path
+          required: true
+          schema: {type: string, pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'}
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: '#/components/schemas/TushareCodeRequest'}
+      responses:
+        '200':
+          description: 代码已更新
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/Instrument'}
+  /api/v1/market/snapshot-submissions:
+    post:
+      summary: 提交经核验的市场快照；仅入队，不在请求线程调用外部数据源
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: '#/components/schemas/MarketSnapshotSubmissionRequest'}
+      responses:
+        '202':
+          description: 已持久化并等待后台处理
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/MarketSnapshotSubmissionAccepted'}
+        '422': {$ref: '#/components/responses/Problem'}
+  /api/v1/market/sync-runs/{marketSyncRunId}:
+    get:
+      summary: 查询行情同步运行状态
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: marketSyncRunId
+          in: path
+          required: true
+          schema: {type: string, pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'}
+      responses:
+        '200':
+          description: 可审计运行状态
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/MarketSyncRun'}
+  /api/v1/market/overview:
+    get:
+      summary: 查询当前行情工作台
+      description: 返回最近一次行情运行的报价、指标、IC/IM 贴水、来源尝试和降级事件。所有价格保留原币种最小单位；没有运行时返回显式空工作台。
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: 可审计的行情工作台读模型
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/MarketOverview'}
+        '401': {$ref: '#/components/responses/Problem'}
+  /api/v1/files/upload-requests:
+    post:
+      summary: 申请私有导入或对账证据的单对象预签名 POST 上传凭据
+      description: 服务端生成 owner 隔离的 quarantine object key。上传凭据有效期、大小、媒体类型、SHA-256 元数据和服务端加密算法均由服务端固定；上传成功不代表文件已通过扫描或可被导入。
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: Idempotency-Key
+          in: header
+          required: true
+          schema:
+            type: string
+            minLength: 1
+            maxLength: 128
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UploadRequest'
+      responses:
+        '201':
+          description: 已签发一次单文件 POST 表单；客户端必须原样提交 formData 与 fileField。
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UploadRequestResponse'
+        '400':
+          $ref: '#/components/responses/Problem'
+        '401':
+          $ref: '#/components/responses/Problem'
+        '409':
+          $ref: '#/components/responses/Problem'
+  /api/v1/files/{importExportFileId}/scan-requests:
+    post:
+      summary: 通知服务端已完成预签名 POST 上传并申请隔离扫描
+      description: 客户端通知不被信任。服务端仅将本 owner 的 UPLOAD_PENDING 文件排入隔离扫描队列；worker 必须重新读取并验证对象的大小、MIME、hash、owner/file 元数据和内容安全，成功前不可导入或作为对账证据。
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: importExportFileId
+          in: path
+          required: true
+          schema:
+            type: string
+            pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'
+        - name: Idempotency-Key
+          in: header
+          required: true
+          schema:
+            type: string
+            minLength: 1
+            maxLength: 128
+      responses:
+        '202':
+          description: 文件已进入隔离扫描队列；此响应不代表扫描成功。
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileScanRequestResponse'
+        '400':
+          $ref: '#/components/responses/Problem'
+        '401':
+          $ref: '#/components/responses/Problem'
+        '409':
+          $ref: '#/components/responses/Problem'
+  /api/v1/files/{importExportFileId}:
+    get:
+      summary: 查询当前管理员上传文件的安全状态
+      description: 仅返回 owner 隔离的状态元数据，不返回对象键、哈希、上传 URL、表单或加密信息。
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: importExportFileId
+          in: path
+          required: true
+          schema:
+            type: string
+            pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'
+      responses:
+        '200':
+          description: 当前文件状态。
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileStatusResponse'
+        '400':
+          $ref: '#/components/responses/Problem'
+        '401':
+          $ref: '#/components/responses/Problem'
+  /api/v1/ledger/imports:
+    post:
+      summary: 创建历史账本 dry-run 导入作业
+      description: 仅接受已扫描的私有 IMPORT 文件。服务端使用映射生成不可变预览；不会在此步骤写入账本。重提同一文件会使其未确认旧预览失效。
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: Idempotency-Key
+          in: header
+          required: true
+          schema:
+            type: string
+            minLength: 1
+            maxLength: 128
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LegacyImportRequest'
+      responses:
+        '202':
+          description: 已创建可轮询的本地 dry-run 作业。
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LegacyImportJob'
+        '400':
+          $ref: '#/components/responses/Problem'
+        '401':
+          $ref: '#/components/responses/Problem'
+        '409':
+          $ref: '#/components/responses/Problem'
+  /api/v1/jobs/{jobId}:
+    get:
+      summary: 查询历史导入 dry-run 作业
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: jobId
+          in: path
+          required: true
+          schema:
+            type: string
+            pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'
+      responses:
+        '200':
+          description: 导入作业及逐行预览结果。
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LegacyImportJob'
+        '400':
+          $ref: '#/components/responses/Problem'
+        '401':
+          $ref: '#/components/responses/Problem'
+  /api/v1/ledger/imports/{jobId}/confirm:
+    post:
+      summary: 以 checksum 确认历史导入并原子追加账本事实
+      description: 仅 SUCCEEDED、未过期且 checksum 完全匹配的预览可确认。确认后所有事实 sourceType=IMPORT 且关联 importExportFileId；旧 Dashboard ic/roll 仅导入其费用并标记 ROLL_FEE_ONLY。
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: jobId
+          in: path
+          required: true
+          schema:
+            type: string
+            pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'
+        - name: Idempotency-Key
+          in: header
+          required: true
+          schema:
+            type: string
+            minLength: 1
+            maxLength: 128
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LegacyImportConfirm'
+      responses:
+        '200':
+          description: 已原子确认。
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LegacyImportJob'
+        '400':
+          $ref: '#/components/responses/Problem'
+        '401':
+          $ref: '#/components/responses/Problem'
+        '409':
+          $ref: '#/components/responses/Problem'
+  /api/v1/portfolio/summary:
+    get:
+      summary: 查询按原币种分组的组合总览
+      description: 不进行汇率换算或跨币种合并。用户级 marketValueCent 仅在此接口按“用户 + 标的”计入一次。
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: asOf
+          in: query
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: 按币种隔离、带账本版本的组合只读快照。
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PortfolioSummary'
+        '400':
+          $ref: '#/components/responses/Problem'
+        '401':
+          $ref: '#/components/responses/Problem'
+  /api/v1/portfolio/positions:
+    get:
+      summary: 查询单一原币种的持仓与估值状态
+      description: accountId 可选；用户级总市值永不在该接口分摊到账户，结果明确标记 MANUAL_TOTAL_UNALLOCATED。
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: currency
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: [CNY, USD]
+        - name: accountId
+          in: query
+          schema:
+            type: string
+            pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'
+        - name: asOf
+          in: query
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: 单币种、owner 隔离的持仓快照。
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PortfolioCurrencyOverview'
+        '400':
+          $ref: '#/components/responses/Problem'
+        '401':
+          $ref: '#/components/responses/Problem'
+        '404':
+          $ref: '#/components/responses/Problem'
+  /api/v1/reports/portfolio-history:
+    get:
+      summary: 查询按原币种隔离的组合净值历史
+      description: 仅返回估值完整时追加的历史点；未估值日期不会以成本、零值或混币数值填充。
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: currency
+          in: query
+          required: true
+          schema: {type: string, enum: [CNY, USD]}
+        - name: from
+          in: query
+          required: true
+          schema: {type: string, format: date}
+        - name: to
+          in: query
+          required: true
+          schema: {type: string, format: date}
+        - name: limit
+          in: query
+          schema: {type: integer, minimum: 1, maximum: 1000, default: 366}
+      responses:
+        '200':
+          description: 按业务日与账本版本升序的不可变历史点
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/PortfolioHistory'}
+        '400': {$ref: '#/components/responses/Problem'}
+        '401': {$ref: '#/components/responses/Problem'}
+    post:
+      summary: 手动重算并追加当日组合历史点
+      description: 仅追加估值完整的同币种组合。相同 owner、币种、日期和账本版本幂等，不会覆盖历史。
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: asOfDate
+          in: query
+          schema: {type: string, format: date}
+      responses:
+        '201':
+          description: 快照计算完成；未估值币种会明确计入 skippedUnvaluedCurrencyCount。
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/PortfolioHistorySnapshotWrite'}
+        '400': {$ref: '#/components/responses/Problem'}
+        '401': {$ref: '#/components/responses/Problem'}
+  /api/v1/reports/allocation:
+    get:
+      summary: 查询按原币种隔离的持仓资产分布
+      description: 份额比例由服务端计算为渲染用 basis points；用户级总市值未分摊或估值不完整时不返回伪造分布。
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: asOf
+          in: query
+          schema: {type: string, format: date}
+      responses:
+        '200':
+          description: 单币种资产分布；每个条目的金额和份额均不跨币种。
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/PortfolioAllocation'}
+        '400': {$ref: '#/components/responses/Problem'}
+        '401': {$ref: '#/components/responses/Problem'}
+  /api/v1/portfolio/manual-valuations:
+    post:
+      summary: 追加手工估值事实
+      description: 仅影响组合读模型，不修改账本分录、成本或持仓批次。仅支持股票、ETF、期权；币种必须等于标的原生币种，单价和用户级总市值二选一。
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: Idempotency-Key
+          in: header
+          required: true
+          schema:
+            type: string
+            minLength: 1
+            maxLength: 128
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ManualValuationCreate'
+      responses:
+        '201':
+          description: 已追加不可变手工估值事实
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ManualValuation'
+        '400':
+          $ref: '#/components/responses/Problem'
+        '401':
+          $ref: '#/components/responses/Problem'
+        '409':
+          $ref: '#/components/responses/Problem'
+  /api/v1/portfolio/reconciliations:
+    get:
+      summary: 查询当前管理员的手工对账历史
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: cursor
+          in: query
+          schema:
+            type: string
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 30
+        - name: cashAccountId
+          in: query
+          schema:
+            type: string
+            pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'
+        - name: from
+          in: query
+          schema:
+            type: string
+            format: date
+        - name: to
+          in: query
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: 按对账日、账本版本、创建时间稳定倒序返回的 owner 隔离分页结果
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReconciliationPage'
+        '400':
+          $ref: '#/components/responses/Problem'
+        '401':
+          $ref: '#/components/responses/Problem'
+    post:
+      summary: 追加手工券商对账事实
+      description: 以指定业务日的账本现金与完整持仓快照和操作者录入的券商快照对比；任何差异均只标记 NEEDS_REVIEW，绝不自动调账。
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: Idempotency-Key
+          in: header
+          required: true
+          schema:
+            type: string
+            minLength: 1
+            maxLength: 128
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReconciliationCreate'
+      responses:
+        '201':
+          description: 已追加不可变对账事实
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Reconciliation'
+        '400':
+          $ref: '#/components/responses/Problem'
+        '401':
+          $ref: '#/components/responses/Problem'
+        '409':
+          $ref: '#/components/responses/Problem'
+  /api/v1/ledger/accounts/{accountId}/disable:
+    post:
+      summary: 停用现金账户
+      description: 仅余额为零、没有现货/期货持仓、保证金余额及活动导入引用时可停用；不删除历史事实。
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: string
+            pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'
+        - name: If-Match
+          in: header
+          required: true
+          schema:
+            type: string
+            pattern: '^"?[0-9]+"?$'
+        - name: Idempotency-Key
+          in: header
+          required: true
+          schema:
+            type: string
+            minLength: 1
+            maxLength: 128
+      responses:
+        '200':
+          description: 已停用并递增版本
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CashAccount'
+        '400':
+          $ref: '#/components/responses/Problem'
+        '401':
+          $ref: '#/components/responses/Problem'
+        '409':
+          $ref: '#/components/responses/Problem'
+  /api/v1/ledger/transactions:
+    get:
+      summary: 按 owner 查询不可变账务流水
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: cursor
+          in: query
+          schema:
+            type: string
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 30
+        - name: accountId
+          in: query
+          schema:
+            type: string
+            pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'
+        - name: instrumentId
+          in: query
+          schema:
+            type: string
+            pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'
+        - name: transactionType
+          in: query
+          description: 按不可变账务事实类型筛选。
+          schema:
+            type: string
+            enum: [EXTERNAL_FUNDING, EXTERNAL_WITHDRAWAL, INTERNAL_TRANSFER, FEE, TRADE_BUY, TRADE_SELL, DIVIDEND, INTEREST, CORPORATE_ACTION, FUTURES_MARGIN, FUTURES_OPEN, FUTURES_CLOSE, FUTURES_DAILY_SETTLEMENT, OPTION_OPEN, OPTION_CLOSE, OPTION_EXPIRE, REVERSAL]
+        - name: strategyKey
+          in: query
+          description: 按写入时的策略归属筛选。
+          schema:
+            type: string
+            enum: [HIGH_DIVIDEND, QQQ_GROWTH, IC_IM, DEEP_PUT]
+        - name: search
+          in: query
+          description: 按动作、备注、标的代码或标的名称检索；不会参与金额计算。
+          schema:
+            type: string
+            maxLength: 128
+        - name: from
+          in: query
+          schema:
+            type: string
+            format: date
+        - name: to
+          in: query
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: owner 隔离、按业务日期和交易 ID 倒序的稳定游标页
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LedgerTransactionPage'
+        '400':
+          $ref: '#/components/responses/Problem'
+        '401':
+          $ref: '#/components/responses/Problem'
+    post:
+      summary: 创建资金、现货、公司行为或期货账务事实
+      description: 当前实现接受 EXTERNAL_FUNDING、EXTERNAL_WITHDRAWAL、INTERNAL_TRANSFER、FEE、TRADE_BUY、TRADE_SELL、DIVIDEND、INTEREST、CORPORATE_ACTION、FUTURES_MARGIN、FUTURES_OPEN、FUTURES_CLOSE、FUTURES_DAILY_SETTLEMENT、FUTURES_ROLL、OPTION_OPEN、OPTION_CLOSE、OPTION_EXPIRE；金额和数量均为字符串。FUTURES_ROLL 是命令而非落库类型，会原子追加一条 FUTURES_CLOSE 和一条 FUTURES_OPEN，并返回 operationGroupKey。期货只允许 CFFEX 人民币 IC/IM 合约、整手数量；开仓须早于交割日，平仓和逐日结算不得晚于交割日。逐日结算必须使用独立的 settlementPricePoints，不接受成交数量、成交点位、手续费或保证金字段。期权仅支持多头开仓、平仓及到期日整仓无价值核销，不支持卖空、行权或指派。
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: Idempotency-Key
+          in: header
+          required: true
+          schema:
+            type: string
+            minLength: 1
+            maxLength: 128
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LedgerTransactionCreate'
+      responses:
+        '201':
+          description: 已追加不可变账务事实；FUTURES_ROLL 返回由两条事实组成的操作组
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/LedgerTransaction'
+                  - $ref: '#/components/schemas/FuturesRollResponse'
+        '400':
+          $ref: '#/components/responses/Problem'
+        '401':
+          $ref: '#/components/responses/Problem'
+        '409':
+          $ref: '#/components/responses/Problem'
+        '422':
+          $ref: '#/components/responses/Problem'
+  /api/v1/ledger/exports:
+    get:
+      summary: 生成 owner 隔离的账本导出文件
+      description: 仅从不可变账本事实生成 JSON 审计副本或 CSV 流水。每次生成均写入审计日志；导出不能修改、删除、冲正或恢复任何事实。所有金额仍以原币种 *_cent 十进制字符串表示。
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: format
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: [JSON, CSV]
+      responses:
+        '200':
+          description: 仅对当前认证 owner 返回的附件流；响应头包含 export ID 与内容 SHA-256。
+          content:
+            application/json: {schema: {type: string, format: binary}}
+            text/csv: {schema: {type: string, format: binary}}
+        '400': {$ref: '#/components/responses/Problem'}
+        '401': {$ref: '#/components/responses/Problem'}
+  /api/v1/ledger/snapshots:
+    get:
+      summary: 列出当前 owner 的加密账本快照元数据
+      description: 返回只读元数据和内容 SHA-256；快照正文必须通过 owner 认证下载，永不暴露对象存储地址。
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: limit
+          in: query
+          schema: {type: integer, minimum: 1, maximum: 100, default: 20}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/LedgerSnapshotListResponse'}
+        '400': {$ref: '#/components/responses/Problem'}
+        '401': {$ref: '#/components/responses/Problem'}
+    post:
+      summary: 为当前不可变账本生成或复用当日版本快照
+      description: 快照正文以服务端加密对象保存，元数据及生成操作写入审计日志。空账本不能创建快照。
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: Idempotency-Key
+          in: header
+          required: true
+          schema: {type: string, minLength: 1, maxLength: 128}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/LedgerSnapshot'}
+        '400': {$ref: '#/components/responses/Problem'}
+        '401': {$ref: '#/components/responses/Problem'}
+  /api/v1/ledger/snapshots/{ledgerSnapshotId}/download:
+    get:
+      summary: 下载已校验的 owner 快照 JSON
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/LedgerSnapshotId'
+      responses:
+        '200':
+          description: 附件流；响应头包含 snapshot ID 与 SHA-256。
+          content:
+            application/json: {schema: {type: string, format: binary}}
+        '400': {$ref: '#/components/responses/Problem'}
+        '401': {$ref: '#/components/responses/Problem'}
+        '404': {$ref: '#/components/responses/Problem'}
+  /api/v1/ledger/snapshots/{ledgerSnapshotId}/restore:
+    post:
+      summary: 在空账本工作区原子恢复快照
+      description: 服务端先锁住 owner 的账本状态，再确认没有任何账户或账务事实。只会以新的 IMPORT 事实追加恢复；已有账本一律拒绝，不存在覆盖、删除或回滚接口。恢复前必须验证快照 SHA-256 与所有引用标的的主数据。
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/LedgerSnapshotId'
+        - name: Idempotency-Key
+          in: header
+          required: true
+          schema: {type: string, minLength: 1, maxLength: 128}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/LedgerSnapshotRestoreResponse'}
+        '400': {$ref: '#/components/responses/Problem'}
+        '401': {$ref: '#/components/responses/Problem'}
+        '409': {$ref: '#/components/responses/Problem'}
+  /api/v1/ledger/transactions/preview:
+    post:
+      summary: 预览资金、现货、公司行为或期货账务事实
+      description: 只校验和计算，不创建账户、账务事实、流水或持仓投影；支持的类型与交易创建端点一致。
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LedgerTransactionCreate'
+      responses:
+        '200':
+          description: 预览成功，客户端确认后才可向交易创建端点提交
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SpotTransactionPreview'
+        '400':
+          $ref: '#/components/responses/Problem'
+        '401':
+          $ref: '#/components/responses/Problem'
+        '422':
+          $ref: '#/components/responses/Problem'
+  /api/v1/ledger/transactions/{transactionId}:
+    get:
+      summary: 读取不可变账务事实的审计明细
+      description: 返回原始分录、交易明细、公司行为和更正链元数据；不提供物理编辑或删除能力。
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: transactionId
+          in: path
+          required: true
+          schema:
+            type: string
+            pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'
+      responses:
+        '200':
+          description: owner 隔离的账务审计视图
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LedgerTransactionDetail'
+        '400': {$ref: '#/components/responses/Problem'}
+        '401': {$ref: '#/components/responses/Problem'}
+        '404': {$ref: '#/components/responses/Problem'}
+  /api/v1/ledger/transactions/{transactionId}/corrections:
+    post:
+      summary: 原子追加镜像冲正与可选替代交易
+      description: 冲正保留原始业务日期；存在 replacement 时，以同一更正根、连续修订号和连续账本版本在同一个事务中追加正常业务事实。
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: transactionId
+          in: path
+          required: true
+          schema:
+            type: string
+            pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'
+        - name: Idempotency-Key
+          in: header
+          required: true
+          schema:
+            type: string
+            minLength: 1
+            maxLength: 128
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CorrectionRequest'
+      responses:
+        '201':
+          description: 已追加镜像冲正
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CorrectionResponse'
+        '400':
+          $ref: '#/components/responses/Problem'
+        '401':
+          $ref: '#/components/responses/Problem'
+        '409':
+          $ref: '#/components/responses/Problem'
+  /api/v1/strategies:
+    get:
+      summary: 读取四个策略工作区摘要
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: 即使账本为空仍返回四张策略卡片
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StrategyListResponse'
+        '401':
+          $ref: '#/components/responses/Problem'
+  /api/v1/development/strategy-test-seed:
+    post:
+      summary: 写入 local 环境的完整策略测试种子
+      description: 仅当 Spring profile 为 local 时路由存在。仅允许当前管理员的账本为空；所有账本事实均通过正常命令追加，不能用于生产或体验环境。
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StrategyTestSeedRequest'
+      responses:
+        '201':
+          description: 已写入一次完整 local 策略测试路径。
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StrategyTestSeedResult'
+        '400':
+          $ref: '#/components/responses/Problem'
+        '401':
+          $ref: '#/components/responses/Problem'
+        '409':
+          $ref: '#/components/responses/Problem'
+  /api/v1/strategies/scans:
+    post:
+      summary: 异步扫描已存策略输入
+      description: 仅读取已落库的账本、市场快照和参考净值，不触发外部行情请求或交易。
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StrategyScanRequest'
+      responses:
+        '202':
+          description: 策略扫描已持久化入队
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StrategyScan'
+        '400':
+          $ref: '#/components/responses/Problem'
+        '401':
+          $ref: '#/components/responses/Problem'
+        '422':
+          $ref: '#/components/responses/Problem'
+  /api/v1/strategies/scans/{strategyScanId}:
+    get:
+      summary: 查询策略扫描及逐策略结果
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: strategyScanId
+          in: path
+          required: true
+          schema:
+            type: string
+            pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'
+      responses:
+        '200':
+          description: 扫描状态及已追加的逐策略结果
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StrategyScan'
+        '400':
+          $ref: '#/components/responses/Problem'
+        '401':
+          $ref: '#/components/responses/Problem'
+  /api/v1/strategies/{strategyKey}/workspace:
+    get:
+      summary: 读取一个策略工作区及可用账务动作
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: strategyKey
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/StrategyKey'
+      responses:
+        '200':
+          description: 当前策略工作区摘要
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StrategyWorkspaceResponse'
+        '400':
+          $ref: '#/components/responses/Problem'
+        '404':
+          $ref: '#/components/responses/Problem'
+        '401':
+          $ref: '#/components/responses/Problem'
+  /api/v1/strategies/{strategyKey}/rule-versions:
+    get:
+      summary: 分页读取策略规则版本历史
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: strategyKey
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/StrategyKey'
+        - name: cursor
+          in: query
+          schema:
+            type: string
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 30
+      responses:
+        '200':
+          description: 按创建时间和业务 ID 倒序的稳定游标页
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RuleVersionPage'
+        '400':
+          $ref: '#/components/responses/Problem'
+        '404':
+          $ref: '#/components/responses/Problem'
+        '401':
+          $ref: '#/components/responses/Problem'
+    post:
+      summary: 追加并激活一个策略规则版本
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: strategyKey
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/StrategyKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StrategyRuleVersionCreate'
+      responses:
+        '201':
+          description: 新版本已成为唯一活动规则，旧活动版本已归档
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StrategyRuleVersionCreated'
+        '400':
+          $ref: '#/components/responses/Problem'
+        '404':
+          $ref: '#/components/responses/Problem'
+        '401':
+          $ref: '#/components/responses/Problem'
+        '409':
+          $ref: '#/components/responses/Problem'
+        '422':
+          $ref: '#/components/responses/Problem'
+  /api/v1/strategies/{strategyKey}/reference-nav:
+    get:
+      summary: 分页读取 USD 策略参考净值事实
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: strategyKey
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/StrategyKey'
+        - name: cursor
+          in: query
+          schema:
+            type: string
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 30
+      responses:
+        '200':
+          description: 按创建时间和业务 ID 倒序的稳定游标页
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReferenceNavPage'
+        '400':
+          $ref: '#/components/responses/Problem'
+        '404':
+          $ref: '#/components/responses/Problem'
+        '401':
+          $ref: '#/components/responses/Problem'
+    post:
+      summary: 追加用户明确维护的 USD 策略参考净值
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: strategyKey
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/StrategyKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReferenceNavCreate'
+      responses:
+        '201':
+          description: 已追加参考净值事实
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReferenceNav'
+        '400':
+          $ref: '#/components/responses/Problem'
+        '404':
+          $ref: '#/components/responses/Problem'
+        '401':
+          $ref: '#/components/responses/Problem'
+        '422':
+          $ref: '#/components/responses/Problem'
+  /api/v1/strategies/{strategyKey}/evaluations:
+    get:
+      summary: 分页读取不可变策略评估快照
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: strategyKey
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/StrategyKey'
+        - name: cursor
+          in: query
+          schema:
+            type: string
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 30
+      responses:
+        '200':
+          description: 按评估时点和业务 ID 倒序的稳定游标页
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StrategyEvaluationPage'
+        '400':
+          $ref: '#/components/responses/Problem'
+        '404':
+          $ref: '#/components/responses/Problem'
+        '401':
+          $ref: '#/components/responses/Problem'
+    post:
+      summary: 基于已存账本与市场快照生成评估
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: strategyKey
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/StrategyKey'
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StrategyEvaluationRequest'
+      responses:
+        '200':
+          description: 已返回或追加评估快照；DATA_STALE 和 BLOCKED 仍为正常解释性结果
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StrategyEvaluation'
+        '400':
+          $ref: '#/components/responses/Problem'
+        '404':
+          $ref: '#/components/responses/Problem'
+        '401':
+          $ref: '#/components/responses/Problem'
+        '422':
+          $ref: '#/components/responses/Problem'
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: opaque
+  parameters:
+    LedgerSnapshotId:
+      name: ledgerSnapshotId
+      in: path
+      required: true
+      schema:
+        type: string
+        pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'
+  responses:
+    Problem:
+      description: RFC 7807 风格错误响应
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+  schemas:
+    LoginRequest:
+      type: object
+      required: [code]
+      properties:
+        code:
+          type: string
+          minLength: 1
+          maxLength: 256
+        bootstrapEnrollmentSecret:
+          type: string
+          maxLength: 512
+    LoginResponse:
+      type: object
+      required: [accessToken, expiresAt, user]
+      properties:
+        accessToken:
+          type: string
+        expiresAt:
+          type: string
+          format: date-time
+        user:
+          $ref: '#/components/schemas/User'
+    MeResponse:
+      type: object
+      required: [userId, role, sessionExpiresAt]
+      properties:
+        userId:
+          type: string
+          pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'
+        role:
+          type: string
+          enum: [ADMIN]
+        sessionExpiresAt:
+          type: string
+          format: date-time
+    User:
+      type: object
+      required: [userId, role]
+      properties:
+        userId:
+          type: string
+          pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'
+        role:
+          type: string
+          enum: [ADMIN]
+    StrategyKey:
+      type: string
+      enum: [HIGH_DIVIDEND, QQQ_GROWTH, IC_IM, DEEP_PUT]
+    StrategyCard:
+      type: object
+      required: [strategyKey, displayName, currency, status, message]
+      properties:
+        strategyKey:
+          $ref: '#/components/schemas/StrategyKey'
+        displayName:
+          type: string
+        currency:
+          type: string
+          enum: [CNY, USD]
+        activeRuleVersionId:
+          type: [string, 'null']
+          pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'
+        inputAt:
+          type: [string, 'null']
+          format: date-time
+        status:
+          type: string
+          enum: [IN_RANGE, WATCH, BLOCKED, DATA_STALE, CROSS_CURRENCY_UNVALUED]
+        message:
+          type: string
+    StrategyListResponse:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          minItems: 4
+          maxItems: 4
+          items:
+            $ref: '#/components/schemas/StrategyCard'
+    StrategyWorkspaceResponse:
+      type: object
+      required: [strategy, availableActions, activeRule, latestEvaluation]
+      properties:
+        strategy:
+          $ref: '#/components/schemas/StrategyCard'
+        availableActions:
+          type: array
+          items:
+            type: string
+        activeRule:
+          oneOf:
+            - type: 'null'
+            - $ref: '#/components/schemas/StrategyRuleVersionHistory'
+        latestEvaluation:
+          oneOf:
+            - type: 'null'
+            - $ref: '#/components/schemas/StrategyEvaluation'
+    StrategyRuleVersionCreate:
+      type: object
+      required: [ruleVersion, rule]
+      properties:
+        ruleVersion:
+          type: string
+          minLength: 1
+          maxLength: 64
+        expectedActiveRuleVersionId:
+          type: [string, 'null']
+          pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'
+        rule:
+          type: object
+          description: 所有金额必须是 *_cent 十进制字符串并带显式同前缀 currency 字段。
+          additionalProperties: true
+    StrategyRuleVersionCreated:
+      type: object
+      required: [strategyRuleVersionId, strategyKey, ruleVersion, status, createdAt]
+      properties:
+        strategyRuleVersionId:
+          type: string
+          pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'
+        strategyKey:
+          $ref: '#/components/schemas/StrategyKey'
+        ruleVersion:
+          type: string
+        status:
+          type: string
+          enum: [ACTIVE]
+        createdAt:
+          type: string
+          format: date-time
+    StrategyRuleVersionHistory:
+      type: object
+      required: [strategyRuleVersionId, strategyKey, ruleVersion, rule, status, createdAt]
+      properties:
+        strategyRuleVersionId:
+          type: string
+          pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'
+        strategyKey:
+          $ref: '#/components/schemas/StrategyKey'
+        ruleVersion:
+          type: string
+        rule:
+          type: object
+          additionalProperties: true
+        status:
+          type: string
+          enum: [ACTIVE, ARCHIVED]
+        createdAt:
+          type: string
+          format: date-time
+    RuleVersionPage:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/StrategyRuleVersionHistory'
+        nextCursor:
+          type: [string, 'null']
+    ReferenceNavCreate:
+      type: object
+      required: [referenceNavCent, currency, asOfAt, validUntil]
+      properties:
+        referenceNavCent:
+          type: string
+          pattern: '^[1-9][0-9]*$'
+        currency:
+          type: string
+          enum: [USD]
+        asOfAt:
+          type: string
+          format: date-time
+        validUntil:
+          type: string
+          format: date-time
+    ReferenceNav:
+      type: object
+      required: [strategyReferenceNavId, strategyKey, currency, referenceNavCent, asOfAt, validUntil, source]
+      properties:
+        strategyReferenceNavId:
+          type: string
+          pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'
+        strategyKey:
+          $ref: '#/components/schemas/StrategyKey'
+        currency:
+          type: string
+          enum: [USD]
+        referenceNavCent:
+          type: string
+          pattern: '^[1-9][0-9]*$'
+        asOfAt:
+          type: string
+          format: date-time
+        validUntil:
+          type: string
+          format: date-time
+        source:
+          type: string
+          enum: [MANUAL]
+    ReferenceNavPage:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReferenceNav'
+        nextCursor:
+          type: [string, 'null']
+    StrategyEvaluationRequest:
+      type: object
+      properties:
+        asOfDate:
+          type: string
+          format: date
+    StrategyEvaluation:
+      type: object
+      required: [strategyEvaluationId, strategyKey, inputVersion, asOfAt, status, result]
+      properties:
+        strategyEvaluationId:
+          type: [string, 'null']
+          pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'
+        strategyKey:
+          $ref: '#/components/schemas/StrategyKey'
+        strategyRuleVersionId:
+          type: [string, 'null']
+          pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'
+        inputVersion:
+          type: string
+        asOfAt:
+          type: string
+          format: date-time
+        status:
+          type: string
+          enum: [IN_RANGE, WATCH, BLOCKED, DATA_STALE, CROSS_CURRENCY_UNVALUED]
+        result:
+          type: object
+          additionalProperties: true
+    StrategyEvaluationPage:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/StrategyEvaluation'
+        nextCursor:
+          type: [string, 'null']
+    StrategyTestSeedRequest:
+      type: object
+      required: [seedSet]
+      properties:
+        seedSet:
+          type: string
+          enum: [LEGACY_FULL_PATH]
+    StrategyTestSeedResult:
+      type: object
+      required: [seedName, createdAccounts, createdInstruments, createdTransactions, createdEvaluations, currencies]
+      properties:
+        seedName:
+          type: string
+          enum: [LEGACY_FULL_PATH]
+        createdAccounts:
+          type: integer
+          minimum: 0
+        createdInstruments:
+          type: integer
+          minimum: 0
+        createdTransactions:
+          type: integer
+          minimum: 0
+        createdEvaluations:
+          type: integer
+          minimum: 0
+        currencies:
+          type: array
+          items:
+            type: string
+            enum: [CNY, USD]
+    StrategyScanRequest:
+      type: object
+      properties:
+        strategyKeys:
+          type: array
+          uniqueItems: true
+          items:
+            $ref: '#/components/schemas/StrategyKey'
+    StrategyScan:
+      type: object
+      required: [strategyScanId, asOfAt, status, attemptNo, items]
+      properties:
+        strategyScanId:
+          type: string
+          pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'
+        asOfAt:
+          type: string
+          format: date-time
+        status:
+          type: string
+          enum: [QUEUED, RUNNING, SUCCEEDED, PARTIAL_SUCCEEDED, FAILED, SKIPPED_STALE]
+        attemptNo:
+          type: integer
+          minimum: 0
+        startedAt:
+          type: [string, 'null']
+          format: date-time
+        completedAt:
+          type: [string, 'null']
+          format: date-time
+        result:
+          type: [object, 'null']
+          additionalProperties: true
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/StrategyScanItem'
+    StrategyScanItem:
+      type: object
+      required: [strategyScanItemId, strategyKey, status, createdAt]
+      properties:
+        strategyScanItemId:
+          type: string
+          pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'
+        strategyKey:
+          $ref: '#/components/schemas/StrategyKey'
+        strategyEvaluationId:
+          type: [string, 'null']
+          pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'
+        status:
+          type: string
+          enum: [IN_RANGE, WATCH, BLOCKED, DATA_STALE, CROSS_CURRENCY_UNVALUED, FAILED]
+        failureCode:
+          type: [string, 'null']
+        failureMessage:
+          type: [string, 'null']
+        createdAt:
+          type: string
+          format: date-time
+    CreateCashAccountRequest:
+      type: object
+      required: [displayName, currency]
+      properties:
+        displayName:
+          type: string
+          minLength: 1
+          maxLength: 128
+        currency:
+          type: string
+          enum: [CNY, USD]
+    CashAccount:
+      type: object
+      required: [accountId, displayName, accountKind, currency, status, version]
+      properties:
+        accountId:
+          type: string
+          pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'
+        displayName:
+          type: string
+        accountKind:
+          type: string
+          enum: [ASSET_CASH]
+        currency:
+          type: string
+          enum: [CNY, USD]
+        status:
+          type: string
+          enum: [ACTIVE, DISABLED]
+        version:
+          type: string
+          pattern: '^[0-9]+$'
+    CashAccountListResponse:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/CashAccount'
+    CreateInstrumentRequest:
+      type: object
+      required: [market, exchange, symbol, displayName, assetType, nativeCurrency]
+      properties:
+        market:
+          type: string
+          maxLength: 32
+        exchange:
+          type: string
+          maxLength: 32
+        symbol:
+          type: string
+          maxLength: 64
+        displayName:
+          type: string
+          maxLength: 256
+        assetType:
+          type: string
+          enum: [EQUITY, ETF, INDEX, FUTURE, OPTION]
+        nativeCurrency:
+          type: string
+          enum: [CNY, USD]
+        maturityDate:
+          type: [string, 'null']
+          format: date
+        future:
+          oneOf:
+            - $ref: '#/components/schemas/FutureSpecification'
+            - type: 'null'
+        option:
+          oneOf:
+            - $ref: '#/components/schemas/OptionSpecification'
+            - type: 'null'
+        tushareCode:
+          type: [string, 'null']
+          maxLength: 64
+        underlyingInstrumentId:
+          type: [string, 'null']
+          pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'
+    FutureSpecification:
+      type: object
+      required: [productCode, contractMultiplierCent]
+      properties:
+        productCode:
+          type: string
+          enum: [IC, IM]
+        contractMultiplierCent:
+          type: string
+          pattern: '^[1-9][0-9]*$'
+    OptionSpecification:
+      type: object
+      required: [underlyingInstrumentId, optionRight, strikePriceCent, contractMultiplier]
+      properties:
+        underlyingInstrumentId:
+          type: string
+          pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'
+        optionRight:
+          type: string
+          enum: [PUT, CALL]
+        strikePriceCent:
+          type: string
+          pattern: '^[1-9][0-9]*$'
+        contractMultiplier:
+          type: string
+          pattern: '^[1-9][0-9]*$'
+    Instrument:
+      allOf:
+        - $ref: '#/components/schemas/CreateInstrumentRequest'
+        - type: object
+          required: [instrumentId, status]
+          properties:
+            instrumentId:
+              type: string
+              pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'
+            status:
+              type: string
+              enum: [ACTIVE]
+    InstrumentPage:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items: {$ref: '#/components/schemas/Instrument'}
+        nextCursor:
+          type: [string, 'null']
+    TushareCodeRequest:
+      type: object
+      required: [tushareCode]
+      properties:
+        tushareCode:
+          type: string
+          minLength: 1
+          maxLength: 64
+    MarketSnapshotSubmissionRequest:
+      type: object
+      required: [tradingDate, sourceName, sourceReference]
+      properties:
+        tradingDate: {type: string, format: date}
+        sourceName: {type: string, maxLength: 64}
+        sourceReference: {type: string, maxLength: 512}
+        quotes:
+          type: array
+          items: {$ref: '#/components/schemas/MarketQuoteSubmission'}
+        metrics:
+          type: array
+          items: {$ref: '#/components/schemas/MarketMetricSubmission'}
+        basis:
+          type: array
+          items: {$ref: '#/components/schemas/MarketBasisSubmission'}
+    MarketQuoteSubmission:
+      type: object
+      required: [instrumentId, quoteTime, sourceObservationKey, priceCent, currency]
+      properties:
+        instrumentId: {type: string, pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'}
+        quoteTime: {type: string, format: date-time}
+        sourceObservationKey: {type: string, maxLength: 256}
+        priceCent: {type: string, pattern: '^[1-9][0-9]*$'}
+        prevCloseCent: {type: [string, 'null'], pattern: '^[1-9][0-9]*$'}
+        currency: {type: string, enum: [CNY, USD]}
+    MarketMetricSubmission:
+      type: object
+      required: [instrumentId, metricName, metricValueDecimal, sourceObservationKey]
+      properties:
+        instrumentId: {type: string, pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'}
+        metricName: {type: string, maxLength: 64}
+        metricValueDecimal: {type: string}
+        sourceObservationKey: {type: string, maxLength: 256}
+    MarketBasisSubmission:
+      type: object
+      required: [underlyingInstrumentId, futureInstrumentId, spotPricePoints, futurePricePoints, sourceObservationKey]
+      properties:
+        underlyingInstrumentId: {type: string, pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'}
+        futureInstrumentId: {type: string, pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'}
+        spotPricePoints: {type: string}
+        futurePricePoints: {type: string}
+        annualizedBasisDecimal: {type: [string, 'null']}
+        maturityDate: {type: [string, 'null'], format: date}
+        daysLeft: {type: [integer, 'null'], minimum: 0}
+        sourceObservationKey: {type: string, maxLength: 256}
+    MarketSnapshotSubmissionAccepted:
+      type: object
+      required: [marketSnapshotSubmissionId, marketSyncRunId, status]
+      properties:
+        marketSnapshotSubmissionId: {type: string, pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'}
+        marketSyncRunId: {type: string, pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'}
+        status: {type: string, enum: [QUEUED]}
+    MarketSyncRun:
+      type: object
+      required: [marketSyncRunId, tradingDate, runType, status, startedAt]
+      properties:
+        marketSyncRunId: {type: string, pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'}
+        tradingDate: {type: string, format: date}
+        runType: {type: string}
+        status: {type: string, enum: [QUEUED, RUNNING, SUCCEEDED, FAILED]}
+        startedAt: {type: string, format: date-time}
+        completedAt: {type: [string, 'null'], format: date-time}
+    MarketOverview:
+      type: object
+      required: [latestRun, quotes, metrics, basis, sourceEvents]
+      properties:
+        latestRun: {$ref: '#/components/schemas/MarketOverviewRun'}
+        quotes:
+          type: array
+          items: {$ref: '#/components/schemas/MarketOverviewQuote'}
+        metrics:
+          type: array
+          items: {$ref: '#/components/schemas/MarketOverviewMetric'}
+        basis:
+          type: array
+          items: {$ref: '#/components/schemas/MarketOverviewBasis'}
+        sourceEvents:
+          type: array
+          items: {$ref: '#/components/schemas/MarketOverviewSourceEvent'}
+    MarketOverviewRun:
+      type: [object, 'null']
+      required: [marketSyncRunId, tradingDate, runType, status, triggeredBy, startedAt, attempts]
+      properties:
+        marketSyncRunId: {type: string, pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'}
+        tradingDate: {type: string, format: date}
+        runType: {type: string}
+        status: {type: string, enum: [QUEUED, RUNNING, SUCCEEDED, FAILED]}
+        triggeredBy: {type: string}
+        startedAt: {type: string, format: date-time}
+        completedAt: {type: [string, 'null'], format: date-time}
+        attempts:
+          type: array
+          items: {$ref: '#/components/schemas/MarketOverviewAttempt'}
+    MarketOverviewAttempt:
+      type: object
+      required: [marketSyncAttemptId, attemptNo, triggerType, status, startedAt]
+      properties:
+        marketSyncAttemptId: {type: string, pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'}
+        attemptNo: {type: integer, minimum: 1}
+        triggerType: {type: string}
+        status: {type: string}
+        sourceName: {type: [string, 'null']}
+        errorCode: {type: [string, 'null']}
+        errorSummary: {type: [string, 'null']}
+        startedAt: {type: string, format: date-time}
+        completedAt: {type: [string, 'null'], format: date-time}
+    MarketOverviewQuote:
+      type: object
+      required: [quoteSnapshotId, instrumentId, symbol, displayName, currency, priceCent, quoteTime, sourceName]
+      properties:
+        quoteSnapshotId: {type: string, pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'}
+        instrumentId: {type: string, pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'}
+        symbol: {type: string}
+        displayName: {type: string}
+        currency: {type: string, enum: [CNY, USD]}
+        priceCent: {type: string, pattern: '^[1-9][0-9]*$'}
+        prevCloseCent: {type: [string, 'null'], pattern: '^[1-9][0-9]*$'}
+        quoteTime: {type: string, format: date-time}
+        sourceName: {type: string}
+    MarketOverviewMetric:
+      type: object
+      required: [dailyMetricId, instrumentId, symbol, displayName, tradeDate, metricName, sourceName]
+      properties:
+        dailyMetricId: {type: string, pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'}
+        instrumentId: {type: string, pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'}
+        symbol: {type: string}
+        displayName: {type: string}
+        tradeDate: {type: string, format: date}
+        metricName: {type: string}
+        valueDecimal: {type: [string, 'null']}
+        valueCent: {type: [string, 'null'], pattern: '^[0-9]+$'}
+        currency: {type: [string, 'null'], enum: [CNY, USD]}
+        sourceName: {type: string}
+    MarketOverviewBasis:
+      type: object
+      required: [basisSnapshotId, underlyingInstrumentId, underlyingSymbol, futureInstrumentId, futureSymbol,
+                 productCode, tradeDate, spotPricePoints, futurePricePoints, basisPoints, sourceName]
+      properties:
+        basisSnapshotId: {type: string, pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'}
+        underlyingInstrumentId: {type: string, pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'}
+        underlyingSymbol: {type: string}
+        futureInstrumentId: {type: string, pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'}
+        futureSymbol: {type: string}
+        productCode: {type: string, enum: [IC, IM]}
+        tradeDate: {type: string, format: date}
+        spotPricePoints: {type: string}
+        futurePricePoints: {type: string}
+        basisPoints: {type: string}
+        annualizedBasisDecimal: {type: [string, 'null']}
+        maturityDate: {type: [string, 'null'], format: date}
+        daysLeft: {type: [integer, 'null'], minimum: 0}
+        sourceName: {type: string}
+    MarketOverviewSourceEvent:
+      type: object
+      required: [marketSourceEventId, eventType, severity, errorSummary, createdAt]
+      properties:
+        marketSourceEventId: {type: string, pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'}
+        instrumentId: {type: [string, 'null'], pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'}
+        symbol: {type: [string, 'null']}
+        sourceName: {type: [string, 'null']}
+        eventType: {type: string}
+        severity: {type: string}
+        errorCode: {type: [string, 'null']}
+        errorSummary: {type: string}
+        createdAt: {type: string, format: date-time}
+    UploadRequest:
+      type: object
+      required: [direction, mediaType, byteSize, sha256]
+      properties:
+        direction:
+          type: string
+          enum: [IMPORT, RECONCILIATION_EVIDENCE]
+        mediaType:
+          type: string
+          enum: [application/json, application/x-sqlite3, application/pdf, image/jpeg, image/png]
+        byteSize:
+          type: string
+          description: 文件字节数；服务端本地默认上限为 10485760，且会在扫描阶段重新校验。
+          pattern: '^[1-9][0-9]*$'
+        sha256:
+          type: string
+          description: 小写或大写的 64 位 SHA-256 十六进制摘要；服务端将标准化为小写。
+          pattern: '^[a-fA-F0-9]{64}$'
+    UploadRequestResponse:
+      type: object
+      required: [importExportFileId, uploadUrl, method, fileField, formData, expiresAt]
+      properties:
+        importExportFileId:
+          type: string
+          pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'
+        uploadUrl:
+          type: string
+          format: uri
+        method:
+          type: string
+          enum: [POST]
+        fileField:
+          type: string
+          enum: [file]
+        formData:
+          type: object
+          additionalProperties:
+            type: string
+        expiresAt:
+          type: string
+          format: date-time
+    FileScanRequestResponse:
+      type: object
+      required: [importExportFileId, status]
+      properties:
+        importExportFileId:
+          type: string
+          pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'
+        status:
+          type: string
+          enum: [QUARANTINED]
+    FileStatusResponse:
+      type: object
+      required: [importExportFileId, direction, mediaType, byteSize, status]
+      properties:
+        importExportFileId:
+          type: string
+          pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'
+        direction:
+          type: string
+          enum: [IMPORT, RECONCILIATION_EVIDENCE]
+        mediaType:
+          type: string
+        byteSize:
+          type: string
+          pattern: '^[1-9][0-9]*$'
+        status:
+          type: string
+          enum: [UPLOAD_PENDING, QUARANTINED, SCANNED, PREVIEWED, COMMITTED, DELETED, FAILED]
+    LegacyImportRequest:
+      type: object
+      required: [importExportFileId, format]
+      properties:
+        importExportFileId:
+          type: string
+          pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'
+        format:
+          type: string
+          enum: [LEGACY_DASHBOARD_JSON, LEGACY_SQLITE]
+        snapshotId:
+          type: [string, 'null']
+          description: LEGACY_SQLITE 必填的 snapshots.id；JSON 不得提供。
+          maxLength: 64
+        currencyMappings:
+          type: array
+          items:
+            $ref: '#/components/schemas/LegacyCurrencyMapping'
+        instrumentMappings:
+          type: array
+          items:
+            $ref: '#/components/schemas/LegacyInstrumentMapping'
+        dividendEntitlementOverrides:
+          type: array
+          items:
+            $ref: '#/components/schemas/LegacyDividendEntitlementOverride'
+        optionExpiryAttestations:
+          type: array
+          items:
+            $ref: '#/components/schemas/LegacyOptionExpiryAttestation'
+    LegacyCurrencyMapping:
+      type: object
+      required: [module, currency, amountUnit, cashAccountId]
+      properties:
+        module:
+          type: string
+        action:
+          type: [string, 'null']
+          description: 为空时匹配该 module 的所有 action；同 module/action 不得重复。
+        currency:
+          type: string
+          enum: [CNY, USD]
+        amountUnit:
+          type: string
+          description: 适用于 amount、margin 与 fee；price 始终按原币种小数精确乘以 100。
+          enum: [LEGACY_CNY_WAN, ORIGINAL_CURRENCY_DECIMAL]
+        cashAccountId:
+          type: string
+          pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'
+    LegacyInstrumentMapping:
+      type: object
+      required: [module, symbol, instrumentId]
+      properties:
+        module:
+          type: string
+        symbol:
+          type: string
+        instrumentId:
+          type: string
+          pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'
+    LegacyDividendEntitlementOverride:
+      type: object
+      required: [sourceRow, entitlementDate]
+      properties:
+        sourceRow:
+          type: integer
+          minimum: 1
+        entitlementDate:
+          type: string
+          format: date
+    LegacyOptionExpiryAttestation:
+      type: object
+      required: [sourceRow, expiryOutcome]
+      properties:
+        sourceRow:
+          type: integer
+          minimum: 1
+        expiryOutcome:
+          type: string
+          enum: [WORTHLESS]
+    LegacyImportConfirm:
+      type: object
+      required: [expectedChecksum]
+      properties:
+        expectedChecksum:
+          type: string
+          pattern: '^[a-f0-9]{64}$'
+    LegacyImportJob:
+      type: object
+      required: [jobId, importPreviewId, importExportFileId, format, previewChecksum, status, expiresAt,
+                 applicableCount, needsReviewCount, lines]
+      properties:
+        jobId:
+          type: string
+          pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'
+        importPreviewId:
+          type: string
+          pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'
+        importExportFileId:
+          type: string
+          pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'
+        format:
+          type: string
+          enum: [LEGACY_DASHBOARD_JSON, LEGACY_SQLITE]
+        sourceSnapshotId:
+          type: [string, 'null']
+        previewChecksum:
+          type: string
+          pattern: '^[a-f0-9]{64}$'
+        status:
+          type: string
+          enum: [SUCCEEDED, FAILED, NEEDS_REVIEW, COMMITTED, EXPIRED]
+        expiresAt:
+          type: string
+          format: date-time
+        applicableCount:
+          type: integer
+          minimum: 0
+        needsReviewCount:
+          type: integer
+          minimum: 0
+        lines:
+          type: array
+          items:
+            $ref: '#/components/schemas/LegacyImportPreviewLine'
+    LegacyImportPreviewLine:
+      type: object
+      required: [sourceRow, status]
+      properties:
+        sourceRow:
+          type: integer
+          minimum: 0
+        status:
+          type: string
+          enum: [APPLICABLE, NEEDS_REVIEW, SKIPPED, FAILED]
+        code:
+          type: [string, 'null']
+        operation:
+          type: [string, 'null']
+          enum: [EXTERNAL_FUNDING, EXTERNAL_WITHDRAWAL, SPOT_BUY, SPOT_SELL, DIVIDEND, INTEREST, OPTION_OPEN,
+                 OPTION_CLOSE, OPTION_EXPIRE_ALL, FUTURES_MARGIN_IN, FUTURES_OPEN, FUTURES_CLOSE, FEE, null]
+        occurredOn:
+          type: [string, 'null']
+          format: date
+        cashAccountId:
+          type: [string, 'null']
+          pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'
+        instrumentId:
+          type: [string, 'null']
+          pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'
+        quantity:
+          type: [string, 'null']
+        unitPriceCent:
+          type: [string, 'null']
+          pattern: '^[1-9][0-9]*$'
+        pricePoints:
+          type: [string, 'null']
+        amountCent:
+          type: [string, 'null']
+          pattern: '^(?:0|[1-9][0-9]*)$'
+        initialMarginCent:
+          type: [string, 'null']
+          pattern: '^[1-9][0-9]*$'
+        feeCent:
+          type: [string, 'null']
+          pattern: '^(?:0|[1-9][0-9]*)$'
+        entitlementDate:
+          type: [string, 'null']
+          format: date
+        note:
+          type: [string, 'null']
+          maxLength: 1000
+    PortfolioSummary:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/PortfolioCurrencyOverview'
+    PortfolioHistorySnapshotWrite:
+      type: object
+      required: [persistedCount, skippedUnvaluedCurrencyCount]
+      properties:
+        persistedCount: {type: integer, minimum: 0}
+        skippedUnvaluedCurrencyCount: {type: integer, minimum: 0}
+    PortfolioHistory:
+      type: object
+      required: [items, chartPoints]
+      properties:
+        items:
+          type: array
+          items: {$ref: '#/components/schemas/PortfolioHistoryPoint'}
+        chartPoints:
+          type: array
+          description: 服务端计算的单币种净值相对坐标（0 至 10000），仅用于渲染曲线；不是金额。
+          items: {$ref: '#/components/schemas/PortfolioHistoryChartPoint'}
+    PortfolioHistoryPoint:
+      type: object
+      required: [dailySnapshotId, currency, asOfDate, netAssetCent, cashCent, marketValueCent,
+                 sourceLedgerVersion, calculatedAt]
+      properties:
+        dailySnapshotId: {type: string, pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'}
+        currency: {type: string, enum: [CNY, USD]}
+        asOfDate: {type: string, format: date}
+        netAssetCent: {type: string, pattern: '^[0-9]+$'}
+        cashCent: {type: string, pattern: '^[0-9]+$'}
+        marketValueCent: {type: string, pattern: '^[0-9]+$'}
+        sourceLedgerVersion: {type: string, pattern: '^[0-9]+$'}
+        calculatedAt: {type: string, format: date-time}
+    PortfolioHistoryChartPoint:
+      type: object
+      required: [dailySnapshotId, asOfDate, netAssetBasisPoints]
+      properties:
+        dailySnapshotId: {type: string, pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'}
+        asOfDate: {type: string, format: date}
+        netAssetBasisPoints:
+          type: integer
+          minimum: 0
+          maximum: 10000
+          description: 同一请求、同一原币种历史序列内的相对高度；小程序不得用金额自行重算。
+    PortfolioAllocation:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items: {$ref: '#/components/schemas/PortfolioAllocationCurrency'}
+    PortfolioAllocationCurrency:
+      type: object
+      required: [currency, valuationStatus, marketValueCent, slices]
+      properties:
+        currency: {type: string, enum: [CNY, USD]}
+        valuationStatus: {type: string}
+        marketValueCent:
+          type: [string, 'null']
+          pattern: '^(?:0|[1-9][0-9]*)$'
+        slices:
+          type: array
+          items: {$ref: '#/components/schemas/PortfolioAllocationSlice'}
+    PortfolioAllocationSlice:
+      type: object
+      required: [instrumentId, marketValueCent, shareBasisPoints]
+      properties:
+        instrumentId: {type: string, pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'}
+        marketValueCent: {type: string, pattern: '^(?:0|[1-9][0-9]*)$'}
+        shareBasisPoints:
+          type: integer
+          minimum: 0
+          maximum: 10000
+          description: 服务端计算的单币种渲染比例，不是货币金额。
+    PortfolioCurrencyOverview:
+      type: object
+      required: [currency, cashCent, marginCent, positions, asOf, sourceLedgerVersion, valuationStatus]
+      properties:
+        currency:
+          type: string
+          enum: [CNY, USD]
+        cashCent:
+          type: string
+          pattern: '^-?(?:0|[1-9][0-9]*)$'
+        marginCent:
+          type: string
+          pattern: '^-?(?:0|[1-9][0-9]*)$'
+        marketValueCent:
+          type: [string, 'null']
+          description: 全部未平仓持仓可估值时的原币种总市值；账户视图遇用户级总市值时为 null。
+          pattern: '^(?:0|[1-9][0-9]*)$'
+        netAssetCent:
+          type: [string, 'null']
+          description: cashCent + marginCent + marketValueCent；估值不完整时为 null。
+          pattern: '^-?(?:0|[1-9][0-9]*)$'
+        positions:
+          type: array
+          items:
+            $ref: '#/components/schemas/PortfolioPosition'
+        asOf:
+          type: string
+          format: date
+        sourceLedgerVersion:
+          type: string
+          pattern: '^[0-9]+$'
+        valuationStatus:
+          type: string
+          enum: [NO_OPEN_POSITION, MANUAL, MANUAL_TOTAL_UNALLOCATED, PARTIALLY_UNVALUED, UNVALUED]
+    PortfolioPosition:
+      type: object
+      required: [cashAccountId, instrumentId, currency, quantity, valuationStatus]
+      properties:
+        cashAccountId:
+          type: string
+          pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'
+        instrumentId:
+          type: string
+          pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'
+        currency:
+          type: string
+          enum: [CNY, USD]
+        quantity:
+          type: string
+          pattern: '^[1-9][0-9]*(?:\\.[0-9]{1,8})?$'
+        marketValueCent:
+          type: [string, 'null']
+          pattern: '^(?:0|[1-9][0-9]*)$'
+        costCent:
+          type: [string, 'null']
+          description: FIFO 剩余成本；期货和无法从不可变批次精确恢复成本的持仓为 null。
+          pattern: '^(?:0|[1-9][0-9]*)$'
+        unrealizedPnlCent:
+          type: [string, 'null']
+          description: 仅当单位价估值和 FIFO 剩余成本均可精确表达时返回 marketValueCent - costCent；不对用户级总市值或期货计算。
+          pattern: '^-?(?:0|[1-9][0-9]*)$'
+        valuationStatus:
+          type: string
+          enum: [MANUAL_UNIT_PRICE, MANUAL_TOTAL_UNALLOCATED, UNVALUED, EXPIRED, PRECISION_UNAVAILABLE,
+                 FUTURES_SETTLEMENT_ONLY]
+    ManualValuationCreate:
+      type: object
+      required: [instrumentId, valuationDate, currency]
+      properties:
+        instrumentId:
+          type: string
+          pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'
+        valuationDate:
+          type: string
+          format: date
+        currency:
+          type: string
+          enum: [CNY, USD]
+        unitPriceCent:
+          type: [string, 'null']
+          description: 原币种最小单位单价；与 marketValueCent 二选一。
+          pattern: '^[1-9][0-9]*$'
+        marketValueCent:
+          type: [string, 'null']
+          description: “用户 + 标的”的原币种最小单位总市值，只在组合总览中计一次；与 unitPriceCent 二选一。
+          pattern: '^[1-9][0-9]*$'
+        validUntil:
+          type: [string, 'null']
+          format: date-time
+        note:
+          type: [string, 'null']
+          maxLength: 1000
+    ManualValuation:
+      allOf:
+        - $ref: '#/components/schemas/ManualValuationCreate'
+        - type: object
+          required: [manualValuationId, priority, valuationStatus]
+          properties:
+            manualValuationId:
+              type: string
+              pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'
+            priority:
+              type: integer
+              enum: [100]
+            valuationStatus:
+              type: string
+              enum: [ACTIVE, EXPIRED]
+    ReconciliationCreate:
+      type: object
+      required: [cashAccountId, reconciliationDate, brokerCashCent, positions]
+      properties:
+        cashAccountId:
+          type: string
+          pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'
+        reconciliationDate:
+          type: string
+          format: date
+        brokerCashCent:
+          type: string
+          pattern: '^(?:0|[1-9][0-9]*)$'
+        positions:
+          type: array
+          description: 券商在该账户/日期的全部非零持仓快照；不得含重复标的。
+          items:
+            $ref: '#/components/schemas/ReconciliationBrokerPosition'
+        attachmentImportExportFileId:
+          type: [string, 'null']
+          pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'
+        discrepancyReason:
+          type: [string, 'null']
+          maxLength: 1000
+    ReconciliationBrokerPosition:
+      type: object
+      required: [instrumentId, quantity]
+      properties:
+        instrumentId:
+          type: string
+          pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'
+        quantity:
+          type: string
+          pattern: '^(?:0|[1-9][0-9]*)(?:\\.[0-9]{1,8})?$'
+    Reconciliation:
+      type: object
+      required: [reconciliationId, cashAccountId, reconciliationDate, brokerCashCent, ledgerCashCent,
+                 cashDifferenceCent, cashDifferenceDirection, currency, status, sourceLedgerVersion, positions]
+      properties:
+        reconciliationId:
+          type: string
+          pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'
+        cashAccountId:
+          type: string
+          pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'
+        reconciliationDate:
+          type: string
+          format: date
+        brokerCashCent:
+          type: string
+          pattern: '^(?:0|[1-9][0-9]*)$'
+        ledgerCashCent:
+          type: string
+          pattern: '^(?:0|[1-9][0-9]*)$'
+        cashDifferenceCent:
+          type: string
+          pattern: '^(?:0|[1-9][0-9]*)$'
+        cashDifferenceDirection:
+          type: string
+          enum: [NONE, BROKER_GREATER, LEDGER_GREATER]
+        currency:
+          type: string
+          enum: [CNY, USD]
+        status:
+          type: string
+          enum: [MATCHED, NEEDS_REVIEW]
+        sourceLedgerVersion:
+          type: integer
+          minimum: 0
+        positions:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReconciliationPosition'
+    ReconciliationPosition:
+      type: object
+      required: [instrumentId, brokerQuantity, ledgerQuantity, quantityDifference]
+      properties:
+        instrumentId:
+          type: string
+          pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'
+        brokerQuantity:
+          type: string
+        ledgerQuantity:
+          type: string
+        quantityDifference:
+          type: string
+    ReconciliationPage:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Reconciliation'
+        nextCursor:
+          type: [string, 'null']
+    SpotTransactionCreate:
+      type: object
+      required: [transactionType, occurredOn, cashAccountId, instrumentId, quantity, unitPriceCent]
+      properties:
+        transactionType:
+          type: string
+          enum: [TRADE_BUY, TRADE_SELL]
+        occurredOn:
+          type: string
+          format: date
+        note:
+          type: [string, 'null']
+          maxLength: 1000
+        cashAccountId:
+          type: string
+          pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'
+        instrumentId:
+          type: string
+          pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'
+        quantity:
+          type: string
+          pattern: '^(?:0|[1-9][0-9]*)(?:\\.[0-9]{1,8})?$'
+        unitPriceCent:
+          type: string
+          pattern: '^[1-9][0-9]*$'
+        feeCent:
+          type: string
+          pattern: '^(?:0|[1-9][0-9]*)$'
+    LedgerTransactionCreate:
+      type: object
+      required: [transactionType, occurredOn]
+      properties:
+        transactionType:
+          type: string
+          enum: [EXTERNAL_FUNDING, EXTERNAL_WITHDRAWAL, INTERNAL_TRANSFER, FEE, TRADE_BUY, TRADE_SELL, DIVIDEND, INTEREST, CORPORATE_ACTION, FUTURES_MARGIN, FUTURES_OPEN, FUTURES_CLOSE, FUTURES_DAILY_SETTLEMENT, FUTURES_ROLL, OPTION_OPEN, OPTION_CLOSE, OPTION_EXPIRE]
+        occurredOn:
+          type: string
+          format: date
+        note:
+          type: [string, 'null']
+          maxLength: 1000
+        cashAccountId:
+          type: string
+          pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'
+        destinationAccountId:
+          type: [string, 'null']
+          pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'
+        instrumentId:
+          type: [string, 'null']
+          pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'
+        quantity:
+          type: [string, 'null']
+          pattern: '^[1-9][0-9]*(?:\\.[0-9]{1,8})?$'
+        unitPriceCent:
+          type: [string, 'null']
+          pattern: '^[1-9][0-9]*$'
+        pricePoints:
+          type: [string, 'null']
+          description: 期货成交点位；仅 FUTURES_OPEN、FUTURES_CLOSE 使用，最多 8 位小数。
+          pattern: '^[1-9][0-9]*(?:\\.[0-9]{1,8})?$'
+        settlementPricePoints:
+          type: [string, 'null']
+          description: 期货逐日结算点位；仅 FUTURES_DAILY_SETTLEMENT 使用，最多 8 位小数。
+          pattern: '^[1-9][0-9]*(?:\\.[0-9]{1,8})?$'
+        initialMarginCent:
+          type: [string, 'null']
+          description: 期货初始保证金，以人民币最小单位存储；仅 FUTURES_OPEN 使用。
+          pattern: '^[1-9][0-9]*$'
+        feeCent:
+          type: [string, 'null']
+          pattern: '^(?:0|[1-9][0-9]*)$'
+        amountCent:
+          type: [string, 'null']
+          pattern: '^[1-9][0-9]*$'
+        taxWithheldCent:
+          type: [string, 'null']
+          pattern: '^(?:0|[1-9][0-9]*)$'
+        entitlementDate:
+          type: [string, 'null']
+          format: date
+        perShareAmountCent:
+          type: [string, 'null']
+          pattern: '^[1-9][0-9]*$'
+        corporateAction:
+          type: [object, 'null']
+          required: [actionType, instrumentId, ratioNumerator, ratioDenominator]
+          properties:
+            actionType:
+              type: string
+              enum: [STOCK_SPLIT, REVERSE_SPLIT, STOCK_DIVIDEND]
+            instrumentId:
+              type: string
+              pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'
+            ratioNumerator:
+              type: string
+              pattern: '^[1-9][0-9]*$'
+            ratioDenominator:
+              type: string
+              pattern: '^[1-9][0-9]*$'
+        marginDirection:
+          type: [string, 'null']
+          enum: [IN, OUT, null]
+        expiryOutcome:
+          type: [string, 'null']
+          description: 期权到期核销的人工确认；仅 OPTION_EXPIRE 使用。
+          enum: [WORTHLESS, null]
+        strategyKey:
+          type: [string, 'null']
+          description: 从策略工作区提交时必填，作为不可变账本归属；通用账本交易可为 null。
+          enum: [HIGH_DIVIDEND, QQQ_GROWTH, IC_IM, DEEP_PUT, null]
+        futuresRoll:
+          type: [object, 'null']
+          description: 仅 FUTURES_ROLL 使用；closeLeg 和 openLeg 将在同一事务中写入。
+          required: [closeLeg, openLeg]
+          properties:
+            closeLeg:
+              $ref: '#/components/schemas/FuturesRollLeg'
+            openLeg:
+              $ref: '#/components/schemas/FuturesRollLeg'
+    FuturesRollLeg:
+      type: object
+      required: [cashAccountId, instrumentId, quantity, pricePoints]
+      properties:
+        cashAccountId:
+          type: string
+          pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'
+        instrumentId:
+          type: string
+          pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'
+        quantity:
+          type: string
+          pattern: '^[1-9][0-9]*$'
+        pricePoints:
+          type: string
+          pattern: '^[1-9][0-9]*(?:\.[0-9]{1,8})?$'
+        initialMarginCent:
+          type: [string, 'null']
+          description: openLeg 必填、closeLeg 禁止；以 CNY 最小单位表示。
+          pattern: '^[1-9][0-9]*$'
+        feeCent:
+          type: [string, 'null']
+          pattern: '^(?:0|[1-9][0-9]*)$'
+    FuturesRollResponse:
+      type: object
+      required: [operationGroupKey, transactions]
+      properties:
+        operationGroupKey:
+          type: string
+          pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'
+        transactions:
+          type: array
+          minItems: 2
+          maxItems: 2
+          items:
+            $ref: '#/components/schemas/LedgerTransaction'
+    LedgerTransaction:
+      type: object
+      required: [transactionId, transactionType, occurredOn, currency, postings, tradeDetails, ledgerVersion]
+      properties:
+        transactionId:
+          type: string
+          pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'
+        transactionType:
+          type: string
+          enum: [EXTERNAL_FUNDING, EXTERNAL_WITHDRAWAL, INTERNAL_TRANSFER, FEE, TRADE_BUY, TRADE_SELL, DIVIDEND, INTEREST, CORPORATE_ACTION, FUTURES_MARGIN, FUTURES_OPEN, FUTURES_CLOSE, FUTURES_DAILY_SETTLEMENT, OPTION_OPEN, OPTION_CLOSE, OPTION_EXPIRE, REVERSAL]
+        occurredOn:
+          type: string
+          format: date
+        currency:
+          type: [string, 'null']
+          enum: [CNY, USD, null]
+        postings:
+          type: array
+          items:
+            $ref: '#/components/schemas/LedgerPosting'
+        tradeDetails:
+          type: array
+          items:
+            $ref: '#/components/schemas/TradeDetail'
+        ledgerVersion:
+          type: string
+          pattern: '^[1-9][0-9]*$'
+    LedgerTransactionDetail:
+      type: object
+      required: [transactionId, transactionType, occurredOn, sourceType, correctionRootTransactionId, revisionNo,
+                 ledgerVersion, correctable, postings, tradeDetails]
+      properties:
+        transactionId: {type: string, pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'}
+        transactionType:
+          type: string
+          enum: [EXTERNAL_FUNDING, EXTERNAL_WITHDRAWAL, INTERNAL_TRANSFER, FEE, TRADE_BUY, TRADE_SELL, DIVIDEND,
+                 INTEREST, CORPORATE_ACTION, FUTURES_MARGIN, FUTURES_OPEN, FUTURES_CLOSE,
+                 FUTURES_DAILY_SETTLEMENT, OPTION_OPEN, OPTION_CLOSE, OPTION_EXPIRE, REVERSAL]
+        occurredOn: {type: string, format: date}
+        strategyKey:
+          type: [string, 'null']
+          enum: [HIGH_DIVIDEND, QQQ_GROWTH, IC_IM, DEEP_PUT, null]
+        operationGroupKey:
+          type: [string, 'null']
+          pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'
+        sourceType:
+          type: string
+          enum: [MANUAL, IMPORT, CORRECTION_REVERSAL, CORRECTION_REPLACEMENT]
+        importExportFileId:
+          type: [string, 'null']
+          pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'
+        correctionRootTransactionId: {type: string, pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'}
+        reversalOfTransactionId:
+          type: [string, 'null']
+          pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'
+        revisionNo: {type: integer, minimum: 0}
+        ledgerVersion: {type: string, pattern: '^[1-9][0-9]*$'}
+        note: {type: [string, 'null'], maxLength: 1000}
+        correctable: {type: boolean}
+        postings:
+          type: array
+          items: {$ref: '#/components/schemas/LedgerTransactionDetailPosting'}
+        tradeDetails:
+          type: array
+          items: {$ref: '#/components/schemas/LedgerTransactionDetailTrade'}
+        corporateAction:
+          oneOf:
+            - type: 'null'
+            - $ref: '#/components/schemas/LedgerCorporateActionDetail'
+        income:
+          oneOf:
+            - type: 'null'
+            - $ref: '#/components/schemas/LedgerIncomeDetail'
+    LedgerTransactionDetailPosting:
+      type: object
+      required: [postingId, accountId, postingNo, postingSide, amountCent, currency]
+      properties:
+        postingId: {type: string, pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'}
+        accountId: {type: string, pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'}
+        postingNo: {type: integer, minimum: 1}
+        postingSide: {type: string, enum: [DEBIT, CREDIT]}
+        amountCent: {type: string, pattern: '^[1-9][0-9]*$'}
+        currency: {type: string, enum: [CNY, USD]}
+    LedgerTransactionDetailTrade:
+      type: object
+      required: [tradeDetailId, detailNo, instrumentId, positionEffect, quantity, feeCent]
+      properties:
+        tradeDetailId: {type: string, pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'}
+        detailNo: {type: integer, minimum: 1}
+        instrumentId: {type: string, pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'}
+        positionEffect: {type: string, enum: [OPEN, CLOSE, NONE]}
+        quantity: {type: string}
+        unitPriceCent: {type: [string, 'null'], pattern: '^[1-9][0-9]*$'}
+        pricePoints: {type: [string, 'null']}
+        contractMultiplierCent: {type: [string, 'null'], pattern: '^[1-9][0-9]*$'}
+        deliveryDate: {type: [string, 'null'], format: date}
+        feeCent: {type: string, pattern: '^(?:0|[1-9][0-9]*)$'}
+        optionContractMultiplier: {type: [string, 'null'], pattern: '^[1-9][0-9]*$'}
+    LedgerCorporateActionDetail:
+      type: object
+      required: [corporateActionId, instrumentId, actionType, effectiveOn, ratioNumerator, ratioDenominator]
+      properties:
+        corporateActionId: {type: string, pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'}
+        instrumentId: {type: string, pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'}
+        actionType: {type: string, enum: [STOCK_SPLIT, REVERSE_SPLIT, STOCK_DIVIDEND]}
+        effectiveOn: {type: string, format: date}
+        ratioNumerator: {type: string, pattern: '^[1-9][0-9]*$'}
+        ratioDenominator: {type: string, pattern: '^[1-9][0-9]*$'}
+    LedgerIncomeDetail:
+      type: object
+      required: [incomeDetailId, incomeType, grossAmountCent, taxWithheldCent, currency]
+      properties:
+        incomeDetailId: {type: string, pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'}
+        incomeType: {type: string, enum: [DIVIDEND, INTEREST]}
+        instrumentId: {type: [string, 'null'], pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'}
+        entitlementDate: {type: [string, 'null'], format: date}
+        grossAmountCent: {type: string, pattern: '^[1-9][0-9]*$'}
+        taxWithheldCent: {type: string, pattern: '^(?:0|[1-9][0-9]*)$'}
+        perShareAmountCent: {type: [string, 'null'], pattern: '^[1-9][0-9]*$'}
+        currency: {type: string, enum: [CNY, USD]}
+    LedgerSnapshot:
+      type: object
+      required: [ledgerSnapshotId, asOfDate, sourceLedgerVersion, contentSha256Hex, createdAt]
+      properties:
+        ledgerSnapshotId: {type: string, pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'}
+        asOfDate: {type: string, format: date}
+        sourceLedgerVersion: {type: string, pattern: '^[1-9][0-9]*$'}
+        contentSha256Hex: {type: string, pattern: '^[a-f0-9]{64}$'}
+        createdAt: {type: string, format: date-time}
+    LedgerSnapshotListResponse:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items: {$ref: '#/components/schemas/LedgerSnapshot'}
+    LedgerSnapshotRestoreResponse:
+      type: object
+      required: [ledgerSnapshotId, restoredAccountCount, restoredTransactionCount, targetLedgerVersion]
+      properties:
+        ledgerSnapshotId: {type: string, pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'}
+        restoredAccountCount: {type: integer, minimum: 1}
+        restoredTransactionCount: {type: integer, minimum: 1}
+        targetLedgerVersion: {type: string, pattern: '^[1-9][0-9]*$'}
+    CorrectionRequest:
+      type: object
+      properties:
+        replacement:
+          oneOf:
+            - type: 'null'
+            - $ref: '#/components/schemas/LedgerTransactionCreate'
+    CorrectionResponse:
+      type: object
+      required: [reversalTransactionIds, replacementTransactionIds, correctionRootTransactionIds, ledgerVersion]
+      properties:
+        reversalTransactionIds:
+          type: array
+          items:
+            type: string
+            pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'
+        replacementTransactionIds:
+          type: array
+          items:
+            type: string
+            pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'
+        correctionRootTransactionIds:
+          type: array
+          items:
+            type: string
+            pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'
+        ledgerVersion:
+          type: string
+          pattern: '^[1-9][0-9]*$'
+    LedgerTransactionPage:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/LedgerTransactionSummary'
+        nextCursor:
+          type: [string, 'null']
+    LedgerTransactionSummary:
+      type: object
+      required: [transactionId, transactionType, occurredOn, currency, ledgerVersion, sourceType]
+      properties:
+        transactionId:
+          type: string
+          pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'
+        transactionType:
+          type: string
+          enum: [EXTERNAL_FUNDING, EXTERNAL_WITHDRAWAL, INTERNAL_TRANSFER, FEE, TRADE_BUY, TRADE_SELL, DIVIDEND, INTEREST, CORPORATE_ACTION, FUTURES_MARGIN, FUTURES_OPEN, FUTURES_CLOSE, FUTURES_DAILY_SETTLEMENT, OPTION_OPEN, OPTION_CLOSE, OPTION_EXPIRE]
+        occurredOn:
+          type: string
+          format: date
+        currency:
+          type: [string, 'null']
+          enum: [CNY, USD, null]
+        ledgerVersion:
+          type: string
+          pattern: '^[1-9][0-9]*$'
+        sourceType:
+          type: string
+          enum: [MANUAL, IMPORT, CORRECTION_REVERSAL, CORRECTION_REPLACEMENT]
+        importExportFileId:
+          type: [string, 'null']
+          description: IMPORT 流水关联的不可变证据文件业务 ID；其他来源为 null。
+          pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'
+    SpotTransactionPreview:
+      type: object
+      required: [draftHash, currency, postings, tradeDetails, accountProvisioning, validationWarnings]
+      properties:
+        draftHash:
+          type: string
+          pattern: '^[a-f0-9]{64}$'
+        currency:
+          type: [string, 'null']
+          enum: [CNY, USD, null]
+        postings:
+          type: array
+          items:
+            $ref: '#/components/schemas/PreviewPosting'
+        tradeDetails:
+          type: array
+          items:
+            $ref: '#/components/schemas/PreviewTradeDetail'
+        accountProvisioning:
+          type: array
+          items:
+            type: string
+        validationWarnings:
+          type: array
+          items:
+            type: string
+        proposedOperationGroupKey:
+          type: [string, 'null']
+          description: 仅 FUTURES_ROLL 预览返回的草稿操作组标识；未落库，提交成功后以响应 operationGroupKey 为准。
+          pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'
+    PreviewPosting:
+      type: object
+      required: [accountCode, displayName, postingSide, amountCent, currency]
+      properties:
+        accountCode:
+          type: string
+        displayName:
+          type: string
+        postingSide:
+          type: string
+          enum: [DEBIT, CREDIT]
+        amountCent:
+          type: string
+          pattern: '^[1-9][0-9]*$'
+        currency:
+          type: string
+          enum: [CNY, USD]
+    PreviewTradeDetail:
+      type: object
+      required: [instrumentId, positionEffect, quantity]
+      properties:
+        instrumentId:
+          type: string
+          pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'
+        positionEffect:
+          type: string
+          enum: [OPEN, CLOSE, NONE]
+        quantity:
+          type: string
+    LedgerPosting:
+      type: object
+      required: [postingId, accountId, postingSide, amountCent, currency]
+      properties:
+        postingId:
+          type: string
+          pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'
+        accountId:
+          type: string
+          pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'
+        postingSide:
+          type: string
+          enum: [DEBIT, CREDIT]
+        amountCent:
+          type: string
+          pattern: '^[1-9][0-9]*$'
+        currency:
+          type: string
+          enum: [CNY, USD]
+    TradeDetail:
+      type: object
+      required: [tradeDetailId, instrumentId, positionEffect, quantity, feeCent]
+      properties:
+        tradeDetailId:
+          type: string
+          pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'
+        instrumentId:
+          type: string
+          pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'
+        positionEffect:
+          type: string
+          enum: [OPEN, CLOSE, NONE]
+        quantity:
+          type: string
+        unitPriceCent:
+          type: [string, 'null']
+        pricePoints:
+          type: [string, 'null']
+        contractMultiplierCent:
+          type: [string, 'null']
+        deliveryDate:
+          type: [string, 'null']
+          format: date
+        feeCent:
+          type: string
+        optionContractMultiplier:
+          type: [string, 'null']
+          description: 期权开仓、平仓或无价值到期核销时写入的非货币合约乘数快照。
+          pattern: '^[1-9][0-9]*$'
+    Problem:
+      type: object
+      required: [code, message, traceId, details]
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        traceId:
+          type: string
+        details:
+          type: array
+          items:
+            type: string

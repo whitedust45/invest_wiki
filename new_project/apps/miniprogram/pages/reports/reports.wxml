@@ -1,0 +1,120 @@
+<view class="page-shell">
+  <view class="page-header">
+    <view class="page-kicker">复核优先 · 原币种独立</view>
+    <view class="title">报表</view>
+    <view class="page-description">净值、资产分布、策略状态、估值与流水均来自服务端事实；CNY 与 USD 不会被相加或隐式换汇。</view>
+  </view>
+
+  <view class="card reports-hero">
+    <view class="reports-eyebrow">DAILY SNAPSHOT</view>
+    <view class="reports-value">净值历史</view>
+    <view class="muted">只在估值完整时追加同币种快照。未估值日期会保留缺口，不以成本、零值或混币数字填充。</view>
+    <button class="primary-button" loading="{{recordingSnapshot}}" disabled="{{recordingSnapshot}}" bindtap="recordTodaySnapshot">重算并记录今日快照</button>
+    <view wx:if="{{lastSnapshotMessage}}" class="success-message">{{lastSnapshotMessage}}</view>
+  </view>
+
+  <view wx:if="{{loading}}" class="card loading-card">正在读取组合、策略、历史和流水…</view>
+
+  <block wx:if="{{!loading}}">
+    <view wx:if="{{!currencyReports.length}}" class="card empty-tip">尚无可展示资产。请先在账本创建现金账户并记录入金。</view>
+    <view wx:for="{{currencyReports}}" wx:key="currency" class="card report-currency-card">
+      <view class="section-title-row"><view class="section-title">{{item.currency}} 组合快照</view><view class="section-meta">{{item.valuationStatusLabel}}</view></view>
+      <view class="report-kpi-grid">
+        <view><text>净资产</text><strong>{{item.netAssetDisplay}}</strong></view>
+        <view><text>现金</text><strong>{{item.cashDisplay}}</strong></view>
+        <view><text>保证金</text><strong>{{item.marginDisplay}}</strong></view>
+        <view><text>持仓市值</text><strong>{{item.marketValueDisplay}}</strong></view>
+      </view>
+      <view class="muted">业务日 {{item.asOf}} · 账本版本 {{item.sourceLedgerVersion}} · {{item.valuationStatusLabel}}</view>
+      <view wx:if="{{item.positions.length}}" class="report-position-list">
+        <view class="report-subtitle">资产分布与估值总表</view>
+        <view wx:for="{{item.positions}}" wx:key="cashAccountId" class="report-row">
+          <view><view class="report-name">{{item.displayName}}</view><view class="muted">数量 {{item.quantity}} · {{item.valuationStatusLabel}}</view><view class="muted">成本 {{item.costDisplay}} · 未实现损益 {{item.unrealizedPnlDisplay}}</view></view>
+          <view class="report-amount">{{item.marketValueDisplay}}</view>
+        </view>
+      </view>
+    </view>
+
+    <view class="card account-tree-card">
+      <view class="section-title-row"><view class="section-title">资产账户树</view><view class="section-meta">现金账户 → 持仓</view></view>
+      <view class="muted">账户余额与估值由服务端按账户、原币种和账本版本投影；同一标的的用户级总市值不会被拆分到多个账户。</view>
+      <view wx:if="{{!accountTree.length}}" class="empty-tip">尚无现金账户。</view>
+      <view wx:for="{{accountTree}}" wx:key="accountId" class="account-tree-row">
+        <view class="account-tree-head"><view><view class="report-name">{{item.displayName}}</view><view class="muted">{{item.currency}} · {{item.status}} · {{item.valuationStatusLabel}}</view></view><view class="account-tree-net">{{item.netAssetDisplay}}</view></view>
+        <view class="account-tree-meta">现金 {{item.cashDisplay}} · 保证金 {{item.marginDisplay}} · {{item.positionCount}} 个未平仓持仓</view>
+      </view>
+    </view>
+
+    <view class="card allocation-card">
+      <view class="section-title-row"><view class="section-title">资产分布</view><view class="section-meta">持仓市值占比</view></view>
+      <view class="muted">每个横条只在同一原币种内比较；比例坐标由服务端生成，不使用小程序端金额运算。</view>
+      <view wx:if="{{!allocations.length}}" class="empty-tip">尚无可分配的持仓市值。</view>
+      <view wx:for="{{allocations}}" wx:key="currency" class="allocation-currency-section">
+        <view class="report-subtitle">{{item.currency}} · {{item.valuationStatusLabel}}</view>
+        <view wx:if="{{!item.slices.length}}" class="muted allocation-empty">估值未完整、采用用户级总市值或当前没有可分配持仓，因此不展示伪造比例。</view>
+        <view wx:for="{{item.slices}}" wx:key="instrumentId" class="allocation-row">
+          <view class="allocation-topline"><view class="report-name">{{item.displayName}}</view><view class="allocation-number">{{item.shareDisplay}}</view></view>
+          <view class="allocation-track"><view class="allocation-fill" style="width: {{item.sharePercent}}%;"></view></view>
+          <view class="muted">{{item.marketValueDisplay}}</view>
+        </view>
+      </view>
+    </view>
+
+    <view class="card strategy-matrix-card">
+      <view class="section-title-row"><view class="section-title">策略矩阵</view><view class="section-meta">规则与最近输入</view></view>
+      <view wx:if="{{!strategies.length}}" class="empty-tip">尚无策略工作区。</view>
+      <view wx:for="{{strategies}}" wx:key="strategyKey" class="report-row">
+        <view><view class="report-name">{{item.displayName}} · {{item.currency}}</view><view class="muted">{{item.message}}</view><view class="muted">{{item.inputLabel}}</view></view>
+        <view class="strategy-status">{{item.statusLabel}}</view>
+      </view>
+    </view>
+
+    <view class="card strategy-matrix-card">
+      <view class="section-title-row"><view class="section-title">风险与前置条件清单</view><view class="section-meta">服务端评估</view></view>
+      <view class="muted">只呈现当前规则、账本与已确认市场快照的评估结论；不生成自动交易指令。</view>
+      <view wx:for="{{strategyInsights}}" wx:key="strategyKey" class="strategy-insight-row">
+        <view class="strategy-insight-topline"><view class="report-name">{{item.displayName}} · {{item.currency}}</view><view class="strategy-status">{{item.statusLabel}}</view></view>
+        <view class="strategy-insight-copy">{{item.explanation}}</view>
+        <view wx:if="{{item.missingFields.length}}" class="strategy-insight-missing">待补齐：{{item.missingFields}}</view>
+        <view class="muted">下一步：{{item.nextStep}}</view>
+      </view>
+    </view>
+
+    <view class="card history-card">
+      <view class="section-title-row"><view class="section-title">CNY 净值轨迹</view><view class="section-meta">最近 12 个月</view></view>
+      <view wx:if="{{!cnyHistory.length}}" class="empty-tip">尚无 CNY 历史点；估值完整后点击“重算并记录今日快照”。</view>
+      <view wx:if="{{cnyHistory.length}}" class="history-chart-wrap">
+        <canvas canvas-id="cny-history-chart" class="history-chart" width="680" height="220"></canvas>
+        <view class="chart-note">曲线纵轴按服务端计算的单币种相对坐标渲染；金额值不在小程序端参与运算。</view>
+      </view>
+      <view wx:for="{{cnyHistory}}" wx:key="dailySnapshotId" class="history-point-row">
+        <view><view>{{item.asOfDate}}</view><view class="muted">现金 {{item.cashDisplay}} · 市值 {{item.marketValueDisplay}}</view></view>
+        <strong>{{item.netAssetDisplay}}</strong>
+      </view>
+    </view>
+
+    <view class="card history-card">
+      <view class="section-title-row"><view class="section-title">USD 净值轨迹</view><view class="section-meta">最近 12 个月</view></view>
+      <view wx:if="{{!usdHistory.length}}" class="empty-tip">尚无 USD 历史点；估值完整后点击“重算并记录今日快照”。</view>
+      <view wx:if="{{usdHistory.length}}" class="history-chart-wrap">
+        <canvas canvas-id="usd-history-chart" class="history-chart" width="680" height="220"></canvas>
+        <view class="chart-note">曲线纵轴按服务端计算的单币种相对坐标渲染；金额值不在小程序端参与运算。</view>
+      </view>
+      <view wx:for="{{usdHistory}}" wx:key="dailySnapshotId" class="history-point-row">
+        <view><view>{{item.asOfDate}}</view><view class="muted">现金 {{item.cashDisplay}} · 市值 {{item.marketValueDisplay}}</view></view>
+        <strong>{{item.netAssetDisplay}}</strong>
+      </view>
+    </view>
+
+    <view class="card activity-card">
+      <view class="section-title-row"><view class="section-title">最近流水</view><view class="section-meta">最近 30 笔</view></view>
+      <view wx:if="{{!transactions.length}}" class="empty-tip">尚无账务事实。</view>
+      <view wx:for="{{transactions}}" wx:key="transactionId" class="history-point-row">
+        <view><view>{{item.typeLabel}}</view><view class="muted">{{item.occurredOn}} · {{item.currencyLabel}} · 版本 {{item.ledgerVersion}}</view></view>
+        <view class="compact-id">{{item.transactionId}}</view>
+      </view>
+    </view>
+  </block>
+
+  <view wx:if="{{errorMessage}}" class="error-message">{{errorMessage}}</view>
+</view>

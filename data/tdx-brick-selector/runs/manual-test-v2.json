@@ -1,0 +1,4944 @@
+TQ数据接口初始化成功，使用路径: F:\invest_wiki\invest_wiki\tools\dashboard\tdx_brick_selector.py
+{
+  "comparison": {
+    "native_only": [],
+    "python_only": [
+      "000597.SZ",
+      "000676.SZ",
+      "000790.SZ",
+      "000801.SZ",
+      "000953.SZ",
+      "002038.SZ",
+      "002086.SZ",
+      "002264.SZ",
+      "002265.SZ",
+      "002317.SZ",
+      "002399.SZ",
+      "002530.SZ",
+      "002581.SZ",
+      "002605.SZ",
+      "002675.SZ",
+      "002693.SZ",
+      "002742.SZ",
+      "002821.SZ",
+      "002873.SZ",
+      "002878.SZ",
+      "003009.SZ",
+      "300006.SZ",
+      "300008.SZ",
+      "300009.SZ",
+      "300030.SZ",
+      "300122.SZ",
+      "300149.SZ",
+      "300244.SZ",
+      "300255.SZ",
+      "300261.SZ",
+      "300272.SZ",
+      "300347.SZ",
+      "300397.SZ",
+      "300404.SZ",
+      "300412.SZ",
+      "300434.SZ",
+      "300487.SZ",
+      "300723.SZ",
+      "300725.SZ",
+      "300759.SZ",
+      "300805.SZ",
+      "300813.SZ",
+      "300887.SZ",
+      "300896.SZ",
+      "301001.SZ",
+      "301047.SZ",
+      "301060.SZ",
+      "301092.SZ",
+      "301096.SZ",
+      "301103.SZ",
+      "301230.SZ",
+      "301263.SZ",
+      "301302.SZ",
+      "301333.SZ",
+      "301393.SZ",
+      "600038.SH",
+      "600129.SH",
+      "600196.SH",
+      "600267.SH",
+      "600276.SH",
+      "600682.SH",
+      "600685.SH",
+      "600721.SH",
+      "600760.SH",
+      "600967.SH",
+      "601606.SH",
+      "603028.SH",
+      "603127.SH",
+      "603259.SH",
+      "603707.SH",
+      "603716.SH",
+      "603825.SH",
+      "603882.SH",
+      "688026.SH",
+      "688105.SH",
+      "688136.SH",
+      "688137.SH",
+      "688151.SH",
+      "688166.SH",
+      "688185.SH",
+      "688202.SH",
+      "688238.SH",
+      "688247.SH",
+      "688266.SH",
+      "688293.SH",
+      "688543.SH",
+      "688552.SH",
+      "688553.SH",
+      "688658.SH",
+      "688710.SH",
+      "688796.SH",
+      "920478.BJ",
+      "920735.BJ"
+    ],
+    "shared": [
+      "002354.SZ",
+      "688131.SH"
+    ]
+  },
+  "concept_limit": 5,
+  "concepts": [
+    {
+      "change_pct": 4.414374445430358,
+      "symbol": "880729.SH"
+    },
+    {
+      "change_pct": 4.345446124047325,
+      "symbol": "880681.SH"
+    },
+    {
+      "change_pct": 3.6706848719999075,
+      "symbol": "880920.SH"
+    },
+    {
+      "change_pct": 3.6067286183075975,
+      "symbol": "880914.SH"
+    },
+    {
+      "change_pct": 3.55415926785958,
+      "symbol": "880958.SH"
+    }
+  ],
+  "data_date": "2026-07-10",
+  "engine": "both",
+  "errors": [],
+  "formula_arg": "14,28,57,114,3,21",
+  "formula_name": "ZHUAN",
+  "generated_at": "2026-07-10T21:25:35",
+  "member_count": 223,
+  "native": {
+    "errors": [],
+    "matches": [
+      "002354.SZ",
+      "688131.SH"
+    ],
+    "signals": {}
+  },
+  "ok": true,
+  "python": {
+    "errors": [],
+    "matches": [
+      "000597.SZ",
+      "000676.SZ",
+      "000790.SZ",
+      "000801.SZ",
+      "000953.SZ",
+      "002038.SZ",
+      "002086.SZ",
+      "002264.SZ",
+      "002265.SZ",
+      "002317.SZ",
+      "002354.SZ",
+      "002399.SZ",
+      "002530.SZ",
+      "002581.SZ",
+      "002605.SZ",
+      "002675.SZ",
+      "002693.SZ",
+      "002742.SZ",
+      "002821.SZ",
+      "002873.SZ",
+      "002878.SZ",
+      "003009.SZ",
+      "300006.SZ",
+      "300008.SZ",
+      "300009.SZ",
+      "300030.SZ",
+      "300122.SZ",
+      "300149.SZ",
+      "300244.SZ",
+      "300255.SZ",
+      "300261.SZ",
+      "300272.SZ",
+      "300347.SZ",
+      "300397.SZ",
+      "300404.SZ",
+      "300412.SZ",
+      "300434.SZ",
+      "300487.SZ",
+      "300723.SZ",
+      "300725.SZ",
+      "300759.SZ",
+      "300805.SZ",
+      "300813.SZ",
+      "300887.SZ",
+      "300896.SZ",
+      "301001.SZ",
+      "301047.SZ",
+      "301060.SZ",
+      "301092.SZ",
+      "301096.SZ",
+      "301103.SZ",
+      "301230.SZ",
+      "301263.SZ",
+      "301302.SZ",
+      "301333.SZ",
+      "301393.SZ",
+      "600038.SH",
+      "600129.SH",
+      "600196.SH",
+      "600267.SH",
+      "600276.SH",
+      "600682.SH",
+      "600685.SH",
+      "600721.SH",
+      "600760.SH",
+      "600967.SH",
+      "601606.SH",
+      "603028.SH",
+      "603127.SH",
+      "603259.SH",
+      "603707.SH",
+      "603716.SH",
+      "603825.SH",
+      "603882.SH",
+      "688026.SH",
+      "688105.SH",
+      "688131.SH",
+      "688136.SH",
+      "688137.SH",
+      "688151.SH",
+      "688166.SH",
+      "688185.SH",
+      "688202.SH",
+      "688238.SH",
+      "688247.SH",
+      "688266.SH",
+      "688293.SH",
+      "688543.SH",
+      "688552.SH",
+      "688553.SH",
+      "688658.SH",
+      "688710.SH",
+      "688796.SH",
+      "920478.BJ",
+      "920735.BJ"
+    ],
+    "signals": {
+      "000597.SZ": {
+        "brick_t": 95.99129081240693,
+        "brick_t_minus_1": 90.51106630129757,
+        "brick_t_minus_2": 97.55866038694666,
+        "today_red_length": 5.4802245111093555,
+        "yesterday_green_length": 7.047594085649081
+      },
+      "000676.SZ": {
+        "brick_t": 67.55205048037377,
+        "brick_t_minus_1": 59.828019254631315,
+        "brick_t_minus_2": 60.549913714244894,
+        "today_red_length": 7.724031225742451,
+        "yesterday_green_length": 0.7218944596135799
+      },
+      "000790.SZ": {
+        "brick_t": 82.57829853785842,
+        "brick_t_minus_1": 74.47470536402346,
+        "brick_t_minus_2": 80.43606355773366,
+        "today_red_length": 8.103593173834952,
+        "yesterday_green_length": 5.961358193710197
+      },
+      "000801.SZ": {
+        "brick_t": 59.62453542266091,
+        "brick_t_minus_1": 50.76918924276087,
+        "brick_t_minus_2": 55.50715722571046,
+        "today_red_length": 8.855346179900039,
+        "yesterday_green_length": 4.737967982949584
+      },
+      "000953.SZ": {
+        "brick_t": 70.32914670073933,
+        "brick_t_minus_1": 59.83099310824885,
+        "brick_t_minus_2": 65.77805083393386,
+        "today_red_length": 10.498153592490482,
+        "yesterday_green_length": 5.9470577256850135
+      },
+      "002038.SZ": {
+        "brick_t": 89.28962771269795,
+        "brick_t_minus_1": 74.65118886296352,
+        "brick_t_minus_2": 86.11533911139915,
+        "today_red_length": 14.638438849734428,
+        "yesterday_green_length": 11.46415024843563
+      },
+      "002086.SZ": {
+        "brick_t": 76.81254686647603,
+        "brick_t_minus_1": 68.95354141420569,
+        "brick_t_minus_2": 73.03164386493337,
+        "today_red_length": 7.859005452270338,
+        "yesterday_green_length": 4.078102450727684
+      },
+      "002264.SZ": {
+        "brick_t": 74.55447844399235,
+        "brick_t_minus_1": 70.30723757835977,
+        "brick_t_minus_2": 75.96663352511199,
+        "today_red_length": 4.247240865632577,
+        "yesterday_green_length": 5.659395946752213
+      },
+      "002265.SZ": {
+        "brick_t": 47.99959974867198,
+        "brick_t_minus_1": 42.67461540503277,
+        "brick_t_minus_2": 44.53244200486451,
+        "today_red_length": 5.3249843436392155,
+        "yesterday_green_length": 1.8578265998317391
+      },
+      "002317.SZ": {
+        "brick_t": 113.49956759598521,
+        "brick_t_minus_1": 101.31412948977601,
+        "brick_t_minus_2": 108.18047750577581,
+        "today_red_length": 12.185438106209205,
+        "yesterday_green_length": 6.8663480159998045
+      },
+      "002354.SZ": {
+        "brick_t": 71.34184370518864,
+        "brick_t_minus_1": 65.47258929429384,
+        "brick_t_minus_2": 71.89492138090522,
+        "today_red_length": 5.869254410894797,
+        "yesterday_green_length": 6.422332086611377
+      },
+      "002399.SZ": {
+        "brick_t": 87.32837614835786,
+        "brick_t_minus_1": 78.53773535075277,
+        "brick_t_minus_2": 88.32358558319117,
+        "today_red_length": 8.790640797605093,
+        "yesterday_green_length": 9.785850232438406
+      },
+      "002530.SZ": {
+        "brick_t": 59.49998285277378,
+        "brick_t_minus_1": 50.43515949302059,
+        "brick_t_minus_2": 53.83643307509183,
+        "today_red_length": 9.064823359753191,
+        "yesterday_green_length": 3.4012735820712408
+      },
+      "002581.SZ": {
+        "brick_t": 69.8589752257597,
+        "brick_t_minus_1": 62.54417134267101,
+        "brick_t_minus_2": 63.08379774095401,
+        "today_red_length": 7.3148038830887,
+        "yesterday_green_length": 0.539626398283005
+      },
+      "002605.SZ": {
+        "brick_t": 121.14214864618074,
+        "brick_t_minus_1": 113.34774701221303,
+        "brick_t_minus_2": 120.84217714902755,
+        "today_red_length": 7.794401633967709,
+        "yesterday_green_length": 7.494430136814515
+      },
+      "002675.SZ": {
+        "brick_t": 91.55981462465002,
+        "brick_t_minus_1": 79.98223664908886,
+        "brick_t_minus_2": 92.83060516958427,
+        "today_red_length": 11.577577975561155,
+        "yesterday_green_length": 12.848368520495413
+      },
+      "002693.SZ": {
+        "brick_t": 85.40441501682389,
+        "brick_t_minus_1": 68.74349904529748,
+        "brick_t_minus_2": 73.45733866093454,
+        "today_red_length": 16.660915971526407,
+        "yesterday_green_length": 4.713839615637056
+      },
+      "002742.SZ": {
+        "brick_t": 70.06762946360742,
+        "brick_t_minus_1": 63.85889196932172,
+        "brick_t_minus_2": 70.90437847873226,
+        "today_red_length": 6.2087374942857,
+        "yesterday_green_length": 7.045486509410537
+      },
+      "002821.SZ": {
+        "brick_t": 90.45804783832284,
+        "brick_t_minus_1": 82.01604909360785,
+        "brick_t_minus_2": 82.60050470214082,
+        "today_red_length": 8.441998744714994,
+        "yesterday_green_length": 0.5844556085329771
+      },
+      "002873.SZ": {
+        "brick_t": 77.08921899013765,
+        "brick_t_minus_1": 69.35223259470597,
+        "brick_t_minus_2": 76.17818687989534,
+        "today_red_length": 7.7369863954316855,
+        "yesterday_green_length": 6.825954285189368
+      },
+      "002878.SZ": {
+        "brick_t": 54.758211438094975,
+        "brick_t_minus_1": 40.80441962257787,
+        "brick_t_minus_2": 42.9805271598365,
+        "today_red_length": 13.953791815517107,
+        "yesterday_green_length": 2.1761075372586305
+      },
+      "003009.SZ": {
+        "brick_t": 86.91292141215489,
+        "brick_t_minus_1": 74.99319298800785,
+        "brick_t_minus_2": 81.79925390920269,
+        "today_red_length": 11.919728424147038,
+        "yesterday_green_length": 6.806060921194842
+      },
+      "300006.SZ": {
+        "brick_t": 61.312814903610615,
+        "brick_t_minus_1": 53.754396438650645,
+        "brick_t_minus_2": 56.39031882672681,
+        "today_red_length": 7.558418464959971,
+        "yesterday_green_length": 2.6359223880761675
+      },
+      "300008.SZ": {
+        "brick_t": 60.13653813773216,
+        "brick_t_minus_1": 51.35800847252533,
+        "brick_t_minus_2": 55.16605429288434,
+        "today_red_length": 8.778529665206833,
+        "yesterday_green_length": 3.8080458203590126
+      },
+      "300009.SZ": {
+        "brick_t": 96.15453805611155,
+        "brick_t_minus_1": 88.62394902942899,
+        "brick_t_minus_2": 98.20710297175393,
+        "today_red_length": 7.530589026682563,
+        "yesterday_green_length": 9.583153942324941
+      },
+      "300030.SZ": {
+        "brick_t": 78.81724776222669,
+        "brick_t_minus_1": 70.27687682575444,
+        "brick_t_minus_2": 75.21522253618431,
+        "today_red_length": 8.540370936472243,
+        "yesterday_green_length": 4.938345710429871
+      },
+      "300122.SZ": {
+        "brick_t": 75.08712920626132,
+        "brick_t_minus_1": 61.39170772770531,
+        "brick_t_minus_2": 68.31684515566852,
+        "today_red_length": 13.695421478556014,
+        "yesterday_green_length": 6.925137427963207
+      },
+      "300149.SZ": {
+        "brick_t": 70.93068892246495,
+        "brick_t_minus_1": 62.672953151748445,
+        "brick_t_minus_2": 70.88691956682888,
+        "today_red_length": 8.257735770716508,
+        "yesterday_green_length": 8.213966415080435
+      },
+      "300244.SZ": {
+        "brick_t": 80.62085469983407,
+        "brick_t_minus_1": 70.52168580325005,
+        "brick_t_minus_2": 75.19197106478877,
+        "today_red_length": 10.099168896584018,
+        "yesterday_green_length": 4.670285261538723
+      },
+      "300255.SZ": {
+        "brick_t": 64.79116007052443,
+        "brick_t_minus_1": 44.94346884426615,
+        "brick_t_minus_2": 49.2346953171151,
+        "today_red_length": 19.847691226258277,
+        "yesterday_green_length": 4.2912264728489475
+      },
+      "300261.SZ": {
+        "brick_t": 66.1416153270999,
+        "brick_t_minus_1": 58.98612752258835,
+        "brick_t_minus_2": 62.682682342899724,
+        "today_red_length": 7.1554878045115515,
+        "yesterday_green_length": 3.696554820311377
+      },
+      "300272.SZ": {
+        "brick_t": 72.25054582148026,
+        "brick_t_minus_1": 63.27578550494633,
+        "brick_t_minus_2": 66.92036285620517,
+        "today_red_length": 8.974760316533931,
+        "yesterday_green_length": 3.644577351258846
+      },
+      "300347.SZ": {
+        "brick_t": 84.75315129019617,
+        "brick_t_minus_1": 75.27818831120706,
+        "brick_t_minus_2": 83.83053372317325,
+        "today_red_length": 9.474962978989112,
+        "yesterday_green_length": 8.552345411966186
+      },
+      "300397.SZ": {
+        "brick_t": 40.41133223890803,
+        "brick_t_minus_1": 38.61563229184344,
+        "brick_t_minus_2": 39.46726435650422,
+        "today_red_length": 1.7956999470645911,
+        "yesterday_green_length": 0.8516320646607767
+      },
+      "300404.SZ": {
+        "brick_t": 93.9354277822834,
+        "brick_t_minus_1": 85.28766577679514,
+        "brick_t_minus_2": 88.77279826054766,
+        "today_red_length": 8.64776200548826,
+        "yesterday_green_length": 3.4851324837525226
+      },
+      "300412.SZ": {
+        "brick_t": 55.07964673692072,
+        "brick_t_minus_1": 49.31787305281722,
+        "brick_t_minus_2": 52.39320497944303,
+        "today_red_length": 5.7617736841035025,
+        "yesterday_green_length": 3.0753319266258075
+      },
+      "300434.SZ": {
+        "brick_t": 92.53747601279053,
+        "brick_t_minus_1": 84.37799820452676,
+        "brick_t_minus_2": 88.39968493273624,
+        "today_red_length": 8.159477808263773,
+        "yesterday_green_length": 4.021686728209474
+      },
+      "300487.SZ": {
+        "brick_t": 95.4723540545448,
+        "brick_t_minus_1": 88.05793584179473,
+        "brick_t_minus_2": 88.43751702415605,
+        "today_red_length": 7.414418212750064,
+        "yesterday_green_length": 0.37958118236132066
+      },
+      "300723.SZ": {
+        "brick_t": 84.68605245444267,
+        "brick_t_minus_1": 72.48108972488257,
+        "brick_t_minus_2": 81.25882594001783,
+        "today_red_length": 12.204962729560108,
+        "yesterday_green_length": 8.777736215135263
+      },
+      "300725.SZ": {
+        "brick_t": 93.13502412387248,
+        "brick_t_minus_1": 84.98323189766492,
+        "brick_t_minus_2": 87.86881607726103,
+        "today_red_length": 8.151792226207561,
+        "yesterday_green_length": 2.8855841795961084
+      },
+      "300759.SZ": {
+        "brick_t": 124.76185700749983,
+        "brick_t_minus_1": 120.49178943670532,
+        "brick_t_minus_2": 123.00114527361991,
+        "today_red_length": 4.2700675707945095,
+        "yesterday_green_length": 2.509355836914594
+      },
+      "300805.SZ": {
+        "brick_t": 58.86969013970288,
+        "brick_t_minus_1": 48.76950827558824,
+        "brick_t_minus_2": 50.394241195014644,
+        "today_red_length": 10.100181864114646,
+        "yesterday_green_length": 1.6247329194264069
+      },
+      "300813.SZ": {
+        "brick_t": 105.3735757007536,
+        "brick_t_minus_1": 98.89808800190681,
+        "brick_t_minus_2": 99.23590204584485,
+        "today_red_length": 6.475487698846791,
+        "yesterday_green_length": 0.3378140439380388
+      },
+      "300887.SZ": {
+        "brick_t": 62.21933279899869,
+        "brick_t_minus_1": 53.87578035523194,
+        "brick_t_minus_2": 56.698820137807914,
+        "today_red_length": 8.343552443766754,
+        "yesterday_green_length": 2.823039782575975
+      },
+      "300896.SZ": {
+        "brick_t": 75.31042810013778,
+        "brick_t_minus_1": 65.839198911901,
+        "brick_t_minus_2": 72.50262031293452,
+        "today_red_length": 9.47122918823679,
+        "yesterday_green_length": 6.663421401033531
+      },
+      "301001.SZ": {
+        "brick_t": 71.36778423192375,
+        "brick_t_minus_1": 58.557209019274936,
+        "brick_t_minus_2": 62.079500473870894,
+        "today_red_length": 12.810575212648814,
+        "yesterday_green_length": 3.5222914545959583
+      },
+      "301047.SZ": {
+        "brick_t": 102.2197072153821,
+        "brick_t_minus_1": 97.39764607960964,
+        "brick_t_minus_2": 101.96943394346337,
+        "today_red_length": 4.822061135772458,
+        "yesterday_green_length": 4.571787863853729
+      },
+      "301060.SZ": {
+        "brick_t": 86.35182801660567,
+        "brick_t_minus_1": 79.51086173629845,
+        "brick_t_minus_2": 86.43874971471777,
+        "today_red_length": 6.840966280307214,
+        "yesterday_green_length": 6.927887978419321
+      },
+      "301092.SZ": {
+        "brick_t": 80.63265910154678,
+        "brick_t_minus_1": 69.09578215411001,
+        "brick_t_minus_2": 77.1903229429232,
+        "today_red_length": 11.536876947436767,
+        "yesterday_green_length": 8.094540788813191
+      },
+      "301096.SZ": {
+        "brick_t": 57.9123114626465,
+        "brick_t_minus_1": 54.45593865696431,
+        "brick_t_minus_2": 58.5262736263909,
+        "today_red_length": 3.456372805682193,
+        "yesterday_green_length": 4.070334969426597
+      },
+      "301103.SZ": {
+        "brick_t": 80.57771434959908,
+        "brick_t_minus_1": 74.1853506056767,
+        "brick_t_minus_2": 81.81713204931671,
+        "today_red_length": 6.392363743922374,
+        "yesterday_green_length": 7.631781443640008
+      },
+      "301230.SZ": {
+        "brick_t": 87.83103434359141,
+        "brick_t_minus_1": 76.41369111591527,
+        "brick_t_minus_2": 83.41374304724229,
+        "today_red_length": 11.417343227676142,
+        "yesterday_green_length": 7.000051931327022
+      },
+      "301263.SZ": {
+        "brick_t": 77.26826097516127,
+        "brick_t_minus_1": 69.9502072434343,
+        "brick_t_minus_2": 72.97408772975353,
+        "today_red_length": 7.3180537317269625,
+        "yesterday_green_length": 3.0238804863192286
+      },
+      "301302.SZ": {
+        "brick_t": 39.04237145767128,
+        "brick_t_minus_1": 35.09227493867482,
+        "brick_t_minus_2": 37.211311718210496,
+        "today_red_length": 3.9500965189964603,
+        "yesterday_green_length": 2.1190367795356764
+      },
+      "301333.SZ": {
+        "brick_t": 90.88837043977861,
+        "brick_t_minus_1": 83.2976510032669,
+        "brick_t_minus_2": 92.54850372493196,
+        "today_red_length": 7.590719436511705,
+        "yesterday_green_length": 9.250852721665055
+      },
+      "301393.SZ": {
+        "brick_t": 84.64057120936886,
+        "brick_t_minus_1": 76.33167983376757,
+        "brick_t_minus_2": 83.07114897073438,
+        "today_red_length": 8.308891375601291,
+        "yesterday_green_length": 6.739469136966818
+      },
+      "600038.SH": {
+        "brick_t": 62.588112185371614,
+        "brick_t_minus_1": 57.73800768996264,
+        "brick_t_minus_2": 61.767801148604974,
+        "today_red_length": 4.850104495408971,
+        "yesterday_green_length": 4.029793458642331
+      },
+      "600129.SH": {
+        "brick_t": 123.84750109792856,
+        "brick_t_minus_1": 114.15921814991628,
+        "brick_t_minus_2": 114.17150176431377,
+        "today_red_length": 9.688282948012272,
+        "yesterday_green_length": 0.012283614397489373
+      },
+      "600196.SH": {
+        "brick_t": 93.6633154451679,
+        "brick_t_minus_1": 88.39382581709808,
+        "brick_t_minus_2": 96.08991174807348,
+        "today_red_length": 5.26948962806982,
+        "yesterday_green_length": 7.6960859309754
+      },
+      "600267.SH": {
+        "brick_t": 108.72543098400496,
+        "brick_t_minus_1": 99.42474154327284,
+        "brick_t_minus_2": 107.60897264810043,
+        "today_red_length": 9.300689440732114,
+        "yesterday_green_length": 8.184231104827589
+      },
+      "600276.SH": {
+        "brick_t": 104.12928156519632,
+        "brick_t_minus_1": 102.72173176818762,
+        "brick_t_minus_2": 103.1312702528532,
+        "today_red_length": 1.4075497970086985,
+        "yesterday_green_length": 0.40953848466557474
+      },
+      "600682.SH": {
+        "brick_t": 63.76563494502125,
+        "brick_t_minus_1": 52.60485280059167,
+        "brick_t_minus_2": 60.40806847244717,
+        "today_red_length": 11.160782144429575,
+        "yesterday_green_length": 7.803215671855497
+      },
+      "600685.SH": {
+        "brick_t": 96.4107485582901,
+        "brick_t_minus_1": 81.73978809438981,
+        "brick_t_minus_2": 86.53021593970485,
+        "today_red_length": 14.670960463900286,
+        "yesterday_green_length": 4.790427845315037
+      },
+      "600721.SH": {
+        "brick_t": 80.49227330189225,
+        "brick_t_minus_1": 72.79315869058652,
+        "brick_t_minus_2": 82.41250888107298,
+        "today_red_length": 7.699114611305731,
+        "yesterday_green_length": 9.619350190486458
+      },
+      "600760.SH": {
+        "brick_t": 65.52497820822492,
+        "brick_t_minus_1": 59.809340924032355,
+        "brick_t_minus_2": 63.449423312818936,
+        "today_red_length": 5.715637284192567,
+        "yesterday_green_length": 3.640082388786581
+      },
+      "600967.SH": {
+        "brick_t": 61.68920031340164,
+        "brick_t_minus_1": 50.69719104876543,
+        "brick_t_minus_2": 53.41935066108445,
+        "today_red_length": 10.99200926463621,
+        "yesterday_green_length": 2.722159612319018
+      },
+      "601606.SH": {
+        "brick_t": 51.01945801455665,
+        "brick_t_minus_1": 38.499284685656704,
+        "brick_t_minus_2": 39.681236681725295,
+        "today_red_length": 12.520173328899943,
+        "yesterday_green_length": 1.181951996068591
+      },
+      "603028.SH": {
+        "brick_t": 56.51522420864552,
+        "brick_t_minus_1": 46.86252614890748,
+        "brick_t_minus_2": 49.29989407579214,
+        "today_red_length": 9.652698059738043,
+        "yesterday_green_length": 2.4373679268846615
+      },
+      "603127.SH": {
+        "brick_t": 96.5880405530373,
+        "brick_t_minus_1": 81.63877296936313,
+        "brick_t_minus_2": 86.1579881467059,
+        "today_red_length": 14.949267583674171,
+        "yesterday_green_length": 4.5192151773427724
+      },
+      "603259.SH": {
+        "brick_t": 96.85655069426345,
+        "brick_t_minus_1": 90.96889900234808,
+        "brick_t_minus_2": 91.46603160121073,
+        "today_red_length": 5.887651691915366,
+        "yesterday_green_length": 0.49713259886264893
+      },
+      "603707.SH": {
+        "brick_t": 81.44066514775784,
+        "brick_t_minus_1": 72.37506240205069,
+        "brick_t_minus_2": 83.6977227034277,
+        "today_red_length": 9.065602745707153,
+        "yesterday_green_length": 11.322660301377013
+      },
+      "603716.SH": {
+        "brick_t": 66.73524947188113,
+        "brick_t_minus_1": 54.19205992927111,
+        "brick_t_minus_2": 57.54418584045004,
+        "today_red_length": 12.543189542610023,
+        "yesterday_green_length": 3.3521259111789306
+      },
+      "603825.SH": {
+        "brick_t": 85.95983384457462,
+        "brick_t_minus_1": 74.09807981032408,
+        "brick_t_minus_2": 81.07877575818864,
+        "today_red_length": 11.861754034250538,
+        "yesterday_green_length": 6.980695947864561
+      },
+      "603882.SH": {
+        "brick_t": 85.83057058360191,
+        "brick_t_minus_1": 75.83079995964788,
+        "brick_t_minus_2": 79.77173548194315,
+        "today_red_length": 9.999770623954035,
+        "yesterday_green_length": 3.940935522295277
+      },
+      "688026.SH": {
+        "brick_t": 45.498147232355905,
+        "brick_t_minus_1": 43.47191794468232,
+        "brick_t_minus_2": 44.56588186488699,
+        "today_red_length": 2.026229287673587,
+        "yesterday_green_length": 1.093963920204672
+      },
+      "688105.SH": {
+        "brick_t": 87.30358596701468,
+        "brick_t_minus_1": 80.0420736497142,
+        "brick_t_minus_2": 86.51146835763868,
+        "today_red_length": 7.261512317300486,
+        "yesterday_green_length": 6.469394707924479
+      },
+      "688131.SH": {
+        "brick_t": 66.67035211333243,
+        "brick_t_minus_1": 59.013629612452746,
+        "brick_t_minus_2": 63.76923686255263,
+        "today_red_length": 7.656722500879681,
+        "yesterday_green_length": 4.755607250099885
+      },
+      "688136.SH": {
+        "brick_t": 76.00002031199014,
+        "brick_t_minus_1": 68.04973916354467,
+        "brick_t_minus_2": 77.1390670485501,
+        "today_red_length": 7.95028114844547,
+        "yesterday_green_length": 9.089327885005432
+      },
+      "688137.SH": {
+        "brick_t": 78.9401191523091,
+        "brick_t_minus_1": 69.60776633237013,
+        "brick_t_minus_2": 75.49327196437311,
+        "today_red_length": 9.332352819938961,
+        "yesterday_green_length": 5.885505632002975
+      },
+      "688151.SH": {
+        "brick_t": 72.31574850815144,
+        "brick_t_minus_1": 64.08035587566596,
+        "brick_t_minus_2": 68.816591786373,
+        "today_red_length": 8.235392632485485,
+        "yesterday_green_length": 4.7362359107070375
+      },
+      "688166.SH": {
+        "brick_t": 49.182654036061024,
+        "brick_t_minus_1": 42.18928199455556,
+        "brick_t_minus_2": 46.07646961459247,
+        "today_red_length": 6.9933720415054665,
+        "yesterday_green_length": 3.8871876200369115
+      },
+      "688185.SH": {
+        "brick_t": 76.89393396383302,
+        "brick_t_minus_1": 69.56214756502584,
+        "brick_t_minus_2": 76.86146916574053,
+        "today_red_length": 7.331786398807182,
+        "yesterday_green_length": 7.299321600714691
+      },
+      "688202.SH": {
+        "brick_t": 84.9528180385112,
+        "brick_t_minus_1": 76.76839502862637,
+        "brick_t_minus_2": 78.91847801700858,
+        "today_red_length": 8.184423009884824,
+        "yesterday_green_length": 2.1500829883822092
+      },
+      "688238.SH": {
+        "brick_t": 91.50772188656414,
+        "brick_t_minus_1": 80.4963954466686,
+        "brick_t_minus_2": 90.948312170761,
+        "today_red_length": 11.01132643989554,
+        "yesterday_green_length": 10.4519167240924
+      },
+      "688247.SH": {
+        "brick_t": 79.73618243568622,
+        "brick_t_minus_1": 73.84658764468091,
+        "brick_t_minus_2": 80.17130301532393,
+        "today_red_length": 5.889594791005308,
+        "yesterday_green_length": 6.32471537064302
+      },
+      "688266.SH": {
+        "brick_t": 108.16552108435792,
+        "brick_t_minus_1": 96.32583407840673,
+        "brick_t_minus_2": 102.54681434604015,
+        "today_red_length": 11.839687005951191,
+        "yesterday_green_length": 6.220980267633422
+      },
+      "688293.SH": {
+        "brick_t": 95.85239995620007,
+        "brick_t_minus_1": 84.81921522240674,
+        "brick_t_minus_2": 86.38971219391223,
+        "today_red_length": 11.033184733793334,
+        "yesterday_green_length": 1.5704969715054915
+      },
+      "688543.SH": {
+        "brick_t": 67.48459918120655,
+        "brick_t_minus_1": 58.873497598819995,
+        "brick_t_minus_2": 59.44133917945807,
+        "today_red_length": 8.611101582386553,
+        "yesterday_green_length": 0.5678415806380741
+      },
+      "688552.SH": {
+        "brick_t": 61.19674491559198,
+        "brick_t_minus_1": 53.79577501215444,
+        "brick_t_minus_2": 57.44352709339397,
+        "today_red_length": 7.400969903437542,
+        "yesterday_green_length": 3.647752081239531
+      },
+      "688553.SH": {
+        "brick_t": 75.02536165929196,
+        "brick_t_minus_1": 69.35474031612391,
+        "brick_t_minus_2": 74.81428094038237,
+        "today_red_length": 5.670621343168051,
+        "yesterday_green_length": 5.459540624258466
+      },
+      "688658.SH": {
+        "brick_t": 72.08622073632118,
+        "brick_t_minus_1": 65.97498771447619,
+        "brick_t_minus_2": 73.66373540164764,
+        "today_red_length": 6.1112330218449955,
+        "yesterday_green_length": 7.688747687171457
+      },
+      "688710.SH": {
+        "brick_t": 101.03009825916351,
+        "brick_t_minus_1": 87.0193308429937,
+        "brick_t_minus_2": 90.71580559943536,
+        "today_red_length": 14.010767416169813,
+        "yesterday_green_length": 3.69647475644166
+      },
+      "688796.SH": {
+        "brick_t": 73.10166478543499,
+        "brick_t_minus_1": 65.80205187797915,
+        "brick_t_minus_2": 68.93970018287106,
+        "today_red_length": 7.299612907455838,
+        "yesterday_green_length": 3.1376483048919113
+      },
+      "920478.BJ": {
+        "brick_t": 79.57107531461506,
+        "brick_t_minus_1": 69.78808430404226,
+        "brick_t_minus_2": 78.78057752574671,
+        "today_red_length": 9.7829910105728,
+        "yesterday_green_length": 8.99249322170445
+      },
+      "920735.BJ": {
+        "brick_t": 82.13929870519792,
+        "brick_t_minus_1": 75.37303007387638,
+        "brick_t_minus_2": 80.73073676968235,
+        "today_red_length": 6.766268631321537,
+        "yesterday_green_length": 5.357706695805973
+      }
+    }
+  },
+  "ranking": [
+    {
+      "board_change_pct": 4.414374445430358,
+      "board_rank": 1,
+      "candidates": [
+        {
+          "base_score": 94.01143724696357,
+          "factor_scores": {
+            "board_leadership": 25.0,
+            "brick_strength": 25.0,
+            "liquidity": 14.111842105263158,
+            "relative_strength": 18.68421052631579,
+            "tail_structure": 11.215384615384615
+          },
+          "final_score": 86.01143724696357,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 2.342958075755909,
+            "brick_strength_ratio": 2.162430843304984,
+            "close_position": 0.7476923076923077,
+            "relative_strength_pct": 7.1450584880483845,
+            "snapshot_last_price": 20.46,
+            "snapshot_upper_limit": 21.28,
+            "stock_change_pct": 11.559432933478742,
+            "upper_shadow_ratio": 0.2523076923076924
+          },
+          "rank": 1,
+          "risk_penalty": 8.0,
+          "risk_reasons": [
+            "daily_gain_at_least_8pct"
+          ],
+          "signal_source": "python_only",
+          "symbol": "300244.SZ",
+          "top_three": true
+        },
+        {
+          "base_score": 93.01619433198381,
+          "factor_scores": {
+            "board_leadership": 25.0,
+            "brick_strength": 25.0,
+            "liquidity": 13.421052631578949,
+            "relative_strength": 19.210526315789473,
+            "tail_structure": 10.384615384615387
+          },
+          "final_score": 85.01619433198381,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 1.7353540837237804,
+            "brick_strength_ratio": 3.806561446283078,
+            "close_position": 0.6923076923076924,
+            "relative_strength_pct": 8.352961912314294,
+            "snapshot_last_price": 87.0,
+            "snapshot_upper_limit": 91.8,
+            "stock_change_pct": 12.767336357744652,
+            "upper_shadow_ratio": 0.3076923076923076
+          },
+          "rank": 2,
+          "risk_penalty": 8.0,
+          "risk_reasons": [
+            "daily_gain_at_least_8pct"
+          ],
+          "signal_source": "python_only",
+          "symbol": "688202.SH",
+          "top_three": true
+        },
+        {
+          "base_score": 92.27268832355854,
+          "factor_scores": {
+            "board_leadership": 25.0,
+            "brick_strength": 25.0,
+            "liquidity": 10.756578947368421,
+            "relative_strength": 18.94736842105263,
+            "tail_structure": 12.568740955137484
+          },
+          "final_score": 84.27268832355854,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 1.905799700711231,
+            "brick_strength_ratio": 7.025282400396374,
+            "close_position": 0.8379160636758324,
+            "relative_strength_pct": 7.340821859419533,
+            "snapshot_last_price": 48.39,
+            "snapshot_upper_limit": 49.51,
+            "stock_change_pct": 11.75519630484989,
+            "upper_shadow_ratio": 0.1620839363241676
+          },
+          "rank": 3,
+          "risk_penalty": 8.0,
+          "risk_reasons": [
+            "daily_gain_at_least_8pct"
+          ],
+          "signal_source": "python_only",
+          "symbol": "688293.SH",
+          "top_three": true
+        },
+        {
+          "base_score": 87.61189530429847,
+          "factor_scores": {
+            "board_leadership": 25.0,
+            "brick_strength": 25.0,
+            "liquidity": 12.828947368421051,
+            "relative_strength": 13.947368421052632,
+            "tail_structure": 10.835579514824794
+          },
+          "final_score": 83.61189530429847,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 1.726284818418057,
+            "brick_strength_ratio": 2.8250058632316724,
+            "close_position": 0.7223719676549862,
+            "relative_strength_pct": 1.0401710091151095,
+            "snapshot_last_price": 38.28,
+            "snapshot_upper_limit": 39.31,
+            "stock_change_pct": 5.4545454545454675,
+            "upper_shadow_ratio": 0.2776280323450137
+          },
+          "rank": 4,
+          "risk_penalty": 4.0,
+          "risk_reasons": [
+            "daily_gain_at_least_5pct"
+          ],
+          "signal_source": "python_only",
+          "symbol": "300725.SZ",
+          "top_three": false
+        },
+        {
+          "base_score": 82.83991228070177,
+          "factor_scores": {
+            "board_leadership": 25.0,
+            "brick_strength": 25.0,
+            "liquidity": 10.953947368421053,
+            "relative_strength": 11.052631578947368,
+            "tail_structure": 10.833333333333348
+          },
+          "final_score": 82.83991228070177,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 1.5193758564669058,
+            "brick_strength_ratio": 2.028869566351459,
+            "close_position": 0.7222222222222232,
+            "relative_strength_pct": -0.23318977644080086,
+            "snapshot_last_price": 11.96,
+            "snapshot_upper_limit": 12.26,
+            "stock_change_pct": 4.181184668989557,
+            "upper_shadow_ratio": 0.2777777777777768
+          },
+          "rank": 5,
+          "risk_penalty": 0.0,
+          "risk_reasons": [],
+          "signal_source": "python_only",
+          "symbol": "300434.SZ",
+          "top_three": false
+        },
+        {
+          "base_score": 90.48053965504064,
+          "factor_scores": {
+            "board_leadership": 25.0,
+            "brick_strength": 20.387961653149695,
+            "liquidity": 13.223684210526315,
+            "relative_strength": 19.473684210526315,
+            "tail_structure": 12.395209580838314
+          },
+          "final_score": 82.48053965504064,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 1.764562356318356,
+            "brick_strength_ratio": 1.6310369322519755,
+            "close_position": 0.826347305389221,
+            "relative_strength_pct": 8.712386117949912,
+            "snapshot_last_price": 40.16,
+            "snapshot_upper_limit": 41.32,
+            "stock_change_pct": 13.12676056338027,
+            "upper_shadow_ratio": 0.173652694610779
+          },
+          "rank": 6,
+          "risk_penalty": 8.0,
+          "risk_reasons": [
+            "daily_gain_at_least_8pct"
+          ],
+          "signal_source": "python_only",
+          "symbol": "301230.SZ",
+          "top_three": false
+        },
+        {
+          "base_score": 89.06644633093774,
+          "factor_scores": {
+            "board_leadership": 25.0,
+            "brick_strength": 21.2707356404902,
+            "liquidity": 13.421052631578947,
+            "relative_strength": 17.36842105263158,
+            "tail_structure": 12.006237006237003
+          },
+          "final_score": 81.06644633093774,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 1.532492723188479,
+            "brick_strength_ratio": 1.7016588512392161,
+            "close_position": 0.8004158004158002,
+            "relative_strength_pct": 5.140176878004098,
+            "snapshot_last_price": 33.94,
+            "snapshot_upper_limit": 34.9,
+            "stock_change_pct": 9.554551323434456,
+            "upper_shadow_ratio": 0.19958419958419982
+          },
+          "rank": 7,
+          "risk_penalty": 8.0,
+          "risk_reasons": [
+            "daily_gain_at_least_8pct"
+          ],
+          "signal_source": "python_only",
+          "symbol": "300759.SZ",
+          "top_three": false
+        },
+        {
+          "base_score": 80.75991005996003,
+          "factor_scores": {
+            "board_leadership": 25.0,
+            "brick_strength": 25.0,
+            "liquidity": 8.388157894736842,
+            "relative_strength": 10.789473684210526,
+            "tail_structure": 11.582278481012668
+          },
+          "final_score": 80.75991005996003,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 1.3100325034949767,
+            "brick_strength_ratio": 2.481329489138105,
+            "close_position": 0.7721518987341779,
+            "relative_strength_pct": -0.3529035343436293,
+            "snapshot_last_price": 9.48,
+            "snapshot_upper_limit": 9.66,
+            "stock_change_pct": 4.061470911086729,
+            "upper_shadow_ratio": 0.22784810126582217
+          },
+          "rank": 8,
+          "risk_penalty": 0.0,
+          "risk_reasons": [],
+          "signal_source": "python_only",
+          "symbol": "300404.SZ",
+          "top_three": false
+        },
+        {
+          "base_score": 80.63144994840042,
+          "factor_scores": {
+            "board_leadership": 25.0,
+            "brick_strength": 25.0,
+            "liquidity": 7.401315789473685,
+            "relative_strength": 14.210526315789474,
+            "tail_structure": 9.01960784313726
+          },
+          "final_score": 76.63144994840042,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 1.0511760420690082,
+            "brick_strength_ratio": 2.3264598827328746,
+            "close_position": 0.601307189542484,
+            "relative_strength_pct": 1.125531657856027,
+            "snapshot_last_price": 112.4,
+            "snapshot_upper_limit": 118.5,
+            "stock_change_pct": 5.539906103286385,
+            "upper_shadow_ratio": 0.39869281045751603
+          },
+          "rank": 9,
+          "risk_penalty": 4.0,
+          "risk_reasons": [
+            "daily_gain_at_least_5pct"
+          ],
+          "signal_source": "python_only",
+          "symbol": "688796.SH",
+          "top_three": false
+        },
+        {
+          "base_score": 76.09561774428487,
+          "factor_scores": {
+            "board_leadership": 25.0,
+            "brick_strength": 24.089038796916448,
+            "liquidity": 8.585526315789473,
+            "relative_strength": 8.421052631578947,
+            "tail_structure": 10.0
+          },
+          "final_score": 76.09561774428487,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 1.6568515143263072,
+            "brick_strength_ratio": 1.9271231037533159,
+            "close_position": 0.6666666666666666,
+            "relative_strength_pct": -1.5242010350257296,
+            "snapshot_last_price": 1.78,
+            "snapshot_upper_limit": 1.82,
+            "stock_change_pct": 2.8901734104046284,
+            "upper_shadow_ratio": 0.3333333333333333
+          },
+          "rank": 10,
+          "risk_penalty": 0.0,
+          "risk_reasons": [],
+          "signal_source": "python_only",
+          "symbol": "002086.SZ",
+          "top_three": false
+        },
+        {
+          "base_score": 75.75568586733621,
+          "factor_scores": {
+            "board_leadership": 25.0,
+            "brick_strength": 24.196475341020417,
+            "liquidity": 7.401315789473684,
+            "relative_strength": 8.157894736842104,
+            "tail_structure": 11.000000000000005
+          },
+          "final_score": 75.75568586733621,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 1.5781581350452827,
+            "brick_strength_ratio": 1.9357180272816334,
+            "close_position": 0.7333333333333337,
+            "relative_strength_pct": -1.6683790220893835,
+            "snapshot_last_price": 4.49,
+            "snapshot_upper_limit": 4.57,
+            "stock_change_pct": 2.7459954233409745,
+            "upper_shadow_ratio": 0.2666666666666663
+          },
+          "rank": 11,
+          "risk_penalty": 0.0,
+          "risk_reasons": [],
+          "signal_source": "python_only",
+          "symbol": "300261.SZ",
+          "top_three": false
+        },
+        {
+          "base_score": 82.8478554168511,
+          "factor_scores": {
+            "board_leadership": 25.0,
+            "brick_strength": 13.16902766565493,
+            "liquidity": 12.532894736842106,
+            "relative_strength": 19.736842105263158,
+            "tail_structure": 12.409090909090907
+          },
+          "final_score": 74.8478554168511,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 2.7614425535416496,
+            "brick_strength_ratio": 1.0535222132523945,
+            "close_position": 0.827272727272727,
+            "relative_strength_pct": 12.281277728482689,
+            "snapshot_last_price": 6.71,
+            "snapshot_upper_limit": 6.9,
+            "stock_change_pct": 16.695652173913047,
+            "upper_shadow_ratio": 0.172727272727273
+          },
+          "rank": 12,
+          "risk_penalty": 8.0,
+          "risk_reasons": [
+            "daily_gain_at_least_8pct"
+          ],
+          "signal_source": "python_only",
+          "symbol": "688238.SH",
+          "top_three": false
+        },
+        {
+          "base_score": 74.30269819059576,
+          "factor_scores": {
+            "board_leadership": 25.0,
+            "brick_strength": 22.06585608533262,
+            "liquidity": 5.526315789473684,
+            "relative_strength": 9.473684210526315,
+            "tail_structure": 12.236842105263147
+          },
+          "final_score": 74.30269819059576,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 1.4307999533516695,
+            "brick_strength_ratio": 1.7652684868266095,
+            "close_position": 0.8157894736842097,
+            "relative_strength_pct": -1.094061945430358,
+            "snapshot_last_price": 5.29,
+            "snapshot_upper_limit": 5.36,
+            "stock_change_pct": 3.3203125,
+            "upper_shadow_ratio": 0.18421052631579027
+          },
+          "rank": 13,
+          "risk_penalty": 0.0,
+          "risk_reasons": [],
+          "signal_source": "python_only",
+          "symbol": "000953.SZ",
+          "top_three": false
+        },
+        {
+          "base_score": 79.63815789473684,
+          "factor_scores": {
+            "board_leadership": 25.0,
+            "brick_strength": 25.0,
+            "liquidity": 8.585526315789474,
+            "relative_strength": 12.368421052631579,
+            "tail_structure": 8.684210526315782
+          },
+          "final_score": 73.63815789473684,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 1.5798716182186772,
+            "brick_strength_ratio": 2.9555206750056513,
+            "close_position": 0.5789473684210521,
+            "relative_strength_pct": 0.4314405325432036,
+            "snapshot_last_price": 7.14,
+            "snapshot_upper_limit": 7.46,
+            "stock_change_pct": 4.8458149779735615,
+            "upper_shadow_ratio": 0.42105263157894784
+          },
+          "rank": 14,
+          "risk_penalty": 6.0,
+          "risk_reasons": [
+            "long_upper_shadow"
+          ],
+          "signal_source": "python_only",
+          "symbol": "300887.SZ",
+          "top_three": false
+        },
+        {
+          "base_score": 73.24107315243832,
+          "factor_scores": {
+            "board_leadership": 25.0,
+            "brick_strength": 20.125512101316982,
+            "liquidity": 8.388157894736842,
+            "relative_strength": 10.0,
+            "tail_structure": 9.727403156384497
+          },
+          "final_score": 73.24107315243832,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 1.0188460737669094,
+            "brick_strength_ratio": 1.6100409681053585,
+            "close_position": 0.6484935437589665,
+            "relative_strength_pct": -0.853053690713379,
+            "snapshot_last_price": 87.82,
+            "snapshot_upper_limit": 90.27,
+            "stock_change_pct": 3.561320754716979,
+            "upper_shadow_ratio": 0.35150645624103344
+          },
+          "rank": 15,
+          "risk_penalty": 0.0,
+          "risk_reasons": [],
+          "signal_source": "shared",
+          "symbol": "688131.SH",
+          "top_three": false
+        },
+        {
+          "base_score": 72.02059890363537,
+          "factor_scores": {
+            "board_leadership": 25.0,
+            "brick_strength": 19.820626729998864,
+            "liquidity": 4.8355263157894735,
+            "relative_strength": 11.578947368421053,
+            "tail_structure": 10.785498489425985
+          },
+          "final_score": 72.02059890363537,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 1.24237320972237,
+            "brick_strength_ratio": 1.585650138399909,
+            "close_position": 0.719033232628399,
+            "relative_strength_pct": 0.2274286133300274,
+            "snapshot_last_price": 39.0,
+            "snapshot_upper_limit": 39.93,
+            "stock_change_pct": 4.641803058760385,
+            "upper_shadow_ratio": 0.2809667673716009
+          },
+          "rank": 16,
+          "risk_penalty": 0.0,
+          "risk_reasons": [],
+          "signal_source": "python_only",
+          "symbol": "688137.SH",
+          "top_three": false
+        },
+        {
+          "base_score": 79.65982221158933,
+          "factor_scores": {
+            "board_leadership": 25.0,
+            "brick_strength": 13.848486179200659,
+            "liquidity": 13.026315789473685,
+            "relative_strength": 16.31578947368421,
+            "tail_structure": 11.469230769230784
+          },
+          "final_score": 71.65982221158933,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 1.5531499600045982,
+            "brick_strength_ratio": 1.1078788943360527,
+            "close_position": 0.7646153846153856,
+            "relative_strength_pct": 4.07770726216663,
+            "snapshot_last_price": 47.27,
+            "snapshot_upper_limit": 48.8,
+            "stock_change_pct": 8.492081707596988,
+            "upper_shadow_ratio": 0.23538461538461447
+          },
+          "rank": 17,
+          "risk_penalty": 8.0,
+          "risk_reasons": [
+            "daily_gain_at_least_8pct"
+          ],
+          "signal_source": "python_only",
+          "symbol": "300347.SZ",
+          "top_three": false
+        },
+        {
+          "base_score": 69.49084668192218,
+          "factor_scores": {
+            "board_leadership": 25.0,
+            "brick_strength": 25.0,
+            "liquidity": 1.1842105263157894,
+            "relative_strength": 5.2631578947368425,
+            "tail_structure": 13.04347826086955
+          },
+          "final_score": 69.49084668192218,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 0.8108650863001949,
+            "brick_strength_ratio": 13.55531142724504,
+            "close_position": 0.8695652173913032,
+            "relative_strength_pct": -2.2471917828916554,
+            "snapshot_last_price": 3.3,
+            "snapshot_upper_limit": 3.33,
+            "stock_change_pct": 2.1671826625387025,
+            "upper_shadow_ratio": 0.13043478260869673
+          },
+          "rank": 18,
+          "risk_penalty": 0.0,
+          "risk_reasons": [],
+          "signal_source": "python_only",
+          "symbol": "002581.SZ",
+          "top_three": false
+        },
+        {
+          "base_score": 75.33367161254199,
+          "factor_scores": {
+            "board_leadership": 25.0,
+            "brick_strength": 25.0,
+            "liquidity": 9.078947368421053,
+            "relative_strength": 7.368421052631579,
+            "tail_structure": 8.886303191489363
+          },
+          "final_score": 69.33367161254199,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 0.9342412890767045,
+            "brick_strength_ratio": 14.444208630155812,
+            "close_position": 0.5924202127659576,
+            "relative_strength_pct": -1.8218048243920926,
+            "snapshot_last_price": 165.41,
+            "snapshot_upper_limit": 171.54,
+            "stock_change_pct": 2.5925696210382654,
+            "upper_shadow_ratio": 0.4075797872340425
+          },
+          "rank": 19,
+          "risk_penalty": 6.0,
+          "risk_reasons": [
+            "long_upper_shadow"
+          ],
+          "signal_source": "python_only",
+          "symbol": "002821.SZ",
+          "top_three": false
+        },
+        {
+          "base_score": 72.84739153725685,
+          "factor_scores": {
+            "board_leadership": 25.0,
+            "brick_strength": 15.410878822090748,
+            "liquidity": 6.513157894736842,
+            "relative_strength": 15.526315789473685,
+            "tail_structure": 10.397039030955586
+          },
+          "final_score": 68.84739153725685,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 1.0069527718019666,
+            "brick_strength_ratio": 1.2328703057672599,
+            "close_position": 0.6931359353970391,
+            "relative_strength_pct": 1.8685991756727693,
+            "snapshot_last_price": 66.48,
+            "snapshot_upper_limit": 68.76,
+            "stock_change_pct": 6.282973621103127,
+            "upper_shadow_ratio": 0.30686406460296084
+          },
+          "rank": 20,
+          "risk_penalty": 4.0,
+          "risk_reasons": [
+            "daily_gain_at_least_5pct"
+          ],
+          "signal_source": "python_only",
+          "symbol": "301393.SZ",
+          "top_three": false
+        },
+        {
+          "base_score": 68.54060306214183,
+          "factor_scores": {
+            "board_leadership": 25.0,
+            "brick_strength": 16.991918851615512,
+            "liquidity": 6.611842105263158,
+            "relative_strength": 9.736842105263158,
+            "tail_structure": 10.199999999999996
+          },
+          "final_score": 68.54060306214183,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 1.3403661761922383,
+            "brick_strength_ratio": 1.359353508129241,
+            "close_position": 0.6799999999999997,
+            "relative_strength_pct": -1.0530299076152216,
+            "snapshot_last_price": 3.69,
+            "snapshot_upper_limit": 3.77,
+            "stock_change_pct": 3.3613445378151363,
+            "upper_shadow_ratio": 0.3200000000000003
+          },
+          "rank": 21,
+          "risk_penalty": 0.0,
+          "risk_reasons": [],
+          "signal_source": "python_only",
+          "symbol": "000790.SZ",
+          "top_three": false
+        },
+        {
+          "base_score": 72.35152715866386,
+          "factor_scores": {
+            "board_leadership": 25.0,
+            "brick_strength": 12.56660813032379,
+            "liquidity": 9.375,
+            "relative_strength": 14.736842105263158,
+            "tail_structure": 10.67307692307691
+          },
+          "final_score": 68.35152715866386,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 1.252583736716696,
+            "brick_strength_ratio": 1.0053286504259031,
+            "close_position": 0.7115384615384606,
+            "relative_strength_pct": 1.5027853178832595,
+            "snapshot_last_price": 8.95,
+            "snapshot_upper_limit": 9.25,
+            "stock_change_pct": 5.9171597633136175,
+            "upper_shadow_ratio": 0.2884615384615394
+          },
+          "rank": 22,
+          "risk_penalty": 4.0,
+          "risk_reasons": [
+            "daily_gain_at_least_5pct"
+          ],
+          "signal_source": "python_only",
+          "symbol": "300149.SZ",
+          "top_three": false
+        },
+        {
+          "base_score": 76.06593537814813,
+          "factor_scores": {
+            "board_leadership": 25.0,
+            "brick_strength": 13.598830114990232,
+            "liquidity": 7.796052631578947,
+            "relative_strength": 18.42105263157895,
+            "tail_structure": 11.250000000000004
+          },
+          "final_score": 68.06593537814813,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 1.476781068929239,
+            "brick_strength_ratio": 1.0879064091992185,
+            "close_position": 0.7500000000000002,
+            "relative_strength_pct": 6.784053845335848,
+            "snapshot_last_price": 11.32,
+            "snapshot_upper_limit": 11.77,
+            "stock_change_pct": 11.198428290766206,
+            "upper_shadow_ratio": 0.24999999999999975
+          },
+          "rank": 23,
+          "risk_penalty": 8.0,
+          "risk_reasons": [
+            "daily_gain_at_least_8pct"
+          ],
+          "signal_source": "python_only",
+          "symbol": "920478.BJ",
+          "top_three": false
+        },
+        {
+          "base_score": 67.20926640054273,
+          "factor_scores": {
+            "board_leadership": 25.0,
+            "brick_strength": 11.263665457887589,
+            "liquidity": 7.697368421052632,
+            "relative_strength": 10.263157894736842,
+            "tail_structure": 12.985074626865675
+          },
+          "final_score": 67.20926640054273,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 1.2816478062418608,
+            "brick_strength_ratio": 0.901093236631007,
+            "close_position": 0.8656716417910449,
+            "relative_strength_pct": -0.6957002336275941,
+            "snapshot_last_price": 12.83,
+            "snapshot_upper_limit": 12.92,
+            "stock_change_pct": 3.718674211802764,
+            "upper_shadow_ratio": 0.13432835820895503
+          },
+          "rank": 24,
+          "risk_penalty": 0.0,
+          "risk_reasons": [],
+          "signal_source": "python_only",
+          "symbol": "002675.SZ",
+          "top_three": false
+        },
+        {
+          "base_score": 66.96712007517512,
+          "factor_scores": {
+            "board_leadership": 25.0,
+            "brick_strength": 12.55559557426767,
+            "liquidity": 7.302631578947368,
+            "relative_strength": 11.31578947368421,
+            "tail_structure": 10.793103448275868
+          },
+          "final_score": 66.96712007517512,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 1.2733722336797986,
+            "brick_strength_ratio": 1.0044476459414136,
+            "close_position": 0.7195402298850578,
+            "relative_strength_pct": -0.03822952379388678,
+            "snapshot_last_price": 51.28,
+            "snapshot_upper_limit": 52.5,
+            "stock_change_pct": 4.376144921636471,
+            "upper_shadow_ratio": 0.28045977011494216
+          },
+          "rank": 25,
+          "risk_penalty": 0.0,
+          "risk_reasons": [],
+          "signal_source": "python_only",
+          "symbol": "688185.SH",
+          "top_three": false
+        },
+        {
+          "base_score": 66.41871819246508,
+          "factor_scores": {
+            "board_leadership": 25.0,
+            "brick_strength": 23.4193162785895,
+            "liquidity": 2.664473684210526,
+            "relative_strength": 5.7894736842105265,
+            "tail_structure": 9.545454545454534
+          },
+          "final_score": 66.41871819246508,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 0.975713888501927,
+            "brick_strength_ratio": 1.87354530228716,
+            "close_position": 0.6363636363636356,
+            "relative_strength_pct": -2.2138854478753522,
+            "snapshot_last_price": 4.18,
+            "snapshot_upper_limit": 4.3,
+            "stock_change_pct": 2.2004889975550057,
+            "upper_shadow_ratio": 0.36363636363636437
+          },
+          "rank": 26,
+          "risk_penalty": 0.0,
+          "risk_reasons": [],
+          "signal_source": "python_only",
+          "symbol": "300412.SZ",
+          "top_three": false
+        },
+        {
+          "base_score": 71.99328419488542,
+          "factor_scores": {
+            "board_leadership": 25.0,
+            "brick_strength": 25.0,
+            "liquidity": 10.164473684210526,
+            "relative_strength": 4.473684210526316,
+            "tail_structure": 7.355126300148578
+          },
+          "final_score": 65.99328419488542,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 1.0290538944276633,
+            "brick_strength_ratio": 11.843221919836411,
+            "close_position": 0.49034175334323854,
+            "relative_strength_pct": -2.5724648063785605,
+            "snapshot_last_price": 123.3,
+            "snapshot_upper_limit": 126.73,
+            "stock_change_pct": 1.8419096390517975,
+            "upper_shadow_ratio": 0.5096582466567615
+          },
+          "rank": 27,
+          "risk_penalty": 6.0,
+          "risk_reasons": [
+            "long_upper_shadow"
+          ],
+          "signal_source": "python_only",
+          "symbol": "603259.SH",
+          "top_three": false
+        },
+        {
+          "base_score": 73.98337656216256,
+          "factor_scores": {
+            "board_leadership": 25.0,
+            "brick_strength": 10.25678343512945,
+            "liquidity": 9.572368421052632,
+            "relative_strength": 16.57894736842105,
+            "tail_structure": 12.575277337559422
+          },
+          "final_score": 65.98337656216256,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 1.358436087256006,
+            "brick_strength_ratio": 0.8205426748103559,
+            "close_position": 0.8383518225039616,
+            "relative_strength_pct": 4.157054125998204,
+            "snapshot_last_price": 52.44,
+            "snapshot_upper_limit": 53.46,
+            "stock_change_pct": 8.571428571428562,
+            "upper_shadow_ratio": 0.16164817749603846
+          },
+          "rank": 28,
+          "risk_penalty": 8.0,
+          "risk_reasons": [
+            "daily_gain_at_least_8pct"
+          ],
+          "signal_source": "python_only",
+          "symbol": "301333.SZ",
+          "top_three": false
+        },
+        {
+          "base_score": 65.85673455425571,
+          "factor_scores": {
+            "board_leadership": 25.0,
+            "brick_strength": 14.030509508883664,
+            "liquidity": 5.328947368421053,
+            "relative_strength": 11.842105263157896,
+            "tail_structure": 9.65517241379309
+          },
+          "final_score": 65.85673455425571,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 0.9858252431156441,
+            "brick_strength_ratio": 1.1224407607106932,
+            "close_position": 0.6436781609195393,
+            "relative_strength_pct": 0.2812777284826762,
+            "snapshot_last_price": 18.06,
+            "snapshot_upper_limit": 18.68,
+            "stock_change_pct": 4.695652173913034,
+            "upper_shadow_ratio": 0.35632183908046067
+          },
+          "rank": 29,
+          "risk_penalty": 0.0,
+          "risk_reasons": [],
+          "signal_source": "python_only",
+          "symbol": "688105.SH",
+          "top_three": false
+        },
+        {
+          "base_score": 65.82840705932145,
+          "factor_scores": {
+            "board_leadership": 25.0,
+            "brick_strength": 10.00472284879513,
+            "liquidity": 7.697368421052632,
+            "relative_strength": 10.526315789473685,
+            "tail_structure": 12.599999999999998
+          },
+          "final_score": 65.82840705932145,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 1.5216309422119316,
+            "brick_strength_ratio": 0.8003778279036103,
+            "close_position": 0.8399999999999999,
+            "relative_strength_pct": -0.5975805523005917,
+            "snapshot_last_price": 6.8,
+            "snapshot_upper_limit": 6.88,
+            "stock_change_pct": 3.8167938931297662,
+            "upper_shadow_ratio": 0.16000000000000014
+          },
+          "rank": 30,
+          "risk_penalty": 0.0,
+          "risk_reasons": [],
+          "signal_source": "python_only",
+          "symbol": "600721.SH",
+          "top_three": false
+        },
+        {
+          "base_score": 62.272032510999566,
+          "factor_scores": {
+            "board_leadership": 25.0,
+            "brick_strength": 12.983284065081607,
+            "liquidity": 5.328947368421052,
+            "relative_strength": 8.68421052631579,
+            "tail_structure": 10.275590551181118
+          },
+          "final_score": 62.272032510999566,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 0.8083180009806201,
+            "brick_strength_ratio": 1.0386627252065286,
+            "close_position": 0.6850393700787412,
+            "relative_strength_pct": -1.4803891153569948,
+            "snapshot_last_price": 12.63,
+            "snapshot_upper_limit": 13.03,
+            "stock_change_pct": 2.933985330073363,
+            "upper_shadow_ratio": 0.31496062992125884
+          },
+          "rank": 31,
+          "risk_penalty": 0.0,
+          "risk_reasons": [],
+          "signal_source": "python_only",
+          "symbol": "688553.SH",
+          "top_three": false
+        },
+        {
+          "base_score": 61.76533982778033,
+          "factor_scores": {
+            "board_leadership": 25.0,
+            "brick_strength": 13.184287196201414,
+            "liquidity": 8.68421052631579,
+            "relative_strength": 4.7368421052631575,
+            "tail_structure": 10.159999999999968
+          },
+          "final_score": 61.76533982778033,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 1.4367193064804669,
+            "brick_strength_ratio": 1.054742975696113,
+            "close_position": 0.6773333333333312,
+            "relative_strength_pct": -2.479547561519979,
+            "snapshot_last_price": 70.07,
+            "snapshot_upper_limit": 71.28,
+            "stock_change_pct": 1.9348268839103788,
+            "upper_shadow_ratio": 0.32266666666666877
+          },
+          "rank": 32,
+          "risk_penalty": 0.0,
+          "risk_reasons": [],
+          "signal_source": "python_only",
+          "symbol": "301047.SZ",
+          "top_three": false
+        },
+        {
+          "base_score": 60.43136953081284,
+          "factor_scores": {
+            "board_leadership": 25.0,
+            "brick_strength": 12.343167033042986,
+            "liquidity": 5.032894736842105,
+            "relative_strength": 7.631578947368421,
+            "tail_structure": 10.423728813559327
+          },
+          "final_score": 60.43136953081284,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 1.2305887846933903,
+            "brick_strength_ratio": 0.9874533626434389,
+            "close_position": 0.6949152542372885,
+            "relative_strength_pct": -1.6795349686170358,
+            "snapshot_last_price": 8.64,
+            "snapshot_upper_limit": 8.82,
+            "stock_change_pct": 2.734839476813322,
+            "upper_shadow_ratio": 0.30508474576271144
+          },
+          "rank": 33,
+          "risk_penalty": 0.0,
+          "risk_reasons": [],
+          "signal_source": "python_only",
+          "symbol": "301060.SZ",
+          "top_three": false
+        },
+        {
+          "base_score": 60.330888422528155,
+          "factor_scores": {
+            "board_leadership": 25.0,
+            "brick_strength": 8.558716851869217,
+            "liquidity": 9.671052631578947,
+            "relative_strength": 5.526315789473684,
+            "tail_structure": 11.574803149606309
+          },
+          "final_score": 60.330888422528155,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 1.115648271334036,
+            "brick_strength_ratio": 0.6846973481495374,
+            "close_position": 0.7716535433070872,
+            "relative_strength_pct": -2.235725207957584,
+            "snapshot_last_price": 23.45,
+            "snapshot_upper_limit": 23.74,
+            "stock_change_pct": 2.178649237472774,
+            "upper_shadow_ratio": 0.22834645669291279
+          },
+          "rank": 34,
+          "risk_penalty": 0.0,
+          "risk_reasons": [],
+          "signal_source": "python_only",
+          "symbol": "600196.SH",
+          "top_three": false
+        },
+        {
+          "base_score": 64.08943191957687,
+          "factor_scores": {
+            "board_leadership": 25.0,
+            "brick_strength": 11.640039207026257,
+            "liquidity": 2.3684210526315788,
+            "relative_strength": 13.157894736842104,
+            "tail_structure": 11.923076923076923
+          },
+          "final_score": 60.08943191957687,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 0.8373603802544264,
+            "brick_strength_ratio": 0.9312031365621005,
+            "close_position": 0.7948717948717949,
+            "relative_strength_pct": 0.7804307493748386,
+            "snapshot_last_price": 8.91,
+            "snapshot_upper_limit": 9.07,
+            "stock_change_pct": 5.1948051948051965,
+            "upper_shadow_ratio": 0.205128205128205
+          },
+          "rank": 35,
+          "risk_penalty": 4.0,
+          "risk_reasons": [
+            "daily_gain_at_least_5pct"
+          ],
+          "signal_source": "python_only",
+          "symbol": "688247.SH",
+          "top_three": false
+        },
+        {
+          "base_score": 57.295494056067,
+          "factor_scores": {
+            "board_leadership": 25.0,
+            "brick_strength": 11.228764732758778,
+            "liquidity": 3.0592105263157894,
+            "relative_strength": 6.578947368421052,
+            "tail_structure": 11.428571428571377
+          },
+          "final_score": 57.295494056067,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 1.0344701161858105,
+            "brick_strength_ratio": 0.8983011786207022,
+            "close_position": 0.7619047619047585,
+            "relative_strength_pct": -1.943912576472262,
+            "snapshot_last_price": 9.54,
+            "snapshot_upper_limit": 9.64,
+            "stock_change_pct": 2.470461868958096,
+            "upper_shadow_ratio": 0.23809523809524152
+          },
+          "rank": 36,
+          "risk_penalty": 0.0,
+          "risk_reasons": [],
+          "signal_source": "python_only",
+          "symbol": "002399.SZ",
+          "top_three": false
+        },
+        {
+          "base_score": 56.76728370968239,
+          "factor_scores": {
+            "board_leadership": 25.0,
+            "brick_strength": 10.614521997710133,
+            "liquidity": 4.046052631578947,
+            "relative_strength": 8.947368421052632,
+            "tail_structure": 8.159340659340673
+          },
+          "final_score": 50.76728370968239,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 0.8052955917090415,
+            "brick_strength_ratio": 0.8491617598168106,
+            "close_position": 0.5439560439560449,
+            "relative_strength_pct": -1.4074666843576056,
+            "snapshot_last_price": 50.7,
+            "snapshot_upper_limit": 52.36,
+            "stock_change_pct": 3.0069077610727524,
+            "upper_shadow_ratio": 0.45604395604395503
+          },
+          "rank": 37,
+          "risk_penalty": 6.0,
+          "risk_reasons": [
+            "long_upper_shadow"
+          ],
+          "signal_source": "python_only",
+          "symbol": "301096.SZ",
+          "top_three": false
+        },
+        {
+          "base_score": 0.0,
+          "factor_scores": {
+            "board_leadership": 0.0,
+            "brick_strength": 0.0,
+            "liquidity": 0.0,
+            "relative_strength": 0.0,
+            "tail_structure": 0.0
+          },
+          "final_score": 0.0,
+          "hard_filter_reasons": [
+            "tail_limit_up_locked"
+          ],
+          "metrics": {},
+          "rank": 38,
+          "risk_penalty": 0.0,
+          "risk_reasons": [],
+          "signal_source": "python_only",
+          "symbol": "002693.SZ",
+          "top_three": false
+        },
+        {
+          "base_score": 0.0,
+          "factor_scores": {
+            "board_leadership": 0.0,
+            "brick_strength": 0.0,
+            "liquidity": 0.0,
+            "relative_strength": 0.0,
+            "tail_structure": 0.0
+          },
+          "final_score": 0.0,
+          "hard_filter_reasons": [
+            "tail_limit_up_locked"
+          ],
+          "metrics": {},
+          "rank": 39,
+          "risk_penalty": 0.0,
+          "risk_reasons": [],
+          "signal_source": "python_only",
+          "symbol": "603127.SH",
+          "top_three": false
+        },
+        {
+          "base_score": 0.0,
+          "factor_scores": {
+            "board_leadership": 0.0,
+            "brick_strength": 0.0,
+            "liquidity": 0.0,
+            "relative_strength": 0.0,
+            "tail_structure": 0.0
+          },
+          "final_score": 0.0,
+          "hard_filter_reasons": [
+            "tail_limit_up_locked"
+          ],
+          "metrics": {},
+          "rank": 40,
+          "risk_penalty": 0.0,
+          "risk_reasons": [],
+          "signal_source": "python_only",
+          "symbol": "688710.SH",
+          "top_three": false
+        }
+      ],
+      "sector": "880729.SH"
+    },
+    {
+      "board_change_pct": 4.345446124047325,
+      "board_rank": 2,
+      "candidates": [
+        {
+          "base_score": 90.0135070713491,
+          "factor_scores": {
+            "board_leadership": 20.0,
+            "brick_strength": 25.0,
+            "liquidity": 13.064516129032258,
+            "relative_strength": 17.096774193548388,
+            "tail_structure": 14.85221674876845
+          },
+          "final_score": 86.0135070713491,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 2.0397329523432117,
+            "brick_strength_ratio": 788.7159784169424,
+            "close_position": 0.99014778325123,
+            "relative_strength_pct": 3.3868475731586356,
+            "snapshot_last_price": 16.58,
+            "snapshot_upper_limit": 16.6,
+            "stock_change_pct": 7.732293697205961,
+            "upper_shadow_ratio": 0.009852216748770008
+          },
+          "rank": 1,
+          "risk_penalty": 4.0,
+          "risk_reasons": [
+            "daily_gain_at_least_5pct"
+          ],
+          "signal_source": "python_only",
+          "symbol": "600129.SH",
+          "top_three": true
+        },
+        {
+          "base_score": 85.86592147902833,
+          "factor_scores": {
+            "board_leadership": 20.0,
+            "brick_strength": 24.72048681527764,
+            "liquidity": 11.85483870967742,
+            "relative_strength": 16.451612903225808,
+            "tail_structure": 12.83898305084746
+          },
+          "final_score": 81.86592147902833,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 1.925455816901366,
+            "brick_strength_ratio": 1.9776389452222112,
+            "close_position": 0.8559322033898306,
+            "relative_strength_pct": 2.6906136824610405,
+            "snapshot_last_price": 12.17,
+            "snapshot_upper_limit": 12.34,
+            "stock_change_pct": 7.036059806508366,
+            "upper_shadow_ratio": 0.14406779661016947
+          },
+          "rank": 2,
+          "risk_penalty": 4.0,
+          "risk_reasons": [
+            "daily_gain_at_least_5pct"
+          ],
+          "signal_source": "python_only",
+          "symbol": "300122.SZ",
+          "top_three": true
+        },
+        {
+          "base_score": 88.0584789219486,
+          "factor_scores": {
+            "board_leadership": 20.0,
+            "brick_strength": 25.0,
+            "liquidity": 14.637096774193548,
+            "relative_strength": 19.35483870967742,
+            "tail_structure": 9.066543438077638
+          },
+          "final_score": 80.0584789219486,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 2.3305197194543203,
+            "brick_strength_ratio": 19.533155375685435,
+            "close_position": 0.6044362292051758,
+            "relative_strength_pct": 9.616233222247406,
+            "snapshot_last_price": 80.89,
+            "snapshot_upper_limit": 85.17,
+            "stock_change_pct": 13.96167934629473,
+            "upper_shadow_ratio": 0.39556377079482424
+          },
+          "rank": 3,
+          "risk_penalty": 8.0,
+          "risk_reasons": [
+            "daily_gain_at_least_8pct"
+          ],
+          "signal_source": "python_only",
+          "symbol": "300487.SZ",
+          "top_three": true
+        },
+        {
+          "base_score": 87.36042183622828,
+          "factor_scores": {
+            "board_leadership": 20.0,
+            "brick_strength": 25.0,
+            "liquidity": 12.943548387096774,
+            "relative_strength": 19.032258064516128,
+            "tail_structure": 10.384615384615387
+          },
+          "final_score": 79.36042183622828,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 1.7353540837237804,
+            "brick_strength_ratio": 3.806561446283078,
+            "close_position": 0.6923076923076924,
+            "relative_strength_pct": 8.421890233697326,
+            "snapshot_last_price": 87.0,
+            "snapshot_upper_limit": 91.8,
+            "stock_change_pct": 12.767336357744652,
+            "upper_shadow_ratio": 0.3076923076923076
+          },
+          "rank": 4,
+          "risk_penalty": 8.0,
+          "risk_reasons": [
+            "daily_gain_at_least_8pct"
+          ],
+          "signal_source": "python_only",
+          "symbol": "688202.SH",
+          "top_three": false
+        },
+        {
+          "base_score": 76.42098815843202,
+          "factor_scores": {
+            "board_leadership": 20.0,
+            "brick_strength": 25.0,
+            "liquidity": 8.225806451612904,
+            "relative_strength": 11.612903225806452,
+            "tail_structure": 11.582278481012668
+          },
+          "final_score": 76.42098815843202,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 1.3100325034949767,
+            "brick_strength_ratio": 2.481329489138105,
+            "close_position": 0.7721518987341779,
+            "relative_strength_pct": -0.2839752129605966,
+            "snapshot_last_price": 9.48,
+            "snapshot_upper_limit": 9.66,
+            "stock_change_pct": 4.061470911086729,
+            "upper_shadow_ratio": 0.22784810126582217
+          },
+          "rank": 5,
+          "risk_penalty": 0.0,
+          "risk_reasons": [],
+          "signal_source": "python_only",
+          "symbol": "300404.SZ",
+          "top_three": false
+        },
+        {
+          "base_score": 80.33754206262039,
+          "factor_scores": {
+            "board_leadership": 20.0,
+            "brick_strength": 17.81582990381145,
+            "liquidity": 12.45967741935484,
+            "relative_strength": 19.677419354838708,
+            "tail_structure": 10.384615384615385
+          },
+          "final_score": 72.33754206262039,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 1.885518850692751,
+            "brick_strength_ratio": 1.425266392304916,
+            "close_position": 0.6923076923076923,
+            "relative_strength_pct": 11.444027560163207,
+            "snapshot_last_price": 55.0,
+            "snapshot_upper_limit": 57.0,
+            "stock_change_pct": 15.789473684210531,
+            "upper_shadow_ratio": 0.3076923076923077
+          },
+          "rank": 6,
+          "risk_penalty": 8.0,
+          "risk_reasons": [
+            "daily_gain_at_least_8pct"
+          ],
+          "signal_source": "python_only",
+          "symbol": "301092.SZ",
+          "top_three": false
+        },
+        {
+          "base_score": 71.74875031895867,
+          "factor_scores": {
+            "board_leadership": 20.0,
+            "brick_strength": 17.76720362224081,
+            "liquidity": 11.129032258064516,
+            "relative_strength": 11.935483870967742,
+            "tail_structure": 10.917030567685604
+          },
+          "final_score": 71.74875031895867,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 1.6031480853533076,
+            "brick_strength_ratio": 1.4213762897792648,
+            "close_position": 0.727802037845707,
+            "relative_strength_pct": -0.20060970537227885,
+            "snapshot_last_price": 89.45,
+            "snapshot_upper_limit": 91.32,
+            "stock_change_pct": 4.144836418675046,
+            "upper_shadow_ratio": 0.272197962154293
+          },
+          "rank": 7,
+          "risk_penalty": 0.0,
+          "risk_reasons": [],
+          "signal_source": "python_only",
+          "symbol": "300896.SZ",
+          "top_three": false
+        },
+        {
+          "base_score": 71.57529390130578,
+          "factor_scores": {
+            "board_leadership": 20.0,
+            "brick_strength": 22.488533887126408,
+            "liquidity": 6.169354838709678,
+            "relative_strength": 12.258064516129032,
+            "tail_structure": 10.659340659340664
+          },
+          "final_score": 71.57529390130578,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 1.0226008790203633,
+            "brick_strength_ratio": 1.7990827109701126,
+            "close_position": 0.710622710622711,
+            "relative_strength_pct": 0.31898340615401644,
+            "snapshot_last_price": 31.19,
+            "snapshot_upper_limit": 31.98,
+            "stock_change_pct": 4.664429530201342,
+            "upper_shadow_ratio": 0.289377289377289
+          },
+          "rank": 8,
+          "risk_penalty": 0.0,
+          "risk_reasons": [],
+          "signal_source": "python_only",
+          "symbol": "688166.SH",
+          "top_three": false
+        },
+        {
+          "base_score": 72.24979125918031,
+          "factor_scores": {
+            "board_leadership": 20.0,
+            "brick_strength": 17.380567196407874,
+            "liquidity": 8.467741935483872,
+            "relative_strength": 13.225806451612904,
+            "tail_structure": 13.175675675675667
+          },
+          "final_score": 68.24979125918031,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 1.0357171534921579,
+            "brick_strength_ratio": 1.3904453757126298,
+            "close_position": 0.8783783783783777,
+            "relative_strength_pct": 0.7021225863120817,
+            "snapshot_last_price": 39.75,
+            "snapshot_upper_limit": 40.2,
+            "stock_change_pct": 5.047568710359407,
+            "upper_shadow_ratio": 0.1216216216216223
+          },
+          "rank": 9,
+          "risk_penalty": 4.0,
+          "risk_reasons": [
+            "daily_gain_at_least_5pct"
+          ],
+          "signal_source": "python_only",
+          "symbol": "300723.SZ",
+          "top_three": false
+        },
+        {
+          "base_score": 68.11904428995955,
+          "factor_scores": {
+            "board_leadership": 20.0,
+            "brick_strength": 20.125512101316982,
+            "liquidity": 7.620967741935484,
+            "relative_strength": 10.64516129032258,
+            "tail_structure": 9.727403156384497
+          },
+          "final_score": 68.11904428995955,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 1.0188460737669094,
+            "brick_strength_ratio": 1.6100409681053585,
+            "close_position": 0.6484935437589665,
+            "relative_strength_pct": -0.7841253693303463,
+            "snapshot_last_price": 87.82,
+            "snapshot_upper_limit": 90.27,
+            "stock_change_pct": 3.561320754716979,
+            "upper_shadow_ratio": 0.35150645624103344
+          },
+          "rank": 10,
+          "risk_penalty": 0.0,
+          "risk_reasons": [],
+          "signal_source": "shared",
+          "symbol": "688131.SH",
+          "top_three": false
+        },
+        {
+          "base_score": 66.73207907129358,
+          "factor_scores": {
+            "board_leadership": 20.0,
+            "brick_strength": 14.205197350863488,
+            "liquidity": 9.193548387096774,
+            "relative_strength": 10.0,
+            "tail_structure": 13.333333333333325
+          },
+          "final_score": 66.73207907129358,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 1.2690196784746093,
+            "brick_strength_ratio": 1.136415788069079,
+            "close_position": 0.8888888888888883,
+            "relative_strength_pct": -1.085618703146074,
+            "snapshot_last_price": 10.77,
+            "snapshot_upper_limit": 10.84,
+            "stock_change_pct": 3.259827420901251,
+            "upper_shadow_ratio": 0.11111111111111174
+          },
+          "rank": 11,
+          "risk_penalty": 0.0,
+          "risk_reasons": [],
+          "signal_source": "python_only",
+          "symbol": "600267.SH",
+          "top_three": false
+        },
+        {
+          "base_score": 71.18469028826355,
+          "factor_scores": {
+            "board_leadership": 20.0,
+            "brick_strength": 25.0,
+            "liquidity": 8.588709677419354,
+            "relative_strength": 8.709677419354838,
+            "tail_structure": 8.886303191489363
+          },
+          "final_score": 65.18469028826355,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 0.9342412890767045,
+            "brick_strength_ratio": 14.444208630155812,
+            "close_position": 0.5924202127659576,
+            "relative_strength_pct": -1.7528765030090598,
+            "snapshot_last_price": 165.41,
+            "snapshot_upper_limit": 171.54,
+            "stock_change_pct": 2.5925696210382654,
+            "upper_shadow_ratio": 0.4075797872340425
+          },
+          "rank": 12,
+          "risk_penalty": 6.0,
+          "risk_reasons": [
+            "long_upper_shadow"
+          ],
+          "signal_source": "python_only",
+          "symbol": "002821.SZ",
+          "top_three": false
+        },
+        {
+          "base_score": 66.85630494982053,
+          "factor_scores": {
+            "board_leadership": 20.0,
+            "brick_strength": 15.410878822090748,
+            "liquidity": 5.564516129032258,
+            "relative_strength": 15.483870967741936,
+            "tail_structure": 10.397039030955586
+          },
+          "final_score": 62.856304949820526,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 1.0069527718019666,
+            "brick_strength_ratio": 1.2328703057672599,
+            "close_position": 0.6931359353970391,
+            "relative_strength_pct": 1.937527497055802,
+            "snapshot_last_price": 66.48,
+            "snapshot_upper_limit": 68.76,
+            "stock_change_pct": 6.282973621103127,
+            "upper_shadow_ratio": 0.30686406460296084
+          },
+          "rank": 13,
+          "risk_penalty": 4.0,
+          "risk_reasons": [
+            "daily_gain_at_least_5pct"
+          ],
+          "signal_source": "python_only",
+          "symbol": "301393.SZ",
+          "top_three": false
+        },
+        {
+          "base_score": 62.47984702075048,
+          "factor_scores": {
+            "board_leadership": 20.0,
+            "brick_strength": 15.78629863365372,
+            "liquidity": 5.564516129032258,
+            "relative_strength": 10.96774193548387,
+            "tail_structure": 10.161290322580633
+          },
+          "final_score": 62.47984702075048,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 1.1787012425249332,
+            "brick_strength_ratio": 1.2629038906922976,
+            "close_position": 0.6774193548387089,
+            "relative_strength_pct": -0.5378308935864107,
+            "snapshot_last_price": 25.9,
+            "snapshot_upper_limit": 26.5,
+            "stock_change_pct": 3.8076152304609145,
+            "upper_shadow_ratio": 0.3225806451612912
+          },
+          "rank": 14,
+          "risk_penalty": 0.0,
+          "risk_reasons": [],
+          "signal_source": "python_only",
+          "symbol": "920735.BJ",
+          "top_three": false
+        },
+        {
+          "base_score": 65.80745922341761,
+          "factor_scores": {
+            "board_leadership": 20.0,
+            "brick_strength": 10.933538278392625,
+            "liquidity": 7.5,
+            "relative_strength": 14.838709677419354,
+            "tail_structure": 12.535211267605629
+          },
+          "final_score": 61.80745922341761,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 1.18433938019528,
+            "brick_strength_ratio": 0.87468306227141,
+            "close_position": 0.8356807511737084,
+            "relative_strength_pct": 1.7436627868437693,
+            "snapshot_last_price": 21.43,
+            "snapshot_upper_limit": 21.78,
+            "stock_change_pct": 6.0891089108910945,
+            "upper_shadow_ratio": 0.16431924882629154
+          },
+          "rank": 15,
+          "risk_penalty": 4.0,
+          "risk_reasons": [
+            "daily_gain_at_least_5pct"
+          ],
+          "signal_source": "python_only",
+          "symbol": "688136.SH",
+          "top_three": false
+        },
+        {
+          "base_score": 61.15310994556932,
+          "factor_scores": {
+            "board_leadership": 20.0,
+            "brick_strength": 10.00472284879513,
+            "liquidity": 7.258064516129032,
+            "relative_strength": 11.290322580645162,
+            "tail_structure": 12.599999999999998
+          },
+          "final_score": 61.15310994556932,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 1.5216309422119316,
+            "brick_strength_ratio": 0.8003778279036103,
+            "close_position": 0.8399999999999999,
+            "relative_strength_pct": -0.528652230917559,
+            "snapshot_last_price": 6.8,
+            "snapshot_upper_limit": 6.88,
+            "stock_change_pct": 3.8167938931297662,
+            "upper_shadow_ratio": 0.16000000000000014
+          },
+          "rank": 16,
+          "risk_penalty": 0.0,
+          "risk_reasons": [],
+          "signal_source": "python_only",
+          "symbol": "600721.SH",
+          "top_three": false
+        },
+        {
+          "base_score": 64.91207959685491,
+          "factor_scores": {
+            "board_leadership": 20.0,
+            "brick_strength": 11.01545203087252,
+            "liquidity": 6.653225806451613,
+            "relative_strength": 14.516129032258064,
+            "tail_structure": 12.727272727272716
+          },
+          "final_score": 60.91207959685491,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 1.4975267295442802,
+            "brick_strength_ratio": 0.8812361624698016,
+            "close_position": 0.8484848484848477,
+            "relative_strength_pct": 1.6890366345733598,
+            "snapshot_last_price": 3.69,
+            "snapshot_upper_limit": 3.74,
+            "stock_change_pct": 6.034482758620685,
+            "upper_shadow_ratio": 0.1515151515151523
+          },
+          "rank": 17,
+          "risk_penalty": 4.0,
+          "risk_reasons": [
+            "daily_gain_at_least_5pct"
+          ],
+          "signal_source": "python_only",
+          "symbol": "002742.SZ",
+          "top_three": false
+        },
+        {
+          "base_score": 60.621165793644494,
+          "factor_scores": {
+            "board_leadership": 20.0,
+            "brick_strength": 14.030509508883664,
+            "liquidity": 4.35483870967742,
+            "relative_strength": 12.580645161290322,
+            "tail_structure": 9.65517241379309
+          },
+          "final_score": 60.621165793644494,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 0.9858252431156441,
+            "brick_strength_ratio": 1.1224407607106932,
+            "close_position": 0.6436781609195393,
+            "relative_strength_pct": 0.3502060498657089,
+            "snapshot_last_price": 18.06,
+            "snapshot_upper_limit": 18.68,
+            "stock_change_pct": 4.695652173913034,
+            "upper_shadow_ratio": 0.35632183908046067
+          },
+          "rank": 18,
+          "risk_penalty": 0.0,
+          "risk_reasons": [],
+          "signal_source": "python_only",
+          "symbol": "688105.SH",
+          "top_three": false
+        },
+        {
+          "base_score": 64.89334470989763,
+          "factor_scores": {
+            "board_leadership": 20.0,
+            "brick_strength": 25.0,
+            "liquidity": 11.491935483870968,
+            "relative_strength": 2.2580645161290325,
+            "tail_structure": 6.143344709897626
+          },
+          "final_score": 58.89334470989763,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 1.1209875377329908,
+            "brick_strength_ratio": 3.4369170412838987,
+            "close_position": 0.40955631399317505,
+            "relative_strength_pct": -4.093692842263463,
+            "snapshot_last_price": 55.75,
+            "snapshot_upper_limit": 57.48,
+            "stock_change_pct": 0.2517532817838619,
+            "upper_shadow_ratio": 0.590443686006825
+          },
+          "rank": 19,
+          "risk_penalty": 6.0,
+          "risk_reasons": [
+            "long_upper_shadow"
+          ],
+          "signal_source": "python_only",
+          "symbol": "600276.SH",
+          "top_three": false
+        },
+        {
+          "base_score": 57.549432217745775,
+          "factor_scores": {
+            "board_leadership": 20.0,
+            "brick_strength": 10.008251709852845,
+            "liquidity": 6.048387096774194,
+            "relative_strength": 10.32258064516129,
+            "tail_structure": 11.170212765957448
+          },
+          "final_score": 57.549432217745775,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 1.2370252016919174,
+            "brick_strength_ratio": 0.8006601367882276,
+            "close_position": 0.7446808510638299,
+            "relative_strength_pct": -0.8924074500141765,
+            "snapshot_last_price": 7.49,
+            "snapshot_upper_limit": 7.61,
+            "stock_change_pct": 3.4530386740331487,
+            "upper_shadow_ratio": 0.2553191489361701
+          },
+          "rank": 20,
+          "risk_penalty": 0.0,
+          "risk_reasons": [],
+          "signal_source": "python_only",
+          "symbol": "603707.SH",
+          "top_three": false
+        },
+        {
+          "base_score": 56.383520001475524,
+          "factor_scores": {
+            "board_leadership": 20.0,
+            "brick_strength": 8.558716851869217,
+            "liquidity": 9.798387096774194,
+            "relative_strength": 6.451612903225806,
+            "tail_structure": 11.574803149606309
+          },
+          "final_score": 56.383520001475524,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 1.115648271334036,
+            "brick_strength_ratio": 0.6846973481495374,
+            "close_position": 0.7716535433070872,
+            "relative_strength_pct": -2.1667968865745513,
+            "snapshot_last_price": 23.45,
+            "snapshot_upper_limit": 23.74,
+            "stock_change_pct": 2.178649237472774,
+            "upper_shadow_ratio": 0.22834645669291279
+          },
+          "rank": 21,
+          "risk_penalty": 0.0,
+          "risk_reasons": [],
+          "signal_source": "python_only",
+          "symbol": "600196.SH",
+          "top_three": false
+        },
+        {
+          "base_score": 60.747108947048076,
+          "factor_scores": {
+            "board_leadership": 20.0,
+            "brick_strength": 25.0,
+            "liquidity": 1.6935483870967742,
+            "relative_strength": 6.129032258064516,
+            "tail_structure": 7.9245283018867845
+          },
+          "final_score": 54.747108947048076,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 0.7428537419940391,
+            "brick_strength_ratio": 2.4200869594005514,
+            "close_position": 0.5283018867924523,
+            "relative_strength_pct": -2.301650503609376,
+            "snapshot_last_price": 20.97,
+            "snapshot_upper_limit": 21.47,
+            "stock_change_pct": 2.0437956204379493,
+            "upper_shadow_ratio": 0.47169811320754773
+          },
+          "rank": 22,
+          "risk_penalty": 6.0,
+          "risk_reasons": [
+            "long_upper_shadow"
+          ],
+          "signal_source": "python_only",
+          "symbol": "301263.SZ",
+          "top_three": false
+        },
+        {
+          "base_score": 0.0,
+          "factor_scores": {
+            "board_leadership": 0.0,
+            "brick_strength": 0.0,
+            "liquidity": 0.0,
+            "relative_strength": 0.0,
+            "tail_structure": 0.0
+          },
+          "final_score": 0.0,
+          "hard_filter_reasons": [
+            "tail_limit_up_locked"
+          ],
+          "metrics": {},
+          "rank": 23,
+          "risk_penalty": 0.0,
+          "risk_reasons": [],
+          "signal_source": "python_only",
+          "symbol": "002038.SZ",
+          "top_three": false
+        },
+        {
+          "base_score": 0.0,
+          "factor_scores": {
+            "board_leadership": 0.0,
+            "brick_strength": 0.0,
+            "liquidity": 0.0,
+            "relative_strength": 0.0,
+            "tail_structure": 0.0
+          },
+          "final_score": 0.0,
+          "hard_filter_reasons": [
+            "tail_limit_up_locked"
+          ],
+          "metrics": {},
+          "rank": 24,
+          "risk_penalty": 0.0,
+          "risk_reasons": [],
+          "signal_source": "python_only",
+          "symbol": "002317.SZ",
+          "top_three": false
+        },
+        {
+          "base_score": 0.0,
+          "factor_scores": {
+            "board_leadership": 0.0,
+            "brick_strength": 0.0,
+            "liquidity": 0.0,
+            "relative_strength": 0.0,
+            "tail_structure": 0.0
+          },
+          "final_score": 0.0,
+          "hard_filter_reasons": [
+            "tail_limit_up_locked"
+          ],
+          "metrics": {},
+          "rank": 25,
+          "risk_penalty": 0.0,
+          "risk_reasons": [],
+          "signal_source": "python_only",
+          "symbol": "300255.SZ",
+          "top_three": false
+        }
+      ],
+      "sector": "880681.SH"
+    },
+    {
+      "board_change_pct": 3.6706848719999075,
+      "board_rank": 3,
+      "candidates": [
+        {
+          "base_score": 82.57829170327602,
+          "factor_scores": {
+            "board_leadership": 15.0,
+            "brick_strength": 25.0,
+            "liquidity": 12.45967741935484,
+            "relative_strength": 18.387096774193548,
+            "tail_structure": 11.731517509727635
+          },
+          "final_score": 78.57829170327602,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 3.4644052020182916,
+            "brick_strength_ratio": 2.5374103604034546,
+            "close_position": 0.7821011673151756,
+            "relative_strength_pct": 3.887200667537005,
+            "snapshot_last_price": 24.62,
+            "snapshot_upper_limit": 25.18,
+            "stock_change_pct": 7.557885539536913,
+            "upper_shadow_ratio": 0.21789883268482438
+          },
+          "rank": 1,
+          "risk_penalty": 4.0,
+          "risk_reasons": [
+            "daily_gain_at_least_5pct"
+          ],
+          "signal_source": "python_only",
+          "symbol": "603882.SH",
+          "top_three": true
+        },
+        {
+          "base_score": 84.48151364764269,
+          "factor_scores": {
+            "board_leadership": 15.0,
+            "brick_strength": 25.0,
+            "liquidity": 13.911290322580644,
+            "relative_strength": 19.35483870967742,
+            "tail_structure": 11.215384615384615
+          },
+          "final_score": 76.48151364764269,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 2.342958075755909,
+            "brick_strength_ratio": 2.162430843304984,
+            "close_position": 0.7476923076923077,
+            "relative_strength_pct": 7.888748061478835,
+            "snapshot_last_price": 20.46,
+            "snapshot_upper_limit": 21.28,
+            "stock_change_pct": 11.559432933478742,
+            "upper_shadow_ratio": 0.2523076923076924
+          },
+          "rank": 2,
+          "risk_penalty": 8.0,
+          "risk_reasons": [
+            "daily_gain_at_least_8pct"
+          ],
+          "signal_source": "python_only",
+          "symbol": "300244.SZ",
+          "top_three": true
+        },
+        {
+          "base_score": 80.28034930330216,
+          "factor_scores": {
+            "board_leadership": 15.0,
+            "brick_strength": 25.0,
+            "liquidity": 10.766129032258064,
+            "relative_strength": 18.06451612903226,
+            "tail_structure": 11.449704142011829
+          },
+          "final_score": 76.28034930330216,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 1.5102925796525932,
+            "brick_strength_ratio": 3.741861097991581,
+            "close_position": 0.7633136094674553,
+            "relative_strength_pct": 2.9365905548746296,
+            "snapshot_last_price": 14.36,
+            "snapshot_upper_limit": 14.76,
+            "stock_change_pct": 6.607275426874537,
+            "upper_shadow_ratio": 0.23668639053254467
+          },
+          "rank": 3,
+          "risk_penalty": 4.0,
+          "risk_reasons": [
+            "daily_gain_at_least_5pct"
+          ],
+          "signal_source": "python_only",
+          "symbol": "603716.SH",
+          "top_three": true
+        },
+        {
+          "base_score": 78.45613316887672,
+          "factor_scores": {
+            "board_leadership": 15.0,
+            "brick_strength": 23.789833950187145,
+            "liquidity": 8.588709677419356,
+            "relative_strength": 17.096774193548388,
+            "tail_structure": 13.98081534772183
+          },
+          "final_score": 74.45613316887672,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 0.9214590241957071,
+            "brick_strength_ratio": 1.9031867160149716,
+            "close_position": 0.9320543565147886,
+            "relative_strength_pct": 2.2769988924308926,
+            "snapshot_last_price": 145.0,
+            "snapshot_upper_limit": 145.85,
+            "stock_change_pct": 5.9476837644308,
+            "upper_shadow_ratio": 0.06794564348521143
+          },
+          "rank": 4,
+          "risk_penalty": 4.0,
+          "risk_reasons": [
+            "daily_gain_at_least_5pct"
+          ],
+          "signal_source": "python_only",
+          "symbol": "688266.SH",
+          "top_three": false
+        },
+        {
+          "base_score": 73.67905267456105,
+          "factor_scores": {
+            "board_leadership": 15.0,
+            "brick_strength": 25.0,
+            "liquidity": 9.193548387096774,
+            "relative_strength": 12.903225806451612,
+            "tail_structure": 11.582278481012668
+          },
+          "final_score": 73.67905267456105,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 1.3100325034949767,
+            "brick_strength_ratio": 2.481329489138105,
+            "close_position": 0.7721518987341779,
+            "relative_strength_pct": 0.3907860390868212,
+            "snapshot_last_price": 9.48,
+            "snapshot_upper_limit": 9.66,
+            "stock_change_pct": 4.061470911086729,
+            "upper_shadow_ratio": 0.22784810126582217
+          },
+          "rank": 5,
+          "risk_penalty": 0.0,
+          "risk_reasons": [],
+          "signal_source": "python_only",
+          "symbol": "300404.SZ",
+          "top_three": false
+        },
+        {
+          "base_score": 71.131745514209,
+          "factor_scores": {
+            "board_leadership": 15.0,
+            "brick_strength": 22.488533887126408,
+            "liquidity": 7.5,
+            "relative_strength": 15.483870967741936,
+            "tail_structure": 10.659340659340664
+          },
+          "final_score": 71.131745514209,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 1.0226008790203633,
+            "brick_strength_ratio": 1.7990827109701126,
+            "close_position": 0.710622710622711,
+            "relative_strength_pct": 0.9937446582014342,
+            "snapshot_last_price": 31.19,
+            "snapshot_upper_limit": 31.98,
+            "stock_change_pct": 4.664429530201342,
+            "upper_shadow_ratio": 0.289377289377289
+          },
+          "rank": 6,
+          "risk_penalty": 0.0,
+          "risk_reasons": [],
+          "signal_source": "python_only",
+          "symbol": "688166.SH",
+          "top_three": false
+        },
+        {
+          "base_score": 66.29160909039258,
+          "factor_scores": {
+            "board_leadership": 15.0,
+            "brick_strength": 19.820626729998864,
+            "liquidity": 6.169354838709677,
+            "relative_strength": 14.516129032258064,
+            "tail_structure": 10.785498489425985
+          },
+          "final_score": 66.29160909039258,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 1.24237320972237,
+            "brick_strength_ratio": 1.585650138399909,
+            "close_position": 0.719033232628399,
+            "relative_strength_pct": 0.9711181867604779,
+            "snapshot_last_price": 39.0,
+            "snapshot_upper_limit": 39.93,
+            "stock_change_pct": 4.641803058760385,
+            "upper_shadow_ratio": 0.2809667673716009
+          },
+          "rank": 7,
+          "risk_penalty": 0.0,
+          "risk_reasons": [],
+          "signal_source": "python_only",
+          "symbol": "688137.SH",
+          "top_three": false
+        },
+        {
+          "base_score": 65.24408952888935,
+          "factor_scores": {
+            "board_leadership": 15.0,
+            "brick_strength": 17.87849813103989,
+            "liquidity": 8.346774193548388,
+            "relative_strength": 11.935483870967742,
+            "tail_structure": 12.083333333333323
+          },
+          "final_score": 65.24408952888935,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 1.3042239704523164,
+            "brick_strength_ratio": 1.4302798504831913,
+            "close_position": 0.8055555555555549,
+            "relative_strength_pct": -0.06537177902077307,
+            "snapshot_last_price": 5.46,
+            "snapshot_upper_limit": 5.53,
+            "stock_change_pct": 3.6053130929791344,
+            "upper_shadow_ratio": 0.19444444444444506
+          },
+          "rank": 8,
+          "risk_penalty": 0.0,
+          "risk_reasons": [],
+          "signal_source": "python_only",
+          "symbol": "600682.SH",
+          "top_three": false
+        },
+        {
+          "base_score": 73.19908631668132,
+          "factor_scores": {
+            "board_leadership": 15.0,
+            "brick_strength": 13.16902766565493,
+            "liquidity": 12.943548387096774,
+            "relative_strength": 19.677419354838708,
+            "tail_structure": 12.409090909090907
+          },
+          "final_score": 65.19908631668132,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 2.7614425535416496,
+            "brick_strength_ratio": 1.0535222132523945,
+            "close_position": 0.827272727272727,
+            "relative_strength_pct": 13.02496730191314,
+            "snapshot_last_price": 6.71,
+            "snapshot_upper_limit": 6.9,
+            "stock_change_pct": 16.695652173913047,
+            "upper_shadow_ratio": 0.172727272727273
+          },
+          "rank": 9,
+          "risk_penalty": 8.0,
+          "risk_reasons": [
+            "daily_gain_at_least_8pct"
+          ],
+          "signal_source": "python_only",
+          "symbol": "688238.SH",
+          "top_three": false
+        },
+        {
+          "base_score": 64.83870967741935,
+          "factor_scores": {
+            "board_leadership": 15.0,
+            "brick_strength": 25.0,
+            "liquidity": 5.201612903225807,
+            "relative_strength": 8.387096774193548,
+            "tail_structure": 11.24999999999999
+          },
+          "final_score": 64.83870967741935,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 1.1819703536661958,
+            "brick_strength_ratio": 2.4624968690633025,
+            "close_position": 0.7499999999999993,
+            "relative_strength_pct": -1.024182036461152,
+            "snapshot_last_price": 5.43,
+            "snapshot_upper_limit": 5.51,
+            "stock_change_pct": 2.6465028355387554,
+            "upper_shadow_ratio": 0.2500000000000007
+          },
+          "rank": 10,
+          "risk_penalty": 0.0,
+          "risk_reasons": [],
+          "signal_source": "python_only",
+          "symbol": "300272.SZ",
+          "top_three": false
+        },
+        {
+          "base_score": 63.309121982482374,
+          "factor_scores": {
+            "board_leadership": 15.0,
+            "brick_strength": 25.0,
+            "liquidity": 2.903225806451613,
+            "relative_strength": 9.67741935483871,
+            "tail_structure": 10.72847682119205
+          },
+          "final_score": 63.309121982482374,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 0.8824621499423153,
+            "brick_strength_ratio": 19.168793645638107,
+            "close_position": 0.71523178807947,
+            "relative_strength_pct": -0.7226268467308339,
+            "snapshot_last_price": 22.0,
+            "snapshot_upper_limit": 22.43,
+            "stock_change_pct": 2.9480580252690736,
+            "upper_shadow_ratio": 0.28476821192053
+          },
+          "rank": 11,
+          "risk_penalty": 0.0,
+          "risk_reasons": [],
+          "signal_source": "python_only",
+          "symbol": "300813.SZ",
+          "top_three": false
+        },
+        {
+          "base_score": 63.30527755150403,
+          "factor_scores": {
+            "board_leadership": 15.0,
+            "brick_strength": 21.617489533070845,
+            "liquidity": 5.685483870967742,
+            "relative_strength": 10.64516129032258,
+            "tail_structure": 10.357142857142861
+          },
+          "final_score": 63.30527755150403,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 1.2110727715655518,
+            "brick_strength_ratio": 1.7293991626456675,
+            "close_position": 0.6904761904761907,
+            "relative_strength_pct": -0.49342734691630863,
+            "snapshot_last_price": 6.17,
+            "snapshot_upper_limit": 6.3,
+            "stock_change_pct": 3.177257525083599,
+            "upper_shadow_ratio": 0.3095238095238093
+          },
+          "rank": 12,
+          "risk_penalty": 0.0,
+          "risk_reasons": [],
+          "signal_source": "python_only",
+          "symbol": "300030.SZ",
+          "top_three": false
+        },
+        {
+          "base_score": 64.81226569856199,
+          "factor_scores": {
+            "board_leadership": 15.0,
+            "brick_strength": 12.56660813032379,
+            "liquidity": 9.798387096774194,
+            "relative_strength": 16.774193548387096,
+            "tail_structure": 10.67307692307691
+          },
+          "final_score": 60.81226569856199,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 1.252583736716696,
+            "brick_strength_ratio": 1.0053286504259031,
+            "close_position": 0.7115384615384606,
+            "relative_strength_pct": 2.24647489131371,
+            "snapshot_last_price": 8.95,
+            "snapshot_upper_limit": 9.25,
+            "stock_change_pct": 5.9171597633136175,
+            "upper_shadow_ratio": 0.2884615384615394
+          },
+          "rank": 13,
+          "risk_penalty": 4.0,
+          "risk_reasons": [
+            "daily_gain_at_least_5pct"
+          ],
+          "signal_source": "python_only",
+          "symbol": "300149.SZ",
+          "top_three": false
+        },
+        {
+          "base_score": 59.7326110524952,
+          "factor_scores": {
+            "board_leadership": 15.0,
+            "brick_strength": 11.263665457887589,
+            "liquidity": 8.225806451612904,
+            "relative_strength": 12.258064516129032,
+            "tail_structure": 12.985074626865675
+          },
+          "final_score": 59.7326110524952,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 1.2816478062418608,
+            "brick_strength_ratio": 0.901093236631007,
+            "close_position": 0.8656716417910449,
+            "relative_strength_pct": 0.04798933980285636,
+            "snapshot_last_price": 12.83,
+            "snapshot_upper_limit": 12.92,
+            "stock_change_pct": 3.718674211802764,
+            "upper_shadow_ratio": 0.13432835820895503
+          },
+          "rank": 14,
+          "risk_penalty": 0.0,
+          "risk_reasons": [],
+          "signal_source": "python_only",
+          "symbol": "002675.SZ",
+          "top_three": false
+        },
+        {
+          "base_score": 59.136980913311255,
+          "factor_scores": {
+            "board_leadership": 15.0,
+            "brick_strength": 10.00472284879513,
+            "liquidity": 8.951612903225806,
+            "relative_strength": 12.580645161290322,
+            "tail_structure": 12.599999999999998
+          },
+          "final_score": 59.136980913311255,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 1.5216309422119316,
+            "brick_strength_ratio": 0.8003778279036103,
+            "close_position": 0.8399999999999999,
+            "relative_strength_pct": 0.1461090211298588,
+            "snapshot_last_price": 6.8,
+            "snapshot_upper_limit": 6.88,
+            "stock_change_pct": 3.8167938931297662,
+            "upper_shadow_ratio": 0.16000000000000014
+          },
+          "rank": 15,
+          "risk_penalty": 0.0,
+          "risk_reasons": [],
+          "signal_source": "python_only",
+          "symbol": "600721.SH",
+          "top_three": false
+        },
+        {
+          "base_score": 63.08312655086848,
+          "factor_scores": {
+            "board_leadership": 15.0,
+            "brick_strength": 25.0,
+            "liquidity": 3.75,
+            "relative_strength": 10.96774193548387,
+            "tail_structure": 8.36538461538461
+          },
+          "final_score": 57.08312655086848,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 1.0814228419673984,
+            "brick_strength_ratio": 3.96029583932193,
+            "close_position": 0.5576923076923073,
+            "relative_strength_pct": -0.3791488218431782,
+            "snapshot_last_price": 6.59,
+            "snapshot_upper_limit": 6.82,
+            "stock_change_pct": 3.2915360501567292,
+            "upper_shadow_ratio": 0.44230769230769273
+          },
+          "rank": 16,
+          "risk_penalty": 6.0,
+          "risk_reasons": [
+            "long_upper_shadow"
+          ],
+          "signal_source": "python_only",
+          "symbol": "603028.SH",
+          "top_three": false
+        },
+        {
+          "base_score": 56.4453635582957,
+          "factor_scores": {
+            "board_leadership": 15.0,
+            "brick_strength": 14.168323710098365,
+            "liquidity": 5.806451612903226,
+            "relative_strength": 10.0,
+            "tail_structure": 11.470588235294114
+          },
+          "final_score": 56.4453635582957,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 1.1937567879301523,
+            "brick_strength_ratio": 1.1334658968078692,
+            "close_position": 0.7647058823529409,
+            "relative_strength_pct": -0.5834365498522676,
+            "snapshot_last_price": 7.68,
+            "snapshot_upper_limit": 7.8,
+            "stock_change_pct": 3.08724832214764,
+            "upper_shadow_ratio": 0.23529411764705913
+          },
+          "rank": 17,
+          "risk_penalty": 0.0,
+          "risk_reasons": [],
+          "signal_source": "python_only",
+          "symbol": "002873.SZ",
+          "top_three": false
+        },
+        {
+          "base_score": 62.30189340813462,
+          "factor_scores": {
+            "board_leadership": 15.0,
+            "brick_strength": 25.0,
+            "liquidity": 6.411290322580646,
+            "relative_strength": 8.064516129032258,
+            "tail_structure": 7.826086956521717
+          },
+          "final_score": 56.30189340813462,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 1.1147990660345297,
+            "brick_strength_ratio": 2.867466242235036,
+            "close_position": 0.5217391304347812,
+            "relative_strength_pct": -1.133686986164828,
+            "snapshot_last_price": 4.85,
+            "snapshot_upper_limit": 5.07,
+            "stock_change_pct": 2.5369978858350795,
+            "upper_shadow_ratio": 0.4782608695652188
+          },
+          "rank": 18,
+          "risk_penalty": 6.0,
+          "risk_reasons": [
+            "long_upper_shadow"
+          ],
+          "signal_source": "python_only",
+          "symbol": "300006.SZ",
+          "top_three": false
+        },
+        {
+          "base_score": 54.29651770953472,
+          "factor_scores": {
+            "board_leadership": 15.0,
+            "brick_strength": 10.469973149665943,
+            "liquidity": 7.620967741935484,
+            "relative_strength": 11.290322580645162,
+            "tail_structure": 9.91525423728813
+          },
+          "final_score": 54.29651770953472,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 1.5321674955879996,
+            "brick_strength_ratio": 0.8375978519732754,
+            "close_position": 0.6610169491525419,
+            "relative_strength_pct": -0.32203089957705266,
+            "snapshot_last_price": 15.74,
+            "snapshot_upper_limit": 16.14,
+            "stock_change_pct": 3.348653972422855,
+            "upper_shadow_ratio": 0.338983050847458
+          },
+          "rank": 19,
+          "risk_penalty": 0.0,
+          "risk_reasons": [],
+          "signal_source": "python_only",
+          "symbol": "301103.SZ",
+          "top_three": false
+        },
+        {
+          "base_score": 59.53044148409118,
+          "factor_scores": {
+            "board_leadership": 15.0,
+            "brick_strength": 25.0,
+            "liquidity": 11.129032258064516,
+            "relative_strength": 2.2580645161290325,
+            "tail_structure": 6.143344709897626
+          },
+          "final_score": 53.53044148409118,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 1.1209875377329908,
+            "brick_strength_ratio": 3.4369170412838987,
+            "close_position": 0.40955631399317505,
+            "relative_strength_pct": -3.4189315902160455,
+            "snapshot_last_price": 55.75,
+            "snapshot_upper_limit": 57.48,
+            "stock_change_pct": 0.2517532817838619,
+            "upper_shadow_ratio": 0.590443686006825
+          },
+          "rank": 20,
+          "risk_penalty": 6.0,
+          "risk_reasons": [
+            "long_upper_shadow"
+          ],
+          "signal_source": "python_only",
+          "symbol": "600276.SH",
+          "top_three": false
+        },
+        {
+          "base_score": 53.26364203491106,
+          "factor_scores": {
+            "board_leadership": 15.0,
+            "brick_strength": 13.184287196201414,
+            "liquidity": 9.435483870967742,
+            "relative_strength": 5.483870967741935,
+            "tail_structure": 10.159999999999968
+          },
+          "final_score": 53.26364203491106,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 1.4367193064804669,
+            "brick_strength_ratio": 1.054742975696113,
+            "close_position": 0.6773333333333312,
+            "relative_strength_pct": -1.7358579880895286,
+            "snapshot_last_price": 70.07,
+            "snapshot_upper_limit": 71.28,
+            "stock_change_pct": 1.9348268839103788,
+            "upper_shadow_ratio": 0.32266666666666877
+          },
+          "rank": 21,
+          "risk_penalty": 0.0,
+          "risk_reasons": [],
+          "signal_source": "python_only",
+          "symbol": "301047.SZ",
+          "top_three": false
+        },
+        {
+          "base_score": 51.90771354986262,
+          "factor_scores": {
+            "board_leadership": 15.0,
+            "brick_strength": 8.558716851869217,
+            "liquidity": 9.67741935483871,
+            "relative_strength": 7.096774193548387,
+            "tail_structure": 11.574803149606309
+          },
+          "final_score": 51.90771354986262,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 1.115648271334036,
+            "brick_strength_ratio": 0.6846973481495374,
+            "close_position": 0.7716535433070872,
+            "relative_strength_pct": -1.4920356345271335,
+            "snapshot_last_price": 23.45,
+            "snapshot_upper_limit": 23.74,
+            "stock_change_pct": 2.178649237472774,
+            "upper_shadow_ratio": 0.22834645669291279
+          },
+          "rank": 22,
+          "risk_penalty": 0.0,
+          "risk_reasons": [],
+          "signal_source": "python_only",
+          "symbol": "600196.SH",
+          "top_three": false
+        },
+        {
+          "base_score": 51.727334670122126,
+          "factor_scores": {
+            "board_leadership": 15.0,
+            "brick_strength": 9.935351747920995,
+            "liquidity": 6.653225806451613,
+            "relative_strength": 10.32258064516129,
+            "tail_structure": 9.816176470588225
+          },
+          "final_score": 51.727334670122126,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 0.9749387277504009,
+            "brick_strength_ratio": 0.7948281398336796,
+            "close_position": 0.6544117647058817,
+            "relative_strength_pct": -0.5664720116894895,
+            "snapshot_last_price": 13.95,
+            "snapshot_upper_limit": 14.42,
+            "stock_change_pct": 3.104212860310418,
+            "upper_shadow_ratio": 0.34558823529411825
+          },
+          "rank": 23,
+          "risk_penalty": 0.0,
+          "risk_reasons": [],
+          "signal_source": "python_only",
+          "symbol": "688658.SH",
+          "top_three": false
+        },
+        {
+          "base_score": 49.095732772326976,
+          "factor_scores": {
+            "board_leadership": 15.0,
+            "brick_strength": 9.822691297672597,
+            "liquidity": 7.862903225806452,
+            "relative_strength": 4.838709677419355,
+            "tail_structure": 11.571428571428573
+          },
+          "final_score": 49.095732772326976,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 1.1689804307242353,
+            "brick_strength_ratio": 0.7858153038138077,
+            "close_position": 0.7714285714285716,
+            "relative_strength_pct": -2.0657466003949576,
+            "snapshot_last_price": 8.23,
+            "snapshot_upper_limit": 8.31,
+            "stock_change_pct": 1.6049382716049498,
+            "upper_shadow_ratio": 0.22857142857142843
+          },
+          "rank": 24,
+          "risk_penalty": 0.0,
+          "risk_reasons": [],
+          "signal_source": "python_only",
+          "symbol": "300009.SZ",
+          "top_three": false
+        },
+        {
+          "base_score": 45.958506488468636,
+          "factor_scores": {
+            "board_leadership": 15.0,
+            "brick_strength": 9.72002722579586,
+            "liquidity": 6.653225806451613,
+            "relative_strength": 3.870967741935484,
+            "tail_structure": 10.714285714285678
+          },
+          "final_score": 45.958506488468636,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 1.2687123907259288,
+            "brick_strength_ratio": 0.7776021780636688,
+            "close_position": 0.7142857142857119,
+            "relative_strength_pct": -2.3223702652583444,
+            "snapshot_last_price": 4.51,
+            "snapshot_upper_limit": 4.57,
+            "stock_change_pct": 1.348314606741563,
+            "upper_shadow_ratio": 0.28571428571428814
+          },
+          "rank": 25,
+          "risk_penalty": 0.0,
+          "risk_reasons": [],
+          "signal_source": "python_only",
+          "symbol": "000597.SZ",
+          "top_three": false
+        },
+        {
+          "base_score": 49.9772864525525,
+          "factor_scores": {
+            "board_leadership": 15.0,
+            "brick_strength": 23.152377905828185,
+            "liquidity": 1.6935483870967742,
+            "relative_strength": 1.935483870967742,
+            "tail_structure": 8.195876288659795
+          },
+          "final_score": 43.9772864525525,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 0.8352502408237704,
+            "brick_strength_ratio": 1.852190232466255,
+            "close_position": 0.5463917525773195,
+            "relative_strength_pct": -3.5992052436939703,
+            "snapshot_last_price": 14.0,
+            "snapshot_upper_limit": 14.44,
+            "stock_change_pct": 0.07147962830593713,
+            "upper_shadow_ratio": 0.4536082474226804
+          },
+          "rank": 26,
+          "risk_penalty": 6.0,
+          "risk_reasons": [
+            "long_upper_shadow"
+          ],
+          "signal_source": "python_only",
+          "symbol": "688026.SH",
+          "top_three": false
+        },
+        {
+          "base_score": 0.0,
+          "factor_scores": {
+            "board_leadership": 0.0,
+            "brick_strength": 0.0,
+            "liquidity": 0.0,
+            "relative_strength": 0.0,
+            "tail_structure": 0.0
+          },
+          "final_score": 0.0,
+          "hard_filter_reasons": [
+            "tail_limit_up_locked"
+          ],
+          "metrics": {},
+          "rank": 27,
+          "risk_penalty": 0.0,
+          "risk_reasons": [],
+          "signal_source": "python_only",
+          "symbol": "002605.SZ",
+          "top_three": false
+        },
+        {
+          "base_score": 0.0,
+          "factor_scores": {
+            "board_leadership": 0.0,
+            "brick_strength": 0.0,
+            "liquidity": 0.0,
+            "relative_strength": 0.0,
+            "tail_structure": 0.0
+          },
+          "final_score": 0.0,
+          "hard_filter_reasons": [
+            "tail_limit_up_locked"
+          ],
+          "metrics": {},
+          "rank": 28,
+          "risk_penalty": 0.0,
+          "risk_reasons": [],
+          "signal_source": "python_only",
+          "symbol": "603127.SH",
+          "top_three": false
+        },
+        {
+          "base_score": 0.0,
+          "factor_scores": {
+            "board_leadership": 0.0,
+            "brick_strength": 0.0,
+            "liquidity": 0.0,
+            "relative_strength": 0.0,
+            "tail_structure": 0.0
+          },
+          "final_score": 0.0,
+          "hard_filter_reasons": [
+            "tail_limit_up_locked"
+          ],
+          "metrics": {},
+          "rank": 29,
+          "risk_penalty": 0.0,
+          "risk_reasons": [],
+          "signal_source": "python_only",
+          "symbol": "688710.SH",
+          "top_three": false
+        }
+      ],
+      "sector": "880920.SH"
+    },
+    {
+      "board_change_pct": 3.6067286183075975,
+      "board_rank": 4,
+      "candidates": [
+        {
+          "base_score": 70.99354838709677,
+          "factor_scores": {
+            "board_leadership": 10.0,
+            "brick_strength": 25.0,
+            "liquidity": 10.8,
+            "relative_strength": 16.0,
+            "tail_structure": 9.193548387096769
+          },
+          "final_score": 70.99354838709677,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 1.7538560986226766,
+            "brick_strength_ratio": 2.305258413192942,
+            "close_position": 0.6129032258064513,
+            "relative_strength_pct": 1.2590431937729463,
+            "snapshot_last_price": 6.25,
+            "snapshot_upper_limit": 6.49,
+            "stock_change_pct": 4.865771812080544,
+            "upper_shadow_ratio": 0.38709677419354865
+          },
+          "rank": 1,
+          "risk_penalty": 0.0,
+          "risk_reasons": [],
+          "signal_source": "python_only",
+          "symbol": "300008.SZ",
+          "top_three": true
+        },
+        {
+          "base_score": 70.23333333333332,
+          "factor_scores": {
+            "board_leadership": 10.0,
+            "brick_strength": 25.0,
+            "liquidity": 11.7,
+            "relative_strength": 13.6,
+            "tail_structure": 9.933333333333323
+          },
+          "final_score": 70.23333333333332,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 1.7398859205594355,
+            "brick_strength_ratio": 10.592793421851773,
+            "close_position": 0.6622222222222215,
+            "relative_strength_pct": 0.4794526595527149,
+            "snapshot_last_price": 28.02,
+            "snapshot_upper_limit": 28.78,
+            "stock_change_pct": 4.086181277860312,
+            "upper_shadow_ratio": 0.33777777777777845
+          },
+          "rank": 2,
+          "risk_penalty": 0.0,
+          "risk_reasons": [],
+          "signal_source": "python_only",
+          "symbol": "601606.SH",
+          "top_three": true
+        },
+        {
+          "base_score": 68.0057220708447,
+          "factor_scores": {
+            "board_leadership": 10.0,
+            "brick_strength": 25.0,
+            "liquidity": 9.9,
+            "relative_strength": 14.4,
+            "tail_structure": 8.705722070844693
+          },
+          "final_score": 62.0057220708447,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 1.8889523298614712,
+            "brick_strength_ratio": 15.164619633367465,
+            "close_position": 0.5803814713896462,
+            "relative_strength_pct": 0.7013653764704753,
+            "snapshot_last_price": 39.95,
+            "snapshot_upper_limit": 41.49,
+            "stock_change_pct": 4.308093994778073,
+            "upper_shadow_ratio": 0.4196185286103538
+          },
+          "rank": 3,
+          "risk_penalty": 6.0,
+          "risk_reasons": [
+            "long_upper_shadow"
+          ],
+          "signal_source": "python_only",
+          "symbol": "688543.SH",
+          "top_three": true
+        },
+        {
+          "base_score": 62.0,
+          "factor_scores": {
+            "board_leadership": 10.0,
+            "brick_strength": 25.0,
+            "liquidity": 6.6,
+            "relative_strength": 10.4,
+            "tail_structure": 10.0
+          },
+          "final_score": 62.0,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 1.5944831523024185,
+            "brick_strength_ratio": 4.037973825962422,
+            "close_position": 0.6666666666666666,
+            "relative_strength_pct": -0.0996196135682581,
+            "snapshot_last_price": 10.92,
+            "snapshot_upper_limit": 11.17,
+            "stock_change_pct": 3.5071090047393394,
+            "upper_shadow_ratio": 0.3333333333333333
+          },
+          "rank": 4,
+          "risk_penalty": 0.0,
+          "risk_reasons": [],
+          "signal_source": "python_only",
+          "symbol": "600967.SH",
+          "top_three": false
+        },
+        {
+          "base_score": 59.40514590856773,
+          "factor_scores": {
+            "board_leadership": 10.0,
+            "brick_strength": 23.362721666143504,
+            "liquidity": 4.8,
+            "relative_strength": 12.0,
+            "tail_structure": 9.242424242424232
+          },
+          "final_score": 59.40514590856773,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 1.079316534987037,
+            "brick_strength_ratio": 1.8690177332914804,
+            "close_position": 0.6161616161616155,
+            "relative_strength_pct": 0.09371191032676585,
+            "snapshot_last_price": 11.77,
+            "snapshot_upper_limit": 12.15,
+            "stock_change_pct": 3.7004405286343633,
+            "upper_shadow_ratio": 0.38383838383838453
+          },
+          "rank": 5,
+          "risk_penalty": 0.0,
+          "risk_reasons": [],
+          "signal_source": "python_only",
+          "symbol": "000801.SZ",
+          "top_three": false
+        },
+        {
+          "base_score": 60.16938775510205,
+          "factor_scores": {
+            "board_leadership": 10.0,
+            "brick_strength": 25.0,
+            "liquidity": 3.9000000000000004,
+            "relative_strength": 12.8,
+            "tail_structure": 8.469387755102048
+          },
+          "final_score": 54.16938775510205,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 1.2641617379307377,
+            "brick_strength_ratio": 2.0289125298566457,
+            "close_position": 0.5646258503401366,
+            "relative_strength_pct": 0.2238422840865173,
+            "snapshot_last_price": 28.19,
+            "snapshot_upper_limit": 29.47,
+            "stock_change_pct": 3.830570902394115,
+            "upper_shadow_ratio": 0.4353741496598635
+          },
+          "rank": 6,
+          "risk_penalty": 6.0,
+          "risk_reasons": [
+            "long_upper_shadow"
+          ],
+          "signal_source": "python_only",
+          "symbol": "688552.SH",
+          "top_three": false
+        },
+        {
+          "base_score": 53.29221050302393,
+          "factor_scores": {
+            "board_leadership": 10.0,
+            "brick_strength": 21.735067645881063,
+            "liquidity": 2.1,
+            "relative_strength": 9.6,
+            "tail_structure": 9.857142857142868
+          },
+          "final_score": 53.29221050302393,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 1.1977301971503251,
+            "brick_strength_ratio": 1.7388054116704852,
+            "close_position": 0.6571428571428579,
+            "relative_strength_pct": -0.7323970675054525,
+            "snapshot_last_price": 15.39,
+            "snapshot_upper_limit": 15.75,
+            "stock_change_pct": 2.874331550802145,
+            "upper_shadow_ratio": 0.3428571428571421
+          },
+          "rank": 7,
+          "risk_penalty": 0.0,
+          "risk_reasons": [],
+          "signal_source": "python_only",
+          "symbol": "688151.SH",
+          "top_three": false
+        },
+        {
+          "base_score": 53.68457389345613,
+          "factor_scores": {
+            "board_leadership": 10.0,
+            "brick_strength": 19.62743103631327,
+            "liquidity": 11.4,
+            "relative_strength": 4.8,
+            "tail_structure": 7.857142857142863
+          },
+          "final_score": 47.68457389345613,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 1.645575523497029,
+            "brick_strength_ratio": 1.5701944829050616,
+            "close_position": 0.5238095238095242,
+            "relative_strength_pct": -2.097294656043447,
+            "snapshot_last_price": 40.35,
+            "snapshot_upper_limit": 41.35,
+            "stock_change_pct": 1.5094339622641506,
+            "upper_shadow_ratio": 0.4761904761904759
+          },
+          "rank": 8,
+          "risk_penalty": 6.0,
+          "risk_reasons": [
+            "long_upper_shadow"
+          ],
+          "signal_source": "python_only",
+          "symbol": "600760.SH",
+          "top_three": false
+        },
+        {
+          "base_score": 50.89911504424777,
+          "factor_scores": {
+            "board_leadership": 10.0,
+            "brick_strength": 25.0,
+            "liquidity": 1.8,
+            "relative_strength": 6.4,
+            "tail_structure": 7.699115044247772
+          },
+          "final_score": 44.89911504424777,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 0.9564873870836192,
+            "brick_strength_ratio": 2.8662439993708198,
+            "close_position": 0.5132743362831848,
+            "relative_strength_pct": -1.565912291776983,
+            "snapshot_last_price": 17.5,
+            "snapshot_upper_limit": 18.05,
+            "stock_change_pct": 2.0408163265306145,
+            "upper_shadow_ratio": 0.4867256637168152
+          },
+          "rank": 9,
+          "risk_penalty": 6.0,
+          "risk_reasons": [
+            "long_upper_shadow"
+          ],
+          "signal_source": "python_only",
+          "symbol": "002265.SZ",
+          "top_three": false
+        },
+        {
+          "base_score": 45.675903614457845,
+          "factor_scores": {
+            "board_leadership": 10.0,
+            "brick_strength": 25.0,
+            "liquidity": 5.1,
+            "relative_strength": 1.6,
+            "tail_structure": 3.9759036144578426
+          },
+          "final_score": 39.675903614457845,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 1.030569225166289,
+            "brick_strength_ratio": 2.1085396165536077,
+            "close_position": 0.26506024096385616,
+            "relative_strength_pct": -3.3657647628859033,
+            "snapshot_last_price": 12.48,
+            "snapshot_upper_limit": 13.09,
+            "stock_change_pct": 0.24096385542169418,
+            "upper_shadow_ratio": 0.7349397590361438
+          },
+          "rank": 10,
+          "risk_penalty": 6.0,
+          "risk_reasons": [
+            "long_upper_shadow"
+          ],
+          "signal_source": "python_only",
+          "symbol": "300397.SZ",
+          "top_three": false
+        },
+        {
+          "base_score": 45.41037313945251,
+          "factor_scores": {
+            "board_leadership": 10.0,
+            "brick_strength": 15.04451948091593,
+            "liquidity": 6.8999999999999995,
+            "relative_strength": 5.6,
+            "tail_structure": 7.865853658536578
+          },
+          "final_score": 39.41037313945251,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 1.7083127112287486,
+            "brick_strength_ratio": 1.2035615584732744,
+            "close_position": 0.5243902439024385,
+            "relative_strength_pct": -1.9667286183076005,
+            "snapshot_last_price": 25.41,
+            "snapshot_upper_limit": 26.19,
+            "stock_change_pct": 1.639999999999997,
+            "upper_shadow_ratio": 0.4756097560975615
+          },
+          "rank": 11,
+          "risk_penalty": 6.0,
+          "risk_reasons": [
+            "long_upper_shadow"
+          ],
+          "signal_source": "python_only",
+          "symbol": "600038.SH",
+          "top_three": false
+        },
+        {
+          "base_score": 41.91905856287202,
+          "factor_scores": {
+            "board_leadership": 10.0,
+            "brick_strength": 23.301250343693926,
+            "liquidity": 1.8,
+            "relative_strength": 2.4,
+            "tail_structure": 4.417808219178088
+          },
+          "final_score": 35.91905856287202,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 0.8631713875866223,
+            "brick_strength_ratio": 1.8641000274955142,
+            "close_position": 0.2945205479452058,
+            "relative_strength_pct": -3.1081827105385873,
+            "snapshot_last_price": 24.19,
+            "snapshot_upper_limit": 25.22,
+            "stock_change_pct": 0.4985459077690102,
+            "upper_shadow_ratio": 0.7054794520547941
+          },
+          "rank": 12,
+          "risk_penalty": 6.0,
+          "risk_reasons": [
+            "long_upper_shadow"
+          ],
+          "signal_source": "python_only",
+          "symbol": "301302.SZ",
+          "top_three": false
+        },
+        {
+          "base_score": 0.0,
+          "factor_scores": {
+            "board_leadership": 0.0,
+            "brick_strength": 0.0,
+            "liquidity": 0.0,
+            "relative_strength": 0.0,
+            "tail_structure": 0.0
+          },
+          "final_score": 0.0,
+          "hard_filter_reasons": [
+            "tail_limit_up_locked"
+          ],
+          "metrics": {},
+          "rank": 13,
+          "risk_penalty": 0.0,
+          "risk_reasons": [],
+          "signal_source": "python_only",
+          "symbol": "003009.SZ",
+          "top_three": false
+        },
+        {
+          "base_score": 0.0,
+          "factor_scores": {
+            "board_leadership": 0.0,
+            "brick_strength": 0.0,
+            "liquidity": 0.0,
+            "relative_strength": 0.0,
+            "tail_structure": 0.0
+          },
+          "final_score": 0.0,
+          "hard_filter_reasons": [
+            "tail_limit_up_locked"
+          ],
+          "metrics": {},
+          "rank": 14,
+          "risk_penalty": 0.0,
+          "risk_reasons": [],
+          "signal_source": "python_only",
+          "symbol": "600685.SH",
+          "top_three": false
+        }
+      ],
+      "sector": "880914.SH"
+    },
+    {
+      "board_change_pct": 3.55415926785958,
+      "board_rank": 5,
+      "candidates": [
+        {
+          "base_score": 58.6430078360458,
+          "factor_scores": {
+            "board_leadership": 5.0,
+            "brick_strength": 25.0,
+            "liquidity": 5.535714285714286,
+            "relative_strength": 11.904761904761905,
+            "tail_structure": 11.202531645569604
+          },
+          "final_score": 58.6430078360458,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 1.5636657498735458,
+            "brick_strength_ratio": 6.412271258016739,
+            "close_position": 0.7468354430379737,
+            "relative_strength_pct": 0.323207729435282,
+            "snapshot_last_price": 11.52,
+            "snapshot_upper_limit": 11.72,
+            "stock_change_pct": 3.877366997294862,
+            "upper_shadow_ratio": 0.2531645569620264
+          },
+          "rank": 1,
+          "risk_penalty": 0.0,
+          "risk_reasons": [],
+          "signal_source": "python_only",
+          "symbol": "002878.SZ",
+          "top_three": true
+        },
+        {
+          "base_score": 58.2085484796328,
+          "factor_scores": {
+            "board_leadership": 5.0,
+            "brick_strength": 25.0,
+            "liquidity": 2.8571428571428568,
+            "relative_strength": 13.333333333333334,
+            "tail_structure": 12.01807228915661
+          },
+          "final_score": 58.2085484796328,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 1.3916456913988318,
+            "brick_strength_ratio": 3.6370003384964957,
+            "close_position": 0.8012048192771073,
+            "relative_strength_pct": 0.9056108470829383,
+            "snapshot_last_price": 22.72,
+            "snapshot_upper_limit": 23.05,
+            "stock_change_pct": 4.459770114942518,
+            "upper_shadow_ratio": 0.19879518072289265
+          },
+          "rank": 2,
+          "risk_penalty": 0.0,
+          "risk_reasons": [],
+          "signal_source": "python_only",
+          "symbol": "301001.SZ",
+          "top_three": true
+        },
+        {
+          "base_score": 56.63095238095238,
+          "factor_scores": {
+            "board_leadership": 5.0,
+            "brick_strength": 25.0,
+            "liquidity": 8.392857142857142,
+            "relative_strength": 8.571428571428571,
+            "tail_structure": 9.666666666666664
+          },
+          "final_score": 56.63095238095238,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 1.8610066955946505,
+            "brick_strength_ratio": 10.699668244963423,
+            "close_position": 0.6444444444444443,
+            "relative_strength_pct": -0.45938170499690845,
+            "snapshot_last_price": 5.33,
+            "snapshot_upper_limit": 5.49,
+            "stock_change_pct": 3.0947775628626717,
+            "upper_shadow_ratio": 0.35555555555555574
+          },
+          "rank": 3,
+          "risk_penalty": 0.0,
+          "risk_reasons": [],
+          "signal_source": "python_only",
+          "symbol": "000676.SZ",
+          "top_three": true
+        },
+        {
+          "base_score": 55.617681498829036,
+          "factor_scores": {
+            "board_leadership": 5.0,
+            "brick_strength": 25.0,
+            "liquidity": 5.535714285714286,
+            "relative_strength": 10.0,
+            "tail_structure": 10.081967213114751
+          },
+          "final_score": 55.617681498829036,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 1.8986477044761947,
+            "brick_strength_ratio": 6.216518261770924,
+            "close_position": 0.6721311475409835,
+            "relative_strength_pct": -0.23005954486787772,
+            "snapshot_last_price": 7.46,
+            "snapshot_upper_limit": 7.66,
+            "stock_change_pct": 3.3240997229917024,
+            "upper_shadow_ratio": 0.32786885245901654
+          },
+          "rank": 4,
+          "risk_penalty": 0.0,
+          "risk_reasons": [],
+          "signal_source": "python_only",
+          "symbol": "300805.SZ",
+          "top_three": false
+        },
+        {
+          "base_score": 51.28190078349104,
+          "factor_scores": {
+            "board_leadership": 5.0,
+            "brick_strength": 11.423526399254603,
+            "liquidity": 8.75,
+            "relative_strength": 17.142857142857142,
+            "tail_structure": 8.965517241379292
+          },
+          "final_score": 41.28190078349104,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 1.176997860582893,
+            "brick_strength_ratio": 0.9138821119403683,
+            "close_position": 0.5977011494252862,
+            "relative_strength_pct": 2.138910039071096,
+            "snapshot_last_price": 8.54,
+            "snapshot_upper_limit": 8.89,
+            "stock_change_pct": 5.693069306930676,
+            "upper_shadow_ratio": 0.4022988505747138
+          },
+          "rank": 5,
+          "risk_penalty": 10.0,
+          "risk_reasons": [
+            "daily_gain_at_least_5pct",
+            "long_upper_shadow"
+          ],
+          "signal_source": "shared",
+          "symbol": "002354.SZ",
+          "top_three": false
+        },
+        {
+          "base_score": 46.57467532467531,
+          "factor_scores": {
+            "board_leadership": 5.0,
+            "brick_strength": 25.0,
+            "liquidity": 4.107142857142857,
+            "relative_strength": 4.285714285714286,
+            "tail_structure": 8.181818181818167
+          },
+          "final_score": 40.57467532467531,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 1.4279463471806226,
+            "brick_strength_ratio": 2.665126206705511,
+            "close_position": 0.5454545454545445,
+            "relative_strength_pct": -1.5784753772820848,
+            "snapshot_last_price": 6.71,
+            "snapshot_upper_limit": 6.86,
+            "stock_change_pct": 1.9756838905774954,
+            "upper_shadow_ratio": 0.45454545454545553
+          },
+          "rank": 6,
+          "risk_penalty": 6.0,
+          "risk_reasons": [
+            "long_upper_shadow"
+          ],
+          "signal_source": "python_only",
+          "symbol": "002530.SZ",
+          "top_three": false
+        },
+        {
+          "base_score": 34.73809293024641,
+          "factor_scores": {
+            "board_leadership": 5.0,
+            "brick_strength": 9.38095007310357,
+            "liquidity": 5.0,
+            "relative_strength": 7.142857142857143,
+            "tail_structure": 8.214285714285698
+          },
+          "final_score": 28.73809293024641,
+          "hard_filter_reasons": [],
+          "metrics": {
+            "amount_ratio_5d": 1.5503056348222848,
+            "brick_strength_ratio": 0.7504760058482856,
+            "close_position": 0.5476190476190466,
+            "relative_strength_pct": -0.9590035585170353,
+            "snapshot_last_price": 5.93,
+            "snapshot_upper_limit": 6.12,
+            "stock_change_pct": 2.595155709342545,
+            "upper_shadow_ratio": 0.4523809523809534
+          },
+          "rank": 7,
+          "risk_penalty": 6.0,
+          "risk_reasons": [
+            "long_upper_shadow"
+          ],
+          "signal_source": "python_only",
+          "symbol": "002264.SZ",
+          "top_three": false
+        },
+        {
+          "base_score": 0.0,
+          "factor_scores": {
+            "board_leadership": 0.0,
+            "brick_strength": 0.0,
+            "liquidity": 0.0,
+            "relative_strength": 0.0,
+            "tail_structure": 0.0
+          },
+          "final_score": 0.0,
+          "hard_filter_reasons": [
+            "tail_limit_up_locked"
+          ],
+          "metrics": {},
+          "rank": 8,
+          "risk_penalty": 0.0,
+          "risk_reasons": [],
+          "signal_source": "python_only",
+          "symbol": "603825.SH",
+          "top_three": false
+        }
+      ],
+      "sector": "880958.SH"
+    }
+  ],
+  "run_time": "14:40",
+  "sector_members": {
+    "000411.SZ": [
+      "880681.SH"
+    ],
+    "000504.SZ": [
+      "880729.SH",
+      "880920.SH"
+    ],
+    "000513.SZ": [
+      "880681.SH"
+    ],
+    "000516.SZ": [
+      "880920.SH"
+    ],
+    "000566.SZ": [
+      "880920.SH"
+    ],
+    "000597.SZ": [
+      "880920.SH"
+    ],
+    "000676.SZ": [
+      "880958.SH"
+    ],
+    "000681.SZ": [
+      "880958.SH"
+    ],
+    "000739.SZ": [
+      "880681.SH",
+      "880729.SH"
+    ],
+    "000790.SZ": [
+      "880729.SH"
+    ],
+    "000801.SZ": [
+      "880914.SH"
+    ],
+    "000813.SZ": [
+      "880681.SH",
+      "880729.SH"
+    ],
+    "000935.SZ": [
+      "880681.SH",
+      "880729.SH"
+    ],
+    "000950.SZ": [
+      "880681.SH"
+    ],
+    "000953.SZ": [
+      "880729.SH"
+    ],
+    "000963.SZ": [
+      "880681.SH",
+      "880920.SH"
+    ],
+    "000989.SZ": [
+      "880920.SH"
+    ],
+    "002004.SZ": [
+      "880920.SH"
+    ],
+    "002038.SZ": [
+      "880681.SH"
+    ],
+    "002086.SZ": [
+      "880729.SH"
+    ],
+    "002099.SZ": [
+      "880681.SH"
+    ],
+    "002115.SZ": [
+      "880958.SH"
+    ],
+    "002131.SZ": [
+      "880958.SH"
+    ],
+    "002153.SZ": [
+      "880958.SH"
+    ],
+    "002181.SZ": [
+      "880958.SH"
+    ],
+    "002250.SZ": [
+      "880729.SH"
+    ],
+    "002264.SZ": [
+      "880958.SH"
+    ],
+    "002265.SZ": [
+      "880914.SH"
+    ],
+    "002291.SZ": [
+      "880958.SH"
+    ],
+    "002294.SZ": [
+      "880681.SH"
+    ],
+    "002317.SZ": [
+      "880681.SH"
+    ],
+    "002354.SZ": [
+      "880958.SH"
+    ],
+    "002389.SZ": [
+      "880914.SH"
+    ],
+    "002399.SZ": [
+      "880729.SH"
+    ],
+    "002400.SZ": [
+      "880958.SH"
+    ],
+    "002414.SZ": [
+      "880914.SH"
+    ],
+    "002530.SZ": [
+      "880958.SH"
+    ],
+    "002581.SZ": [
+      "880729.SH"
+    ],
+    "002592.SZ": [
+      "880920.SH"
+    ],
+    "002605.SZ": [
+      "880920.SH"
+    ],
+    "002675.SZ": [
+      "880729.SH",
+      "880920.SH"
+    ],
+    "002683.SZ": [
+      "880914.SH"
+    ],
+    "002693.SZ": [
+      "880729.SH"
+    ],
+    "002712.SZ": [
+      "880958.SH"
+    ],
+    "002742.SZ": [
+      "880681.SH"
+    ],
+    "002771.SZ": [
+      "880958.SH"
+    ],
+    "002803.SZ": [
+      "880958.SH"
+    ],
+    "002821.SZ": [
+      "880681.SH",
+      "880729.SH"
+    ],
+    "002873.SZ": [
+      "880920.SH"
+    ],
+    "002878.SZ": [
+      "880958.SH"
+    ],
+    "002880.SZ": [
+      "880920.SH"
+    ],
+    "002907.SZ": [
+      "880681.SH"
+    ],
+    "002995.SZ": [
+      "880958.SH"
+    ],
+    "003009.SZ": [
+      "880914.SH"
+    ],
+    "300002.SZ": [
+      "880958.SH"
+    ],
+    "300003.SZ": [
+      "880681.SH"
+    ],
+    "300006.SZ": [
+      "880920.SH"
+    ],
+    "300008.SZ": [
+      "880914.SH"
+    ],
+    "300009.SZ": [
+      "880920.SH"
+    ],
+    "300012.SZ": [
+      "880729.SH"
+    ],
+    "300030.SZ": [
+      "880920.SH"
+    ],
+    "300058.SZ": [
+      "880958.SH"
+    ],
+    "300063.SZ": [
+      "880958.SH"
+    ],
+    "300071.SZ": [
+      "880958.SH"
+    ],
+    "300095.SZ": [
+      "880914.SH"
+    ],
+    "300109.SZ": [
+      "880920.SH"
+    ],
+    "300122.SZ": [
+      "880681.SH"
+    ],
+    "300147.SZ": [
+      "880920.SH"
+    ],
+    "300149.SZ": [
+      "880729.SH",
+      "880920.SH"
+    ],
+    "300166.SZ": [
+      "880958.SH"
+    ],
+    "300171.SZ": [
+      "880920.SH"
+    ],
+    "300181.SZ": [
+      "880920.SH"
+    ],
+    "300199.SZ": [
+      "880681.SH",
+      "880729.SH",
+      "880920.SH"
+    ],
+    "300204.SZ": [
+      "880920.SH"
+    ],
+    "300238.SZ": [
+      "880920.SH"
+    ],
+    "300244.SZ": [
+      "880729.SH",
+      "880920.SH"
+    ],
+    "300255.SZ": [
+      "880681.SH"
+    ],
+    "300261.SZ": [
+      "880729.SH"
+    ],
+    "300272.SZ": [
+      "880920.SH"
+    ],
+    "300314.SZ": [
+      "880920.SH"
+    ],
+    "300347.SZ": [
+      "880729.SH"
+    ],
+    "300358.SZ": [
+      "880920.SH"
+    ],
+    "300363.SZ": [
+      "880681.SH",
+      "880729.SH",
+      "880920.SH"
+    ],
+    "300383.SZ": [
+      "880958.SH"
+    ],
+    "300397.SZ": [
+      "880914.SH"
+    ],
+    "300404.SZ": [
+      "880681.SH",
+      "880729.SH",
+      "880920.SH"
+    ],
+    "300412.SZ": [
+      "880729.SH"
+    ],
+    "300418.SZ": [
+      "880958.SH"
+    ],
+    "300434.SZ": [
+      "880729.SH"
+    ],
+    "300487.SZ": [
+      "880681.SH"
+    ],
+    "300497.SZ": [
+      "880729.SH"
+    ],
+    "300511.SZ": [
+      "880920.SH"
+    ],
+    "300558.SZ": [
+      "880920.SH"
+    ],
+    "300612.SZ": [
+      "880958.SH"
+    ],
+    "300683.SZ": [
+      "880729.SH",
+      "880920.SH"
+    ],
+    "300692.SZ": [
+      "880729.SH"
+    ],
+    "300702.SZ": [
+      "880729.SH"
+    ],
+    "300705.SZ": [
+      "880729.SH"
+    ],
+    "300722.SZ": [
+      "880914.SH"
+    ],
+    "300723.SZ": [
+      "880681.SH"
+    ],
+    "300725.SZ": [
+      "880729.SH"
+    ],
+    "300759.SZ": [
+      "880729.SH"
+    ],
+    "300765.SZ": [
+      "880681.SH"
+    ],
+    "300781.SZ": [
+      "880958.SH"
+    ],
+    "300785.SZ": [
+      "880958.SH"
+    ],
+    "300792.SZ": [
+      "880958.SH"
+    ],
+    "300805.SZ": [
+      "880958.SH"
+    ],
+    "300813.SZ": [
+      "880920.SH"
+    ],
+    "300887.SZ": [
+      "880729.SH"
+    ],
+    "300896.SZ": [
+      "880681.SH"
+    ],
+    "301001.SZ": [
+      "880958.SH"
+    ],
+    "301021.SZ": [
+      "880729.SH"
+    ],
+    "301047.SZ": [
+      "880729.SH",
+      "880920.SH"
+    ],
+    "301060.SZ": [
+      "880729.SH"
+    ],
+    "301080.SZ": [
+      "880920.SH"
+    ],
+    "301092.SZ": [
+      "880681.SH"
+    ],
+    "301096.SZ": [
+      "880729.SH"
+    ],
+    "301103.SZ": [
+      "880920.SH"
+    ],
+    "301130.SZ": [
+      "880920.SH"
+    ],
+    "301166.SZ": [
+      "880681.SH",
+      "880920.SH"
+    ],
+    "301171.SZ": [
+      "880958.SH"
+    ],
+    "301201.SZ": [
+      "880681.SH",
+      "880729.SH",
+      "880920.SH"
+    ],
+    "301211.SZ": [
+      "880729.SH"
+    ],
+    "301230.SZ": [
+      "880729.SH"
+    ],
+    "301231.SZ": [
+      "880958.SH"
+    ],
+    "301257.SZ": [
+      "880681.SH",
+      "880729.SH",
+      "880920.SH"
+    ],
+    "301263.SZ": [
+      "880681.SH"
+    ],
+    "301277.SZ": [
+      "880681.SH",
+      "880729.SH"
+    ],
+    "301302.SZ": [
+      "880914.SH"
+    ],
+    "301333.SZ": [
+      "880729.SH"
+    ],
+    "301363.SZ": [
+      "880681.SH",
+      "880729.SH"
+    ],
+    "301393.SZ": [
+      "880681.SH",
+      "880729.SH"
+    ],
+    "301509.SZ": [
+      "880681.SH",
+      "880729.SH"
+    ],
+    "301520.SZ": [
+      "880681.SH",
+      "880729.SH"
+    ],
+    "302132.SZ": [
+      "880914.SH"
+    ],
+    "600038.SH": [
+      "880914.SH"
+    ],
+    "600062.SH": [
+      "880681.SH"
+    ],
+    "600129.SH": [
+      "880681.SH"
+    ],
+    "600196.SH": [
+      "880681.SH",
+      "880729.SH",
+      "880920.SH"
+    ],
+    "600222.SH": [
+      "880729.SH"
+    ],
+    "600267.SH": [
+      "880681.SH"
+    ],
+    "600276.SH": [
+      "880681.SH",
+      "880920.SH"
+    ],
+    "600316.SH": [
+      "880914.SH"
+    ],
+    "600372.SH": [
+      "880914.SH"
+    ],
+    "600380.SH": [
+      "880681.SH"
+    ],
+    "600521.SH": [
+      "880920.SH"
+    ],
+    "600556.SH": [
+      "880958.SH"
+    ],
+    "600557.SH": [
+      "880681.SH"
+    ],
+    "600562.SH": [
+      "880914.SH"
+    ],
+    "600568.SH": [
+      "880920.SH"
+    ],
+    "600645.SH": [
+      "880920.SH"
+    ],
+    "600682.SH": [
+      "880920.SH"
+    ],
+    "600685.SH": [
+      "880914.SH"
+    ],
+    "600721.SH": [
+      "880681.SH",
+      "880729.SH",
+      "880920.SH"
+    ],
+    "600760.SH": [
+      "880914.SH"
+    ],
+    "600851.SH": [
+      "880920.SH"
+    ],
+    "600867.SH": [
+      "880681.SH"
+    ],
+    "600880.SH": [
+      "880958.SH"
+    ],
+    "600893.SH": [
+      "880914.SH"
+    ],
+    "600967.SH": [
+      "880914.SH"
+    ],
+    "600986.SH": [
+      "880958.SH"
+    ],
+    "601360.SH": [
+      "880958.SH"
+    ],
+    "601606.SH": [
+      "880914.SH"
+    ],
+    "603000.SH": [
+      "880958.SH"
+    ],
+    "603028.SH": [
+      "880920.SH"
+    ],
+    "603087.SH": [
+      "880681.SH"
+    ],
+    "603127.SH": [
+      "880729.SH",
+      "880920.SH"
+    ],
+    "603171.SH": [
+      "880958.SH"
+    ],
+    "603222.SH": [
+      "880920.SH"
+    ],
+    "603229.SH": [
+      "880729.SH"
+    ],
+    "603259.SH": [
+      "880729.SH"
+    ],
+    "603456.SH": [
+      "880729.SH"
+    ],
+    "603466.SH": [
+      "880958.SH"
+    ],
+    "603538.SH": [
+      "880681.SH",
+      "880729.SH"
+    ],
+    "603598.SH": [
+      "880958.SH"
+    ],
+    "603669.SH": [
+      "880729.SH"
+    ],
+    "603707.SH": [
+      "880681.SH"
+    ],
+    "603716.SH": [
+      "880920.SH"
+    ],
+    "603739.SH": [
+      "880729.SH"
+    ],
+    "603825.SH": [
+      "880958.SH"
+    ],
+    "603882.SH": [
+      "880920.SH"
+    ],
+    "605116.SH": [
+      "880681.SH",
+      "880729.SH"
+    ],
+    "605168.SH": [
+      "880958.SH"
+    ],
+    "605589.SH": [
+      "880729.SH"
+    ],
+    "688026.SH": [
+      "880920.SH"
+    ],
+    "688046.SH": [
+      "880729.SH"
+    ],
+    "688073.SH": [
+      "880729.SH"
+    ],
+    "688076.SH": [
+      "880681.SH",
+      "880729.SH"
+    ],
+    "688105.SH": [
+      "880681.SH",
+      "880729.SH"
+    ],
+    "688117.SH": [
+      "880681.SH",
+      "880729.SH"
+    ],
+    "688131.SH": [
+      "880681.SH",
+      "880729.SH"
+    ],
+    "688136.SH": [
+      "880681.SH"
+    ],
+    "688137.SH": [
+      "880729.SH",
+      "880920.SH"
+    ],
+    "688151.SH": [
+      "880914.SH"
+    ],
+    "688166.SH": [
+      "880681.SH",
+      "880920.SH"
+    ],
+    "688185.SH": [
+      "880729.SH"
+    ],
+    "688202.SH": [
+      "880681.SH",
+      "880729.SH"
+    ],
+    "688222.SH": [
+      "880681.SH",
+      "880729.SH"
+    ],
+    "688238.SH": [
+      "880729.SH",
+      "880920.SH"
+    ],
+    "688247.SH": [
+      "880729.SH"
+    ],
+    "688266.SH": [
+      "880920.SH"
+    ],
+    "688282.SH": [
+      "880914.SH"
+    ],
+    "688293.SH": [
+      "880729.SH"
+    ],
+    "688297.SH": [
+      "880914.SH"
+    ],
+    "688321.SH": [
+      "880681.SH"
+    ],
+    "688331.SH": [
+      "880920.SH"
+    ],
+    "688365.SH": [
+      "880958.SH"
+    ],
+    "688500.SH": [
+      "880958.SH"
+    ],
+    "688543.SH": [
+      "880914.SH"
+    ],
+    "688550.SH": [
+      "880681.SH"
+    ],
+    "688552.SH": [
+      "880914.SH"
+    ],
+    "688553.SH": [
+      "880729.SH"
+    ],
+    "688602.SH": [
+      "880681.SH",
+      "880729.SH"
+    ],
+    "688621.SH": [
+      "880681.SH",
+      "880729.SH",
+      "880920.SH"
+    ],
+    "688658.SH": [
+      "880920.SH"
+    ],
+    "688690.SH": [
+      "880681.SH"
+    ],
+    "688710.SH": [
+      "880729.SH",
+      "880920.SH"
+    ],
+    "688759.SH": [
+      "880681.SH"
+    ],
+    "688796.SH": [
+      "880729.SH"
+    ],
+    "920017.BJ": [
+      "880681.SH",
+      "880729.SH"
+    ],
+    "920344.BJ": [
+      "880920.SH"
+    ],
+    "920478.BJ": [
+      "880729.SH"
+    ],
+    "920735.BJ": [
+      "880681.SH"
+    ]
+  },
+  "stages_seconds": {
+    "concepts": 0.4544,
+    "members": 0.0332,
+    "native": 6.8063,
+    "python": 2.4683,
+    "snapshots": 0.6464,
+    "total": 10.429
+  },
+  "tdx_path": "F:/new_tdx64"
+}
+TQ数据连接已关闭

@@ -1,0 +1,294 @@
+page {
+  min-height: 100%;
+  background: #F7F4EE;
+  color: #20201D;
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+}
+
+page, view, text, input, textarea, button {
+  box-sizing: border-box;
+}
+
+.page-shell {
+  min-height: 100%;
+  padding: 28rpx 28rpx 184rpx;
+}
+
+.page-header {
+  margin: 8rpx 0 30rpx;
+}
+
+.page-kicker {
+  color: #766F66;
+  font-size: 23rpx;
+  letter-spacing: 2rpx;
+  line-height: 1.35;
+}
+
+.title {
+  color: #20201D;
+  font-size: 48rpx;
+  font-weight: 700;
+  letter-spacing: 1rpx;
+  line-height: 1.2;
+  margin-top: 8rpx;
+}
+
+.page-description {
+  color: #6D675F;
+  font-size: 25rpx;
+  line-height: 1.75;
+  margin-top: 16rpx;
+}
+
+.card {
+  background: #FFFDF9;
+  border: 2rpx solid #DED8CF;
+  border-radius: 20rpx;
+  padding: 28rpx;
+}
+
+.muted {
+  color: #6D675F;
+  font-size: 25rpx;
+  line-height: 1.7;
+}
+
+.section-title-row {
+  align-items: baseline;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 16rpx;
+}
+
+.section-title {
+  color: #20201D;
+  font-size: 31rpx;
+  font-weight: 650;
+  line-height: 1.35;
+}
+
+.section-meta {
+  color: #8A837A;
+  font-size: 22rpx;
+}
+
+.field-label {
+  color: #4F4A43;
+  display: block;
+  font-size: 25rpx;
+  font-weight: 600;
+  margin: 18rpx 0 10rpx;
+}
+
+.status-dot {
+  border-radius: 50%;
+  display: inline-block;
+  height: 14rpx;
+  width: 14rpx;
+}
+
+.status-good {
+  background: #19755C;
+}
+
+.status-risk {
+  background: #BB4538;
+}
+
+.form-card, .cash-flow-card, .futures-card, .option-card, .corporate-action-card,
+.trade-card, .accounts-card, .transactions-card, .import-card, .mapping-card,
+.preview-card, .safety-card, .status-card, .portfolio-card, .valuation-card,
+.reconciliation-card, .success-card, .reports-card, .strategy-card {
+  margin-top: 24rpx;
+}
+
+.text-input, .picker, .field, .mapping-editor {
+  background: #FFFDF9;
+  border: 2rpx solid #DED8CF;
+  border-radius: 14rpx;
+  color: #24231F;
+  font-size: 27rpx;
+  min-height: 84rpx;
+  padding: 20rpx 22rpx;
+  width: 100%;
+}
+
+.picker, .spaced-input {
+  margin-top: 16rpx;
+}
+
+.mapping-editor {
+  line-height: 1.55;
+  margin-top: 18rpx;
+  min-height: 260rpx;
+}
+
+.text-input:focus, .field:focus, .mapping-editor:focus {
+  border-color: #0F766E;
+}
+
+.primary-button, .secondary-button, .text-button {
+  border-radius: 14rpx;
+  font-size: 27rpx;
+  font-weight: 600;
+  line-height: 1.25;
+  margin-top: 20rpx;
+  min-height: 80rpx;
+  padding: 0 26rpx;
+}
+
+.primary-button {
+  background: #0F766E;
+  color: #FFFFFF;
+}
+
+.secondary-button {
+  background: #FFFDF9;
+  border: 2rpx solid #CFC8BF;
+  color: #245D58;
+}
+
+.primary-button::after, .secondary-button::after, .text-button::after {
+  border: none;
+}
+
+.import-link {
+  display: block;
+  line-height: 80rpx;
+  text-align: center;
+}
+
+.text-button {
+  background: transparent;
+  color: #B94135;
+  margin: 10rpx 0 0;
+  min-height: auto;
+  padding: 8rpx 0;
+  text-align: left;
+}
+
+.form-tip {
+  margin: 12rpx 0 4rpx;
+}
+
+.empty-tip, .provisioning {
+  background: #F1F6F2;
+  border-left: 6rpx solid #0F766E;
+  color: #43605B;
+  font-size: 24rpx;
+  line-height: 1.65;
+  margin-top: 18rpx;
+  padding: 18rpx 20rpx;
+}
+
+.success-message {
+  background: #EEF6F2;
+  border: 2rpx solid #B8D5CA;
+  border-radius: 14rpx;
+  color: #246257;
+  font-size: 25rpx;
+  line-height: 1.65;
+  margin-top: 20rpx;
+  overflow-wrap: anywhere;
+  padding: 18rpx 20rpx;
+}
+
+.error-message {
+  color: #B63B30;
+  font-size: 25rpx;
+  line-height: 1.65;
+  margin-top: 18rpx;
+}
+
+.warning-message {
+  color: #9B4E18;
+  font-size: 24rpx;
+  line-height: 1.6;
+  margin-top: 14rpx;
+}
+
+.preview-panel, .derivative-fields {
+  border-top: 2rpx solid #E6E0D8;
+  margin-top: 26rpx;
+  padding-top: 24rpx;
+}
+
+.preview-title, .position-section-title {
+  color: #2C2A26;
+  font-size: 28rpx;
+  font-weight: 650;
+  margin-bottom: 10rpx;
+}
+
+.posting-row, .account-row, .transaction-row, .portfolio-position-row, .history-row {
+  border-top: 2rpx solid #E9E3DA;
+  padding: 20rpx 0;
+}
+
+.posting-row, .account-row, .portfolio-position-row {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
+
+.posting-name, .account-name, .transaction-type, .instrument-name {
+  color: #282722;
+  font-size: 27rpx;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.posting-amount, .account-currency {
+  color: #0F766E;
+  font-size: 26rpx;
+  font-weight: 650;
+  margin-left: 16rpx;
+  text-align: right;
+}
+
+.transaction-id, .instrument-id, .hash, .user-id, .position-instrument {
+  color: #6B655D;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 22rpx;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.instrument-id, .file-panel {
+  background: #F5F1EA;
+  border-radius: 12rpx;
+  margin-top: 16rpx;
+  padding: 18rpx;
+}
+
+.file-name {
+  color: #2A2924;
+  font-size: 27rpx;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.preview-lines, .reconciliation-history {
+  margin-top: 18rpx;
+}
+
+.preview-line {
+  border-top: 2rpx solid #E9E3DA;
+  color: #454038;
+  font-size: 24rpx;
+  line-height: 1.55;
+  padding: 16rpx 0;
+}
+
+.field-row {
+  margin-top: 16rpx;
+}
+
+.field-label {
+  color: #47423A;
+  display: block;
+  font-size: 25rpx;
+  font-weight: 600;
+  margin: 14rpx 0 10rpx;
+}

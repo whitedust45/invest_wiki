@@ -1,0 +1,145 @@
+.tab-bar {
+  align-items: flex-start;
+  background: #FFFDF9;
+  border-top: 2rpx solid #E1DBD2;
+  bottom: 0;
+  display: flex;
+  height: 118rpx;
+  left: 0;
+  padding: 10rpx 8rpx 0;
+  position: fixed;
+  right: 0;
+  z-index: 99;
+}
+
+.safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.tab-item {
+  align-items: center;
+  color: #6D675F;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.tab-icon {
+  height: 48rpx;
+  position: relative;
+  width: 52rpx;
+}
+
+.tab-icon-main, .tab-icon-detail {
+  box-sizing: border-box;
+  display: block;
+  position: absolute;
+}
+
+.tab-icon-home .tab-icon-main {
+  border: 3rpx solid currentColor;
+  border-radius: 6rpx;
+  height: 28rpx;
+  left: 12rpx;
+  top: 9rpx;
+  width: 28rpx;
+}
+
+.tab-icon-home .tab-icon-detail {
+  background: currentColor;
+  box-shadow: 0 8rpx 0 currentColor;
+  height: 3rpx;
+  left: 19rpx;
+  top: 18rpx;
+  width: 14rpx;
+}
+
+.tab-icon-ledger .tab-icon-main {
+  border: 3rpx solid currentColor;
+  border-radius: 4rpx;
+  height: 30rpx;
+  left: 12rpx;
+  top: 8rpx;
+  width: 28rpx;
+}
+
+.tab-icon-ledger .tab-icon-detail {
+  background: currentColor;
+  box-shadow: 0 7rpx 0 currentColor, 0 14rpx 0 currentColor;
+  height: 3rpx;
+  left: 18rpx;
+  top: 15rpx;
+  width: 16rpx;
+}
+
+.tab-icon-strategy .tab-icon-main {
+  border: 3rpx solid currentColor;
+  border-radius: 50%;
+  height: 30rpx;
+  left: 11rpx;
+  top: 8rpx;
+  width: 30rpx;
+}
+
+.tab-icon-strategy .tab-icon-detail {
+  border: 3rpx solid currentColor;
+  border-radius: 50%;
+  height: 10rpx;
+  left: 21rpx;
+  top: 18rpx;
+  width: 10rpx;
+}
+
+.tab-icon-market .tab-icon-main {
+  background: currentColor;
+  height: 3rpx;
+  left: 12rpx;
+  top: 28rpx;
+  transform: rotate(-28deg);
+  width: 30rpx;
+}
+
+.tab-icon-market .tab-icon-detail {
+  border-right: 3rpx solid currentColor;
+  border-top: 3rpx solid currentColor;
+  height: 10rpx;
+  right: 10rpx;
+  top: 10rpx;
+  transform: rotate(22deg);
+  width: 10rpx;
+}
+
+.tab-icon-reports .tab-icon-main {
+  border-bottom: 3rpx solid currentColor;
+  border-left: 3rpx solid currentColor;
+  height: 30rpx;
+  left: 12rpx;
+  top: 8rpx;
+  width: 28rpx;
+}
+
+.tab-icon-reports .tab-icon-detail {
+  background: currentColor;
+  bottom: 10rpx;
+  box-shadow: 9rpx -6rpx 0 currentColor, 18rpx -14rpx 0 currentColor;
+  height: 12rpx;
+  left: 18rpx;
+  width: 4rpx;
+}
+
+.tab-label {
+  font-size: 21rpx;
+  line-height: 1.3;
+  margin-top: 3rpx;
+}
+
+.tab-item-active {
+  color: #0F766E;
+  font-weight: 650;
+}
+
+.tab-item-active .tab-icon {
+  background: #EEF6F2;
+  border-radius: 12rpx;
+}

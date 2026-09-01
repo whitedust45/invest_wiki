@@ -1,0 +1,14 @@
+.login-header {
+  margin-top: 80rpx;
+}
+
+.form-card {
+  display: flex;
+  flex-direction: column;
+  margin-top: 36rpx;
+  padding: 30rpx;
+}
+
+.field {
+  margin-top: 0;
+}

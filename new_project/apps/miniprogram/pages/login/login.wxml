@@ -1,0 +1,17 @@
+<view class="page-shell">
+  <view class="page-header login-header">
+    <view class="page-kicker">个人投资账本</view>
+    <view class="title">安全地开始</view>
+    <view class="page-description">此页面只用于本地 Mock 登录。真实微信登录将在 AppID、合法域名和授权配置完成后启用。</view>
+  </view>
+
+  <view class="card form-card">
+    <view class="section-title">本地管理员登录</view>
+    <view class="field-label">本地登录 code</view>
+    <input class="field" value="{{loginCode}}" bindinput="onCodeInput" placeholder="填写 LOCAL_MOCK_LOGIN_CODE" />
+    <view class="field-label">首次绑定密钥（仅首次登录需要）</view>
+    <input class="field" password value="{{enrollmentSecret}}" bindinput="onSecretInput" placeholder="首次绑定时填写 BOOTSTRAP_ENROLLMENT_SECRET" />
+    <view wx:if="{{errorMessage}}" class="error-message">{{errorMessage}}</view>
+    <button class="primary-button" loading="{{submitting}}" disabled="{{submitting}}" bindtap="submitLocalLogin">进入本地总览</button>
+  </view>
+</view>

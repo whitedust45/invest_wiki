@@ -1,0 +1,74 @@
+services:
+  mysql:
+    image: mysql:8.4
+    container_name: investment-local-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_DATABASE_ROOT_PASSWORD}
+      MYSQL_DATABASE: investment_bootstrap
+      MYSQL_USER: investment_app
+      MYSQL_PASSWORD: ${MYSQL_APP_PASSWORD}
+    command: ["--character-set-server=utf8mb4", "--collation-server=utf8mb4_0900_ai_ci"]
+    ports:
+      - "127.0.0.1:3306:3306"
+    volumes:
+      - mysql-local-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -uroot -p$$MYSQL_ROOT_PASSWORD"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+
+  redis:
+    image: redis:7.4-alpine
+    container_name: investment-local-redis
+    command: ["redis-server", "--requirepass", "${REDIS_PASSWORD}"]
+    ports:
+      - "127.0.0.1:6379:6379"
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli --no-auth-warning -a $$REDIS_PASSWORD ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+
+  minio:
+    image: quay.io/minio/minio:RELEASE.2025-09-07T16-13-09Z
+    container_name: investment-local-minio
+    command: server /data --console-address :9001
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
+      # Static KMS is local-only. Production must use the cloud KMS identifier, never this key.
+      MINIO_KMS_SECRET_KEY: local-sse:${MINIO_SSE_MASTER_KEY_BASE64}
+      MINIO_KMS_AUTO_ENCRYPTION: "on"
+    ports:
+      - "127.0.0.1:9000:9000"
+      - "127.0.0.1:9001:9001"
+    volumes:
+      - minio-local-data:/data
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost:9000/minio/health/live"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+
+  minio-init:
+    image: minio/mc:RELEASE.2025-08-13T08-35-41Z
+    container_name: investment-local-minio-init
+    depends_on:
+      minio:
+        condition: service_healthy
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
+      OBJECT_STORAGE_BUCKET: ${OBJECT_STORAGE_BUCKET}
+    entrypoint:
+      - /bin/sh
+      - -ec
+      - >-
+        mc alias set local http://minio:9000 "$${MINIO_ROOT_USER}" "$${MINIO_ROOT_PASSWORD}";
+        mc mb --ignore-existing local/$${OBJECT_STORAGE_BUCKET};
+        mc anonymous set none local/$${OBJECT_STORAGE_BUCKET}
+
+volumes:
+  mysql-local-data:
+  minio-local-data:

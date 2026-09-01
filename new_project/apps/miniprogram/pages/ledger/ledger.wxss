@@ -1,0 +1,208 @@
+/* 页面样式由 app.wxss 的账务设计系统统一提供。 */
+
+.futures-roll-card {
+  border: 1rpx solid #e5d9bf;
+  background: linear-gradient(160deg, #fffdf7 0%, #f8f3e7 100%);
+}
+
+.correction-context-card {
+  border: 1rpx solid #e0c39a;
+  background: #fffaf0;
+}
+
+.subsection-title {
+  margin-top: 28rpx;
+  color: #6a4c22;
+  font-size: 26rpx;
+  font-weight: 700;
+}
+
+.preview-draft-key {
+  color: #5f5a53;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 21rpx;
+  line-height: 1.5;
+  margin: 12rpx 0 4rpx;
+  overflow-wrap: anywhere;
+}
+
+.preview-draft-hint {
+  color: #8a8177;
+  font-size: 21rpx;
+  line-height: 1.55;
+  margin-bottom: 10rpx;
+}
+
+.transaction-row-tappable {
+  cursor: pointer;
+}
+
+.transaction-filter-input {
+  margin-top: 18rpx;
+}
+
+.export-card {
+  border: 1rpx solid #cce2df;
+  background: linear-gradient(155deg, #f9fffe 0%, #f2faf8 100%);
+}
+
+.export-actions {
+  display: flex;
+  gap: 14rpx;
+  margin-top: 18rpx;
+}
+
+.export-button {
+  flex: 1;
+  margin: 0;
+  font-size: 23rpx;
+  line-height: 1.35;
+}
+
+.snapshot-card {
+  border: 1rpx solid #d9e1ef;
+  background: linear-gradient(155deg, #fcfdff 0%, #f4f7fc 100%);
+}
+
+.snapshot-list {
+  margin-top: 18rpx;
+}
+
+.snapshot-row {
+  padding: 20rpx 0;
+  border-top: 1rpx solid #e7ebf1;
+}
+
+.snapshot-title {
+  color: #243247;
+  font-size: 25rpx;
+  font-weight: 700;
+}
+
+.snapshot-hash {
+  margin-top: 6rpx;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 19rpx;
+  overflow-wrap: anywhere;
+}
+
+.snapshot-actions {
+  display: flex;
+  gap: 14rpx;
+  margin-top: 14rpx;
+}
+
+.snapshot-action-button {
+  flex: 1;
+  margin: 0;
+  border: 1rpx solid #b9c9df;
+  border-radius: 12rpx;
+  background: #ffffff;
+  color: #36557a;
+  font-size: 22rpx;
+  line-height: 1.5;
+}
+
+.snapshot-restore-button {
+  border-color: #d9ad72;
+  color: #9a5a14;
+}
+
+.transaction-date-filters,
+.transaction-filter-actions {
+  display: flex;
+  gap: 14rpx;
+}
+
+.transaction-date-filters {
+  margin-top: 14rpx;
+}
+
+.compact-picker {
+  box-sizing: border-box;
+  min-height: 76rpx;
+}
+
+.transaction-filter-actions {
+  margin: 14rpx 0 18rpx;
+}
+
+.transaction-filter-button {
+  flex: 1;
+  font-size: 24rpx;
+  margin: 0;
+}
+
+.load-more-button {
+  font-size: 24rpx;
+  margin-top: 18rpx;
+}
+
+.detail-card {
+  border: 1rpx solid #d8dce3;
+}
+
+.detail-title {
+  color: #172033;
+  font-size: 32rpx;
+  font-weight: 700;
+  margin: 6rpx 0;
+}
+
+.detail-line,
+.detail-id {
+  font-size: 22rpx;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+}
+
+.detail-id {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  margin-top: 6rpx;
+}
+
+.detail-pill,
+.correction-status {
+  display: inline-flex;
+  margin-top: 14rpx;
+  padding: 6rpx 12rpx;
+  border-radius: 999rpx;
+  background: #eef3ff;
+  color: #325591;
+  font-size: 22rpx;
+}
+
+.detail-note {
+  margin-top: 14rpx;
+  color: #3f4651;
+  font-size: 24rpx;
+  line-height: 1.6;
+}
+
+.detail-section-title {
+  margin: 24rpx 0 10rpx;
+  color: #1e293b;
+  font-size: 25rpx;
+  font-weight: 700;
+}
+
+.detail-trade-row {
+  padding: 14rpx 0;
+  border-top: 1rpx solid #edf0f4;
+}
+
+.detail-instrument {
+  color: #2e3642;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 22rpx;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.danger-outline-button {
+  margin-top: 16rpx;
+  border: 1rpx solid #c96962;
+  background: #fffafa;
+  color: #a33a35;
+  font-size: 27rpx;
+}

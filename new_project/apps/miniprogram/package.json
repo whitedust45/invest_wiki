@@ -1,0 +1,12 @@
+{
+  "name": "personal-investment-miniprogram",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "miniprogram-api-typings": "^4.0.4",
+    "typescript": "^5.8.3"
+  }
+}

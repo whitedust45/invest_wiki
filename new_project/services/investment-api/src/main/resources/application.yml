@@ -1,0 +1,82 @@
+spring:
+  application:
+    name: investment-api
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration
+  datasource:
+    url: ${MYSQL_JDBC_URL}
+    username: ${MYSQL_USERNAME}
+    password: ${MYSQL_PASSWORD}
+    hikari:
+      pool-name: investment-api-pool
+      maximum-pool-size: ${MYSQL_POOL_MAX_SIZE:8}
+      minimum-idle: ${MYSQL_POOL_MIN_IDLE:1}
+  data:
+    redis:
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD}
+      timeout: ${REDIS_TIMEOUT:2s}
+  flyway:
+    enabled: true
+    url: ${MYSQL_FLYWAY_JDBC_URL:${MYSQL_JDBC_URL}}
+    create-schemas: true
+    default-schema: platform_db
+    schemas: platform_db
+    locations: classpath:db/migration
+    user: ${MYSQL_FLYWAY_USERNAME:root}
+    password: ${MYSQL_FLYWAY_PASSWORD:${MYSQL_DATABASE_ROOT_PASSWORD}}
+    connect-retries: 10
+    placeholders:
+      app_mysql_username: ${MYSQL_USERNAME}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: never
+
+server:
+  error:
+    include-message: never
+
+app:
+  auth:
+    openid-hmac-key: ${AUTH_HMAC_KEY}
+    session-hmac-key: ${AUTH_SESSION_HMAC_KEY}
+    bootstrap-enrollment-secret: ${BOOTSTRAP_ENROLLMENT_SECRET}
+    session-ttl: ${AUTH_SESSION_TTL:PT12H}
+  object-storage:
+    endpoint: ${OBJECT_STORAGE_ENDPOINT:http://127.0.0.1:9000}
+    upload-endpoint: ${OBJECT_STORAGE_UPLOAD_ENDPOINT:${OBJECT_STORAGE_ENDPOINT:http://127.0.0.1:9000}}
+    bucket: ${OBJECT_STORAGE_BUCKET:investment-private}
+    access-key: ${OBJECT_STORAGE_ACCESS_KEY:}
+    secret-key: ${OBJECT_STORAGE_SECRET_KEY:}
+    encryption-key-version: ${OBJECT_STORAGE_ENCRYPTION_KEY_VERSION:local-minio-static-v1}
+    max-upload-bytes: ${OBJECT_STORAGE_MAX_UPLOAD_BYTES:10485760}
+    upload-credential-ttl: ${OBJECT_STORAGE_UPLOAD_CREDENTIAL_TTL:PT15M}
+    scan-worker-fixed-delay: ${OBJECT_STORAGE_SCAN_WORKER_FIXED_DELAY:PT10S}
+    scan-lease: ${OBJECT_STORAGE_SCAN_LEASE:PT10M}
+    scan-batch-size: ${OBJECT_STORAGE_SCAN_BATCH_SIZE:20}
+  xxl-job:
+    # Disabled locally unless an operator supplies a reachable scheduler and the matching access token.
+    enabled: ${XXL_JOB_EXECUTOR_ENABLED:false}
+    admin-addresses: ${XXL_JOB_ADMIN_ADDRESSES:}
+    app-name: ${XXL_JOB_EXECUTOR_APP_NAME:investment-api-executor}
+    access-token: ${XXL_JOB_EXECUTOR_ACCESS_TOKEN:}
+    address: ${XXL_JOB_EXECUTOR_ADDRESS:}
+    port: ${XXL_JOB_EXECUTOR_PORT:9999}
+    log-path: ${XXL_JOB_EXECUTOR_LOG_PATH:/tmp/investment-xxl-job}
+    log-retention-days: ${XXL_JOB_EXECUTOR_LOG_RETENTION_DAYS:30}
+    timeout-seconds: ${XXL_JOB_ADMIN_TIMEOUT_SECONDS:3}
+  market:
+    snapshot-worker-fixed-delay: ${MARKET_SNAPSHOT_WORKER_FIXED_DELAY:PT5S}
+    tushare:
+      token: ${TUSHARE_TOKEN:}
+      endpoint: ${TUSHARE_ENDPOINT:https://api.tushare.pro}
+      connect-timeout: ${TUSHARE_CONNECT_TIMEOUT:PT5S}
+      request-timeout: ${TUSHARE_REQUEST_TIMEOUT:PT20S}

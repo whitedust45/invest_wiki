@@ -1,0 +1,116 @@
+<view class="page-shell">
+  <view class="page-header">
+    <view class="page-kicker">全局标的主数据</view>
+    <view class="title">市场</view>
+    <view class="page-description">先维护全局标的和显式 Tushare 代码，再提交经核验的本地快照。自动刷新只补齐缺失字段，绝不覆盖可靠导入。</view>
+  </view>
+
+  <view class="card market-workspace-card">
+    <view class="section-title-row"><view class="section-title">行情工作台</view><view class="section-meta">导入优先 · 自动源补缺</view></view>
+    <view wx:if="{{loadingMarketOverview}}" class="muted">正在读取最近行情运行…</view>
+    <view wx:elif="{{!marketOverview || !marketOverview.latestRun}}" class="empty-tip">尚无行情运行。可提交可靠快照；XXL-JOB 会先采用导入字段，再仅补齐缺失字段。</view>
+    <view wx:else>
+      <view class="market-run-summary">
+        <view><view class="market-run-status">{{marketOverview.runStatusLabel}}</view><view class="muted">{{marketOverview.latestRun.tradingDate}} · {{marketOverview.latestRun.runType}} · {{marketOverview.latestRun.triggeredBy}}</view></view>
+        <view class="compact-id">{{marketOverview.latestRun.marketSyncRunId}}</view>
+      </view>
+      <view wx:if="{{marketOverview.latestRun.attempts.length}}" class="market-attempt-list">
+        <view wx:for="{{marketOverview.latestRun.attempts}}" wx:key="marketSyncAttemptId" class="market-attempt-row">
+          <text>#{{item.attemptNo}} · {{item.sourceName || item.triggerType}} · {{item.status}}</text>
+          <text wx:if="{{item.errorCode || item.errorSummary}}" class="muted">{{item.errorCode || item.errorSummary}}</text>
+        </view>
+      </view>
+      <view wx:if="{{marketOverview.quotes.length}}" class="market-subsection">
+        <view class="market-subtitle">最新报价</view>
+        <view wx:for="{{marketOverview.quotes}}" wx:key="quoteSnapshotId" class="market-data-row">
+          <view><view class="market-symbol">{{item.symbol}} · {{item.displayName}}</view><view class="muted">{{item.sourceName}} · 昨收 {{item.previousDisplay}}</view></view>
+          <view class="market-value">{{item.priceDisplay}}</view>
+        </view>
+      </view>
+      <view wx:if="{{marketOverview.metrics.length}}" class="market-subsection">
+        <view class="market-subtitle">估值指标</view>
+        <view wx:for="{{marketOverview.metrics}}" wx:key="dailyMetricId" class="market-data-row">
+          <view><view class="market-symbol">{{item.symbol}} · {{item.metricName}}</view><view class="muted">{{item.tradeDate}} · {{item.sourceName}}</view></view>
+          <view class="market-value">{{item.valueDisplay}}</view>
+        </view>
+      </view>
+      <view wx:if="{{marketOverview.basis.length}}" class="market-subsection">
+        <view class="market-subtitle">IC / IM 贴水与移仓窗口</view>
+        <view wx:for="{{marketOverview.basis}}" wx:key="basisSnapshotId" class="market-data-row">
+          <view><view class="market-symbol">{{item.productCode}} · {{item.futureSymbol}}</view><view class="muted">现货 {{item.spotPricePoints}} · 期货 {{item.futurePricePoints}} · {{item.maturityDisplay}}</view></view>
+          <view class="market-value">贴水 {{item.basisPoints}}<view class="muted">年化源值 {{item.annualizedBasisDisplay}}</view></view>
+        </view>
+      </view>
+      <view wx:if="{{marketOverview.sourceEvents.length}}" class="market-subsection">
+        <view class="market-subtitle">数据质量与降级记录</view>
+        <view wx:for="{{marketOverview.sourceEvents}}" wx:key="marketSourceEventId" class="market-event-row">
+          <view><text class="market-event-severity">{{item.severityLabel}}</text> · {{item.eventLabel}} · {{item.eventType}}</view>
+          <view class="muted">{{item.errorSummary}}</view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="card form-card">
+    <view class="section-title-row"><view class="section-title">新增或复用标的</view><view class="section-meta">先建主数据</view></view>
+    <picker mode="selector" range="{{assetTypes}}" value="{{assetTypeIndex}}" bindchange="onAssetTypeChange">
+      <view class="picker">类型：{{assetTypes[assetTypeIndex]}}</view>
+    </picker>
+    <input class="text-input spaced-input" placeholder="市场，例如 US 或 CFFEX" value="{{market}}" bindinput="onMarketInput" maxlength="32" />
+    <input class="text-input spaced-input" placeholder="交易所，例如 NASDAQ 或 CFFEX" value="{{exchange}}" bindinput="onExchangeInput" maxlength="32" />
+    <input class="text-input spaced-input" placeholder="代码，例如 QQQ 或 IC2609" value="{{symbol}}" bindinput="onSymbolInput" maxlength="64" />
+    <input class="text-input spaced-input" placeholder="标的名称" value="{{displayName}}" bindinput="onDisplayNameInput" maxlength="256" />
+    <input class="text-input spaced-input" placeholder="Tushare Pro 代码（可选，禁止由服务端猜测）" value="{{tushareCode}}" bindinput="onTushareCodeInput" maxlength="64" />
+    <picker mode="selector" range="{{currencies}}" value="{{currencyIndex}}" bindchange="onCurrencyChange">
+      <view class="picker">原币种：{{currencies[currencyIndex]}}</view>
+    </picker>
+
+    <view wx:if="{{assetTypes[assetTypeIndex] === 'FUTURE'}}" class="derivative-fields">
+      <picker mode="date" value="{{maturityDate}}" bindchange="onMaturityDateChange"><view class="picker">到期日：{{maturityDate}}</view></picker>
+      <picker mode="selector" range="{{futureProducts}}" value="{{futureProductIndex}}" bindchange="onFutureProductChange"><view class="picker">期货品种：{{futureProducts[futureProductIndex]}}</view></picker>
+      <input class="text-input spaced-input" placeholder="指数锚点 ID（26 位，不可交易 INDEX）" value="{{futureUnderlyingInstrumentId}}" bindinput="onFutureUnderlyingInput" maxlength="26" />
+      <input class="text-input spaced-input" placeholder="合约乘数最小单位（正整数）" value="{{futureMultiplierCent}}" bindinput="onFutureMultiplierInput" />
+    </view>
+
+    <view wx:if="{{assetTypes[assetTypeIndex] === 'OPTION'}}" class="derivative-fields">
+      <picker mode="date" value="{{maturityDate}}" bindchange="onMaturityDateChange"><view class="picker">到期日：{{maturityDate}}</view></picker>
+      <input class="text-input spaced-input" placeholder="标的 ID（26 位）" value="{{optionUnderlyingInstrumentId}}" bindinput="onOptionUnderlyingInput" maxlength="26" />
+      <picker mode="selector" range="{{optionRights}}" value="{{optionRightIndex}}" bindchange="onOptionRightChange"><view class="picker">期权方向：{{optionRights[optionRightIndex]}}</view></picker>
+      <input class="text-input spaced-input" placeholder="行权价最小单位（正整数）" value="{{optionStrikePriceCent}}" bindinput="onOptionStrikeInput" />
+      <input class="text-input spaced-input" placeholder="合约乘数（正整数）" value="{{optionMultiplier}}" bindinput="onOptionMultiplierInput" />
+    </view>
+    <button class="primary-button" loading="{{creating}}" disabled="{{creating}}" bindtap="createInstrument">创建标的</button>
+  </view>
+
+  <view class="card form-card">
+    <view class="section-title-row"><view class="section-title">可靠行情导入</view><view class="section-meta">导入优先</view></view>
+    <view class="muted">粘贴经核验的 JSON：金额字段均使用原币种最小单位字符串；PB 分位、指数点位和年化贴水使用十进制字符串。提交后由后台处理，可手动刷新状态。</view>
+    <textarea class="text-input snapshot-input" placeholder='{"tradingDate":"2026-07-31","sourceName":"BROKER_EXPORT_ATTESTED","sourceReference":"local://...","quotes":[],"metrics":[],"basis":[]}' value="{{snapshotJson}}" bindinput="onSnapshotJsonInput" maxlength="20000" auto-height />
+    <button class="primary-button" loading="{{submittingSnapshot}}" disabled="{{submittingSnapshot}}" bindtap="submitSnapshot">提交可靠快照</button>
+    <view wx:if="{{syncRun}}" class="sync-run">
+      <view class="instrument-name">运行 {{syncRun.status}} · {{syncRun.tradingDate}}</view>
+      <view class="instrument-id">{{syncRun.marketSyncRunId}}</view>
+      <button class="secondary-button" bindtap="refreshSyncRun">刷新运行状态</button>
+    </view>
+  </view>
+
+  <view wx:if="{{createdInstrument}}" class="card success-card">
+    <view class="section-title-row"><view class="section-title">标的已就绪</view><view class="section-meta">可录入交易</view></view>
+    <view class="instrument-name">{{createdInstrument.displayName}} · {{createdInstrument.symbol}}</view>
+    <view class="instrument-id">{{createdInstrument.instrumentId}}</view>
+    <view class="muted">已设为账本交易的默认标的。现货买卖仅适用于股票和 ETF；期货和期权请在账本页使用对应的交易卡片录入。</view>
+    <button class="secondary-button" bindtap="copyInstrumentId">复制标的 ID</button>
+    <button class="primary-button" bindtap="goLedger">前往账本录入</button>
+  </view>
+
+  <view class="card">
+    <view class="section-title-row"><view class="section-title">已维护标的</view><view class="section-meta">{{loadingInstruments ? '读取中' : instruments.length + ' 条'}}</view></view>
+    <view wx:if="{{!instruments.length && !loadingInstruments}}" class="muted">尚未创建标的。先建立指数锚点，再建立关联的 CFFEX 合约。</view>
+    <view wx:for="{{instruments}}" wx:key="instrumentId" class="instrument-row">
+      <view><view class="instrument-name">{{item.symbol}} · {{item.displayName}}</view><view class="muted">{{item.assetType}} · {{item.nativeCurrency}}{{item.tushareCode ? ' · ' + item.tushareCode : ' · 未配置自动源代码'}}</view></view>
+      <view class="instrument-id compact-id">{{item.instrumentId}}</view>
+    </view>
+  </view>
+
+  <view wx:if="{{errorMessage}}" class="error-message">{{errorMessage}}</view>
+</view>

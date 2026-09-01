@@ -1,0 +1,10 @@
+app:
+  auth:
+    mock-login-code: ${LOCAL_MOCK_LOGIN_CODE}
+    mock-open-id: ${LOCAL_MOCK_OPENID}
+    mock-enabled: true
+
+logging:
+  structured:
+    format:
+      console: logstash

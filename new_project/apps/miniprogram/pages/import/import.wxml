@@ -1,0 +1,62 @@
+<view class="page-shell">
+  <view class="page-header">
+    <view class="page-kicker">可回放的历史迁移</view>
+    <view class="title">历史导入</view>
+    <view class="page-description">仅支持 JSON 和 SQLite 历史快照。先进入 owner 隔离区，经服务端复核后才能申请导入，扫描不代表已写入账本。</view>
+  </view>
+
+  <view class="card import-card">
+    <view class="section-title-row"><view class="section-title">1. 选择文件</view><view class="section-meta">不直接入账</view></view>
+    <view class="muted form-tip">本地默认上限为 10 MiB。小程序只把 SHA-256、大小和声明 MIME 提交给服务端；服务端会独立复核。</view>
+    <button class="secondary-button" disabled="{{uploadState === 'UPLOADING'}}" bindtap="chooseFile">选择 JSON / SQLite 文件</button>
+
+    <view wx:if="{{fileName}}" class="file-panel">
+      <view class="file-name">{{fileName}}</view>
+      <view class="muted">{{mediaType}} · {{byteSize}} bytes</view>
+      <view class="hash">SHA-256：{{sha256}}</view>
+    </view>
+
+    <button class="primary-button" wx:if="{{uploadState === 'READY' || uploadState === 'RETRYABLE_ERROR'}}" loading="{{uploadState === 'UPLOADING'}}" disabled="{{uploadState === 'UPLOADING'}}" bindtap="uploadFile">上传并申请服务器扫描</button>
+    <button class="secondary-button" wx:if="{{uploadState === 'RETRYABLE_ERROR'}}" loading="{{uploadState === 'UPLOADING'}}" disabled="{{uploadState === 'UPLOADING'}}" bindtap="uploadFile">使用原请求键手动重试</button>
+    <view wx:if="{{uploadState === 'SCAN_QUEUED'}}" class="success-message">
+      <block wx:if="{{serverFileStatus === 'SCANNED'}}">文件已通过服务器扫描：{{uploadedFileId}}。后续可进行 dry-run 映射和确认导入。</block>
+      <block wx:elif="{{serverFileStatus === 'PREVIEWED'}}">文件已有有效 dry-run 预览：{{uploadedFileId}}。</block>
+      <block wx:else>文件处于 {{serverFileStatus}} 状态：{{uploadedFileId}}。扫描成功后才能进行 dry-run 映射和确认导入。</block>
+    </view>
+    <button wx:if="{{uploadState === 'SCAN_QUEUED'}}" class="secondary-button" bindtap="refreshScanStatus">刷新服务器扫描状态</button>
+    <view wx:if="{{errorMessage}}" class="error-message">{{errorMessage}}</view>
+  </view>
+
+  <view wx:if="{{serverFileStatus === 'SCANNED' || serverFileStatus === 'PREVIEWED'}}" class="card mapping-card">
+    <view class="section-title-row"><view class="section-title">2. 映射并生成 dry-run</view><view class="section-meta">可复核</view></view>
+    <view wx:if="{{mediaType === 'application/x-sqlite3'}}" class="field-row">
+      <text class="field-label">SQLite snapshots.id</text>
+      <input class="text-input" type="number" value="{{snapshotId}}" bindinput="onSnapshotInput" placeholder="例如：1" />
+    </view>
+    <view class="muted form-tip">填入映射 JSON。金额字段按 amountUnit 处理；旧版 price 恒按原币种小数精确 ×100。期货 roll 仅会导入 fee，无法还原的换仓腿不会伪造。</view>
+    <textarea class="mapping-editor" value="{{mappingJson}}" bindinput="onMappingInput" auto-height="true" maxlength="-1" />
+    <button class="primary-button" bindtap="createPreview">生成 / 更新 dry-run 预览</button>
+  </view>
+
+  <view wx:if="{{importJobId}}" class="card preview-card">
+    <view class="section-title-row"><view class="section-title">3. 预览与确认</view><view class="section-meta">原子写入</view></view>
+    <view class="muted">作业：{{importJobId}}</view>
+    <view class="muted">状态：{{importJobStatus}} · 可入账 {{previewApplicableCount}} 行 · 待处理 {{previewNeedsReviewCount}} 行</view>
+    <view class="hash">确认校验和：{{previewChecksum}}</view>
+    <button class="secondary-button" bindtap="refreshImportJob">刷新预览状态</button>
+    <button wx:if="{{importJobStatus === 'SUCCEEDED'}}" class="primary-button" bindtap="confirmImport">确认并原子写入账本</button>
+    <view wx:if="{{previewNeedsReviewCount > 0}}" class="error-message">存在待处理行，修正映射后重新生成预览；当前预览不能确认。</view>
+    <view class="preview-lines">
+      <view wx:for="{{previewLines}}" wx:for-item="line" wx:key="sourceRow" class="preview-line">
+        <text>第 {{line.sourceRow}} 行 · {{line.status}}</text>
+        <text wx:if="{{line.operation}}"> · {{line.operation}}</text>
+        <view wx:if="{{line.code || line.note}}" class="muted">{{line.code}} {{line.note}}</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="card safety-card">
+    <view class="section-title">导入安全边界</view>
+    <view class="muted">上传 URL、对象存储密钥和最终对象键均不由客户端控制。导入读取仅允许 JSON 根结构或 SQLite 白名单快照；任何校验失败都不会写入账务事实。</view>
+  </view>
+</view>

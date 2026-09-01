@@ -1,0 +1,49 @@
+services:
+  investment-api:
+    image: ${INVESTMENT_API_IMAGE:?set an immutable image tag or digest}
+    restart: unless-stopped
+    environment:
+      SPRING_PROFILES_ACTIVE: production
+      MYSQL_JDBC_URL: ${MYSQL_JDBC_URL:?set managed MySQL JDBC URL}
+      MYSQL_USERNAME: ${MYSQL_USERNAME:?set application database user}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:?set application database password}
+      # Must hold GRANT OPTION for Flyway V9's table-scoped application-user grants.
+      MYSQL_FLYWAY_USERNAME: ${MYSQL_FLYWAY_USERNAME:?set migration database user with GRANT OPTION}
+      MYSQL_FLYWAY_PASSWORD: ${MYSQL_FLYWAY_PASSWORD:?set migration database password}
+      REDIS_HOST: ${REDIS_HOST:?set managed Redis host}
+      REDIS_PORT: ${REDIS_PORT:-6379}
+      REDIS_PASSWORD: ${REDIS_PASSWORD:?set managed Redis password}
+      AUTH_HMAC_KEY: ${AUTH_HMAC_KEY:?set non-placeholder key}
+      AUTH_SESSION_HMAC_KEY: ${AUTH_SESSION_HMAC_KEY:?set non-placeholder key}
+      BOOTSTRAP_ENROLLMENT_SECRET: ${BOOTSTRAP_ENROLLMENT_SECRET:?set non-placeholder secret}
+      # Backend-reachable HTTPS endpoint. It may use a private DNS name when the cloud network supports it.
+      OBJECT_STORAGE_ENDPOINT: ${OBJECT_STORAGE_ENDPOINT:?set backend-reachable object-storage HTTPS endpoint}
+      # Client-visible endpoint used in presigned POST forms; must be a registered public HTTPS domain.
+      OBJECT_STORAGE_UPLOAD_ENDPOINT: ${OBJECT_STORAGE_UPLOAD_ENDPOINT:?set registered public HTTPS upload domain}
+      OBJECT_STORAGE_BUCKET: ${OBJECT_STORAGE_BUCKET:?set private bucket}
+      OBJECT_STORAGE_ACCESS_KEY: ${OBJECT_STORAGE_ACCESS_KEY:?set object storage access key}
+      OBJECT_STORAGE_SECRET_KEY: ${OBJECT_STORAGE_SECRET_KEY:?set object storage secret key}
+      OBJECT_STORAGE_ENCRYPTION_KEY_VERSION: ${OBJECT_STORAGE_ENCRYPTION_KEY_VERSION:?set production KMS key version}
+      # Keep disabled until an XXL-JOB admin is separately deployed in the private network.
+      XXL_JOB_EXECUTOR_ENABLED: ${XXL_JOB_EXECUTOR_ENABLED:-false}
+      XXL_JOB_ADMIN_ADDRESSES: ${XXL_JOB_ADMIN_ADDRESSES:-}
+      XXL_JOB_EXECUTOR_APP_NAME: ${XXL_JOB_EXECUTOR_APP_NAME:-investment-api-executor}
+      XXL_JOB_EXECUTOR_ACCESS_TOKEN: ${XXL_JOB_EXECUTOR_ACCESS_TOKEN:-}
+      XXL_JOB_EXECUTOR_ADDRESS: ${XXL_JOB_EXECUTOR_ADDRESS:-}
+      XXL_JOB_EXECUTOR_PORT: ${XXL_JOB_EXECUTOR_PORT:-9999}
+      XXL_JOB_EXECUTOR_LOG_PATH: ${XXL_JOB_EXECUTOR_LOG_PATH:-/tmp/investment-xxl-job}
+      XXL_JOB_EXECUTOR_LOG_RETENTION_DAYS: ${XXL_JOB_EXECUTOR_LOG_RETENTION_DAYS:-30}
+      XXL_JOB_ADMIN_TIMEOUT_SECONDS: ${XXL_JOB_ADMIN_TIMEOUT_SECONDS:-3}
+    ports:
+      - "127.0.0.1:${API_BIND_PORT:-8080}:8080"
+    expose:
+      - "${XXL_JOB_EXECUTOR_PORT:-9999}"
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,size=64m
+    networks:
+      - investment-private
+
+networks:
+  investment-private:
+    external: true
+    name: ${APP_NETWORK_NAME:?set pre-created private Docker network}

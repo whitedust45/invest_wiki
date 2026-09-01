@@ -1,0 +1,3569 @@
+TQ数据接口初始化成功，使用路径: F:\invest_wiki\invest_wiki\tools\dashboard\tdx_brick_selector.py
+{
+  "comparison": {
+    "native_only": [
+      "001331.SZ"
+    ],
+    "python_only": [],
+    "shared": [
+      "000070.SZ",
+      "000078.SZ",
+      "000513.SZ",
+      "000547.SZ",
+      "000561.SZ",
+      "000566.SZ",
+      "000568.SZ",
+      "000576.SZ",
+      "000596.SZ",
+      "000650.SZ",
+      "000661.SZ",
+      "000701.SZ",
+      "000726.SZ",
+      "000729.SZ",
+      "000799.SZ",
+      "000801.SZ",
+      "000813.SZ",
+      "000858.SZ",
+      "000860.SZ",
+      "000888.SZ",
+      "000917.SZ",
+      "000930.SZ",
+      "000948.SZ",
+      "000995.SZ",
+      "001229.SZ",
+      "001270.SZ",
+      "002007.SZ",
+      "002022.SZ",
+      "002030.SZ",
+      "002035.SZ",
+      "002038.SZ",
+      "002063.SZ",
+      "002082.SZ",
+      "002099.SZ",
+      "002100.SZ",
+      "002151.SZ",
+      "002181.SZ",
+      "002183.SZ",
+      "002186.SZ",
+      "002229.SZ",
+      "002235.SZ",
+      "002253.SZ",
+      "002265.SZ",
+      "002298.SZ",
+      "002304.SZ",
+      "002331.SZ",
+      "002342.SZ",
+      "002368.SZ",
+      "002374.SZ",
+      "002393.SZ",
+      "002395.SZ",
+      "002399.SZ",
+      "002400.SZ",
+      "002408.SZ",
+      "002413.SZ",
+      "002414.SZ",
+      "002419.SZ",
+      "002439.SZ",
+      "002446.SZ",
+      "002461.SZ",
+      "002465.SZ",
+      "002474.SZ",
+      "002519.SZ",
+      "002581.SZ",
+      "002603.SZ",
+      "002646.SZ",
+      "002669.SZ",
+      "002701.SZ",
+      "002718.SZ",
+      "002735.SZ",
+      "002777.SZ",
+      "002799.SZ",
+      "002803.SZ",
+      "002829.SZ",
+      "002878.SZ",
+      "002880.SZ",
+      "002889.SZ",
+      "002931.SZ",
+      "002935.SZ",
+      "002969.SZ",
+      "002977.SZ",
+      "003004.SZ",
+      "003029.SZ",
+      "003041.SZ",
+      "300018.SZ",
+      "300036.SZ",
+      "300043.SZ",
+      "300045.SZ",
+      "300047.SZ",
+      "300058.SZ",
+      "300065.SZ",
+      "300099.SZ",
+      "300119.SZ",
+      "300122.SZ",
+      "300123.SZ",
+      "300142.SZ",
+      "300171.SZ",
+      "300182.SZ",
+      "300199.SZ",
+      "300213.SZ",
+      "300218.SZ",
+      "300229.SZ",
+      "300232.SZ",
+      "300233.SZ",
+      "300237.SZ",
+      "300238.SZ",
+      "300289.SZ",
+      "300294.SZ",
+      "300302.SZ",
+      "300318.SZ",
+      "300324.SZ",
+      "300342.SZ",
+      "300352.SZ",
+      "300353.SZ",
+      "300397.SZ",
+      "300443.SZ",
+      "300447.SZ",
+      "300474.SZ",
+      "300485.SZ",
+      "300516.SZ",
+      "300520.SZ",
+      "300542.SZ",
+      "300560.SZ",
+      "300563.SZ",
+      "300597.SZ",
+      "300601.SZ",
+      "300629.SZ",
+      "300651.SZ",
+      "300659.SZ",
+      "300664.SZ",
+      "300703.SZ",
+      "300711.SZ",
+      "300719.SZ",
+      "300723.SZ",
+      "300755.SZ",
+      "300762.SZ",
+      "300830.SZ",
+      "300841.SZ",
+      "300845.SZ",
+      "300887.SZ",
+      "300955.SZ",
+      "300971.SZ",
+      "301010.SZ",
+      "301050.SZ",
+      "301073.SZ",
+      "301075.SZ",
+      "301117.SZ",
+      "301159.SZ",
+      "301207.SZ",
+      "301213.SZ",
+      "301302.SZ",
+      "301313.SZ",
+      "301357.SZ",
+      "301517.SZ",
+      "301592.SZ",
+      "600059.SH",
+      "600060.SH",
+      "600062.SH",
+      "600079.SH",
+      "600088.SH",
+      "600132.SH",
+      "600153.SH",
+      "600158.SH",
+      "600189.SH",
+      "600196.SH",
+      "600197.SH",
+      "600199.SH",
+      "600201.SH",
+      "600211.SH",
+      "600238.SH",
+      "600252.SH",
+      "600257.SH",
+      "600300.SH",
+      "600332.SH",
+      "600365.SH",
+      "600372.SH",
+      "600381.SH",
+      "600382.SH",
+      "600395.SH",
+      "600433.SH",
+      "600435.SH",
+      "600511.SH",
+      "600519.SH",
+      "600535.SH",
+      "600559.SH",
+      "600562.SH",
+      "600590.SH",
+      "600598.SH",
+      "600600.SH",
+      "600604.SH",
+      "600655.SH",
+      "600702.SH",
+      "600739.SH",
+      "600750.SH",
+      "600764.SH",
+      "600771.SH",
+      "600779.SH",
+      "600789.SH",
+      "600792.SH",
+      "600809.SH",
+      "600812.SH",
+      "600839.SH",
+      "600851.SH",
+      "600855.SH",
+      "600873.SH",
+      "600879.SH",
+      "600990.SH",
+      "601216.SH",
+      "601579.SH",
+      "601607.SH",
+      "603127.SH",
+      "603198.SH",
+      "603232.SH",
+      "603299.SH",
+      "603369.SH",
+      "603392.SH",
+      "603488.SH",
+      "603516.SH",
+      "603517.SH",
+      "603589.SH",
+      "603712.SH",
+      "603716.SH",
+      "603718.SH",
+      "603777.SH",
+      "603779.SH",
+      "603859.SH",
+      "603919.SH",
+      "603977.SH",
+      "605099.SH",
+      "605299.SH",
+      "605389.SH",
+      "688011.SH",
+      "688027.SH",
+      "688066.SH",
+      "688081.SH",
+      "688132.SH",
+      "688136.SH",
+      "688171.SH",
+      "688175.SH",
+      "688180.SH",
+      "688185.SH",
+      "688201.SH",
+      "688244.SH",
+      "688270.SH",
+      "688276.SH",
+      "688283.SH",
+      "688290.SH",
+      "688311.SH",
+      "688319.SH",
+      "688375.SH",
+      "688509.SH",
+      "688511.SH",
+      "688520.SH",
+      "688552.SH",
+      "688562.SH",
+      "688609.SH",
+      "688631.SH",
+      "688636.SH",
+      "688670.SH",
+      "688682.SH",
+      "688695.SH",
+      "688739.SH",
+      "688788.SH",
+      "920008.BJ",
+      "920021.BJ",
+      "920116.BJ",
+      "920575.BJ",
+      "920640.BJ",
+      "920961.BJ"
+    ]
+  },
+  "concept_limit": 5,
+  "concepts": [
+    {
+      "change_pct": 3.1741752872594953,
+      "symbol": "880528.SH"
+    },
+    {
+      "change_pct": 2.8146983781607293,
+      "symbol": "880557.SH"
+    },
+    {
+      "change_pct": 2.689548200418024,
+      "symbol": "880564.SH"
+    },
+    {
+      "change_pct": 2.478571213709735,
+      "symbol": "880559.SH"
+    },
+    {
+      "change_pct": 2.4347082506918083,
+      "symbol": "880595.SH"
+    }
+  ],
+  "data_date": "2026-07-10",
+  "engine": "both",
+  "errors": [],
+  "formula_name": "砖",
+  "generated_at": "2026-07-10T17:31:19",
+  "member_count": 270,
+  "native": {
+    "errors": [],
+    "matches": [
+      "000070.SZ",
+      "000078.SZ",
+      "000513.SZ",
+      "000547.SZ",
+      "000561.SZ",
+      "000566.SZ",
+      "000568.SZ",
+      "000576.SZ",
+      "000596.SZ",
+      "000650.SZ",
+      "000661.SZ",
+      "000701.SZ",
+      "000726.SZ",
+      "000729.SZ",
+      "000799.SZ",
+      "000801.SZ",
+      "000813.SZ",
+      "000858.SZ",
+      "000860.SZ",
+      "000888.SZ",
+      "000917.SZ",
+      "000930.SZ",
+      "000948.SZ",
+      "000995.SZ",
+      "001229.SZ",
+      "001270.SZ",
+      "001331.SZ",
+      "002007.SZ",
+      "002022.SZ",
+      "002030.SZ",
+      "002035.SZ",
+      "002038.SZ",
+      "002063.SZ",
+      "002082.SZ",
+      "002099.SZ",
+      "002100.SZ",
+      "002151.SZ",
+      "002181.SZ",
+      "002183.SZ",
+      "002186.SZ",
+      "002229.SZ",
+      "002235.SZ",
+      "002253.SZ",
+      "002265.SZ",
+      "002298.SZ",
+      "002304.SZ",
+      "002331.SZ",
+      "002342.SZ",
+      "002368.SZ",
+      "002374.SZ",
+      "002393.SZ",
+      "002395.SZ",
+      "002399.SZ",
+      "002400.SZ",
+      "002408.SZ",
+      "002413.SZ",
+      "002414.SZ",
+      "002419.SZ",
+      "002439.SZ",
+      "002446.SZ",
+      "002461.SZ",
+      "002465.SZ",
+      "002474.SZ",
+      "002519.SZ",
+      "002581.SZ",
+      "002603.SZ",
+      "002646.SZ",
+      "002669.SZ",
+      "002701.SZ",
+      "002718.SZ",
+      "002735.SZ",
+      "002777.SZ",
+      "002799.SZ",
+      "002803.SZ",
+      "002829.SZ",
+      "002878.SZ",
+      "002880.SZ",
+      "002889.SZ",
+      "002931.SZ",
+      "002935.SZ",
+      "002969.SZ",
+      "002977.SZ",
+      "003004.SZ",
+      "003029.SZ",
+      "003041.SZ",
+      "300018.SZ",
+      "300036.SZ",
+      "300043.SZ",
+      "300045.SZ",
+      "300047.SZ",
+      "300058.SZ",
+      "300065.SZ",
+      "300099.SZ",
+      "300119.SZ",
+      "300122.SZ",
+      "300123.SZ",
+      "300142.SZ",
+      "300171.SZ",
+      "300182.SZ",
+      "300199.SZ",
+      "300213.SZ",
+      "300218.SZ",
+      "300229.SZ",
+      "300232.SZ",
+      "300233.SZ",
+      "300237.SZ",
+      "300238.SZ",
+      "300289.SZ",
+      "300294.SZ",
+      "300302.SZ",
+      "300318.SZ",
+      "300324.SZ",
+      "300342.SZ",
+      "300352.SZ",
+      "300353.SZ",
+      "300397.SZ",
+      "300443.SZ",
+      "300447.SZ",
+      "300474.SZ",
+      "300485.SZ",
+      "300516.SZ",
+      "300520.SZ",
+      "300542.SZ",
+      "300560.SZ",
+      "300563.SZ",
+      "300597.SZ",
+      "300601.SZ",
+      "300629.SZ",
+      "300651.SZ",
+      "300659.SZ",
+      "300664.SZ",
+      "300703.SZ",
+      "300711.SZ",
+      "300719.SZ",
+      "300723.SZ",
+      "300755.SZ",
+      "300762.SZ",
+      "300830.SZ",
+      "300841.SZ",
+      "300845.SZ",
+      "300887.SZ",
+      "300955.SZ",
+      "300971.SZ",
+      "301010.SZ",
+      "301050.SZ",
+      "301073.SZ",
+      "301075.SZ",
+      "301117.SZ",
+      "301159.SZ",
+      "301207.SZ",
+      "301213.SZ",
+      "301302.SZ",
+      "301313.SZ",
+      "301357.SZ",
+      "301517.SZ",
+      "301592.SZ",
+      "600059.SH",
+      "600060.SH",
+      "600062.SH",
+      "600079.SH",
+      "600088.SH",
+      "600132.SH",
+      "600153.SH",
+      "600158.SH",
+      "600189.SH",
+      "600196.SH",
+      "600197.SH",
+      "600199.SH",
+      "600201.SH",
+      "600211.SH",
+      "600238.SH",
+      "600252.SH",
+      "600257.SH",
+      "600300.SH",
+      "600332.SH",
+      "600365.SH",
+      "600372.SH",
+      "600381.SH",
+      "600382.SH",
+      "600395.SH",
+      "600433.SH",
+      "600435.SH",
+      "600511.SH",
+      "600519.SH",
+      "600535.SH",
+      "600559.SH",
+      "600562.SH",
+      "600590.SH",
+      "600598.SH",
+      "600600.SH",
+      "600604.SH",
+      "600655.SH",
+      "600702.SH",
+      "600739.SH",
+      "600750.SH",
+      "600764.SH",
+      "600771.SH",
+      "600779.SH",
+      "600789.SH",
+      "600792.SH",
+      "600809.SH",
+      "600812.SH",
+      "600839.SH",
+      "600851.SH",
+      "600855.SH",
+      "600873.SH",
+      "600879.SH",
+      "600990.SH",
+      "601216.SH",
+      "601579.SH",
+      "601607.SH",
+      "603127.SH",
+      "603198.SH",
+      "603232.SH",
+      "603299.SH",
+      "603369.SH",
+      "603392.SH",
+      "603488.SH",
+      "603516.SH",
+      "603517.SH",
+      "603589.SH",
+      "603712.SH",
+      "603716.SH",
+      "603718.SH",
+      "603777.SH",
+      "603779.SH",
+      "603859.SH",
+      "603919.SH",
+      "603977.SH",
+      "605099.SH",
+      "605299.SH",
+      "605389.SH",
+      "688011.SH",
+      "688027.SH",
+      "688066.SH",
+      "688081.SH",
+      "688132.SH",
+      "688136.SH",
+      "688171.SH",
+      "688175.SH",
+      "688180.SH",
+      "688185.SH",
+      "688201.SH",
+      "688244.SH",
+      "688270.SH",
+      "688276.SH",
+      "688283.SH",
+      "688290.SH",
+      "688311.SH",
+      "688319.SH",
+      "688375.SH",
+      "688509.SH",
+      "688511.SH",
+      "688520.SH",
+      "688552.SH",
+      "688562.SH",
+      "688609.SH",
+      "688631.SH",
+      "688636.SH",
+      "688670.SH",
+      "688682.SH",
+      "688695.SH",
+      "688739.SH",
+      "688788.SH",
+      "920008.BJ",
+      "920021.BJ",
+      "920116.BJ",
+      "920575.BJ",
+      "920640.BJ",
+      "920961.BJ"
+    ],
+    "signals": {}
+  },
+  "ok": true,
+  "python": {
+    "errors": [],
+    "matches": [
+      "000070.SZ",
+      "000078.SZ",
+      "000513.SZ",
+      "000547.SZ",
+      "000561.SZ",
+      "000566.SZ",
+      "000568.SZ",
+      "000576.SZ",
+      "000596.SZ",
+      "000650.SZ",
+      "000661.SZ",
+      "000701.SZ",
+      "000726.SZ",
+      "000729.SZ",
+      "000799.SZ",
+      "000801.SZ",
+      "000813.SZ",
+      "000858.SZ",
+      "000860.SZ",
+      "000888.SZ",
+      "000917.SZ",
+      "000930.SZ",
+      "000948.SZ",
+      "000995.SZ",
+      "001229.SZ",
+      "001270.SZ",
+      "002007.SZ",
+      "002022.SZ",
+      "002030.SZ",
+      "002035.SZ",
+      "002038.SZ",
+      "002063.SZ",
+      "002082.SZ",
+      "002099.SZ",
+      "002100.SZ",
+      "002151.SZ",
+      "002181.SZ",
+      "002183.SZ",
+      "002186.SZ",
+      "002229.SZ",
+      "002235.SZ",
+      "002253.SZ",
+      "002265.SZ",
+      "002298.SZ",
+      "002304.SZ",
+      "002331.SZ",
+      "002342.SZ",
+      "002368.SZ",
+      "002374.SZ",
+      "002393.SZ",
+      "002395.SZ",
+      "002399.SZ",
+      "002400.SZ",
+      "002408.SZ",
+      "002413.SZ",
+      "002414.SZ",
+      "002419.SZ",
+      "002439.SZ",
+      "002446.SZ",
+      "002461.SZ",
+      "002465.SZ",
+      "002474.SZ",
+      "002519.SZ",
+      "002581.SZ",
+      "002603.SZ",
+      "002646.SZ",
+      "002669.SZ",
+      "002701.SZ",
+      "002718.SZ",
+      "002735.SZ",
+      "002777.SZ",
+      "002799.SZ",
+      "002803.SZ",
+      "002829.SZ",
+      "002878.SZ",
+      "002880.SZ",
+      "002889.SZ",
+      "002931.SZ",
+      "002935.SZ",
+      "002969.SZ",
+      "002977.SZ",
+      "003004.SZ",
+      "003029.SZ",
+      "003041.SZ",
+      "300018.SZ",
+      "300036.SZ",
+      "300043.SZ",
+      "300045.SZ",
+      "300047.SZ",
+      "300058.SZ",
+      "300065.SZ",
+      "300099.SZ",
+      "300119.SZ",
+      "300122.SZ",
+      "300123.SZ",
+      "300142.SZ",
+      "300171.SZ",
+      "300182.SZ",
+      "300199.SZ",
+      "300213.SZ",
+      "300218.SZ",
+      "300229.SZ",
+      "300232.SZ",
+      "300233.SZ",
+      "300237.SZ",
+      "300238.SZ",
+      "300289.SZ",
+      "300294.SZ",
+      "300302.SZ",
+      "300318.SZ",
+      "300324.SZ",
+      "300342.SZ",
+      "300352.SZ",
+      "300353.SZ",
+      "300397.SZ",
+      "300443.SZ",
+      "300447.SZ",
+      "300474.SZ",
+      "300485.SZ",
+      "300516.SZ",
+      "300520.SZ",
+      "300542.SZ",
+      "300560.SZ",
+      "300563.SZ",
+      "300597.SZ",
+      "300601.SZ",
+      "300629.SZ",
+      "300651.SZ",
+      "300659.SZ",
+      "300664.SZ",
+      "300703.SZ",
+      "300711.SZ",
+      "300719.SZ",
+      "300723.SZ",
+      "300755.SZ",
+      "300762.SZ",
+      "300830.SZ",
+      "300841.SZ",
+      "300845.SZ",
+      "300887.SZ",
+      "300955.SZ",
+      "300971.SZ",
+      "301010.SZ",
+      "301050.SZ",
+      "301073.SZ",
+      "301075.SZ",
+      "301117.SZ",
+      "301159.SZ",
+      "301207.SZ",
+      "301213.SZ",
+      "301302.SZ",
+      "301313.SZ",
+      "301357.SZ",
+      "301517.SZ",
+      "301592.SZ",
+      "600059.SH",
+      "600060.SH",
+      "600062.SH",
+      "600079.SH",
+      "600088.SH",
+      "600132.SH",
+      "600153.SH",
+      "600158.SH",
+      "600189.SH",
+      "600196.SH",
+      "600197.SH",
+      "600199.SH",
+      "600201.SH",
+      "600211.SH",
+      "600238.SH",
+      "600252.SH",
+      "600257.SH",
+      "600300.SH",
+      "600332.SH",
+      "600365.SH",
+      "600372.SH",
+      "600381.SH",
+      "600382.SH",
+      "600395.SH",
+      "600433.SH",
+      "600435.SH",
+      "600511.SH",
+      "600519.SH",
+      "600535.SH",
+      "600559.SH",
+      "600562.SH",
+      "600590.SH",
+      "600598.SH",
+      "600600.SH",
+      "600604.SH",
+      "600655.SH",
+      "600702.SH",
+      "600739.SH",
+      "600750.SH",
+      "600764.SH",
+      "600771.SH",
+      "600779.SH",
+      "600789.SH",
+      "600792.SH",
+      "600809.SH",
+      "600812.SH",
+      "600839.SH",
+      "600851.SH",
+      "600855.SH",
+      "600873.SH",
+      "600879.SH",
+      "600990.SH",
+      "601216.SH",
+      "601579.SH",
+      "601607.SH",
+      "603127.SH",
+      "603198.SH",
+      "603232.SH",
+      "603299.SH",
+      "603369.SH",
+      "603392.SH",
+      "603488.SH",
+      "603516.SH",
+      "603517.SH",
+      "603589.SH",
+      "603712.SH",
+      "603716.SH",
+      "603718.SH",
+      "603777.SH",
+      "603779.SH",
+      "603859.SH",
+      "603919.SH",
+      "603977.SH",
+      "605099.SH",
+      "605299.SH",
+      "605389.SH",
+      "688011.SH",
+      "688027.SH",
+      "688066.SH",
+      "688081.SH",
+      "688132.SH",
+      "688136.SH",
+      "688171.SH",
+      "688175.SH",
+      "688180.SH",
+      "688185.SH",
+      "688201.SH",
+      "688244.SH",
+      "688270.SH",
+      "688276.SH",
+      "688283.SH",
+      "688290.SH",
+      "688311.SH",
+      "688319.SH",
+      "688375.SH",
+      "688509.SH",
+      "688511.SH",
+      "688520.SH",
+      "688552.SH",
+      "688562.SH",
+      "688609.SH",
+      "688631.SH",
+      "688636.SH",
+      "688670.SH",
+      "688682.SH",
+      "688695.SH",
+      "688739.SH",
+      "688788.SH",
+      "920008.BJ",
+      "920021.BJ",
+      "920116.BJ",
+      "920575.BJ",
+      "920640.BJ",
+      "920961.BJ"
+    ],
+    "signals": {
+      "000070.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "000078.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "000513.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "000547.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "000561.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "000566.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "000568.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "000576.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "000596.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "000650.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "000661.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "000701.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "000726.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "000729.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "000799.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "000801.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "000813.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "000858.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "000860.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "000888.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "000917.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "000930.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "000948.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "000995.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "001229.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "001270.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "002007.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "002022.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "002030.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "002035.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "002038.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "002063.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "002082.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "002099.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "002100.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "002151.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "002181.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "002183.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "002186.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "002229.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "002235.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "002253.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "002265.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "002298.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "002304.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "002331.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "002342.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "002368.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "002374.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "002393.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "002395.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "002399.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "002400.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "002408.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "002413.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "002414.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "002419.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "002439.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "002446.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "002461.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "002465.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "002474.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "002519.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "002581.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "002603.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "002646.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "002669.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "002701.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "002718.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "002735.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "002777.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "002799.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "002803.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "002829.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "002878.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "002880.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "002889.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "002931.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "002935.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "002969.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "002977.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "003004.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "003029.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "003041.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "300018.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "300036.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "300043.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "300045.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "300047.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "300058.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "300065.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "300099.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "300119.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "300122.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "300123.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "300142.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "300171.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "300182.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "300199.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "300213.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "300218.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "300229.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "300232.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "300233.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "300237.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "300238.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "300289.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "300294.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "300302.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "300318.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "300324.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "300342.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "300352.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "300353.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "300397.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "300443.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "300447.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "300474.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "300485.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "300516.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "300520.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "300542.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "300560.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "300563.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "300597.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "300601.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "300629.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "300651.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "300659.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "300664.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "300703.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "300711.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "300719.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "300723.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "300755.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "300762.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "300830.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "300841.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "300845.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "300887.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "300955.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "300971.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "301010.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "301050.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "301073.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "301075.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "301117.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "301159.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "301207.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "301213.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "301302.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "301313.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "301357.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "301517.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "301592.SZ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "600059.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "600060.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "600062.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "600079.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "600088.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "600132.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "600153.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "600158.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "600189.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "600196.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "600197.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "600199.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "600201.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "600211.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "600238.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "600252.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "600257.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "600300.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "600332.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "600365.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "600372.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "600381.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "600382.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "600395.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "600433.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "600435.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "600511.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "600519.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "600535.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "600559.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "600562.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "600590.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "600598.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "600600.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "600604.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "600655.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "600702.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "600739.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "600750.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "600764.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "600771.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "600779.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "600789.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "600792.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "600809.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "600812.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "600839.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "600851.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "600855.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "600873.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "600879.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "600990.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "601216.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "601579.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "601607.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "603127.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "603198.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "603232.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "603299.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "603369.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "603392.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "603488.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "603516.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "603517.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "603589.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "603712.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "603716.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "603718.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "603777.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "603779.SH": {
+        "brick_t": 67.44515624788988,
+        "brick_t_minus_1": 55.40959270412556,
+        "brick_t_minus_2": 56.09038857962051,
+        "today_red_length": 12.035563543764326,
+        "yesterday_green_length": 0.680795875494951
+      },
+      "603859.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "603919.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "603977.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "605099.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "605299.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "605389.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "688011.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "688027.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "688066.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "688081.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "688132.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "688136.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "688171.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "688175.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "688180.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "688185.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "688201.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "688244.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "688270.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "688276.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "688283.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "688290.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "688311.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "688319.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "688375.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "688509.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "688511.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "688520.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "688552.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "688562.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "688609.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "688631.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "688636.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "688670.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "688682.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "688695.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "688739.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "688788.SH": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "920008.BJ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "920021.BJ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "920116.BJ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "920575.BJ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "920640.BJ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      },
+      "920961.BJ": {
+        "brick_t": NaN,
+        "brick_t_minus_1": NaN,
+        "brick_t_minus_2": NaN,
+        "today_red_length": NaN,
+        "yesterday_green_length": NaN
+      }
+    }
+  },
+  "run_time": "14:40",
+  "sector_members": {
+    "000070.SZ": [
+      "880528.SH"
+    ],
+    "000078.SZ": [
+      "880557.SH"
+    ],
+    "000513.SZ": [
+      "880557.SH"
+    ],
+    "000547.SZ": [
+      "880528.SH"
+    ],
+    "000561.SZ": [
+      "880528.SH"
+    ],
+    "000566.SZ": [
+      "880557.SH"
+    ],
+    "000568.SZ": [
+      "880564.SH"
+    ],
+    "000576.SZ": [
+      "880528.SH"
+    ],
+    "000596.SZ": [
+      "880564.SH"
+    ],
+    "000650.SZ": [
+      "880557.SH"
+    ],
+    "000661.SZ": [
+      "880557.SH"
+    ],
+    "000701.SZ": [
+      "880528.SH"
+    ],
+    "000726.SZ": [
+      "880557.SH"
+    ],
+    "000729.SZ": [
+      "880595.SH"
+    ],
+    "000799.SZ": [
+      "880564.SH"
+    ],
+    "000801.SZ": [
+      "880528.SH"
+    ],
+    "000813.SZ": [
+      "880557.SH"
+    ],
+    "000858.SZ": [
+      "880564.SH"
+    ],
+    "000860.SZ": [
+      "880564.SH"
+    ],
+    "000888.SZ": [
+      "880564.SH"
+    ],
+    "000917.SZ": [
+      "880595.SH"
+    ],
+    "000930.SZ": [
+      "880564.SH"
+    ],
+    "000948.SZ": [
+      "880528.SH"
+    ],
+    "000995.SZ": [
+      "880564.SH"
+    ],
+    "001229.SZ": [
+      "880528.SH"
+    ],
+    "001270.SZ": [
+      "880528.SH"
+    ],
+    "001331.SZ": [
+      "880559.SH"
+    ],
+    "002007.SZ": [
+      "880557.SH"
+    ],
+    "002022.SZ": [
+      "880557.SH"
+    ],
+    "002030.SZ": [
+      "880557.SH"
+    ],
+    "002035.SZ": [
+      "880595.SH"
+    ],
+    "002038.SZ": [
+      "880557.SH"
+    ],
+    "002063.SZ": [
+      "880528.SH"
+    ],
+    "002082.SZ": [
+      "880557.SH"
+    ],
+    "002099.SZ": [
+      "880557.SH"
+    ],
+    "002100.SZ": [
+      "880557.SH"
+    ],
+    "002151.SZ": [
+      "880528.SH"
+    ],
+    "002181.SZ": [
+      "880595.SH"
+    ],
+    "002183.SZ": [
+      "880564.SH"
+    ],
+    "002186.SZ": [
+      "880564.SH"
+    ],
+    "002229.SZ": [
+      "880595.SH"
+    ],
+    "002235.SZ": [
+      "880595.SH"
+    ],
+    "002253.SZ": [
+      "880528.SH"
+    ],
+    "002265.SZ": [
+      "880528.SH"
+    ],
+    "002298.SZ": [
+      "880528.SH"
+    ],
+    "002304.SZ": [
+      "880564.SH"
+    ],
+    "002331.SZ": [
+      "880528.SH"
+    ],
+    "002342.SZ": [
+      "880564.SH"
+    ],
+    "002368.SZ": [
+      "880528.SH"
+    ],
+    "002374.SZ": [
+      "880564.SH"
+    ],
+    "002393.SZ": [
+      "880557.SH"
+    ],
+    "002395.SZ": [
+      "880595.SH"
+    ],
+    "002399.SZ": [
+      "880557.SH"
+    ],
+    "002400.SZ": [
+      "880595.SH"
+    ],
+    "002408.SZ": [
+      "880559.SH"
+    ],
+    "002413.SZ": [
+      "880528.SH"
+    ],
+    "002414.SZ": [
+      "880557.SH"
+    ],
+    "002419.SZ": [
+      "880564.SH"
+    ],
+    "002439.SZ": [
+      "880528.SH"
+    ],
+    "002446.SZ": [
+      "880528.SH"
+    ],
+    "002461.SZ": [
+      "880595.SH"
+    ],
+    "002465.SZ": [
+      "880528.SH"
+    ],
+    "002474.SZ": [
+      "880528.SH"
+    ],
+    "002519.SZ": [
+      "880528.SH"
+    ],
+    "002581.SZ": [
+      "880557.SH"
+    ],
+    "002603.SZ": [
+      "880557.SH"
+    ],
+    "002646.SZ": [
+      "880564.SH"
+    ],
+    "002669.SZ": [
+      "880528.SH"
+    ],
+    "002701.SZ": [
+      "880595.SH"
+    ],
+    "002718.SZ": [
+      "880559.SH"
+    ],
+    "002735.SZ": [
+      "880528.SH"
+    ],
+    "002777.SZ": [
+      "880528.SH"
+    ],
+    "002799.SZ": [
+      "880557.SH"
+    ],
+    "002803.SZ": [
+      "880564.SH"
+    ],
+    "002829.SZ": [
+      "880528.SH"
+    ],
+    "002878.SZ": [
+      "880595.SH"
+    ],
+    "002880.SZ": [
+      "880557.SH"
+    ],
+    "002889.SZ": [
+      "880557.SH"
+    ],
+    "002931.SZ": [
+      "880559.SH"
+    ],
+    "002935.SZ": [
+      "880528.SH"
+    ],
+    "002969.SZ": [
+      "880559.SH"
+    ],
+    "002977.SZ": [
+      "880528.SH"
+    ],
+    "003004.SZ": [
+      "880528.SH"
+    ],
+    "003029.SZ": [
+      "880528.SH"
+    ],
+    "003041.SZ": [
+      "880559.SH"
+    ],
+    "300018.SZ": [
+      "880557.SH"
+    ],
+    "300036.SZ": [
+      "880528.SH"
+    ],
+    "300043.SZ": [
+      "880595.SH"
+    ],
+    "300045.SZ": [
+      "880528.SH"
+    ],
+    "300047.SZ": [
+      "880528.SH"
+    ],
+    "300058.SZ": [
+      "880595.SH"
+    ],
+    "300065.SZ": [
+      "880528.SH"
+    ],
+    "300099.SZ": [
+      "880528.SH"
+    ],
+    "300119.SZ": [
+      "880557.SH"
+    ],
+    "300122.SZ": [
+      "880557.SH"
+    ],
+    "300123.SZ": [
+      "880528.SH"
+    ],
+    "300142.SZ": [
+      "880557.SH"
+    ],
+    "300171.SZ": [
+      "880557.SH"
+    ],
+    "300182.SZ": [
+      "880528.SH"
+    ],
+    "300199.SZ": [
+      "880557.SH"
+    ],
+    "300213.SZ": [
+      "880528.SH"
+    ],
+    "300218.SZ": [
+      "880595.SH"
+    ],
+    "300229.SZ": [
+      "880528.SH"
+    ],
+    "300232.SZ": [
+      "880595.SH"
+    ],
+    "300233.SZ": [
+      "880557.SH"
+    ],
+    "300237.SZ": [
+      "880564.SH"
+    ],
+    "300238.SZ": [
+      "880557.SH"
+    ],
+    "300289.SZ": [
+      "880557.SH"
+    ],
+    "300294.SZ": [
+      "880557.SH"
+    ],
+    "300302.SZ": [
+      "880528.SH"
+    ],
+    "300318.SZ": [
+      "880557.SH"
+    ],
+    "300324.SZ": [
+      "880528.SH"
+    ],
+    "300342.SZ": [
+      "880528.SH"
+    ],
+    "300352.SZ": [
+      "880528.SH"
+    ],
+    "300353.SZ": [
+      "880528.SH"
+    ],
+    "300397.SZ": [
+      "880528.SH"
+    ],
+    "300443.SZ": [
+      "880557.SH"
+    ],
+    "300447.SZ": [
+      "880528.SH"
+    ],
+    "300474.SZ": [
+      "880528.SH"
+    ],
+    "300485.SZ": [
+      "880557.SH"
+    ],
+    "300516.SZ": [
+      "880528.SH"
+    ],
+    "300520.SZ": [
+      "880528.SH"
+    ],
+    "300542.SZ": [
+      "880528.SH"
+    ],
+    "300560.SZ": [
+      "880528.SH"
+    ],
+    "300563.SZ": [
+      "880528.SH"
+    ],
+    "300597.SZ": [
+      "880528.SH"
+    ],
+    "300601.SZ": [
+      "880557.SH"
+    ],
+    "300629.SZ": [
+      "880528.SH"
+    ],
+    "300651.SZ": [
+      "880595.SH"
+    ],
+    "300659.SZ": [
+      "880528.SH"
+    ],
+    "300664.SZ": [
+      "880557.SH"
+    ],
+    "300703.SZ": [
+      "880595.SH"
+    ],
+    "300711.SZ": [
+      "880528.SH"
+    ],
+    "300719.SZ": [
+      "880528.SH"
+    ],
+    "300723.SZ": [
+      "880557.SH"
+    ],
+    "300755.SZ": [
+      "880564.SH"
+    ],
+    "300762.SZ": [
+      "880528.SH"
+    ],
+    "300830.SZ": [
+      "880528.SH"
+    ],
+    "300841.SZ": [
+      "880557.SH"
+    ],
+    "300845.SZ": [
+      "880528.SH"
+    ],
+    "300887.SZ": [
+      "880528.SH"
+    ],
+    "300955.SZ": [
+      "880559.SH"
+    ],
+    "300971.SZ": [
+      "880528.SH"
+    ],
+    "301010.SZ": [
+      "880557.SH"
+    ],
+    "301050.SZ": [
+      "880528.SH"
+    ],
+    "301073.SZ": [
+      "880559.SH"
+    ],
+    "301075.SZ": [
+      "880559.SH"
+    ],
+    "301117.SZ": [
+      "880528.SH"
+    ],
+    "301159.SZ": [
+      "880528.SH"
+    ],
+    "301207.SZ": [
+      "880557.SH"
+    ],
+    "301213.SZ": [
+      "880528.SH"
+    ],
+    "301302.SZ": [
+      "880528.SH"
+    ],
+    "301313.SZ": [
+      "880528.SH"
+    ],
+    "301357.SZ": [
+      "880528.SH"
+    ],
+    "301517.SZ": [
+      "880528.SH"
+    ],
+    "301592.SZ": [
+      "880528.SH"
+    ],
+    "600059.SH": [
+      "880564.SH"
+    ],
+    "600060.SH": [
+      "880595.SH"
+    ],
+    "600062.SH": [
+      "880557.SH"
+    ],
+    "600079.SH": [
+      "880557.SH"
+    ],
+    "600088.SH": [
+      "880595.SH"
+    ],
+    "600132.SH": [
+      "880595.SH"
+    ],
+    "600153.SH": [
+      "880564.SH"
+    ],
+    "600158.SH": [
+      "880595.SH"
+    ],
+    "600189.SH": [
+      "880564.SH"
+    ],
+    "600196.SH": [
+      "880557.SH"
+    ],
+    "600197.SH": [
+      "880564.SH"
+    ],
+    "600199.SH": [
+      "880564.SH"
+    ],
+    "600201.SH": [
+      "880557.SH"
+    ],
+    "600211.SH": [
+      "880557.SH"
+    ],
+    "600238.SH": [
+      "880564.SH"
+    ],
+    "600252.SH": [
+      "880564.SH"
+    ],
+    "600257.SH": [
+      "880564.SH"
+    ],
+    "600300.SH": [
+      "880564.SH"
+    ],
+    "600332.SH": [
+      "880557.SH",
+      "880564.SH"
+    ],
+    "600365.SH": [
+      "880564.SH"
+    ],
+    "600372.SH": [
+      "880528.SH"
+    ],
+    "600381.SH": [
+      "880564.SH"
+    ],
+    "600382.SH": [
+      "880564.SH"
+    ],
+    "600395.SH": [
+      "880564.SH"
+    ],
+    "600433.SH": [
+      "880595.SH"
+    ],
+    "600435.SH": [
+      "880528.SH"
+    ],
+    "600511.SH": [
+      "880557.SH"
+    ],
+    "600519.SH": [
+      "880564.SH"
+    ],
+    "600535.SH": [
+      "880557.SH"
+    ],
+    "600559.SH": [
+      "880564.SH"
+    ],
+    "600562.SH": [
+      "880528.SH"
+    ],
+    "600590.SH": [
+      "880528.SH"
+    ],
+    "600598.SH": [
+      "880595.SH"
+    ],
+    "600600.SH": [
+      "880595.SH"
+    ],
+    "600604.SH": [
+      "880595.SH"
+    ],
+    "600655.SH": [
+      "880564.SH"
+    ],
+    "600702.SH": [
+      "880564.SH"
+    ],
+    "600739.SH": [
+      "880557.SH"
+    ],
+    "600750.SH": [
+      "880564.SH"
+    ],
+    "600764.SH": [
+      "880528.SH"
+    ],
+    "600771.SH": [
+      "880564.SH"
+    ],
+    "600779.SH": [
+      "880564.SH"
+    ],
+    "600789.SH": [
+      "880557.SH"
+    ],
+    "600792.SH": [
+      "880595.SH"
+    ],
+    "600809.SH": [
+      "880564.SH"
+    ],
+    "600812.SH": [
+      "880557.SH"
+    ],
+    "600839.SH": [
+      "880528.SH"
+    ],
+    "600851.SH": [
+      "880557.SH"
+    ],
+    "600855.SH": [
+      "880528.SH"
+    ],
+    "600873.SH": [
+      "880557.SH"
+    ],
+    "600879.SH": [
+      "880528.SH"
+    ],
+    "600990.SH": [
+      "880528.SH"
+    ],
+    "601216.SH": [
+      "880557.SH"
+    ],
+    "601579.SH": [
+      "880564.SH"
+    ],
+    "601607.SH": [
+      "880557.SH"
+    ],
+    "603127.SH": [
+      "880557.SH"
+    ],
+    "603198.SH": [
+      "880564.SH"
+    ],
+    "603232.SH": [
+      "880528.SH"
+    ],
+    "603299.SH": [
+      "880564.SH"
+    ],
+    "603369.SH": [
+      "880564.SH"
+    ],
+    "603392.SH": [
+      "880557.SH"
+    ],
+    "603488.SH": [
+      "880528.SH"
+    ],
+    "603516.SH": [
+      "880528.SH"
+    ],
+    "603517.SH": [
+      "880595.SH"
+    ],
+    "603589.SH": [
+      "880564.SH"
+    ],
+    "603712.SH": [
+      "880528.SH"
+    ],
+    "603716.SH": [
+      "880557.SH"
+    ],
+    "603718.SH": [
+      "880557.SH"
+    ],
+    "603777.SH": [
+      "880564.SH"
+    ],
+    "603779.SH": [
+      "880564.SH"
+    ],
+    "603859.SH": [
+      "880528.SH"
+    ],
+    "603919.SH": [
+      "880564.SH"
+    ],
+    "603977.SH": [
+      "880528.SH"
+    ],
+    "605099.SH": [
+      "880595.SH"
+    ],
+    "605299.SH": [
+      "880595.SH"
+    ],
+    "605389.SH": [
+      "880559.SH"
+    ],
+    "688011.SH": [
+      "880528.SH"
+    ],
+    "688027.SH": [
+      "880528.SH"
+    ],
+    "688066.SH": [
+      "880528.SH"
+    ],
+    "688081.SH": [
+      "880528.SH"
+    ],
+    "688132.SH": [
+      "880528.SH"
+    ],
+    "688136.SH": [
+      "880557.SH"
+    ],
+    "688171.SH": [
+      "880528.SH"
+    ],
+    "688175.SH": [
+      "880528.SH"
+    ],
+    "688180.SH": [
+      "880557.SH"
+    ],
+    "688185.SH": [
+      "880557.SH"
+    ],
+    "688201.SH": [
+      "880528.SH"
+    ],
+    "688244.SH": [
+      "880528.SH"
+    ],
+    "688270.SH": [
+      "880528.SH"
+    ],
+    "688276.SH": [
+      "880557.SH"
+    ],
+    "688283.SH": [
+      "880528.SH"
+    ],
+    "688290.SH": [
+      "880528.SH"
+    ],
+    "688311.SH": [
+      "880528.SH"
+    ],
+    "688319.SH": [
+      "880557.SH"
+    ],
+    "688375.SH": [
+      "880528.SH"
+    ],
+    "688509.SH": [
+      "880528.SH"
+    ],
+    "688511.SH": [
+      "880528.SH"
+    ],
+    "688520.SH": [
+      "880557.SH"
+    ],
+    "688552.SH": [
+      "880528.SH"
+    ],
+    "688562.SH": [
+      "880528.SH"
+    ],
+    "688609.SH": [
+      "880528.SH"
+    ],
+    "688631.SH": [
+      "880528.SH"
+    ],
+    "688636.SH": [
+      "880528.SH"
+    ],
+    "688670.SH": [
+      "880557.SH"
+    ],
+    "688682.SH": [
+      "880528.SH"
+    ],
+    "688695.SH": [
+      "880528.SH"
+    ],
+    "688739.SH": [
+      "880557.SH"
+    ],
+    "688788.SH": [
+      "880528.SH"
+    ],
+    "920008.BJ": [
+      "880528.SH"
+    ],
+    "920021.BJ": [
+      "880564.SH",
+      "880595.SH"
+    ],
+    "920116.BJ": [
+      "880528.SH"
+    ],
+    "920575.BJ": [
+      "880557.SH"
+    ],
+    "920640.BJ": [
+      "880528.SH"
+    ],
+    "920961.BJ": [
+      "880528.SH"
+    ]
+  },
+  "stages_seconds": {
+    "concepts": 0.12,
+    "members": 0.0331,
+    "native": 6.1563,
+    "python": 2.0705,
+    "total": 8.3808
+  },
+  "tdx_path": "F:/new_tdx64"
+}
+TQ数据连接已关闭

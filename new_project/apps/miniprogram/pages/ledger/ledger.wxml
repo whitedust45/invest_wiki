@@ -1,0 +1,401 @@
+<view class="page-shell">
+  <view class="page-header">
+    <view class="page-kicker">追加式账务事实</view>
+    <view class="title">账本</view>
+    <view class="page-description">所有金额均以原币种最小单位的文本录入；例如 USD 6.66 录为 666。小程序不做浮点计算或换汇。</view>
+  </view>
+
+  <view wx:if="{{strategyKey}}" class="card strategy-context-card">
+    <view class="section-title-row"><view class="section-title">策略归属</view><view class="section-meta">不可变账本上下文</view></view>
+    <view class="muted form-tip">本页新提交的交易将归属到 {{strategyKey}}；预览与确认后才会写入后端事实。</view>
+    <button class="secondary-button" bindtap="clearStrategyContext">退出当前策略录入</button>
+  </view>
+
+  <view wx:if="{{correctionTargetTransactionId}}" class="card correction-context-card">
+    <view class="section-title-row"><view class="section-title">更正并替代</view><view class="section-meta">原子审计链</view></view>
+    <view class="muted form-tip">正在为“{{correctionTargetType}}”录入替代事实。请在对应录入区修改后先预览；确认提交时，服务端会在同一事务内追加镜像冲正和替代交易，原始记录绝不删除。</view>
+    <view class="muted detail-id">目标交易 ID：{{correctionTargetTransactionId}}</view>
+    <button class="secondary-button" bindtap="cancelReplacement">取消更正并替代</button>
+  </view>
+
+  <view class="card import-card">
+    <view class="section-title-row"><view class="section-title">历史数据导入</view><view class="section-meta">隔离扫描</view></view>
+    <view class="muted form-tip">将 JSON 或 SQLite 历史快照先上传至隔离区并申请服务端扫描；扫描通过前不会读取或写入账务事实。</view>
+    <navigator class="secondary-button import-link" url="/pages/import/import">进入历史数据导入</navigator>
+  </view>
+
+  <view class="card export-card">
+    <view class="section-title-row"><view class="section-title">账本导出</view><view class="section-meta">服务端审计</view></view>
+    <view class="muted form-tip">导出仅包含当前登录账户的不可变账务事实。JSON 用于审计与受控恢复，CSV 便于核对；所有金额仍是原币种最小单位文本。生成记录会写入服务端审计日志，不能修改既有事实。</view>
+    <view class="export-actions">
+      <button class="secondary-button export-button" data-format="JSON" loading="{{exportingFormat === 'JSON'}}" disabled="{{exportingFormat !== ''}}" bindtap="downloadLedgerExport">导出 JSON 审计副本</button>
+      <button class="secondary-button export-button" data-format="CSV" loading="{{exportingFormat === 'CSV'}}" disabled="{{exportingFormat !== ''}}" bindtap="downloadLedgerExport">导出 CSV 流水</button>
+    </view>
+  </view>
+
+  <view class="card snapshot-card">
+    <view class="section-title-row"><view class="section-title">云端账本快照</view><view class="section-meta">加密 · 可审计</view></view>
+    <view class="muted form-tip">每天可由服务端自动生成，也可手动生成当前版本的 JSON 快照。快照只读、带 SHA-256 校验；恢复不支持覆盖现有账本，只允许向真正空的账本工作区原子导入。</view>
+    <button class="secondary-button" loading="{{creatingSnapshot}}" disabled="{{creatingSnapshot || restoringSnapshotId !== ''}}" bindtap="createSnapshot">生成当前账本快照</button>
+    <view wx:if="{{loadingSnapshots}}" class="muted">正在读取云端快照…</view>
+    <view wx:elif="{{snapshots.length === 0}}" class="muted">尚无可用快照。账本产生事实后可手动生成，或等待夜间任务。</view>
+    <view wx:else class="snapshot-list">
+      <view wx:for="{{snapshots}}" wx:key="ledgerSnapshotId" class="snapshot-row">
+        <view class="snapshot-main">
+          <view class="snapshot-title">{{item.asOfDate}} · 账本版本 {{item.sourceLedgerVersion}}</view>
+          <view class="muted snapshot-hash">SHA-256 {{item.contentSha256Hex}}</view>
+        </view>
+        <view class="snapshot-actions">
+          <button class="snapshot-action-button" data-snapshot-id="{{item.ledgerSnapshotId}}" bindtap="downloadSnapshot">下载</button>
+          <button class="snapshot-action-button snapshot-restore-button" data-snapshot-id="{{item.ledgerSnapshotId}}" loading="{{restoringSnapshotId === item.ledgerSnapshotId}}" disabled="{{restoringSnapshotId !== '' || creatingSnapshot}}" bindtap="restoreSnapshot">空账本恢复</button>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="card form-card">
+    <view class="section-title-row"><view class="section-title">新增现金账户</view><view class="section-meta">资金池起点</view></view>
+    <input class="text-input" placeholder="例如：招商银行人民币" value="{{displayName}}" bindinput="onDisplayNameInput" maxlength="128" />
+    <picker mode="selector" range="{{currencies}}" value="{{currencyIndex}}" bindchange="onCurrencyChange">
+      <view class="picker">币种：{{currencies[currencyIndex]}}</view>
+    </picker>
+    <button class="primary-button" loading="{{creating}}" disabled="{{creating}}" bindtap="createCashAccount">创建账户</button>
+  </view>
+
+  <view class="card cash-flow-card">
+    <view class="section-title-row"><view class="section-title">资金操作</view><view class="section-meta">先预览后入账</view></view>
+    <view class="muted form-tip">入金、出金、调拨、费用、分红和利息先在服务端预览。金额填写最小货币单位，例如 USD 6.66 填 666。</view>
+    <view wx:if="{{tradeAccounts.length === 0}}" class="empty-tip">请先创建一个启用中的现金账户。</view>
+    <view wx:else>
+      <picker mode="selector" range="{{cashFlowLabels}}" value="{{cashFlowTypeIndex}}" bindchange="onCashFlowTypeChange">
+        <view class="picker">类型：{{cashFlowLabels[cashFlowTypeIndex]}}</view>
+      </picker>
+      <picker mode="selector" range="{{tradeAccountNames}}" value="{{cashFlowSourceIndex}}" bindchange="onCashFlowSourceChange">
+        <view class="picker">资金账户：{{tradeAccountNames[cashFlowSourceIndex]}}</view>
+      </picker>
+      <picker wx:if="{{cashFlowTypes[cashFlowTypeIndex] === 'INTERNAL_TRANSFER'}}" mode="selector" range="{{tradeAccountNames}}" value="{{cashFlowDestinationIndex}}" bindchange="onCashFlowDestinationChange">
+        <view class="picker">目标账户：{{tradeAccountNames[cashFlowDestinationIndex]}}</view>
+      </picker>
+      <picker wx:if="{{cashFlowTypes[cashFlowTypeIndex] === 'FUTURES_MARGIN'}}" mode="selector" range="{{marginDirectionLabels}}" value="{{marginDirectionIndex}}" bindchange="onMarginDirectionChange">
+        <view class="picker">方向：{{marginDirectionLabels[marginDirectionIndex]}}</view>
+      </picker>
+      <picker mode="date" value="{{cashFlowOccurredOn}}" bindchange="onCashFlowOccurredOnChange">
+        <view class="picker">业务日期：{{cashFlowOccurredOn}}</view>
+      </picker>
+      <input class="text-input spaced-input" placeholder="金额最小单位，例如 USD 6.66 填 666" value="{{cashFlowAmountCent}}" bindinput="onCashFlowAmountInput" />
+      <view wx:if="{{cashFlowTypes[cashFlowTypeIndex] === 'FUTURES_MARGIN'}}" class="muted form-tip">仅支持 CFFEX 人民币保证金。首次操作会由服务端自动建立可用与锁定保证金科目。</view>
+      <view wx:if="{{cashFlowTypes[cashFlowTypeIndex] === 'DIVIDEND'}}">
+        <input class="text-input spaced-input" placeholder="分红标的 ID（26 位）" value="{{cashFlowInstrumentId}}" bindinput="onCashFlowInstrumentIdInput" maxlength="26" />
+        <picker mode="date" value="{{cashFlowEntitlementDate}}" bindchange="onCashFlowEntitlementDateChange">
+          <view class="picker">权益日：{{cashFlowEntitlementDate}}</view>
+        </picker>
+        <input class="text-input spaced-input" placeholder="每股/份税前分红最小单位（可选）" value="{{cashFlowPerShareAmountCent}}" bindinput="onCashFlowPerShareAmountInput" />
+        <view class="muted form-tip">填写每股金额时，服务端会以权益日重放后的实际持仓精确核验总额。</view>
+      </view>
+      <input wx:if="{{cashFlowTypes[cashFlowTypeIndex] === 'DIVIDEND' || cashFlowTypes[cashFlowTypeIndex] === 'INTEREST'}}" class="text-input spaced-input" placeholder="代扣税最小单位，默认 0" value="{{cashFlowTaxWithheldCent}}" bindinput="onCashFlowTaxInput" />
+      <input class="text-input spaced-input" placeholder="备注（可选）" value="{{cashFlowNote}}" bindinput="onCashFlowNoteInput" maxlength="1000" />
+      <button class="primary-button" loading="{{cashFlowPreviewing}}" disabled="{{cashFlowPreviewing || cashFlowSubmitting}}" bindtap="previewCashFlow">获取预览</button>
+    </view>
+
+    <view wx:if="{{cashFlowSubmissionState === 'PREVIEWED' || cashFlowSubmissionState === 'RETRYABLE_ERROR'}}" class="preview-panel">
+      <view class="preview-title">待确认分录</view>
+      <view wx:for="{{cashFlowPreviewPostings}}" wx:key="accountCode" class="posting-row">
+        <view>
+          <view class="posting-name">{{item.displayName}}</view>
+          <view class="muted">{{item.accountCode}} · {{item.sideLabel}}</view>
+        </view>
+        <view class="posting-amount">{{item.amountDisplay}}</view>
+      </view>
+      <button wx:if="{{cashFlowSubmissionState === 'PREVIEWED'}}" class="primary-button" loading="{{cashFlowSubmitting}}" disabled="{{cashFlowSubmitting}}" bindtap="confirmCashFlow">确认并提交</button>
+      <button wx:if="{{cashFlowSubmissionState === 'RETRYABLE_ERROR'}}" class="secondary-button" loading="{{cashFlowSubmitting}}" disabled="{{cashFlowSubmitting}}" bindtap="retryCashFlow">使用原请求键手动重试</button>
+    </view>
+  <view wx:if="{{cashFlowSubmissionState === 'SUCCESS'}}" class="success-message">资金操作已完成，交易 ID：{{cashFlowLastTransactionId}}</view>
+  </view>
+
+  <view class="card futures-card">
+    <view class="section-title-row"><view class="section-title">CFFEX 期货</view><view class="section-meta">保证金与结算</view></view>
+    <view class="muted form-tip">当前仅支持人民币 IC、IM 多头整手交易。开仓前请先在“资金操作”中将现金转入可用保证金；平仓会按 FIFO 释放锁定保证金；手工逐日结算会相对每个批次的上次结算点位确认损益并更新结算基线。</view>
+    <view wx:if="{{tradeAccounts.length === 0}}" class="empty-tip">请先创建一个启用中的人民币现金账户。</view>
+    <view wx:else>
+      <picker mode="selector" range="{{tradeAccountNames}}" value="{{futuresAccountIndex}}" bindchange="onFuturesAccountChange">
+        <view class="picker">保证金关联现金账户：{{tradeAccountNames[futuresAccountIndex]}}</view>
+      </picker>
+      <picker mode="selector" range="{{futuresTransactionLabels}}" value="{{futuresTransactionTypeIndex}}" bindchange="onFuturesTransactionTypeChange">
+        <view class="picker">交易类型：{{futuresTransactionLabels[futuresTransactionTypeIndex]}}</view>
+      </picker>
+      <picker mode="date" value="{{futuresOccurredOn}}" bindchange="onFuturesOccurredOnChange">
+        <view class="picker">业务日期：{{futuresOccurredOn}}</view>
+      </picker>
+      <input class="text-input spaced-input" placeholder="期货合约标的 ID（26 位）" value="{{futuresInstrumentId}}" bindinput="onFuturesInstrumentIdInput" maxlength="26" />
+      <button class="secondary-button" bindtap="goMarket">前往市场页创建或选择 CFFEX 合约</button>
+      <input wx:if="{{futuresTransactionTypes[futuresTransactionTypeIndex] !== 'FUTURES_DAILY_SETTLEMENT'}}" class="text-input spaced-input" placeholder="开仓/平仓手数（正整数）" value="{{futuresQuantity}}" bindinput="onFuturesQuantityInput" />
+      <input wx:if="{{futuresTransactionTypes[futuresTransactionTypeIndex] !== 'FUTURES_DAILY_SETTLEMENT'}}" class="text-input spaced-input" placeholder="成交点位，例如 5000.25" value="{{futuresPricePoints}}" bindinput="onFuturesPricePointsInput" />
+      <input wx:if="{{futuresTransactionTypes[futuresTransactionTypeIndex] === 'FUTURES_DAILY_SETTLEMENT'}}" class="text-input spaced-input" placeholder="结算点位，例如 5000.25" value="{{futuresPricePoints}}" bindinput="onFuturesPricePointsInput" />
+      <input wx:if="{{futuresTransactionTypes[futuresTransactionTypeIndex] === 'FUTURES_OPEN'}}" class="text-input spaced-input" placeholder="初始保证金最小单位，例如 CNY 300.00 填 30000" value="{{futuresInitialMarginCent}}" bindinput="onFuturesInitialMarginInput" />
+      <input wx:if="{{futuresTransactionTypes[futuresTransactionTypeIndex] !== 'FUTURES_DAILY_SETTLEMENT'}}" class="text-input spaced-input" placeholder="手续费最小单位，默认 0" value="{{futuresFeeCent}}" bindinput="onFuturesFeeInput" />
+      <input class="text-input spaced-input" placeholder="备注（可选）" value="{{futuresNote}}" bindinput="onFuturesNoteInput" maxlength="1000" />
+      <button class="primary-button" loading="{{futuresPreviewing}}" disabled="{{futuresPreviewing || futuresSubmitting}}" bindtap="previewFuturesOpen">获取期货分录预览</button>
+    </view>
+
+    <view wx:if="{{futuresSubmissionState === 'PREVIEWED' || futuresSubmissionState === 'RETRYABLE_ERROR'}}" class="preview-panel">
+      <view class="preview-title">待确认期货分录</view>
+      <view wx:for="{{futuresPreviewPostings}}" wx:key="accountCode" class="posting-row">
+        <view>
+          <view class="posting-name">{{item.displayName}}</view>
+          <view class="muted">{{item.accountCode}} · {{item.sideLabel}}</view>
+        </view>
+        <view class="posting-amount">{{item.amountDisplay}}</view>
+      </view>
+      <view wx:if="{{futuresAccountProvisioning.length}}" class="provisioning">首次开仓会建立保证金会计科目；开仓仍需已有足额可用保证金。</view>
+      <view wx:for="{{futuresValidationWarnings}}" wx:key="*this" class="warning-message">{{item}}</view>
+      <button wx:if="{{futuresSubmissionState === 'PREVIEWED'}}" class="primary-button" loading="{{futuresSubmitting}}" disabled="{{futuresSubmitting}}" bindtap="confirmFuturesOpen">确认并提交期货交易</button>
+      <button wx:if="{{futuresSubmissionState === 'RETRYABLE_ERROR'}}" class="secondary-button" loading="{{futuresSubmitting}}" disabled="{{futuresSubmitting}}" bindtap="retryFuturesOpen">使用原请求键手动重试</button>
+    </view>
+    <view wx:if="{{futuresSubmissionState === 'SUCCESS'}}" class="success-message">期货交易已完成，交易 ID：{{futuresLastTransactionId}}</view>
+  </view>
+
+  <view wx:if="{{strategyKey === 'IC_IM'}}" class="card futures-card futures-roll-card">
+    <view class="section-title-row"><view class="section-title">IC / IM 原子移仓</view><view class="section-meta">平旧 · 开新</view></view>
+    <view class="muted form-tip">移仓会在一次确认中同时平掉旧合约并开立新合约。服务端只在两腿校验均通过时写入，并为两条账务事实生成同一个操作组 ID。</view>
+    <view wx:if="{{tradeAccounts.length === 0}}" class="empty-tip">请先创建一个启用中的人民币现金账户。</view>
+    <view wx:else>
+      <picker mode="date" value="{{futuresRollOccurredOn}}" bindchange="onFuturesRollOccurredOnChange">
+        <view class="picker">移仓业务日：{{futuresRollOccurredOn}}</view>
+      </picker>
+      <view class="subsection-title">平旧合约</view>
+      <picker mode="selector" range="{{tradeAccountNames}}" value="{{futuresRollCloseAccountIndex}}" bindchange="onFuturesRollCloseAccountChange">
+        <view class="picker">平仓关联现金账户：{{tradeAccountNames[futuresRollCloseAccountIndex]}}</view>
+      </picker>
+      <input class="text-input spaced-input" placeholder="旧合约标的 ID（26 位）" value="{{futuresRollCloseInstrumentId}}" bindinput="onFuturesRollCloseInstrumentIdInput" maxlength="26" />
+      <input class="text-input spaced-input" placeholder="平仓手数（正整数）" value="{{futuresRollCloseQuantity}}" bindinput="onFuturesRollCloseQuantityInput" />
+      <input class="text-input spaced-input" placeholder="平仓成交点位，例如 5000.25" value="{{futuresRollClosePricePoints}}" bindinput="onFuturesRollClosePricePointsInput" />
+      <input class="text-input spaced-input" placeholder="平仓手续费最小单位，默认 0" value="{{futuresRollCloseFeeCent}}" bindinput="onFuturesRollCloseFeeInput" />
+      <view class="subsection-title">开新合约</view>
+      <picker mode="selector" range="{{tradeAccountNames}}" value="{{futuresRollOpenAccountIndex}}" bindchange="onFuturesRollOpenAccountChange">
+        <view class="picker">开仓关联现金账户：{{tradeAccountNames[futuresRollOpenAccountIndex]}}</view>
+      </picker>
+      <input class="text-input spaced-input" placeholder="新合约标的 ID（26 位）" value="{{futuresRollOpenInstrumentId}}" bindinput="onFuturesRollOpenInstrumentIdInput" maxlength="26" />
+      <button class="secondary-button" bindtap="goMarket">前往市场页创建或选择 CFFEX 合约</button>
+      <input class="text-input spaced-input" placeholder="开仓手数（正整数）" value="{{futuresRollOpenQuantity}}" bindinput="onFuturesRollOpenQuantityInput" />
+      <input class="text-input spaced-input" placeholder="开仓成交点位，例如 5000.25" value="{{futuresRollOpenPricePoints}}" bindinput="onFuturesRollOpenPricePointsInput" />
+      <input class="text-input spaced-input" placeholder="新合约初始保证金最小单位，例如 CNY 300.00 填 30000" value="{{futuresRollOpenInitialMarginCent}}" bindinput="onFuturesRollOpenInitialMarginInput" />
+      <input class="text-input spaced-input" placeholder="开仓手续费最小单位，默认 0" value="{{futuresRollOpenFeeCent}}" bindinput="onFuturesRollOpenFeeInput" />
+      <input class="text-input spaced-input" placeholder="移仓备注（可选）" value="{{futuresRollNote}}" bindinput="onFuturesRollNoteInput" maxlength="1000" />
+      <button class="primary-button" loading="{{futuresRollPreviewing}}" disabled="{{futuresRollPreviewing || futuresRollSubmitting}}" bindtap="previewFuturesRoll">获取两腿移仓预览</button>
+    </view>
+
+    <view wx:if="{{futuresRollSubmissionState === 'PREVIEWED' || futuresRollSubmissionState === 'RETRYABLE_ERROR'}}" class="preview-panel">
+      <view class="preview-title">待确认移仓分录（平旧 + 开新）</view>
+      <view wx:if="{{futuresRollProposedOperationGroupKey}}" class="preview-draft-key">拟定操作组 ID：{{futuresRollProposedOperationGroupKey}}</view>
+      <view wx:if="{{futuresRollProposedOperationGroupKey}}" class="preview-draft-hint">这是预览草稿标识；提交成功后会返回实际落库的操作组 ID。</view>
+      <view wx:for="{{futuresRollPreviewPostings}}" wx:key="accountCode" class="posting-row">
+        <view>
+          <view class="posting-name">{{item.displayName}}</view>
+          <view class="muted">{{item.accountCode}} · {{item.sideLabel}}</view>
+        </view>
+        <view class="posting-amount">{{item.amountDisplay}}</view>
+      </view>
+      <view wx:if="{{futuresRollAccountProvisioning.length}}" class="provisioning">新合约如尚无保证金科目，服务端会在提交时创建；开仓仍需满足可用保证金校验。</view>
+      <view wx:for="{{futuresRollValidationWarnings}}" wx:key="*this" class="warning-message">{{item}}</view>
+      <button wx:if="{{futuresRollSubmissionState === 'PREVIEWED'}}" class="primary-button" loading="{{futuresRollSubmitting}}" disabled="{{futuresRollSubmitting}}" bindtap="confirmFuturesRoll">确认并原子移仓</button>
+      <button wx:if="{{futuresRollSubmissionState === 'RETRYABLE_ERROR'}}" class="secondary-button" loading="{{futuresRollSubmitting}}" disabled="{{futuresRollSubmitting}}" bindtap="retryFuturesRoll">使用原请求键手动重试</button>
+    </view>
+    <view wx:if="{{futuresRollSubmissionState === 'SUCCESS'}}" class="success-message">期货移仓已完成，操作组 ID：{{futuresRollLastOperationGroupKey}}</view>
+  </view>
+
+  <view class="card option-card">
+    <view class="section-title">买入型期权</view>
+    <view class="muted form-tip">仅支持多头期权的买入开仓、卖出平仓和到期日整仓无价值核销；不支持卖空、行权或指派。所有权利金和手续费均按现金账户原币种最小单位填写。</view>
+    <view wx:if="{{tradeAccounts.length === 0}}" class="empty-tip">请先创建一个启用中的现金账户。</view>
+    <view wx:else>
+      <picker mode="selector" range="{{tradeAccountNames}}" value="{{optionAccountIndex}}" bindchange="onOptionAccountChange">
+        <view class="picker">资金账户：{{tradeAccountNames[optionAccountIndex]}}</view>
+      </picker>
+      <picker mode="selector" range="{{optionTransactionLabels}}" value="{{optionTransactionTypeIndex}}" bindchange="onOptionTransactionTypeChange">
+        <view class="picker">交易类型：{{optionTransactionLabels[optionTransactionTypeIndex]}}</view>
+      </picker>
+      <picker mode="date" value="{{optionOccurredOn}}" bindchange="onOptionOccurredOnChange">
+        <view class="picker">业务日期：{{optionOccurredOn}}</view>
+      </picker>
+      <input class="text-input spaced-input" placeholder="期权合约标的 ID（26 位）" value="{{optionInstrumentId}}" bindinput="onOptionInstrumentIdInput" maxlength="26" />
+      <button class="secondary-button" bindtap="goMarket">前往市场页创建或选择期权合约</button>
+      <input class="text-input spaced-input" placeholder="期权数量，例如 2.5" value="{{optionQuantity}}" bindinput="onOptionQuantityInput" />
+      <input wx:if="{{optionTransactionTypes[optionTransactionTypeIndex] !== 'OPTION_EXPIRE'}}" class="text-input spaced-input" placeholder="每单位权利金最小单位，例如 USD 2.50 填 250" value="{{optionUnitPriceCent}}" bindinput="onOptionUnitPriceInput" />
+      <input wx:if="{{optionTransactionTypes[optionTransactionTypeIndex] !== 'OPTION_EXPIRE'}}" class="text-input spaced-input" placeholder="手续费最小单位，默认 0" value="{{optionFeeCent}}" bindinput="onOptionFeeInput" />
+      <view wx:if="{{optionTransactionTypes[optionTransactionTypeIndex] === 'OPTION_EXPIRE'}}" class="warning-message">仅在合约到期日且确认完全无行权价值时使用；数量必须等于全部未平仓数量。</view>
+      <input class="text-input spaced-input" placeholder="备注（可选）" value="{{optionNote}}" bindinput="onOptionNoteInput" maxlength="1000" />
+      <button class="primary-button" loading="{{optionPreviewing}}" disabled="{{optionPreviewing || optionSubmitting}}" bindtap="previewOption">获取期权分录预览</button>
+    </view>
+
+    <view wx:if="{{optionSubmissionState === 'PREVIEWED' || optionSubmissionState === 'RETRYABLE_ERROR'}}" class="preview-panel">
+      <view class="preview-title">待确认期权分录</view>
+      <view wx:for="{{optionPreviewPostings}}" wx:key="accountCode" class="posting-row">
+        <view>
+          <view class="posting-name">{{item.displayName}}</view>
+          <view class="muted">{{item.accountCode}} · {{item.sideLabel}}</view>
+        </view>
+        <view class="posting-amount">{{item.amountDisplay}}</view>
+      </view>
+      <view wx:if="{{optionAccountProvisioning.length}}" class="provisioning">首次期权买入会由服务端建立对应投资成本科目。</view>
+      <view wx:for="{{optionValidationWarnings}}" wx:key="*this" class="warning-message">{{item}}</view>
+      <button wx:if="{{optionSubmissionState === 'PREVIEWED'}}" class="primary-button" loading="{{optionSubmitting}}" disabled="{{optionSubmitting}}" bindtap="confirmOption">确认并提交期权交易</button>
+      <button wx:if="{{optionSubmissionState === 'RETRYABLE_ERROR'}}" class="secondary-button" loading="{{optionSubmitting}}" disabled="{{optionSubmitting}}" bindtap="retryOption">使用原请求键手动重试</button>
+    </view>
+    <view wx:if="{{optionSubmissionState === 'SUCCESS'}}" class="success-message">期权交易已完成，交易 ID：{{optionLastTransactionId}}</view>
+  </view>
+
+  <view class="card corporate-action-card">
+    <view class="section-title">公司行为</view>
+    <view class="muted form-tip">仅支持股票/ETF 的拆股、并股和送股。按生效日重放批次，数量变换但历史成本不变；不产生现金分录。</view>
+    <picker mode="selector" range="{{corporateActionLabels}}" value="{{corporateActionTypeIndex}}" bindchange="onCorporateActionTypeChange">
+      <view class="picker">类型：{{corporateActionLabels[corporateActionTypeIndex]}}</view>
+    </picker>
+    <picker mode="date" value="{{corporateActionOccurredOn}}" bindchange="onCorporateActionOccurredOnChange">
+      <view class="picker">生效日：{{corporateActionOccurredOn}}</view>
+    </picker>
+    <input class="text-input spaced-input" placeholder="标的 ID（26 位）" value="{{corporateActionInstrumentId}}" bindinput="onCorporateActionInstrumentIdInput" maxlength="26" />
+    <input class="text-input spaced-input" placeholder="比例分子，例如 2" value="{{corporateActionRatioNumerator}}" bindinput="onCorporateActionRatioNumeratorInput" />
+    <input class="text-input spaced-input" placeholder="比例分母，例如 1" value="{{corporateActionRatioDenominator}}" bindinput="onCorporateActionRatioDenominatorInput" />
+    <input class="text-input spaced-input" placeholder="备注（可选）" value="{{corporateActionNote}}" bindinput="onCorporateActionNoteInput" maxlength="1000" />
+    <button class="primary-button" loading="{{corporateActionPreviewing}}" disabled="{{corporateActionPreviewing || corporateActionSubmitting}}" bindtap="previewCorporateAction">校验并获取预览</button>
+
+    <view wx:if="{{corporateActionSubmissionState === 'PREVIEWED' || corporateActionSubmissionState === 'RETRYABLE_ERROR'}}" class="preview-panel">
+      <view class="preview-title">待确认公司行为</view>
+      <view class="muted">已通过持仓与数量精度校验。本操作不会产生现金分录。</view>
+      <button wx:if="{{corporateActionSubmissionState === 'PREVIEWED'}}" class="primary-button" loading="{{corporateActionSubmitting}}" disabled="{{corporateActionSubmitting}}" bindtap="confirmCorporateAction">确认并提交</button>
+      <button wx:if="{{corporateActionSubmissionState === 'RETRYABLE_ERROR'}}" class="secondary-button" loading="{{corporateActionSubmitting}}" disabled="{{corporateActionSubmitting}}" bindtap="retryCorporateAction">使用原请求键手动重试</button>
+    </view>
+    <view wx:if="{{corporateActionSubmissionState === 'SUCCESS'}}" class="success-message">公司行为已完成，交易 ID：{{corporateActionLastTransactionId}}</view>
+  </view>
+
+  <view class="card trade-card">
+    <view class="section-title">现货交易录入</view>
+    <view class="muted form-tip">先预览，再由你确认提交。网络异常时不会自动写入，手动重试会复用同一个请求键。</view>
+    <view wx:if="{{tradeAccounts.length === 0}}" class="empty-tip">请先创建一个启用中的现金账户。</view>
+    <view wx:else>
+      <picker mode="selector" range="{{tradeAccountNames}}" value="{{tradeAccountIndex}}" bindchange="onTradeAccountChange">
+        <view class="picker">资金账户：{{tradeAccountNames[tradeAccountIndex]}}</view>
+      </picker>
+      <picker mode="selector" range="{{tradeTypes}}" value="{{tradeTypeIndex}}" bindchange="onTradeTypeChange">
+        <view class="picker">方向：{{tradeTypes[tradeTypeIndex] === 'TRADE_BUY' ? '买入' : '卖出'}}</view>
+      </picker>
+      <picker mode="date" value="{{occurredOn}}" bindchange="onOccurredOnChange">
+        <view class="picker">交易日：{{occurredOn}}</view>
+      </picker>
+      <input class="text-input spaced-input" placeholder="标的 ID（在市场页创建后自动带入）" value="{{instrumentId}}" bindinput="onInstrumentIdInput" maxlength="26" />
+      <button class="secondary-button" bindtap="goMarket">前往市场页创建或选择标的</button>
+      <input class="text-input spaced-input" placeholder="数量，例如 3.5" value="{{quantity}}" bindinput="onQuantityInput" />
+      <input class="text-input spaced-input" placeholder="成交单价（最小单位，如 USD 6.66 填 666）" value="{{unitPriceCent}}" bindinput="onUnitPriceInput" />
+      <input class="text-input spaced-input" placeholder="手续费最小单位，默认 0" value="{{feeCent}}" bindinput="onFeeInput" />
+      <input class="text-input spaced-input" placeholder="备注（可选）" value="{{note}}" bindinput="onNoteInput" maxlength="1000" />
+      <button class="primary-button" loading="{{previewing}}" disabled="{{previewing || submitting}}" bindtap="previewTrade">获取预览</button>
+    </view>
+
+    <view wx:if="{{submissionState === 'PREVIEWED' || submissionState === 'RETRYABLE_ERROR'}}" class="preview-panel">
+      <view class="preview-title">待确认分录</view>
+      <view wx:for="{{previewPostings}}" wx:key="accountCode" class="posting-row">
+        <view>
+          <view class="posting-name">{{item.displayName}}</view>
+          <view class="muted">{{item.accountCode}} · {{item.sideLabel}}</view>
+        </view>
+        <view class="posting-amount">{{item.amountDisplay}}</view>
+      </view>
+      <view wx:if="{{accountProvisioning.length}}" class="provisioning">首次买入将自动建立对应投资成本科目。</view>
+      <view wx:for="{{validationWarnings}}" wx:key="*this" class="warning-message">{{item}}</view>
+      <button wx:if="{{submissionState === 'PREVIEWED'}}" class="primary-button" loading="{{submitting}}" disabled="{{submitting}}" bindtap="confirmTrade">确认并提交</button>
+      <button wx:if="{{submissionState === 'RETRYABLE_ERROR'}}" class="secondary-button" loading="{{submitting}}" disabled="{{submitting}}" bindtap="retryTrade">使用原请求键手动重试</button>
+    </view>
+    <view wx:if="{{submissionState === 'SUCCESS'}}" class="success-message">已完成记账，交易 ID：{{lastTransactionId}}</view>
+  </view>
+
+  <view class="card accounts-card">
+    <view class="section-title">现金账户</view>
+    <view wx:if="{{loading}}" class="muted">正在读取账户…</view>
+    <view wx:elif="{{accounts.length === 0}}" class="muted">尚未创建现金账户。</view>
+    <view wx:else>
+      <view wx:for="{{accounts}}" wx:key="accountId" class="account-row">
+        <view>
+          <view class="account-name">{{item.displayName}}</view>
+          <view class="muted">{{item.currency}} · {{item.status === 'ACTIVE' ? '启用' : '已停用'}}</view>
+        </view>
+        <view class="account-currency">{{item.currency}}</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="card transactions-card">
+    <view class="section-title-row"><view class="section-title">账务流水</view><view class="section-meta">服务端游标</view></view>
+    <view class="muted form-tip">可按账户、动作、日期和标的代码/名称/备注检索；筛选与翻页均在服务端执行，历史事实不会因筛选而被隐藏或改写。</view>
+    <input class="text-input transaction-filter-input" placeholder="搜索标的代码、名称、备注或动作" value="{{transactionSearch}}" bindinput="onTransactionSearchInput" maxlength="128" />
+    <picker mode="selector" range="{{transactionAccountFilterNames}}" value="{{transactionAccountFilterIndex}}" bindchange="onTransactionAccountFilterChange">
+      <view class="picker">账户：{{transactionAccountFilterNames[transactionAccountFilterIndex]}}</view>
+    </picker>
+    <picker mode="selector" range="{{transactionTypeFilterLabels}}" value="{{transactionTypeFilterIndex}}" bindchange="onTransactionTypeFilterChange">
+      <view class="picker">动作：{{transactionTypeFilterLabels[transactionTypeFilterIndex]}}</view>
+    </picker>
+    <view class="transaction-date-filters">
+      <picker mode="date" value="{{transactionFrom}}" bindchange="onTransactionFromChange"><view class="picker compact-picker">起始：{{transactionFrom || '不限'}}</view></picker>
+      <picker mode="date" value="{{transactionTo}}" bindchange="onTransactionToChange"><view class="picker compact-picker">结束：{{transactionTo || '不限'}}</view></picker>
+    </view>
+    <view class="transaction-filter-actions">
+      <button class="secondary-button transaction-filter-button" bindtap="applyTransactionFilters">应用筛选</button>
+      <button class="secondary-button transaction-filter-button" bindtap="clearTransactionFilters">清除</button>
+    </view>
+    <view wx:if="{{loadingTransactions}}" class="muted">正在读取流水…</view>
+    <view wx:elif="{{transactions.length === 0}}" class="muted">尚无账务流水。</view>
+    <view wx:else>
+      <view wx:for="{{transactions}}" wx:key="transactionId" class="transaction-row transaction-row-tappable"
+        data-transaction-id="{{item.transactionId}}" bindtap="loadTransactionDetail">
+        <view>
+          <view class="transaction-type">{{item.typeLabel}}</view>
+          <view class="muted">{{item.occurredOn}} · {{item.currency || '非货币事实'}} · 账本版本 {{item.ledgerVersion}}</view>
+        </view>
+        <view class="transaction-id">查看明细 ›</view>
+      </view>
+      <button wx:if="{{transactionNextCursor}}" class="secondary-button load-more-button" loading="{{loadingTransactions}}" disabled="{{loadingTransactions}}" bindtap="loadMoreTransactions">继续加载更早流水</button>
+    </view>
+  </view>
+
+  <view wx:if="{{loadingTransactionDetail}}" class="card detail-card"><view class="muted">正在读取不可变账务明细…</view></view>
+  <view wx:if="{{selectedTransaction}}" class="card detail-card">
+    <view class="section-title-row"><view class="section-title">账务事实明细</view><view class="section-meta">审计链</view></view>
+    <view class="detail-title">{{selectedTransaction.typeLabel}}</view>
+    <view class="muted detail-line">{{selectedTransaction.occurredOn}} · 版本 {{selectedTransaction.ledgerVersion}} · 修订 {{selectedTransaction.revisionNo}}</view>
+    <view class="muted detail-id">交易 ID：{{selectedTransaction.transactionId}}</view>
+    <view class="muted detail-id">根交易 ID：{{selectedTransaction.correctionRootTransactionId}}</view>
+    <view wx:if="{{selectedTransaction.reversalOfTransactionId}}" class="muted detail-id">冲正目标：{{selectedTransaction.reversalOfTransactionId}}</view>
+    <view wx:if="{{selectedTransaction.strategyKey}}" class="detail-pill">策略：{{selectedTransaction.strategyKey}}</view>
+    <view wx:if="{{selectedTransaction.note}}" class="detail-note">备注：{{selectedTransaction.note}}</view>
+
+    <view class="detail-section-title">复式分录</view>
+    <view wx:for="{{selectedTransaction.postingViews}}" wx:key="postingId" class="posting-row">
+      <view>
+        <view class="posting-name">账户 {{item.accountId}}</view>
+        <view class="muted">第 {{item.postingNo}} 条 · {{item.sideLabel}} · {{item.currency}}</view>
+      </view>
+      <view class="posting-amount">{{item.amountDisplay}}</view>
+    </view>
+
+    <view wx:if="{{selectedTransaction.tradeDetailViews.length}}" class="detail-section-title">交易明细</view>
+    <view wx:for="{{selectedTransaction.tradeDetailViews}}" wx:key="tradeDetailId" class="detail-trade-row">
+      <view class="detail-instrument">标的 {{item.instrumentId}}</view>
+      <view class="muted">{{item.positionEffect === 'OPEN' ? '开仓' : '平仓'}} · 数量 {{item.quantity}} · 手续费 {{item.feeDisplay}}</view>
+      <view wx:if="{{item.unitPriceCent}}" class="muted">单位价格：{{item.unitPriceCent}}（最小单位）</view>
+      <view wx:if="{{item.pricePoints}}" class="muted">成交/结算点位：{{item.pricePoints}}</view>
+    </view>
+
+    <view wx:if="{{selectedTransaction.corporateAction}}" class="detail-section-title">公司行为</view>
+    <view wx:if="{{selectedTransaction.corporateAction}}" class="detail-trade-row">
+      <view class="detail-instrument">{{selectedTransaction.corporateAction.actionType}} · {{selectedTransaction.corporateAction.instrumentId}}</view>
+      <view class="muted">{{selectedTransaction.corporateAction.effectiveOn}} · 比例 {{selectedTransaction.corporateAction.ratioNumerator}} : {{selectedTransaction.corporateAction.ratioDenominator}}</view>
+    </view>
+
+    <view class="correction-status">{{selectedTransaction.correctionStatusLabel}}</view>
+    <view wx:if="{{selectedTransaction.correctable}}" class="muted form-tip">旧版的“删除”已迁移为不可逆的冲正：原始记录与反向记录均保留，绝不物理删除。</view>
+    <button wx:if="{{selectedTransaction.replaceable}}" class="primary-button" disabled="{{correctingTransaction}}" bindtap="beginReplacement">更正并录入替代事实</button>
+    <button wx:if="{{selectedTransaction.correctable}}" class="danger-outline-button" loading="{{correctingTransaction}}" disabled="{{correctingTransaction}}" bindtap="correctSelectedTransaction">冲正此事实</button>
+    <button class="secondary-button" bindtap="closeTransactionDetail">收起明细</button>
+  </view>
+
+  <view wx:if="{{errorMessage}}" class="error-message">{{errorMessage}}</view>
+</view>

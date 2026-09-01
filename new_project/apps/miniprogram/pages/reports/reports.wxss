@@ -1,0 +1,239 @@
+.reports-hero {
+  background: linear-gradient(140deg, #173B2A, #295945);
+  color: #FFFDF7;
+}
+
+.reports-eyebrow {
+  color: #C8DCC8;
+  font-size: 20rpx;
+  letter-spacing: 2rpx;
+}
+
+.reports-value {
+  font-size: 50rpx;
+  font-weight: 800;
+  margin: 12rpx 0;
+}
+
+.reports-hero .muted {
+  color: #E1ECE0;
+  margin-bottom: 20rpx;
+}
+
+.report-currency-card {
+  border: 2rpx solid #DFE8DF;
+}
+
+.report-kpi-grid {
+  display: grid;
+  gap: 14rpx;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 16rpx 0;
+}
+
+.report-kpi-grid view {
+  background: #F6F8F2;
+  border-radius: 16rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 6rpx;
+  min-height: 100rpx;
+  padding: 16rpx;
+}
+
+.report-kpi-grid text,
+.report-kpi-grid strong {
+  color: #173B2A;
+}
+
+.report-kpi-grid text {
+  font-size: 21rpx;
+}
+
+.report-kpi-grid strong {
+  font-size: 25rpx;
+}
+
+.report-subtitle {
+  color: #173B2A;
+  font-size: 26rpx;
+  font-weight: 700;
+  margin-top: 24rpx;
+}
+
+.report-row,
+.history-point-row {
+  align-items: center;
+  border-top: 2rpx solid #E9E3DA;
+  display: flex;
+  gap: 18rpx;
+  justify-content: space-between;
+  padding: 18rpx 0;
+}
+
+.report-row > view:first-child,
+.history-point-row > view:first-child {
+  min-width: 0;
+}
+
+.report-name {
+  color: #173B2A;
+  font-weight: 700;
+}
+
+.report-amount,
+.strategy-status,
+.history-point-row strong {
+  color: #173B2A;
+  flex: 0 0 auto;
+  font-size: 24rpx;
+  font-weight: 700;
+  text-align: right;
+}
+
+.strategy-status {
+  color: #8E502C;
+  max-width: 170rpx;
+}
+
+.strategy-insight-row {
+  border-top: 2rpx solid #E9E3DA;
+  padding: 18rpx 0;
+}
+
+.strategy-insight-topline {
+  align-items: center;
+  display: flex;
+  gap: 16rpx;
+  justify-content: space-between;
+}
+
+.strategy-insight-copy {
+  color: #4d4a43;
+  font-size: 23rpx;
+  line-height: 1.55;
+  margin: 10rpx 0 6rpx;
+}
+
+.strategy-insight-missing {
+  background: #fff7e9;
+  border-radius: 10rpx;
+  color: #8b5e1f;
+  font-size: 21rpx;
+  line-height: 1.5;
+  margin: 9rpx 0;
+  padding: 9rpx 11rpx;
+}
+
+.history-card,
+.activity-card,
+.strategy-matrix-card,
+.allocation-card,
+.account-tree-card {
+  border: 2rpx solid #E9E3DA;
+}
+
+.account-tree-row {
+  border-top: 2rpx solid #E9E3DA;
+  padding: 18rpx 0;
+}
+
+.account-tree-head {
+  align-items: flex-start;
+  display: flex;
+  gap: 16rpx;
+  justify-content: space-between;
+}
+
+.account-tree-net {
+  color: #173B2A;
+  font-size: 24rpx;
+  font-weight: 700;
+  max-width: 45%;
+  text-align: right;
+}
+
+.account-tree-meta {
+  color: #766f66;
+  font-size: 21rpx;
+  line-height: 1.5;
+  margin-top: 10rpx;
+}
+
+.allocation-currency-section {
+  border-top: 2rpx solid #ebe6dc;
+  margin-top: 18rpx;
+  padding-top: 2rpx;
+}
+
+.allocation-empty {
+  line-height: 1.6;
+  margin: 10rpx 0 4rpx;
+}
+
+.allocation-row {
+  border-top: 2rpx solid #f0ece5;
+  padding: 14rpx 0;
+}
+
+.allocation-topline {
+  align-items: center;
+  display: flex;
+  gap: 14rpx;
+  justify-content: space-between;
+}
+
+.allocation-number {
+  color: #1f5b49;
+  flex: 0 0 auto;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 22rpx;
+  font-weight: 700;
+}
+
+.allocation-track {
+  background: #e8eee7;
+  border-radius: 999rpx;
+  height: 14rpx;
+  margin: 10rpx 0 7rpx;
+  overflow: hidden;
+}
+
+.allocation-fill {
+  background: linear-gradient(90deg, #79a68a, #1b6f5b);
+  border-radius: inherit;
+  height: 100%;
+  min-width: 3rpx;
+}
+
+.history-chart-wrap {
+  background: #fbfaf6;
+  border: 2rpx solid #ebe8df;
+  border-radius: 16rpx;
+  margin-top: 16rpx;
+  overflow: hidden;
+  padding: 12rpx 10rpx 8rpx;
+}
+
+.history-chart {
+  display: block;
+  height: 250rpx;
+  width: 100%;
+}
+
+.chart-note {
+  color: #817a70;
+  font-size: 19rpx;
+  line-height: 1.5;
+  margin: 2rpx 8rpx 4rpx;
+}
+
+.compact-id {
+  color: #6C6A61;
+  flex: 0 0 210rpx;
+  font-size: 18rpx;
+  overflow: hidden;
+  text-align: right;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

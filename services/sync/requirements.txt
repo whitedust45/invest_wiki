@@ -1,0 +1,3 @@
+# 本同步服务默认仅依赖 Python 标准库(http.server / sqlite3 / urllib),无需第三方包。
+# 可选安装官方 tushare SDK；未安装时会自动回退到 Tushare Pro HTTP API。
+# 如未来引入强制依赖,在此登记并固定版本。

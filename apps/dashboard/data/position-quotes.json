@@ -1,0 +1,144 @@
+{
+  "generated_at": "2026-07-10T15:27:21+00:00",
+  "source": {
+    "name": "market-data-sqlite projection",
+    "priority": [
+      "Tushare",
+      "legacy_json",
+      "Sina",
+      "Tencent",
+      "Yahoo"
+    ]
+  },
+  "quotes": {
+    "000333": {
+      "symbol": "000333",
+      "name": "000333",
+      "price": 78.99,
+      "source": "Tushare前复权日线",
+      "trade_time": "2026-07-10",
+      "raw_currency": "CNY"
+    },
+    "000568": {
+      "symbol": "000568",
+      "name": "000568",
+      "price": 78.18,
+      "source": "Tushare日线",
+      "trade_time": "2026-07-10",
+      "raw_currency": "CNY"
+    },
+    "000858": {
+      "symbol": "000858",
+      "name": "000858",
+      "price": 73.69,
+      "source": "Tushare日线",
+      "trade_time": "2026-07-10",
+      "raw_currency": "CNY"
+    },
+    "002091": {
+      "symbol": "002091",
+      "name": "002091",
+      "price": 7.3,
+      "source": "Tushare日线",
+      "trade_time": "2026-07-10",
+      "raw_currency": "CNY"
+    },
+    "002818": {
+      "symbol": "002818",
+      "name": "002818",
+      "price": 10.43,
+      "source": "Tushare日线",
+      "trade_time": "2026-07-10",
+      "raw_currency": "CNY"
+    },
+    "600036": {
+      "symbol": "600036",
+      "name": "600036",
+      "price": 36.88,
+      "source": "Tushare日线",
+      "trade_time": "2026-07-10",
+      "raw_currency": "CNY"
+    },
+    "600153": {
+      "symbol": "600153",
+      "name": "600153",
+      "price": 8.58,
+      "source": "Tushare日线",
+      "trade_time": "2026-07-10",
+      "raw_currency": "CNY"
+    },
+    "600177": {
+      "symbol": "600177",
+      "name": "600177",
+      "price": 7.61,
+      "source": "Tushare日线",
+      "trade_time": "2026-07-10",
+      "raw_currency": "CNY"
+    },
+    "600690": {
+      "symbol": "600690",
+      "name": "600690",
+      "price": 20.35,
+      "source": "Tushare日线",
+      "trade_time": "2026-07-10",
+      "raw_currency": "CNY"
+    },
+    "600873": {
+      "symbol": "600873",
+      "name": "600873",
+      "price": 8.06,
+      "source": "Tushare日线",
+      "trade_time": "2026-07-10",
+      "raw_currency": "CNY"
+    },
+    "600887": {
+      "symbol": "600887",
+      "name": "600887",
+      "price": 24.88,
+      "source": "Tushare日线",
+      "trade_time": "2026-07-10",
+      "raw_currency": "CNY"
+    },
+    "600938": {
+      "symbol": "600938",
+      "name": "600938",
+      "price": 28.15,
+      "source": "Tushare日线",
+      "trade_time": "2026-07-10",
+      "raw_currency": "CNY"
+    },
+    "600941": {
+      "symbol": "600941",
+      "name": "600941",
+      "price": 89.98,
+      "source": "Tushare日线",
+      "trade_time": "2026-07-10",
+      "raw_currency": "CNY"
+    },
+    "601225": {
+      "symbol": "601225",
+      "name": "601225",
+      "price": 22.92,
+      "source": "Tushare日线",
+      "trade_time": "2026-07-10",
+      "raw_currency": "CNY"
+    },
+    "601318": {
+      "symbol": "601318",
+      "name": "601318",
+      "price": 49.48,
+      "source": "Tushare日线",
+      "trade_time": "2026-07-10",
+      "raw_currency": "CNY"
+    },
+    "601668": {
+      "symbol": "601668",
+      "name": "601668",
+      "price": 4.59,
+      "source": "Tushare日线",
+      "trade_time": "2026-07-10",
+      "raw_currency": "CNY"
+    }
+  },
+  "errors": {}
+}

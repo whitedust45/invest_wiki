@@ -1,0 +1,15 @@
+package com.personal.investment.ledger.domain;
+
+public enum LedgerAccountKind {
+  ASSET_CASH,
+  ASSET_MARGIN,
+  ASSET_INVESTMENT,
+  ASSET_CLEARING,
+  EQUITY_EXTERNAL,
+  INCOME_DIVIDEND,
+  INCOME_INTEREST,
+  EXPENSE_FEE,
+  EXPENSE_WITHHOLDING_TAX,
+  EXPENSE_OPTION,
+  PNL_REALIZED
+}

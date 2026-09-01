@@ -1,0 +1,114 @@
+<view class="page-shell strategy-page">
+  <view class="page-header">
+    <view class="page-kicker">STRATEGY WORKSPACE</view>
+    <view class="title">策略</view>
+    <view class="page-description">规则、输入、评估和账本事实分开留痕。状态只说明条件，不生成自动交易指令。</view>
+  </view>
+
+  <view class="strategy-principle card">
+    <view class="section-title-row"><view class="section-title">当前工作区</view><view class="section-meta">原币种核算</view></view>
+    <view class="focus-copy">每个策略都有独立规则版本、可追溯输入和失效边界。</view>
+    <view class="focus-rule">行情或参考净值过期时仅显示“数据过期”，不会推断应买入或卖出。</view>
+  </view>
+
+  <view wx:if="{{loading}}" class="card loading-card">正在读取策略工作区…</view>
+  <view wx:if="{{errorMessage}}" class="error-message">{{errorMessage}}</view>
+
+  <view wx:if="{{cards.length}}" class="strategy-list">
+    <view wx:for="{{cards}}" wx:key="strategyKey" class="strategy-card card {{item.strategyKey === selectedKey ? 'strategy-card-selected' : ''}}" data-key="{{item.strategyKey}}" bindtap="selectStrategy">
+      <view class="strategy-topline">
+        <view class="strategy-icon">{{item.icon}}</view>
+        <view class="strategy-main">
+          <view class="strategy-name">{{item.displayName}}</view>
+          <view class="strategy-subtitle">{{item.subtitle}}</view>
+        </view>
+        <view class="status-pill {{item.stateClass}}">{{item.stateLabel}}</view>
+      </view>
+      <view class="strategy-meta-row">
+        <view>{{item.currency}} · {{item.activeRuleVersionId ? '规则已启用' : '尚无规则'}}</view>
+        <view>{{item.inputLabel}}</view>
+      </view>
+      <view class="strategy-message">{{item.message}}</view>
+    </view>
+  </view>
+
+  <view wx:if="{{detail}}" class="detail-card card">
+    <view class="section-title-row"><view class="section-title">{{detail.displayName}} 工作区</view><view class="section-meta">{{detail.currency}}</view></view>
+    <view class="detail-status"><view class="status-dot {{detail.status === 'IN_RANGE' ? 'status-good' : 'status-risk'}}"></view><text>{{detail.message}}</text></view>
+
+    <view class="detail-section">
+      <view class="detail-label">规则版本</view>
+      <view wx:if="{{detail.activeRuleVersionId}}" class="rule-id">{{detail.activeRuleVersionId}}</view>
+      <view wx:else class="detail-copy">还没有规则版本。可一键写入旧 Dashboard 已确认的首版阈值，后续新增版本会保留完整历史。</view>
+      <button wx:if="{{!detail.activeRuleVersionId}}" class="primary-button compact-button" loading="{{submitting}}" disabled="{{submitting}}" bindtap="createInitialRule">启用首版规则</button>
+      <view wx:if="{{detail.activeRuleVersionId}}" class="rule-summary">{{detail.ruleSummary}}</view>
+      <view wx:if="{{detail.ruleHistory.length > 1}}" class="history-list">
+        <view class="history-heading">规则版本历史</view>
+        <view wx:for="{{detail.ruleHistory}}" wx:key="strategyRuleVersionId" class="history-row">
+          <view>{{item.ruleVersion}} · {{item.status}}</view><view>{{item.createdAt}}</view>
+        </view>
+      </view>
+      <view class="rule-editor">
+        <view class="history-heading">创建下一规则版本</view>
+        <view class="detail-copy">规则版本会追加并原子切换活动指针，既有版本与评估不会被覆盖。金额仍按原币种最小单位的整数填写。</view>
+        <input class="text-input spaced-input" placeholder="规则版本号" value="{{ruleDraftVersion}}" bindinput="onRuleDraftVersionInput" maxlength="64" />
+        <view wx:for="{{ruleDraftFields}}" wx:key="key" class="rule-field-row">
+          <view class="rule-field-label">{{item.label}}</view>
+          <input class="text-input" value="{{item.value}}" data-key="{{item.key}}" disabled="{{!item.editable}}" bindinput="onRuleFieldInput" />
+          <view class="muted rule-field-hint">{{item.hint}}</view>
+        </view>
+        <button class="secondary-button compact-button" loading="{{submitting}}" disabled="{{submitting}}" bindtap="saveRuleVersion">创建并启用新规则版本</button>
+      </view>
+    </view>
+
+    <view class="detail-section detail-section-line">
+      <view class="detail-label">数据与评估</view>
+      <view class="detail-input-time">输入时间：{{detail.inputLabel}}</view>
+      <view class="detail-copy">{{detail.evaluationMessage}}</view>
+      <view wx:if="{{detail.metricRows.length}}" class="strategy-metrics">
+        <view wx:for="{{detail.metricRows}}" wx:key="label" class="strategy-metric-row">
+          <view class="strategy-metric-label">{{item.label}}</view>
+          <view class="strategy-metric-value">{{item.value}}</view>
+        </view>
+      </view>
+      <view wx:if="{{detail.missingFields.length}}" class="missing-input-panel">
+        <view class="missing-input-title">尚未具备的输入</view>
+        <view wx:for="{{detail.missingFields}}" wx:key="*this" class="missing-input-item">{{item}}</view>
+      </view>
+      <view wx:if="{{detail.currency === 'USD'}}" class="reference-nav-form">
+        <view class="detail-copy">USD 策略参考净值只由你手工维护；它不与 CNY 资产混算。</view>
+        <input class="text-input spaced-input" placeholder="USD 参考净值最小单位，例如 6.66 填 666" value="{{referenceNavCent}}" bindinput="onReferenceNavInput" />
+        <picker mode="date" value="{{referenceNavAsOf}}" bindchange="onReferenceNavAsOfChange"><view class="picker">参考日期：{{referenceNavAsOf}}</view></picker>
+        <picker mode="date" value="{{referenceNavValidUntil}}" bindchange="onReferenceNavValidUntilChange"><view class="picker">有效截止：{{referenceNavValidUntil}}</view></picker>
+        <button class="secondary-button compact-button" loading="{{submitting}}" disabled="{{submitting}}" bindtap="recordReferenceNav">记录 USD 参考净值</button>
+      </view>
+      <button wx:if="{{detail.activeRuleVersionId}}" class="secondary-button compact-button" loading="{{submitting}}" disabled="{{submitting}}" bindtap="evaluateSelected">基于本地快照评估</button>
+      <view wx:if="{{detail.evaluationHistory.length}}" class="history-list">
+        <view class="history-heading">最近评估</view>
+        <view wx:for="{{detail.evaluationHistory}}" wx:key="strategyEvaluationId" class="history-row history-evaluation">
+          <view><text class="history-status">{{item.stateLabel}}</text> · {{item.inputLabel}}</view>
+          <view>{{item.explanation}}</view>
+          <view wx:if="{{item.metricRows.length}}" class="history-metrics">
+            <text wx:for="{{item.metricRows}}" wx:key="label" class="history-metric">{{item.label}}：{{item.value}}</text>
+          </view>
+          <view wx:if="{{item.missingFields.length}}" class="history-metrics">
+            <text class="history-metric">缺失：{{item.missingFields}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="detail-section detail-section-line">
+      <view class="detail-label">账本事实</view>
+      <view class="detail-copy">交易始终先预览、再确认。进入账本后会携带当前策略归属；它不是浏览器本地标签。</view>
+      <button class="secondary-button compact-button" bindtap="openLedger">前往账本录入</button>
+    </view>
+  </view>
+
+  <view class="card principle-card">
+    <view class="section-title">执行原则</view>
+    <view class="principle-row"><view class="principle-index">01</view><view>先按 CNY / USD 分别核算，不隐式换汇。</view></view>
+    <view class="principle-row"><view class="principle-index">02</view><view>期货移仓会原子形成平旧仓和开新仓两条事实。</view></view>
+    <view class="principle-row"><view class="principle-index">03</view><view>缺少确认数据时保持阻断或过期状态，不伪造曲线。</view></view>
+  </view>
+</view>

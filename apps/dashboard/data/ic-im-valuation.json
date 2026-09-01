@@ -1,0 +1,176 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-07-31T02:14:20+00:00",
+  "source": {
+    "current_valuation": "market-data-sqlite daily_metrics projection",
+    "pe_history": "market-data-sqlite derived_indicators projection",
+    "pb_history": "market-data-sqlite derived_indicators projection",
+    "basis": "market-data-sqlite basis_snapshots projection"
+  },
+  "strategy_rule": "PB percentile is the decision input; PE is auxiliary display only.",
+  "trade_date": "2026-07-30",
+  "indexes": {
+    "IC": {
+      "code": "000905",
+      "name": "中证500",
+      "underlying_future": "IC",
+      "trade_date": "2026-07-30",
+      "pe": 26.22,
+      "pb": 2.09,
+      "pe_source": "csindex_pe_history",
+      "pb_source": "csindex_current",
+      "eastmoney_fallback_error": null,
+      "pe_percentile": 74.69,
+      "pb_percentile": null,
+      "pb_percentile_source": null,
+      "pb_percentile_manual_required": true,
+      "history_window_years": 10,
+      "basis": {
+        "source": "market-data-sqlite basis_snapshots projection",
+        "formula": "basis = spot - future; annualized = basis / future / days_left * 365",
+        "roll_notice": {
+          "contract": "IC2608",
+          "delivery_date": "2026-08-21",
+          "days_left": 21,
+          "level": "normal",
+          "message": "距离理论交割日 21 天，暂未进入移仓窗口。"
+        },
+        "contracts": [
+          {
+            "contract": "IC2608",
+            "spot": 7582.39,
+            "future": 7571.0,
+            "basis": 11.39,
+            "annualized_basis_pct": 2.61,
+            "days_left": 21,
+            "delivery_date": "2026-08-21",
+            "roll_notice": {
+              "level": "normal",
+              "message": "距离理论交割日 21 天，暂未进入移仓窗口。"
+            }
+          },
+          {
+            "contract": "IC2609",
+            "spot": 7582.39,
+            "future": 7531.8,
+            "basis": 50.59,
+            "annualized_basis_pct": 5.0,
+            "days_left": 49,
+            "delivery_date": "2026-09-18",
+            "roll_notice": {
+              "level": "normal",
+              "message": "距离理论交割日 49 天，暂未进入移仓窗口。"
+            }
+          },
+          {
+            "contract": "IC2612",
+            "spot": 7582.39,
+            "future": 7377.0,
+            "basis": 205.39,
+            "annualized_basis_pct": 7.26,
+            "days_left": 140,
+            "delivery_date": "2026-12-18",
+            "roll_notice": {
+              "level": "normal",
+              "message": "距离理论交割日 140 天，暂未进入移仓窗口。"
+            }
+          },
+          {
+            "contract": "IC2703",
+            "spot": 7582.39,
+            "future": 7216.2,
+            "basis": 366.19,
+            "annualized_basis_pct": 8.02,
+            "days_left": 231,
+            "delivery_date": "2027-03-19",
+            "roll_notice": {
+              "level": "normal",
+              "message": "距离理论交割日 231 天，暂未进入移仓窗口。"
+            }
+          }
+        ]
+      }
+    },
+    "IM": {
+      "code": "000852",
+      "name": "中证1000",
+      "underlying_future": "IM",
+      "trade_date": "2026-07-30",
+      "pe": 29.29,
+      "pb": 0.0,
+      "pe_source": "csindex_pe_history",
+      "pb_source": "eastmoney_current_fallback",
+      "eastmoney_fallback_error": null,
+      "pe_percentile": 64.56,
+      "pb_percentile": null,
+      "pb_percentile_source": null,
+      "pb_percentile_manual_required": true,
+      "history_window_years": 10,
+      "basis": {
+        "source": "market-data-sqlite basis_snapshots projection",
+        "formula": "basis = spot - future; annualized = basis / future / days_left * 365",
+        "roll_notice": {
+          "contract": "IM2608",
+          "delivery_date": "2026-08-21",
+          "days_left": 21,
+          "level": "normal",
+          "message": "距离理论交割日 21 天，暂未进入移仓窗口。"
+        },
+        "contracts": [
+          {
+            "contract": "IM2608",
+            "spot": 7167.46,
+            "future": 7169.0,
+            "basis": -1.54,
+            "annualized_basis_pct": -0.37,
+            "days_left": 21,
+            "delivery_date": "2026-08-21",
+            "roll_notice": {
+              "level": "normal",
+              "message": "距离理论交割日 21 天，暂未进入移仓窗口。"
+            }
+          },
+          {
+            "contract": "IM2609",
+            "spot": 7167.46,
+            "future": 7129.8,
+            "basis": 37.66,
+            "annualized_basis_pct": 3.93,
+            "days_left": 49,
+            "delivery_date": "2026-09-18",
+            "roll_notice": {
+              "level": "normal",
+              "message": "距离理论交割日 49 天，暂未进入移仓窗口。"
+            }
+          },
+          {
+            "contract": "IM2612",
+            "spot": 7167.46,
+            "future": 6970.6,
+            "basis": 196.86,
+            "annualized_basis_pct": 7.36,
+            "days_left": 140,
+            "delivery_date": "2026-12-18",
+            "roll_notice": {
+              "level": "normal",
+              "message": "距离理论交割日 140 天，暂未进入移仓窗口。"
+            }
+          },
+          {
+            "contract": "IM2703",
+            "spot": 7167.46,
+            "future": 6800.8,
+            "basis": 366.66,
+            "annualized_basis_pct": 8.52,
+            "days_left": 231,
+            "delivery_date": "2027-03-19",
+            "roll_notice": {
+              "level": "normal",
+              "message": "距离理论交割日 231 天，暂未进入移仓窗口。"
+            }
+          }
+        ]
+      }
+    }
+  }
+}

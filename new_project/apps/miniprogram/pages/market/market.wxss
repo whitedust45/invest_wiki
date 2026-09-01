@@ -1,0 +1,75 @@
+.snapshot-input {
+  box-sizing: border-box;
+  min-height: 220rpx;
+  padding: 20rpx;
+  width: 100%;
+}
+
+.market-workspace-card {
+  border: 2rpx solid #D8E5DD;
+}
+
+.market-run-summary,
+.market-data-row,
+.market-event-row,
+.market-attempt-row {
+  border-top: 2rpx solid #E9E3DA;
+  padding: 18rpx 0;
+}
+
+.market-run-summary,
+.market-data-row {
+  align-items: center;
+  display: flex;
+  gap: 16rpx;
+  justify-content: space-between;
+}
+
+.market-run-status,
+.market-subtitle,
+.market-symbol {
+  color: #173B2A;
+  font-weight: 700;
+}
+
+.market-subsection {
+  margin-top: 24rpx;
+}
+
+.market-subtitle {
+  font-size: 26rpx;
+  margin-bottom: 2rpx;
+}
+
+.market-value {
+  color: #173B2A;
+  flex: 0 0 auto;
+  font-size: 24rpx;
+  text-align: right;
+}
+
+.market-event-severity {
+  color: #A4512A;
+  font-weight: 700;
+}
+
+.sync-run,
+.instrument-row {
+  border-top: 2rpx solid #E9E3DA;
+  margin-top: 20rpx;
+  padding-top: 18rpx;
+}
+
+.instrument-row {
+  display: flex;
+  gap: 16rpx;
+  justify-content: space-between;
+}
+
+.compact-id {
+  flex: 0 0 210rpx;
+  font-size: 18rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

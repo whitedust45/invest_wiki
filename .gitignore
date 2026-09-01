@@ -1,0 +1,23 @@
+# 账本数据库(localStorage 镜像,二进制不入库)
+apps/dashboard/data/ledger.db
+apps/dashboard/data/ledger.db-*
+
+# macOS 系统文件
+.DS_Store
+**/.DS_Store
+
+# Obsidian 本地配置与插件
+.obsidian/
+
+# IDE 配置
+.idea/
+
+# 本地同步服务密钥与本机覆盖配置
+services/sync/.env
+apps/dashboard/config/sync.local.json
+
+# Agent 隔离工作目录
+.worktrees/
+.superpowers/
+apps/dashboard/data/market-data.db
+apps/dashboard/data/market-data.db-*
