@@ -1,0 +1,265 @@
+# 产品意见处理台账
+
+更新时间：2026-06-27 21:53
+
+监控来源：`docs/reviews/review-comment.md`
+
+处理原则：
+- 明确无歧义、不会改变业务口径的问题：可直接修复。
+- 涉及投资口径、分类逻辑、信息架构默认行为的问题：先标记为需确认。
+- 每条意见都记录状态、处理评论、未修复原因或下一步。
+
+## 当前批次：代码梳理 + 浏览器实操验证意见
+
+### P0-1 清空 / 示例 / 删除无二次确认
+
+状态：已修复
+
+处理评论：已在清空全量数据、删除单条流水、示例覆盖已有数据时加二次确认；空账本首次载入示例不弹窗，符合评审里的例外口径。
+
+未修复原因：无。
+
+下一步：等待复验。
+
+### P0-2 数量 × 价格不自动计算金额
+
+状态：已修复
+
+处理评论：录入表单已按 `数量 × 价格 / 10000` 自动填充 `金额（万元）`；用户手工修改金额后，不再强行覆盖。
+
+未修复原因：无。
+
+下一步：等待复验。
+
+### P0-3 单位混用导致量级错误
+
+状态：已修复
+
+处理评论：录入表单已强化单位：数量为“股/份”、价格为“元”、金额为“万元”，并在金额下方回显约等于多少元。存储口径未改。
+
+未修复原因：无。
+
+下一步：等待复验。
+
+### P1-4 术语门槛高，无 tooltip
+
+状态：已修复
+
+处理评论：已加轻量 tooltip/术语标签，覆盖评审要求的 10 类术语：PB 分位、年化贴水、同源风险、期货风险度、净投入、内部划入/划出、右尾/右尾权重、120 日均线、Delta、移仓窗口。桌面 hover/focus 可见，移动/鼠标点击会切换 `is-open`，点空白或按 Esc 关闭。
+
+未修复原因：无。术语文案采用页面内一句话解释，未改变投资口径。
+
+下一步：等待复验；如需严格从 `knowledge/schema/glossary.md` 自动生成文案，可另做一轮结构化接入。
+
+### P1-5 空账本无引导
+
+状态：已修复
+
+处理评论：空账本总览已显示三步引导：设置年支出、载入示例、录第一笔资产；有数据后自动隐藏。
+
+未修复原因：无。
+
+下一步：等待复验。
+
+### P1-6 必填项过少但隐性要求多
+
+状态：已修复
+
+处理评论：已按 reviewer 最新规则做动作级校验并关闭浏览器原生 required 抢先拦截。买入/卖出必须填写标的、数量、价格、金额；分红/利息必须填写标的和金额；转入/转出/内部划入/内部划出/费用/保证金/移仓只强制金额。缺字段时阻止提交、顶部显示错误、字段高亮并 toast。
+
+未修复原因：无。规则采用 reviewer 示例的最小强校验，不改变既有流水存储结构。
+
+下一步：等待复验。已浏览器验证：买入缺标的/数量/价格会阻止并高亮；转入只填金额可提交。
+
+### P1-7 操作无反馈
+
+状态：已修复
+
+处理评论：已增加轻量 toast，覆盖保存、新增、删除、导出、清除筛选、重算、示例、清空、同步成功/失败等主要操作。
+
+未修复原因：无。
+
+下一步：等待复验。
+
+### P1-8 IC/IM PB 手工值会被 JSON 静默覆盖
+
+状态：已修复
+
+处理评论：已按“手动优先”返工。手工输入显示“手工”；估值 JSON/API 带 PB 历史分位时，如果来源仍为手工，不覆盖输入值，只在状态栏提示“保留手工 PB”，并显示“用自动值”按钮。用户主动点击采纳后，该项才切到“自动 JSON”并写入自动 PB。用户再次手工修改对应 PB 后，来源回到“手工”。
+
+未修复原因：无。已纠正上一轮“自动覆盖优先”的错误方向。
+
+下一步：等待复验。已浏览器验证：手工 50/50 读取带 PB 分位 payload 后保持不变；点击 IC“用自动值 12.3%”后仅 IC 切为自动，IM 仍为手工。
+
+### P2-9 桌面端和手机端体验割裂
+
+状态：已修复
+
+处理评论：移动端已增加当前 tab 内的区块跳转条，不改变底部 6 tab 架构，也不拆手机版页面。总览可跳风险/参数/估值/图表/动作；报表可跳图表/矩阵/排行/估值/流水；资产模块可跳概览/录入/分布/估值/流水。
+
+未修复原因：无。只新增锚点跳转，不重构移动端信息架构。
+
+下一步：等待复验。
+
+### P2-10 一级导航默认进“全部总览”导致堆叠
+
+状态：已修复
+
+处理评论：已把桌面端资产一级菜单默认入口改为 `模块概览`，报表一级入口默认进入 `图表总览`；`全部总览` 保留为二级可选项。同时模块 `全部总览` 已改成摘要视图，不再堆叠完整录入、估值和流水。
+
+未修复原因：无。
+
+下一步：等待复验。
+
+### P2-11 依赖本地服务和外部行情，失败提示弱
+
+状态：已修复
+
+处理评论：已补齐本地服务引导卡。检测到 `file://` 直开、IC/IM 估值读取失败、价格 JSON 读取失败、或美股价格同步因本地 JSON 失败时，会显示“本地服务启动引导”。引导内包含复制启动命令、打开/复制本地入口 URL、复制价格更新命令、导入 JSON 兜底入口和收起按钮。
+
+未修复原因：无。浏览器不能直接启动本机 Python 进程，因此“一键启动”按已确认边界实现为“复制命令 + 打开本地入口 URL”的引导。
+
+下一步：等待复验。
+
+### P2-12 高分红分类被强制合并
+
+状态：WONTFIX（按用户决策关闭）
+
+处理评论：按 reviewer 最新口径“不拆分”。保留 `normalizeDividendBucket` 现状：白酒/五粮液/泸州老窖/其他 A 股高分红继续并入“高分红股票”。上一轮误加的“高分红单标的占比”面板和样式已删除。
+
+未修复原因：用户已明确不拆分，本项不整改业务口径。
+
+下一步：等待复验。已用 `rg` 确认 `highDividendInstrumentPanel` / `instrument-share` 无残留。
+
+### P2-13 编辑流水自动切到记录录入但无高亮/滚动提示
+
+状态：已修复
+
+处理评论：点击编辑后，桌面端会切到 `记录录入` 子页，滚动到表单，并给表单短暂高亮；同时保留 toast 提示。
+
+未修复原因：无。
+
+下一步：等待复验。
+
+### P3-1 SQLite 本地持久化（镜像备份模式）
+
+状态：已修复
+
+处理评论：已按 B 方案实现。`localStorage` 仍是主存；无服务或 `file://` 直开时不降级、不报错；通过 `python3 services/sync/src/main.py` 打开时，`saveLedger()` 会在本地保存后异步 POST 到 `/api/ledger`，服务端用标准库 `sqlite3` 追加快照到 `apps/dashboard/data/ledger.db`。页面启动时若本地账本键不存在且 SQLite 有快照，会提示是否恢复；已有本地账本时不静默覆盖。新增 `/api/ledger` 和 `/api/ledger/backups`，并将 `ledger.db` / `ledger.db-*` 写入 `.gitignore`。
+
+未修复原因：无。未做云同步、多端实时同步，符合非目标。
+
+下一步：等待复验。已实测：API 空态、POST 写入、读取最新快照、读取备份列表、SQLite 行数；浏览器中触发 `saveLedger()` 后服务端收到 OPTIONS + POST，SQLite 可查到 1 条快照。测试用 `ledger.db` 已删除，避免留下假账本数据。
+
+### P3-1a 恢复提示去重过度，边界场景漏触发
+
+状态：已修复
+
+处理评论：已把 `offerLedgerBackupRestore()` 的去重语义从“本会话提示过”改为“本会话用户明确取消过”。现在只要 `localStorage` 为空且 SQLite 有备份，就会触发恢复提示；只有用户点取消时才写入 `sessionStorage = cancelled` 并在本会话内抑制重复弹窗；用户接受恢复时会清除该标志。
+
+未修复原因：无。
+
+下一步：等待复验。已运行 `node --check apps/dashboard/app.js`、`python3 -m py_compile tools/dashboard/serve_dashboard.py`；静态确认 `sessionStorage.setItem(ledgerBackupPromptKey, "cancelled")` 只在取消分支出现。只读检查现有 `ledger.db` 快照数为 6，未写入或删除用户数据。
+
+### P3-2 SQLite 方案推荐增强
+
+状态：已修复
+
+处理评论：按用户选择的“推荐增强”完成，不涉及加密、远程同步或 git。新增 `总览 → 核心参数 → 本地备份` 面板，展示浏览器账本笔数、SQLite 最新快照、最近快照列表；支持“立即镜像备份”“刷新备份列表”“恢复指定快照”。后端 `GET /api/ledger` 支持 `id=<snapshot_id>` 读取指定历史快照；`GET /api/ledger/backups` 继续返回最近快照元信息。
+
+未修复原因：无。未做加密和远程同步，符合本轮增强范围。
+
+下一步：等待复验。已运行 `node --check apps/dashboard/app.js`、`python3 -m py_compile tools/dashboard/serve_dashboard.py`；API 只读验证 `/api/ledger/backups?limit=1` 与 `/api/ledger?id=16`；浏览器验证备份面板和恢复按钮可见。浏览器测试期间因空 localStorage 触发一次正常恢复并自动生成新 SQLite 快照，属于已有备份内容的同态镜像，未删除该用户数据。
+
+### P4-1 修复 marginRisk 在权益为 0 时误报安全
+
+状态：已修复
+
+处理评论：`calculate()` 已新增 `marginRiskInvalid`，当 `usedMargin > 0 && futuresEquity <= 0` 时 `marginRisk = Infinity`，展示为“权益为0，极危”，风险清单、总览 KPI、指标卡和 IC/IM 模块均进入危险态，不再显示 0%/绿色安全。
+
+未修复原因：无。
+
+下一步：等待复验。`tools/dashboard/test_dashboard_core.mjs` 已覆盖该边界，断言 danger。
+
+### P4-2 localStorage 写失败捕获并告警
+
+状态：已修复
+
+处理评论：新增 `writeLocalStorage()` 封装，所有业务层 `localStorage.setItem` 已改为统一写入入口。写失败时显示红色 toast：“写入失败……请立即导出全部数据”，并返回 `false`；新增/编辑/删除/设置/示例/估值/历史/持仓估值等调用方在失败时不再继续展示成功 toast。
+
+未修复原因：无。
+
+下一步：等待复验。测试脚本已 stub 写入抛错，验证返回 `false` 且产生 error toast。
+
+### P4-3 完整备份/恢复
+
+状态：已修复
+
+处理评论：顶部全局操作区新增“导出全部 / 导入全部”（桌面与移动入口均有）。完整备份 JSON 包含 `ledger.entries`、`ledger.settings`、`positionValuations`、`history`、`valuation`、`historyView`、`schemaVersion`、`exportedAt`。导入会先校验结构，再二次确认覆盖；非法 JSON 或结构错误不会写入现有数据。
+
+未修复原因：无。
+
+下一步：等待复验。已完成语法检查；导入导出逻辑纳入代码路径，未做破坏性浏览器导入实测以避免覆盖真实账本。
+
+### P4-4 核心计算加自动化测试（轻量零依赖）
+
+状态：已修复
+
+处理评论：新增 `tools/dashboard/test_dashboard_core.mjs`，使用 Node 原生 `assert`，从 `app.js` 抽取实际核心函数源码执行，不引入 npm/构建链。覆盖 ratio/gap、金额自动计算、summarizeLedger、calculate 的权益 0 极危边界、detectStage、externalFlowOnDate、buildDailySnapshot 的外部现金流剔除和 NAV 复合。
+
+未修复原因：无。
+
+下一步：等待复验。运行 `node tools/dashboard/test_dashboard_core.mjs` 全绿。
+
+## 监控记录
+
+- 2026-06-27 11:19:13：已启动后台 watcher 监控 `docs/reviews/review-comment.md`。当前批次意见已拆解为 13 项。
+- 2026-06-27 11:27：检测到 `docs/reviews/review-comment.md` 被整理为稳定 ID 评审清单，基线哈希为 `35254327e341a41f9dd25fd432e859bf91197ccf`。
+- 2026-06-27 11:31：完成第一批低歧义整改：
+  - `P0-1` 已修复：清空、删除流水、示例覆盖已有数据均增加确认。
+  - `P0-2` 已修复：录入表单会按 `数量 × 价格 / 10000` 自动计算金额，用户手动覆盖后不再强行覆盖。
+  - `P0-3` 部分修复：录入字段补充单位标识，金额增加元值回显；尚未做所有历史/估值输入的完整单位统一。
+  - `P1-7` 部分修复：新增 toast，用于新增/编辑保存、删除、导出、清筛选、重算、示例、清空、价格同步、估值读取等操作；更细颗粒失败原因后续可继续增强。
+  - `P2-13` 部分修复：编辑流水后 toast 提示已切到编辑表单；尚未做表单高亮动画。
+- 2026-06-27 17:42：根据 R2 协议继续整改：
+  - `P2-10` 已修复：桌面端资产一级菜单默认进入 `模块概览`，报表默认进入 `图表总览`，`全部总览` 仍作为二级项保留。
+  - `P1-5` 已修复：空账本总览增加三步引导（设置年生活支出、载入示例、录入第一笔资产），有数据后自动隐藏。
+  - `P2-11` 部分修复：估值读取失败 toast/status 加入 `python3 services/sync/src/main.py` 指引；价格 JSON 失败 toast 加入 `tools/dashboard/update_position_quotes.py` 指引。
+  - `P2-13` 已进一步修复：编辑流水后滚动到表单并短暂高亮。
+- 2026-06-27 17:55：完成 `P1-4` 术语解释整改：
+  - `app.js` 增加术语定义与 `termLabel` / `termHelp`，覆盖 PB 分位、年化贴水、同源风险、期货风险度、净投入、内部划入/划出、右尾/右尾权重、120 日均线、Delta、移仓窗口。
+  - `styles.css` 增加 `.term` / `.term-help` / `.term-tip` 样式；点击或 tap 会展开 tooltip，点空白或 Esc 关闭。
+  - 已运行 `node --check apps/dashboard/app.js`，并用浏览器验证多个术语点击后 tooltip `opacity=1`。
+- 2026-06-27 18:21：完成 `P2-11` 本地服务引导整改：
+  - `app.js` 增加 `localServiceGuidePanel`，在 `file://` 直开或数据读取失败时显示引导卡。
+  - 引导卡提供 `python3 services/sync/src/main.py`、本地桌面入口 URL、`tools/dashboard/update_position_quotes.py` 命令的复制/打开操作。
+  - `data/README.md` 更新桌面入口 URL 与 `file://` 打开说明。
+  - 已运行 `node --check apps/dashboard/app.js`，并在浏览器验证引导卡显示、复制按钮响应、收起按钮响应。
+- 2026-06-27 18:55：完成剩余 OPEN 项整改：
+  - `P1-6` 已修复：录入表单按动作类型做强校验，缺关键字段时阻止提交并高亮。
+  - `P1-8` 已修复：PB 参数增加“手工/自动 JSON”来源标签，自动覆盖时有 status/toast 提示。
+  - `P2-9` 已修复：移动端增加当前 tab 内区块跳转条。
+  - `P2-12` 当时误处理为新增单标的占比面板；该方向已在 19:36 按最新口径撤销。
+  - 已运行 `node --check apps/dashboard/app.js`，并用浏览器验证 PB 来源标签、移动跳转和录入校验。
+- 2026-06-27 19:36：按 reviewer 最新口径返工并完成 P3-1：
+  - `P1-8` 改为手动优先：JSON/API 不覆盖手工 PB，只有用户点击“用自动值”才切到自动来源。
+  - `P1-6` 校验规则调整为 reviewer 最新版本：buy/sell 需要标的、数量、价格、金额；dividend/interest 需要标的、金额；其余列出的动作只需要金额。
+  - `P2-12` 改为 WONTFIX：删除上一轮误加的高分红单标的占比面板，保留聚合口径。
+  - `P3-1` 已实现 SQLite 镜像备份：`serve_dashboard.py` 新增 `/api/ledger`、`/api/ledger/backups`，前端保存后异步镜像，空本地账本时提示从 SQLite 恢复。
+  - 已运行 `node --check apps/dashboard/app.js`、`python3 -m py_compile tools/dashboard/serve_dashboard.py`，并完成 API 与浏览器回归验证。
+- 2026-06-27 20:17：修复 `P3-1a`：
+  - 恢复提示不再因旧的 `sessionStorage=1` 被误拦截。
+  - 只有用户明确取消恢复时，才在本会话写入 `cancelled` 并抑制重复弹窗；接受恢复时清除该标志。
+  - 已运行 `node --check apps/dashboard/app.js`、`python3 -m py_compile tools/dashboard/serve_dashboard.py`；只读确认现有 SQLite 快照数保持 6。
+- 2026-06-27 21:15：完成 SQLite 推荐增强：
+  - 增加本地备份面板：展示 localStorage 当前笔数、SQLite 最新快照、最近快照列表。
+  - 增加手动立即镜像和指定快照恢复入口。
+  - 后端 `GET /api/ledger?id=<snapshot_id>` 支持读取指定快照。
+  - `data/README.md` 补充备份面板与 API 说明。
+  - 已完成静态检查、API 只读验证和浏览器 UI 冒烟验证。
+- 2026-06-27 21:53：按 PM 审查口径完成 P4 信任层补强：
+  - `P4-1`：期货权益为 0 且占用保证金 > 0 时显示“权益为0，极危”，并进入危险态。
+  - `P4-2`：所有业务层 localStorage 写入统一走 `writeLocalStorage()`，失败时红色告警且不显示假成功。
+  - `P4-3`：顶部新增完整备份导出/导入，覆盖 ledger/settings/positionValuations/history/valuation/historyView。
+  - `P4-4`：新增零依赖 Node 测试 `tools/dashboard/test_dashboard_core.mjs`，核心计算测试全绿。
+  - 已运行 `node --check apps/dashboard/app.js`、`node tools/dashboard/test_dashboard_core.mjs`、`python3 -m py_compile tools/dashboard/serve_dashboard.py`。

@@ -1,0 +1,2 @@
+# 本同步服务仅依赖 Python 标准库(http.server / sqlite3 / urllib),无需第三方包。
+# 如未来引入依赖,在此登记并固定版本。
